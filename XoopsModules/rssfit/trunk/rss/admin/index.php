@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -37,6 +37,7 @@ $do = isset($_GET['do']) ? trim($_GET['do']) : '';
 $do = isset($_POST['do']) ? trim($_POST['do']) : $do;
 $op = isset($_GET['op']) ? trim($_GET['op']) : 'list';
 $op = isset($_POST['op']) ? trim($_POST['op']) : $op;
+define("RSSFIT_OK", 1);
 
 if( file_exists(RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php') ){
 	include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';

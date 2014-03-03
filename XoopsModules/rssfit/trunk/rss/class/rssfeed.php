@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -261,7 +261,7 @@ class RssfeedHandler {
 			$text = htmlspecialchars($text, ENT_QUOTES, $this->charset);
 			$text = preg_replace('/&amp;(#[0-9]+);/i', '&$1;', $text);
 		}
-		if( $this->charset != 'UTF-8' || XOOPS_USE_MULTIBYTES != 1 ){
+		if( !preg_match('/utf-8/i', $this->charset) || XOOPS_USE_MULTIBYTES != 1 ){
 			$text = str_replace(array_map('chr', array_keys($this->escaped)), $this->escaped, $text);
 		}
 	}

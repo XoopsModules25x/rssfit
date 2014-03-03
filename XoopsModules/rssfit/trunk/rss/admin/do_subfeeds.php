@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -33,7 +33,7 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !preg_match('/\/admin\/index\.php/', $_SERVER['PHP_SELF']) ){
+if( !defined("RSSFIT_OK") ){
 	header('Location: index.php');
 }
 
@@ -109,7 +109,7 @@ case 'edit':
 		$sub =& $plugins_handler->get($id);
 		if( !$handler =& $plugins_handler->checkPlugin($sub) ){
 			$plugins_handler->forceDeactivate($sub);
-		}	
+		}
 	}
 	if( empty($id) || !$sub ){
 		redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
@@ -128,7 +128,7 @@ case 'edit':
 	$form->addElement(new XoopsFormText('url', 'img_url', 50, 255, $sub->getVar('img_url', 'e')));
 	$form->addElement(new XoopsFormText('link', 'img_link', 50, 255,  $sub->getVar('img_link', 'e')));
 	$form->addElement(new XoopsFormText('title', 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
-	
+
 	$form->addElement(new XoopsFormHidden('feed', $id));
 	$form->addElement(new XoopsFormHidden('op', 'savefeed'));
 	$form->addElement($hidden_do);
@@ -141,7 +141,7 @@ case 'savefeed':
 		$sub =& $plugins_handler->get($id);
 		if( !$handler =& $plugins_handler->checkPlugin($sub) ){
 			$plugins_handler->forceDeactivate($sub);
-		}		
+		}
 	}
 	if( empty($id) || !$sub || !$handler ){
 		redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
@@ -159,7 +159,7 @@ case 'savefeed':
 		redirect_header(RSSFIT_ADMIN_URL.'?do='.$do, 0, _AM_DBUPDATED);
 	}else{
 		rssfitAdminHeader();
-		echo $sub->getHtmlErrors();	
+		echo $sub->getHtmlErrors();
 	}
 break;
 }

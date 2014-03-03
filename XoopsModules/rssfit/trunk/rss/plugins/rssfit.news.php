@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -63,7 +63,7 @@ class RssfitNews{
 		$myts =& MyTextSanitizer::getInstance();
 		if( $this->module->getVar('version') >= 130 ){
 			@include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-			$news = NewsStory::getAllPublished($this->grab, 0, getmoduleoption('restrictindex'));
+			$news = NewsStory::getAllPublished($this->grab, 0, news_getmoduleoption('restrictindex'));
 		}else{
 			$news = NewsStory::getAllPublished($this->grab, 0);
 		}

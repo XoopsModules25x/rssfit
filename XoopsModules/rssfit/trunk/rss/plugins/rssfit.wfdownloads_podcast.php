@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
+##                   Copyright (c) 2004 NS Tai (aka tuff)                    ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -30,49 +30,64 @@
 ###############################################################################
 /*
 * About this RSSFit plug-in
-* Author: brash <http://www.it-hq.org/>
+* Author: tuff <http://www.brandycoke.com/>
 * Requirements (Tested with):
-*  Module: AMS <http://www.it-hq.org/>
-*  Version: 2.41
-*  RSSFit verision: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3
+*  Module: WF-Downloads <http://smartyfactory.ca/>
+*  Version: 3.1
+*  RSSFit verision: 1.21
+*  XOOPS version: 2.0.14
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
-class RssfitAms{
-	var $dirname = 'AMS';
+class Rssfitwfdownloads_podcast extends XoopsObject{
+	var $dirname = 'wfdownloads';
 	var $modname;
+	var $module;
 	var $grab;
 	
-	function RssfitAms(){
+	function Rssfitwfdownloads_podcast(){
 	}
 	
 	function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
+		if( !$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 310 ){
 			return false;
 		}
 		$this->modname = $mod->getVar('name');
+		$this->module =& $mod;
 		return $mod;
 	}
 	
 	function &grabEntries(&$obj){
-		$ret = false;
-		@include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
+		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
-		$ams = AmsStory::getAllPublished($this->grab, 0);
-		if( count($ams) > 0 ){
-			for( $i=0; $i<count($ams); $i++ ){
-				$ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
-				$ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/AMS/article.php?storyid='.$ams[$i]->storyid();
-				$ret[$i]['timestamp'] = $ams[$i]->published();
-				$ret[$i]['description'] = $ams[$i]->hometext();
+		$perm_handler =& xoops_gethandler('groupperm');
+		$ret = false;
+		$i = 0;
+		$sql = "SELECT lid, cid, title, date, description, filetype, size FROM ".$xoopsDB->prefix("wfdownloads_downloads")." WHERE status > 0 AND offline = 0 AND (expired > ".time()." OR expired = 0) AND published <= ".time()." ORDER BY date DESC";
+		$result = $xoopsDB->query($sql, $this->grab, 0);
+		while( $row = $xoopsDB->fetchArray($result) ){
+			if( (isset($perms[$row['cid']]) && $perms[$row['cid']] == true) || $perm_handler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid')) ){
+				$perms[$row['cid']] = true;
+				$ret[$i]['title'] = $row['title'];
+				$link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
+				$ret[$i]['link'] = $ret[$i]['guid'] = $link;
+				$ret[$i]['timestamp'] = $row['date'];
+				$ret[$i]['description'] = $myts->displayTarea($row['description']);
 				$ret[$i]['category'] = $this->modname;
 				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+			//	enclosure tag, a.k.a podcast
+				$ret[$i]['extras']['enclosure']['attributes']
+					= array('url' => XOOPS_URL.'/modules/'.$this->dirname.'/visit.php?cid='.$row['cid'].'&amp;lid='.$row['lid'],
+							'length' => $row['size'],
+							'type' => $row['filetype']
+							);
+				$i++;
+			}else{
+				$perms[$row['cid']] = false;
 			}
 		}
 		return $ret;
 	}
-	
 }
 ?>

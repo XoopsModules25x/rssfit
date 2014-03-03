@@ -29,24 +29,25 @@
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
 /*
-* About this RSSFit plug-in
-* Author: brash <http://www.it-hq.org/>
-* Requirements (Tested with):
-*  Module: AMS <http://www.it-hq.org/>
-*  Version: 2.41
-*  RSSFit verision: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3
-*/
+ * About this RSSFit plug-in
+ * Author: Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+ * Requirements (Tested with):
+ *  Module: Buyersguide
+ *  Version: 1.33
+ * Flux RSS : Derniers Fabricants
+ *  RSSFit verision: 1.22
+ *  XOOPS version: 2.0.18.1
+ */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
-class RssfitAms{
-	var $dirname = 'AMS';
+class RssfitBuyersguidemanufacturers{
+	var $dirname = 'buyersguide';
 	var $modname;
 	var $grab;
-	
-	function RssfitAms(){
+
+	function RssfitBuyersguidemanufacturers(){
 	}
-	
+
 	function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
@@ -55,24 +56,25 @@ class RssfitAms{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
+
 	function &grabEntries(&$obj){
 		$ret = false;
-		@include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
-		$myts =& MyTextSanitizer::getInstance();
-		$ams = AmsStory::getAllPublished($this->grab, 0);
-		if( count($ams) > 0 ){
-			for( $i=0; $i<count($ams); $i++ ){
-				$ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
-				$ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/AMS/article.php?storyid='.$ams[$i]->storyid();
-				$ret[$i]['timestamp'] = $ams[$i]->published();
-				$ret[$i]['description'] = $ams[$i]->hometext();
+		include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
+		$items = $hBgManufacturer->getListofActivteManufacturers(0, $this->grab, 'manu_date_added', 'DESC');
+		$i = 0;
+
+		if( false != $items && count($items) > 0 ){
+			foreach($items as $item) {
+				$ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
+				$ret[$i]['title'] = $item->getVar('manu_name', 'n');
+				$ret[$i]['timestamp'] = $item->getVar('manu_date_added');
+				$ret[$i]['description'] = $item->getVar('manu_description');
 				$ret[$i]['category'] = $this->modname;
 				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+				$i++;
 			}
 		}
 		return $ret;
 	}
-	
 }
 ?>

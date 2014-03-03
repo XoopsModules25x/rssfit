@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -55,9 +55,9 @@ function rssfitAdminHeader(){
 	$links[] = array(0 => XOOPS_URL.'/modules/system/admin.php?fct=preferences&op=showmod&mod='.$xoopsModule->getVar('mid'), 1 => _PREFERENCES);
 	$admin_links = '<table class="outer" width="100%" cellspacing="1"><tr>';
 	for( $i=0; $i<count($links); $i++ ){
-		$admin_links .= '<td class="even" style="width: 16%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
+		$admin_links .= '<td class="even" style="width: 14%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
 	}
-	$admin_links .= "</tr></table><br clear=all />\n";
+	$admin_links .= "<td class='even' style='width: 14%; text-align: center;'><a href='about.php'>About</a></td></tr></table><br clear='all' />\n";
 	xoops_cp_header();
 	echo $admin_links;
 }

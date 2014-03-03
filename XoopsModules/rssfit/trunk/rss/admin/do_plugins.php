@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -33,7 +33,7 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !preg_match('/\/admin\/index\.php/', $_SERVER['PHP_SELF']) ){
+if( !defined("RSSFIT_OK") ){
 	header('Location: index.php');
 }
 
@@ -164,7 +164,7 @@ default:
 		}
 		$ret .= "</table>\n";
 	}
-	
+
 	if( !empty($ret) ){
 		$hidden = new XoopsFormHidden('op', 'save');
 		$ret = "<form action='".RSSFIT_ADMIN_URL."' method='post'>\n".$ret
@@ -190,16 +190,16 @@ case 'save':
 			default:
 				$result = $plugins_handler->insert($plugin);
 			break;
-	
+
 			case 'u':	// uninstall
 				$result = $plugins_handler->delete($plugin);
 			break;
-			
+
 			case 'd':	// deactivate
 				$plugin->setVar('rssf_activated', 0);
 				$result = $plugins_handler->insert($plugin);
 			break;
-			
+
 			case 'a':	// activate
 				$plugin->setVar('rssf_activated', 1);
 				$result = $plugins_handler->insert($plugin);

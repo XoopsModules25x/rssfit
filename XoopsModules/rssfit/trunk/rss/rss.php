@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -40,11 +40,12 @@ $charset = $xoopsModuleConfig['utf8'] ? 'UTF-8' : _CHARSET;
 $docache = $xoopsModuleConfig['cache'] ? true : false;
 $template = 'db:rssfit_rss.html';
 if( $xoopsModuleConfig['mime'] == 3 ){
-	error_reporting(E_ALL);
-	$xoopsErrorHandler->activate(true);
+	$xoopsLogger->enableRendering();
+	$xoopsLogger->usePopup = ( $xoopsConfig['debug_mode'] == 2 );
 	$docache = false;
 }else{
-	$xoopsErrorHandler->activate(false);
+	error_reporting(0);
+	$xoopsLogger->activated = false;
 }
 
 require_once XOOPS_ROOT_PATH.'/class/template.php';
