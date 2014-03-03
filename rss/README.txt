@@ -1,10 +1,10 @@
 RSSFit - Extendable XML news feed generator
 Presented by Brandycoke Productions <http://www.brandycoke.com/>
-Copyright (c) 2004-2005 NS Tai (aka tuff)
+Copyright (c) 2004-2006 NS Tai (aka tuff)
 
 Information
 ----------------------
-Current Version: 1.2 / 1.5
+Current Version: 1.21
 RSSFit is a module for XOOPS generates RSS 2.0 validated XML feed. Web masters can decide what to be displayed in the XML output by activating installed plug-ins.
 Key features:
  - Plug-in system with several modules prepared
@@ -14,8 +14,9 @@ Key features:
 
 System Requirements
 ----------------------
+RSSFit 1.21: XOOPS 2.0.14
 RSSFit 1.2: XOOPS 2.0.12-13.2 ; XOOPS Cube 2.0.12/13a
-RSSFit 1.5: XOOPS 2.2.3a
+RSSFit 1.5 (Suspended): XOOPS 2.2.3a
 PHP 4.3.x or later with (optional) mbstring extension installed for UTF-8 encoding conversion
 
 Using RSSFit
@@ -55,6 +56,10 @@ You may not change or alter any portion of this comment or credits of supporting
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Liaise; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 Version History
+----------------------
+Jul 25, 2006: Version 1.21
+- Fixed compatibility problem with XOOPS 2.0.14
+- Modified WF-Downloads plugin for padcasting (requires WF-Downloads version 3.1)
 ----------------------
 Dec 23, 2005: Version 1.2 / 1.5
 - (Version 1.5) Fixed incompatibility with XOOPS 2.2.3a

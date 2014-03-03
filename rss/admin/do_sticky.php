@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -33,7 +33,7 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !preg_match('/\/admin\/index\.php/', $_SERVER['PHP_SELF']) ){
+if( !defined("RSSFIT_OK") ){
 	header('Location: index.php');
 }
 
@@ -60,11 +60,11 @@ default:
 	$dobr = new XoopsFormCheckbox('', 'dobr', $setting['dobr']);
 	$dobr->addOption(1, _AM_DO_BR);
 	$tray_content->addElement($dobr);
-	
+
 	$link = new XoopsFormText(_AM_STICKY_LINK, 'link', 50, 255, $myts->makeTboxData4PreviewInForm($setting['link']));
-	
+
 	$applyto = $rss->feedSelectBox(_AM_STICKY_APPLYTO, $setting['feeds'], 10);
-	
+
 	$form = new XoopsThemeForm(_AM_STICKY_EDIT, 'editsticky', RSSFIT_ADMIN_URL);
 	$form->addElement($title);
 	$form->addElement($tray_content);

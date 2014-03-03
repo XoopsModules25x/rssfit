@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -33,8 +33,8 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-echo "<div style='text-align: right; font-size: x-small; margin-top: 15px;'>Powered by <a href='about.php'>".RSSFIT_VERSION."</a>";
-if( !preg_match('/2\.0\.(12|13)/', XOOPS_VERSION) ){
+echo "<div style='text-align: right; font-size: x-small; margin-top: 15px;'>Powered by <a href='about.php'>".RSSFIT_VERSION."</a> | <a href='".RSSFIT_URL."LICENSE.txt' target='_blank'>LICENSE</a> | <a href='".RSSFIT_URL."README.txt' target='_blank'>README</a>";
+if( !preg_match('/2\.0\.14/', XOOPS_VERSION) ){
 	echo '<br /><span style="color: #F00;"><b>'._AM_XOOPS_VERSION_WRONG.'</b></span>';
 }
 echo '</div>';

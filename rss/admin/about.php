@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -38,9 +38,9 @@ xoops_cp_header();
 <img src="../images/rssfit.png" alt="RSSFit" style="float: left; margin: 0 10px 5px 0;" />
 <h4 style="margin: 0;">RSSFit</h4>
 <p style="margin-top: 0;">
-Version <?=number_format($xoopsModule->getVar('version')/100, 2);?><br />
+Version <?php echo number_format($xoopsModule->getVar('version')/100, 2);?><br />
 Presented by <a href="http://www.brandycoke.com/" target="_blank">Brandycoke Productions</a> <br />
-Copyright &copy; 2003-2005 NS Tai (tuff)
+Copyright &copy; 2003-2006 NS Tai (tuff)
 <br clear="all" />
 </p>
 

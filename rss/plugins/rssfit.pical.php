@@ -30,21 +30,21 @@
 ###############################################################################
 /*
 * About this RSSFit plug-in
-* Author: brash <http://www.it-hq.org/>
+* Author: jayjay <http://www.sint-niklaas.be/>
 * Requirements (Tested with):
-*  Module: AMS <http://www.it-hq.org/>
-*  Version: 2.41
-*  RSSFit verision: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3
+*  Module: piCal <http://www.xoops.org/>
+*  Version: 1.0
+*  RSSFit version: 1.21
+*  XOOPS version: 2.0.18.1
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
-class RssfitAms{
-	var $dirname = 'AMS';
+class RssfitpiCal{
+	var $dirname = 'piCal';
 	var $modname;
 	var $grab;
 	
-	function RssfitAms(){
+	function RssfitpiCal(){
 	}
 	
 	function loadModule(){
@@ -57,22 +57,23 @@ class RssfitAms{
 	}
 	
 	function &grabEntries(&$obj){
-		$ret = false;
-		@include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
+		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
-		$ams = AmsStory::getAllPublished($this->grab, 0);
-		if( count($ams) > 0 ){
-			for( $i=0; $i<count($ams); $i++ ){
-				$ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
-				$ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/AMS/article.php?storyid='.$ams[$i]->storyid();
-				$ret[$i]['timestamp'] = $ams[$i]->published();
-				$ret[$i]['description'] = $ams[$i]->hometext();
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-			}
+		$ret = false;
+		$i = 0;
+		$sql = "SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ".$xoopsDB->prefix("pical_event")." WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC";
+		$result = $xoopsDB->query($sql, $this->grab, 0);
+		while( $row = $xoopsDB->fetchArray($result) ){
+			$ret[$i]['title'] = $row['summary'];
+			$link = XOOPS_URL.'/modules/'.$this->dirname.'/index.php?event_id='.$row['id'];
+			$ret[$i]['link'] = $ret[$i]['guid'] = $link;
+			$ret[$i]['timestamp'] = $row['dtstamp'];
+			$ret[$i]['description'] = $myts->displayTarea($row['description']);
+			$ret[$i]['category'] = $this->modname;
+			$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+			$i++;
 		}
 		return $ret;
 	}
-	
 }
 ?>

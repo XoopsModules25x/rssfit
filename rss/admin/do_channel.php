@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -33,7 +33,7 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !preg_match('/\/admin\/index\.php/', $_SERVER['PHP_SELF']) ){
+if( !defined("RSSFIT_OK") ){
 	header('Location: index.php');
 }
 

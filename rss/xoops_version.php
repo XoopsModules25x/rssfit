@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
+##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -28,8 +28,13 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
+
+if (!defined('XOOPS_ROOT_PATH')) {
+	die("XOOPS root path not defined");
+}
+
 $modversion['name'] = _MI_RSSFIT_NAME;
-$modversion['version'] = '1.2';
+$modversion['version'] = '1.22';
 $modversion['description'] = _MI_RSSFIT_DESC;
 $modversion['author'] = "NS Tai (aka tuff)";
 $modversion['credits'] = "<a href='http://www.brandycoke.com/'>Brandycoke Productions</a>";
