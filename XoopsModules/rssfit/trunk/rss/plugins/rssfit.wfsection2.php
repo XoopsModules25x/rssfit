@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitWfsection2
+ */
 class RssfitWfsection2{
 	var $dirname = 'wfsection';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitWfsection2(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 200 ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitWfsection2{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		@include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/common.php';
 		@include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/wfsarticle.php';
 		$ret = false;
@@ -78,4 +89,3 @@ class RssfitWfsection2{
 		return $ret;
 	}
 }
-?>

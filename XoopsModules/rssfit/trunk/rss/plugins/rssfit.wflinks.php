@@ -14,6 +14,10 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitWflinks
+ */
 class RssfitWflinks{
 	var $dirname = 'wflinks';
 	var $modname;
@@ -23,7 +27,10 @@ class RssfitWflinks{
 	function RssfitWflinks(){
 	}
 
-	function loadModule(){
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		global $module_handler;
 		$mod = $module_handler->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
@@ -34,7 +41,11 @@ class RssfitWflinks{
 		return $mod;
 	}
 
-	function grabEntries(&$obj){
+    /**
+     * @param $obj
+     *
+     * @return array
+     */function grabEntries(&$obj){
 		global $xoopsDB, $xoopsUser;
 
 		$groups = is_object( $xoopsUser ) ? $xoopsUser -> getGroups() : XOOPS_GROUP_ANONYMOUS;
@@ -61,4 +72,3 @@ class RssfitWflinks{
 		return $ret;
 	}
 }
-?>

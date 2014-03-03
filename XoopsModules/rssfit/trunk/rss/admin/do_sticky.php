@@ -33,9 +33,12 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !defined("RSSFIT_OK") ){
-	header('Location: index.php');
-}
+include_once dirname(__FILE__) . '/admin_header.php';
+
+
+//if( !defined("RSSFIT_OK") ){
+//	header('Location: index.php');
+//}
 
 if( $intr =& $misc_handler->getObjects(new Criteria('misc_category', 'sticky')) ){
 	$sticky =& $intr[0];
@@ -45,7 +48,7 @@ if( $intr =& $misc_handler->getObjects(new Criteria('misc_category', 'sticky')) 
 }
 switch($op){
 default:
-	rssfitAdminHeader();
+//	rssfitAdminHeader();
 	$setting = $sticky->getVar('misc_setting');
 	$title = new XoopsFormText(_AM_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
 	$title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
@@ -61,7 +64,7 @@ default:
 	$dobr->addOption(1, _AM_DO_BR);
 	$tray_content->addElement($dobr);
 
-	$link = new XoopsFormText(_AM_STICKY_LINK, 'link', 50, 255, $myts->makeTboxData4PreviewInForm($setting['link']));
+	$link = new XoopsFormText(_AM_STICKY_LINK, 'link', 50, 255, htmlSpecialChars($myts->stripSlashesGPC(($setting['link']))));
 
 	$applyto = $rss->feedSelectBox(_AM_STICKY_APPLYTO, $setting['feeds'], 10);
 
@@ -92,11 +95,12 @@ case 'save':
 					);
 	$sticky->setVar('misc_setting', $setting, true);
 	if( false == $misc_handler->insert($sticky) ){
-		rssfitAdminHeader();
+//		rssfitAdminHeader();
 		echo $sticky->getHtmlErrors();
 	}else{
 		redirect_header(RSSFIT_ADMIN_URL.'?do='.$do, 0, _AM_DBUPDATED);
 	}
 break;
 }
-?>
+
+include_once 'admin_footer.php';

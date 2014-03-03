@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitpiCal
+ */
 class RssfitpiCal{
 	var $dirname = 'piCal';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitpiCal(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitpiCal{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
 		$ret = false;
@@ -76,4 +87,3 @@ class RssfitpiCal{
 		return $ret;
 	}
 }
-?>

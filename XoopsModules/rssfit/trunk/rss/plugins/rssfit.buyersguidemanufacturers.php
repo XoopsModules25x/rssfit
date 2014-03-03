@@ -40,6 +40,10 @@
  */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitBuyersguidemanufacturers
+ */
 class RssfitBuyersguidemanufacturers{
 	var $dirname = 'buyersguide';
 	var $modname;
@@ -48,7 +52,10 @@ class RssfitBuyersguidemanufacturers{
 	function RssfitBuyersguidemanufacturers(){
 	}
 
-	function loadModule(){
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -57,7 +64,11 @@ class RssfitBuyersguidemanufacturers{
 		return $mod;
 	}
 
-	function &grabEntries(&$obj){
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
 		$items = $hBgManufacturer->getListofActivteManufacturers(0, $this->grab, 'manu_date_added', 'DESC');
@@ -77,4 +88,3 @@ class RssfitBuyersguidemanufacturers{
 		return $ret;
 	}
 }
-?>

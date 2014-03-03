@@ -31,4 +31,3 @@
 
 require '../../mainfile.php';
 require 'include/common.php';
-?>

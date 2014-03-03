@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitXoopstube
+ */
 class RssfitXoopstube{
 	var $dirname = 'xoopstube';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitXoopstube(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitXoopstube{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
 		$ret = false;
@@ -77,4 +88,3 @@ class RssfitXoopstube{
 		return $ret;
 	}
 }
-?>

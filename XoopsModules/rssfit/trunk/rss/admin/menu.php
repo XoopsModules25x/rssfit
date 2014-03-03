@@ -1,41 +1,71 @@
 <?php
-// $Id$
-###############################################################################
-##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
-##                       <http://www.brandycoke.com/>                        ##
-###############################################################################
-##                    XOOPS - PHP Content Management System                  ##
-##                       Copyright (c) 2000 XOOPS.org                        ##
-##                          <http://www.xoops.org/>                          ##
-###############################################################################
-##  This program is free software; you can redistribute it and/or modify     ##
-##  it under the terms of the GNU General Public License as published by     ##
-##  the Free Software Foundation; either version 2 of the License, or        ##
-##  (at your option) any later version.                                      ##
-##                                                                           ##
-##  You may not change or alter any portion of this comment or credits       ##
-##  of supporting developers from this source code or any supporting         ##
-##  source code which is considered copyrighted (c) material of the          ##
-##  original comment or credit authors.                                      ##
-##                                                                           ##
-##  This program is distributed in the hope that it will be useful,          ##
-##  but WITHOUT ANY WARRANTY; without even the implied warranty of           ##
-##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            ##
-##  GNU General Public License for more details.                             ##
-##                                                                           ##
-##  You should have received a copy of the GNU General Public License        ##
-##  along with this program; if not, write to the Free Software              ##
-##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
-###############################################################################
-$adminmenu[0]['title'] = _MI_RSSFIT_ADMENU1;
-$adminmenu[0]['link'] = "admin/?do=intro";
-$adminmenu[1]['title'] = _MI_RSSFIT_ADMENU2;
-$adminmenu[1]['link'] = "admin/?do=plugins";
-$adminmenu[2]['title'] = _MI_RSSFIT_ADMENU3;
-$adminmenu[2]['link'] = "admin/?do=channel";
-$adminmenu[3]['title'] = _MI_RSSFIT_ADMENU4;
-$adminmenu[3]['link'] = "admin/?do=subfeeds";
-$adminmenu[4]['title'] = _MI_RSSFIT_ADMENU5;
-$adminmenu[4]['link'] = "admin/?do=sticky";
-?>
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @package     RSSFit
+ * @since
+ * @author     XOOPS Development Team
+ * @version    $Id $
+ */
+defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+
+$path = dirname(dirname(dirname(dirname(__FILE__))));
+include_once $path . '/mainfile.php';
+
+$module_handler  = xoops_gethandler('module');
+$module          = $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));
+$pathIcon32 = '../../' . $module->getInfo('icons32');
+xoops_loadLanguage('modinfo', $module->dirname());
+
+
+$pathModuleAdmin = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin').'/moduleadmin';
+if (!file_exists($fileinc = $pathModuleAdmin  . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
+    $fileinc = $pathModuleAdmin  . '/language/english/main.php';
+}
+include_once $fileinc;
+
+$adminmenu = array();
+$i=0;
+$adminmenu[$i]["title"] = _AM_MODULEADMIN_HOME;
+$adminmenu[$i]['link'] = "admin/index.php";
+$adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
+
+++$i;
+$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU1;
+$adminmenu[$i]['link'] = "admin/?do=intro";
+//$adminmenu[$i]['link'] = "admin/do_intro.php";
+$adminmenu[$i]["icon"]  = $pathIcon32 . '/folder_txt.png';
+++$i;
+$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU2;
+$adminmenu[$i]['link'] = "admin/?do=plugins";
+//$adminmenu[$i]['link'] = "admin/do_plugins.php";
+$adminmenu[$i]["icon"]  =  'images/icons/32/plugin.png';
+++$i;
+$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU3;
+$adminmenu[$i]['link'] = "admin/?do=channel";
+//$adminmenu[$i]['link'] = "admin/do_channel.php";
+$adminmenu[$i]["icon"]  = $pathIcon32 . '/compfile.png';
+++$i;
+$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU4;
+$adminmenu[$i]['link'] = "admin/?do=subfeeds";
+//$adminmenu[$i]['link'] = "admin/do_subfeeds.php";
+$adminmenu[$i]["icon"]  = $pathIcon32 . '/groupmod.png';
+++$i;
+$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU5;
+$adminmenu[$i]['link'] = "admin/?do=sticky";
+$adminmenu[$i]["icon"]  = $pathIcon32 . '/attach.png';
+++$i;
+$adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
+$adminmenu[$i]["link"]  = "admin/about.php";
+$adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
+

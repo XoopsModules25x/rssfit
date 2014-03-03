@@ -39,16 +39,23 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class Rssfitwfdownloads
+ */
 class Rssfitwfdownloads extends XoopsObject{
 	var $dirname = 'wfdownloads';
 	var $modname;
 	var $module;
 	var $grab;
-	
+
 	function Rssfitwfdownloads(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -57,8 +64,12 @@ class Rssfitwfdownloads extends XoopsObject{
 		$this->module =& $mod;
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
 		$perm_handler =& xoops_gethandler('groupperm');
@@ -81,4 +92,3 @@ class Rssfitwfdownloads extends XoopsObject{
 		return $ret;
 	}
 }
-?>

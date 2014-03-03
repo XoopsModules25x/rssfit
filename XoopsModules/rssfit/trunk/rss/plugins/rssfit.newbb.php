@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitNewbb
+ */
 class RssfitNewbb{
 	var $dirname = 'newbb';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitNewbb(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -58,8 +65,12 @@ class RssfitNewbb{
 		}
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		global $xoopsDB;
 		include_once XOOPS_ROOT_PATH.'/modules/'.$this->dirname.'/class/class.forumposts.php';
 		$myts =& MyTextSanitizer::getInstance();
@@ -82,5 +93,3 @@ class RssfitNewbb{
 		return $ret;
 	}
 }
-
-?>

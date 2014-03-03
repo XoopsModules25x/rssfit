@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitComments
+ */
 class RssfitComments{
 	var $dirname = 'system';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitComments(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitComments{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		include_once XOOPS_ROOT_PATH.'/include/comment_constants.php';
 		$comment_handler =& xoops_gethandler('comment');
@@ -72,7 +83,7 @@ class RssfitComments{
 				$mid = $comments[$i]->getVar('com_modid');
 				if( !isset($comment_config[$mid]) ){
 					$comment_config[$mid] = $modules[$mid]->getInfo('comments');
-				} 
+				}
 				$ret[$i]['title'] = $comments[$i]->getVar('com_title', 'n');
 				$link = XOOPS_URL.'/modules/'.$modules[$mid]->getVar('dirname').'/'.$comment_config[$mid]['pageName'].'?'.$comment_config[$mid]['itemName'].'='.$comments[$i]->getVar('com_itemid').'&amp;com_id='.$i.'&amp;com_rootid='.$comments[$i]->getVar('com_rootid').'&amp;'.$comments[$i]->getVar('com_exparams').'#comment'.$i;
 				$ret[$i]['link'] = $ret[$i]['guid'] = $link;
@@ -84,6 +95,5 @@ class RssfitComments{
 		}
 		return $ret;
 	}
-	
+
 }
-?>

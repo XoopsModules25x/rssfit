@@ -39,16 +39,23 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class Rssfitwfdownloads_podcast
+ */
 class Rssfitwfdownloads_podcast extends XoopsObject{
 	var $dirname = 'wfdownloads';
 	var $modname;
 	var $module;
 	var $grab;
-	
+
 	function Rssfitwfdownloads_podcast(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 310 ){
 			return false;
@@ -57,8 +64,12 @@ class Rssfitwfdownloads_podcast extends XoopsObject{
 		$this->module =& $mod;
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
 		$perm_handler =& xoops_gethandler('groupperm');
@@ -90,4 +101,3 @@ class Rssfitwfdownloads_podcast extends XoopsObject{
 		return $ret;
 	}
 }
-?>

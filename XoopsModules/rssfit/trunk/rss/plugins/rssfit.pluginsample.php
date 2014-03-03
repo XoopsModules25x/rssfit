@@ -43,9 +43,9 @@
 * 			your-xoops-url/modules/rss/admin/?do=plugins
 * Step 7:	Finally, tell us about yourself and this file by modifying the
 * 			"About this RSSFit plug-in" section which is located... somewhere.
-* 
+*
 * [mod_dir]: Name of the driectory of your module, i.e. 'news'
-* 
+*
 * About this RSSFit plug-in
 * Author: John Doe <http://www.your.site/>
 * Requirements (or Tested with):
@@ -56,16 +56,23 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitSample
+ */
 class RssfitSample{
 	var $dirname = 'sample';
 	var $modname;
 	var $grab;
 	var $module;	// optional, see line 74
-	
+
 	function RssfitSample(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -75,8 +82,12 @@ class RssfitSample{
 								// to do with module info when grabbing entries
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
 		$ret = false;
@@ -116,4 +127,3 @@ class RssfitSample{
 		return $ret;
 	}
 }
-?>

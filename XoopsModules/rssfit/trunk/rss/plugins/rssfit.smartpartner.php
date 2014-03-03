@@ -40,15 +40,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitSmartpartner
+ */
 class RssfitSmartpartner{
 	var $dirname = 'smartpartner';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitSmartpartner(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -56,8 +63,12 @@ class RssfitSmartpartner{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		include XOOPS_ROOT_PATH."/modules/smartpartner/include/common.php";
 		$partners =& $partner_handler->getPartners($this->grab, 0, _SPARTNER_STATUS_ACTIVE, 'weight', 'DESC');
@@ -73,4 +84,3 @@ class RssfitSmartpartner{
 		return $ret;
 	}
 }
-?>

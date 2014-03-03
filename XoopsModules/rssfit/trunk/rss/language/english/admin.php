@@ -62,6 +62,3 @@ define('_AM_STICKY_APPLYTO', 'Apply to feeds');
 define("_AM_EDIT_INTRO_TEXT_DESC_SUB", '<br /><br />{SUB} will print a list of available sub-feeds');
 define("_AM_EDIT_INTRO_SUB", 'HTML tags for listing sub-feeds');
 define("_AM_EDIT_INTRO_SUB_DESC", "Extra tags:<br />{URL} (sub-feed's URL)<br />{TITLE} (sub-feed's title)<br />{DESC} (sub-feed's description)");
-
-
-?>

@@ -1,6 +1,0 @@
-********
-* 1.22 *
-********
-Changes made by Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
-With some configurations of PHP, it was not possible to access the different parts of the module's administration.
-This version corrects the problem and you should now be able to access all the parts of the administration.

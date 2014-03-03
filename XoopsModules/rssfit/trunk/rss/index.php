@@ -60,4 +60,3 @@ if( $intr =& $misc_handler->getObjects(new Criteria('misc_category', 'intro')) )
 	$xoopsTpl->assign('intro', array('title' => $title, 'content' => $content));
 }
 require XOOPS_ROOT_PATH.'/footer.php';
-?>
