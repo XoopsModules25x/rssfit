@@ -2,7 +2,7 @@
 // $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
+##                   Copyright (c) 2004 NS Tai (aka tuff)                    ##
 ##                       <http://www.brandycoke.com/>                        ##
 ###############################################################################
 ##                    XOOPS - PHP Content Management System                  ##
@@ -28,14 +28,64 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-##  Author of this file: NS Tai (aka tuff)                                   ##
-##  URL: http://www.brandycoke.com/                                          ##
-##  Project: RSSFit                                                          ##
-###############################################################################
+/*
+* About this RSSFit plug-in
+* Author: agamen0n <http://www.tradux.xoopstotal.com.br>
+* Requirements:
+*  Module: RMDP <http://www.xoops-mexico.net/>
+*  Version: 1.0
+*  RSSFit version: 1.1
+*/
 
-echo "<div style='text-align: right; font-size: x-small; margin-top: 15px;'>Powered by <a href='about.php'>".RSSFIT_VERSION."</a> | <a href='".RSSFIT_URL."LICENSE.txt' target='_blank'>LICENSE</a> | <a href='".RSSFIT_URL."README.txt' target='_blank'>README</a>";
-if( !preg_match('/2\.0\.14/', XOOPS_VERSION) ){
-	echo '<br /><span style="color: #F00;"><b>'._AM_XOOPS_VERSION_WRONG.'</b></span>';
+if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class Rssfitrmdp
+ */
+class Rssfitrmdp extends XoopsObject{
+	var $dirname = 'rmdp';
+	var $modname;
+	var $module;
+	var $grab;
+
+	function Rssfitrmdp(){
+	}
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
+		global $module_handler;
+		$mod = $module_handler->getByDirname($this->dirname);
+		if( !$mod || !$mod->getVar('isactive') ){
+			return false;
+		}
+		$this->modname = $mod->getVar('name');
+		$this->module =& $mod;
+		return $mod;
+	}
+
+    /**
+     * @param $obj
+     *
+     * @return array
+     */function grabEntries(&$obj){
+        global $xoopsDB, $moduleperm_handler;
+		$ret = array();
+		$i = 0;
+		$sql = "SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ".$xoopsDB->prefix("rmdp_software")." ORDER BY fecha DESC";
+		$result = $xoopsDB->query($sql, $this->grab, 0);
+		while( $row = $xoopsDB->fetchArray($result) ){
+				$ret[$i]['title'] = $row['nombre'];
+				$link = XOOPS_URL.'/modules/'.$this->dirname.'/down.php?id='.$row['id_soft'];
+				$ret[$i]['link'] = $ret[$i]['guid'] = $link;
+				$ret[$i]['timestamp'] = $row['fecha'];
+				$ret[$i]['description'] = $row['longdesc'];
+				$ret[$i]['category'] = $this->modname;
+				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+				$i++;
+		}
+		return $ret;
+	}
 }
-echo '</div>';
-?>
+

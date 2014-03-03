@@ -33,13 +33,15 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !defined("RSSFIT_OK") ){
-	header('Location: index.php');
-}
+include_once dirname(__FILE__) . '/admin_header.php';
+
+//if( !defined("RSSFIT_OK") ){
+//	header('Location: index.php');
+//}
 
 switch($op){
 default:
-	rssfitAdminHeader();
+//	rssfitAdminHeader();
 	$ret = '';
 	if( $plugins =& $plugins_handler->getObjects(null, 'sublist') ){
 		$ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
@@ -114,7 +116,7 @@ case 'edit':
 	if( empty($id) || !$sub ){
 		redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
 	}
-	rssfitAdminHeader();
+//	rssfitAdminHeader();
 	$form = new XoopsThemeForm(sprintf(_AM_SUB_EDIT, $handler->modname), 'editsub', RSSFIT_ADMIN_URL);
 	$form->addElement(new XoopsFormRadioYN(_AM_SUB_ACTIVATE, 'subfeed', $sub->getVar('subfeed')));
 	$form->addElement(new XoopsFormText(_AM_PLUGIN_SHOWXENTRIES, 'sub_entries', 3, 2, $sub->getVar('sub_entries')), true);
@@ -158,10 +160,10 @@ case 'savefeed':
 	if( false != $plugins_handler->insert($sub) ){
 		redirect_header(RSSFIT_ADMIN_URL.'?do='.$do, 0, _AM_DBUPDATED);
 	}else{
-		rssfitAdminHeader();
+//		rssfitAdminHeader();
 		echo $sub->getHtmlErrors();
 	}
 break;
 }
 
-?>
+include_once 'admin_footer.php';

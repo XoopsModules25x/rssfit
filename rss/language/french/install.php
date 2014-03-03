@@ -14,4 +14,3 @@ Voici les liens URLs des sous-sections de flux :
 Les flux RSS de ce site sont g&eacute;n&eacute;r&eacute;s par le module xoops <a href="http://www.brandycoke.com/products/rssfit/">RSSFit</a>.');
 define('_INSTALL_INTRO_SUB', '<a href="{URL}">{TITLE}</a>: {DESC}<br /><a href="{URL}">{URL}</a><br /><br />');
 
-?>

@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitAms
+ */
 class RssfitAms{
 	var $dirname = 'AMS';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitAms(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitAms{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		@include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
 		$myts =& MyTextSanitizer::getInstance();
@@ -73,6 +84,5 @@ class RssfitAms{
 		}
 		return $ret;
 	}
-	
+
 }
-?>

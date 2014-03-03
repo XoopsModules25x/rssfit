@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitNews
+ */
 class RssfitNews{
 	var $dirname = 'news';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitNews(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -56,8 +63,12 @@ class RssfitNews{
 		$this->module =& $mod;
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		@include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
 		$myts =& MyTextSanitizer::getInstance();
@@ -82,4 +93,3 @@ class RssfitNews{
 		return $ret;
 	}
 }
-?>

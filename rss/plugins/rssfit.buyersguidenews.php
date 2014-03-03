@@ -40,6 +40,10 @@
  */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitBuyersguidenews
+ */
 class RssfitBuyersguidenews{
 	var $dirname = 'buyersguide';
 	var $modname;
@@ -48,7 +52,10 @@ class RssfitBuyersguidenews{
 	function RssfitBuyersguidenews(){
 	}
 
-	function loadModule(){
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -57,7 +64,11 @@ class RssfitBuyersguidenews{
 		return $mod;
 	}
 
-	function &grabEntries(&$obj){
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
 		$items = $hBgNews->getRecentNews(0, $this->grab);
@@ -77,4 +88,3 @@ class RssfitBuyersguidenews{
 		return $ret;
 	}
 }
-?>

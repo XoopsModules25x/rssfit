@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitSmartfaq
+ */
 class RssfitSmartfaq{
 	var $dirname = 'smartfaq';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitSmartfaq(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitSmartfaq{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		@include_once(XOOPS_ROOT_PATH."/modules/smartfaq/include/functions.php");
 		$faq_handler =& sf_gethandler('faq');
@@ -80,4 +91,3 @@ class RssfitSmartfaq{
 		return $ret;
 	}
 }
-?>

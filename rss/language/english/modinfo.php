@@ -4,6 +4,8 @@
 
 // The name of this module
 define("_MI_RSSFIT_NAME","XML (RSS feed)");
+define("_MI_RSSFIT_DIRNAME", basename(dirname(dirname(dirname(__FILE__)))));
+
 
 // A brief description of this module
 define("_MI_RSSFIT_DESC","Extendable XML news feed generator");
@@ -42,6 +44,3 @@ define("_MI_OUTOUT_MIME","MIME type of RSS output");
 define("_MI_OUTOUT_MIME_XML","XML (text/xml)");
 define("_MI_OUTOUT_MIME_HTML","HTML (text/html)");
 define("_MI_OUTOUT_MIME_PHP","HTML with php-debug");
-
-
-?>

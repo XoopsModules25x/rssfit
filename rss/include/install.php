@@ -33,6 +33,11 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+/**
+ * @param $xoopsMod
+ *
+ * @return bool
+ */
 function xoops_module_install_rss(&$xoopsMod){
 	global $xoopsDB, $xoopsConfig;
 	$myts =& MyTextSanitizer::getInstance();
@@ -50,6 +55,12 @@ function xoops_module_install_rss(&$xoopsMod){
 	return true;
 }
 
+/**
+ * @param $xoopsMod
+ * @param $oldversion
+ *
+ * @return bool
+ */
 function xoops_module_update_rss(&$xoopsMod, $oldversion){
 	global $xoopsDB, $xoopsConfig;
 	rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
@@ -73,6 +84,10 @@ function xoops_module_update_rss(&$xoopsMod, $oldversion){
 	return true;
 }
 
+/**
+ * @param $xoopsMod
+ * @param $lang
+ */
 function rssfInstallLangFile(&$xoopsMod, $lang){
 	$file = XOOPS_ROOT_PATH.'/modules/'.$xoopsMod->getVar('dirname')
 			.'/language/%s/install.php';
@@ -83,6 +98,11 @@ function rssfInstallLangFile(&$xoopsMod, $lang){
 	}
 }
 
+/**
+ * @param $xoopsMod
+ *
+ * @return string
+ */
 function rssfInsertChannel(&$xoopsMod){
 	global $xoopsDB, $xoopsConfig;
 	$url = $xoopsDB->quoteString(XOOPS_URL);
@@ -114,4 +134,3 @@ function rssfInsertChannel(&$xoopsMod){
 			.";";
 }
 
-?>

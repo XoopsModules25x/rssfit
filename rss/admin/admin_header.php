@@ -1,35 +1,51 @@
 <?php
-// $Id$
-###############################################################################
-##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
-##                       <http://www.brandycoke.com/>                        ##
-###############################################################################
-##                    XOOPS - PHP Content Management System                  ##
-##                       Copyright (c) 2000 XOOPS.org                        ##
-##                          <http://www.xoops.org/>                          ##
-###############################################################################
-##  This program is free software; you can redistribute it and/or modify     ##
-##  it under the terms of the GNU General Public License as published by     ##
-##  the Free Software Foundation; either version 2 of the License, or        ##
-##  (at your option) any later version.                                      ##
-##                                                                           ##
-##  You may not change or alter any portion of this comment or credits       ##
-##  of supporting developers from this source code or any supporting         ##
-##  source code which is considered copyrighted (c) material of the          ##
-##  original comment or credit authors.                                      ##
-##                                                                           ##
-##  This program is distributed in the hope that it will be useful,          ##
-##  but WITHOUT ANY WARRANTY; without even the implied warranty of           ##
-##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            ##
-##  GNU General Public License for more details.                             ##
-##                                                                           ##
-##  You should have received a copy of the GNU General Public License        ##
-##  along with this program; if not, write to the Free Software              ##
-##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
-###############################################################################
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
-require '../../../include/cp_header.php';
-require '../include/common.php';
+/**
+ * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @package
+ * @since
+ * @author     XOOPS Development Team
+ * @version    $Id $
+ */
 
-?>
+$path = dirname(dirname(dirname(dirname(__FILE__))));
+include_once $path . '/mainfile.php';
+include_once $path . '/include/cp_functions.php';
+require_once $path . '/include/cp_header.php';
+
+include_once $path.'/class/xoopsformloader.php';
+
+//if functions.php file exist
+require_once dirname(dirname(__FILE__)) . '/include/common.php';
+//require '../include/common.php';
+
+global $xoopsModule;
+
+$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+
+//if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
+//    include_once(XOOPS_ROOT_PATH."/class/template.php");
+//    $xoopsTpl = new XoopsTpl();
+//}
+
+
+
+// Load language files
+xoops_loadLanguage('admin', $thisModuleDir);
+xoops_loadLanguage('modinfo', $thisModuleDir);
+xoops_loadLanguage('main', $thisModuleDir);
+
+$pathIcon16 = XOOPS_URL . '/' . $xoopsModule->getInfo('icons16');
+$pathIcon32 = XOOPS_URL . '/' . $xoopsModule->getInfo('icons32');
+$pathModuleAdmin = XOOPS_ROOT_PATH . '/' . $xoopsModule->getInfo('dirmoduleadmin');
+require_once $pathModuleAdmin . '/moduleadmin/moduleadmin.php';

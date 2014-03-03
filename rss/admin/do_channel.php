@@ -33,13 +33,15 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+include_once dirname(__FILE__) . '/admin_header.php';
+
 if( !defined("RSSFIT_OK") ){
 	header('Location: index.php');
 }
 
 switch($op){
 default:
-	rssfitAdminHeader();
+//	rssfitAdminHeader();
 	if( $elements =& $rss->mHandler->getObjects(new Criteria('misc_category', 'channel'), '*', 'title') && $img =& $rss->mHandler->getObjects(new Criteria('misc_category', 'channelimg'), '*', 'title') ){
 		$form = new XoopsThemeForm(_AM_EDIT_CHANNEL, 'editchannel', RSSFIT_ADMIN_URL);
 		$form->addElement(new XoopsFormLabel('', '<b>'._AM_EDIT_CHANNEL_REQUIRED.'</b> '.genSpecMoreInfo('req', $rss)));
@@ -80,7 +82,7 @@ case 'save':
 		}
 	}
 	if( count($errors) > 0 ){
-		rssfitAdminHeader();
+//		rssfitAdminHeader();
 		foreach( $errors as $e ){
 			echo $e."<br /><br />\n";
 		}
@@ -90,4 +92,4 @@ case 'save':
 break;
 }
 
-?>
+include_once 'admin_footer.php';

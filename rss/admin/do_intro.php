@@ -33,9 +33,11 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+include_once dirname(__FILE__) . '/admin_header.php';
+require_once dirname(dirname(__FILE__)) . '/include/common.php';
 
 if( !defined("RSSFIT_OK") ){
-	header('Location: index.php');
+	header('Location: main.php');
 }
 
 if( $intr =& $misc_handler->getObjects(new Criteria('misc_category', 'intro')) ){
@@ -46,7 +48,9 @@ if( $intr =& $misc_handler->getObjects(new Criteria('misc_category', 'intro')) )
 }
 switch($op){
 default:
-	rssfitAdminHeader();
+//	rssfitAdminHeader();
+
+
 	$title = new XoopsFormText(_AM_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
 	$title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
 
@@ -61,7 +65,7 @@ default:
 	$dobr->addOption(1, _AM_DO_BR);
 	$tray_content->addElement($dobr);
 
-	$sub = new XoopsFormTextArea(_AM_EDIT_INTRO_SUB, 'sub', $myts->makeTboxData4PreviewInForm($setting['sub']));
+	$sub = new XoopsFormTextArea(_AM_EDIT_INTRO_SUB, 'sub', htmlSpecialChars($myts->stripSlashesGPC($setting['sub'])));
 	$sub->setDescription(_AM_EDIT_INTRO_SUB_DESC);
 
 	$form = new XoopsThemeForm(_AM_EDIT_INTRO, 'editintro', RSSFIT_ADMIN_URL);
@@ -84,11 +88,12 @@ case 'save':
 					);
 	$intro->setVar('misc_setting', $setting);
 	if( false == $misc_handler->insert($intro) ){
-		rssfitAdminHeader();
+//		rssfitAdminHeader();
 		echo $intro->getHtmlErrors();
 	}else{
 		redirect_header(RSSFIT_ADMIN_URL.'?do='.$do, 0, _AM_DBUPDATED);
 	}
 break;
 }
-?>
+
+include_once 'admin_footer.php';

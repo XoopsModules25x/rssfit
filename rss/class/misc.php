@@ -34,6 +34,10 @@
 ###############################################################################
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssMisc
+ */
 class RssMisc extends XoopsObject{
 	function RssMisc(){
 		$this->XoopsObject();
@@ -45,26 +49,43 @@ class RssMisc extends XoopsObject{
 		$this->initVar('misc_setting', XOBJ_DTYPE_ARRAY, '');
 	}
 
-	function setDoHtml($do=true){
+    /**
+     * @param bool $do
+     */
+    function setDoHtml($do=true){
 		$this->vars['dohtml']['value'] = $do;
 	}
 
-	function setDoBr($do=true){
+    /**
+     * @param bool $do
+     */
+    function setDoBr($do=true){
 		$this->vars['dobr']['value'] = $do;
 	}
 }
 
+/**
+ * Class RssMiscHandler
+ */
 class RssMiscHandler extends XoopsObjectHandler {
 	var $db;
 	var $db_table;
 	var $obj_class = 'RssMisc';
 	var $obj_key = 'misc_id';
 
-	function RssMiscHandler(&$db){
+    /**
+     * @param $db
+     */
+    function RssMiscHandler(&$db){
 		$this->db =& $db;
 		$this->db_table = $this->db->prefix('rssfit_misc');
 	}
-	function &getInstance(&$db){
+
+    /**
+     * @param $db
+     *
+     * @return RssMiscHandler
+     */function &getInstance(&$db){
 		static $instance;
 		if( !isset($instance) ){
 			$instance = new RssMiscHandler($db);
@@ -77,8 +98,13 @@ class RssMiscHandler extends XoopsObjectHandler {
 		$obj->setNew();
 		return $obj;
 	}
-	
-	function &get($id, $fields='*'){
+
+    /**
+     * @param int    $id
+     * @param string $fields
+     *
+     * @return bool
+     */function &get($id, $fields='*'){
 		$criteria = new Criteria($this->obj_key, intval($id));
 		if( $objs =& $this->getObjects($criteria) ){
 			return count($objs) != 1 ? false : $objs[0];
@@ -86,7 +112,11 @@ class RssMiscHandler extends XoopsObjectHandler {
 		return false;
 	}
 
-	function getCount($criteria=null){
+    /**
+     * @param null $criteria
+     *
+     * @return bool
+     */function getCount($criteria=null){
 		$sql = 'SELECT COUNT(*) FROM '.$this->db_table;
 		if( isset($criteria) && is_subclass_of($criteria, 'criteriaelement') ){
 			$sql .= ' '.$criteria->renderWhere();
@@ -98,7 +128,13 @@ class RssMiscHandler extends XoopsObjectHandler {
 		return $count;
 	}
 
-	function &getObjects($criteria=null, $fields='*', $key=''){
+    /**
+     * @param null   $criteria
+     * @param string $fields
+     * @param string $key
+     *
+     * @return array|bool
+     */function &getObjects($criteria=null, $fields='*', $key=''){
 		$ret = false;
 		$limit = $start = 0;
 		$sql = 'SELECT '.$fields.' FROM '.$this->db_table;
@@ -136,7 +172,12 @@ class RssMiscHandler extends XoopsObjectHandler {
 		return $ret;
 	}
 
-	function insert(&$obj, $force = false){
+    /**
+     * @param object $obj
+     * @param bool   $force
+     *
+     * @return bool
+     */function insert(&$obj, $force = false){
 		if( strtolower(get_class($obj)) != strtolower($this->obj_class) ){
 			return false;
 		}
@@ -183,7 +224,13 @@ class RssMiscHandler extends XoopsObjectHandler {
 		return $obj->getVar($this->obj_key);
 	}
 
-	function modifyObjects($criteria=null, $fields=array(), $force=false){
+    /**
+     * @param null  $criteria
+     * @param array $fields
+     * @param bool  $force
+     *
+     * @return bool|string
+     */function modifyObjects($criteria=null, $fields=array(), $force=false){
 		if( is_array($fields) && count($fields) > 0 ){
 			$obj = new $this->obj_class();
 			$sql = '';
@@ -209,7 +256,12 @@ class RssMiscHandler extends XoopsObjectHandler {
 		return false;
 	}
 
-	function delete(&$obj, $force=false){
+    /**
+     * @param object $obj
+     * @param bool   $force
+     *
+     * @return bool
+     */function delete(&$obj, $force=false){
 		if( strtolower(get_class($obj)) != strtolower($this->obj_class) ){
 			return false;
 		}
@@ -226,4 +278,3 @@ class RssMiscHandler extends XoopsObjectHandler {
 	}
 
 }
-?>

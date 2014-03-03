@@ -1,0 +1,64 @@
+---------------------------------------
+1.30 Beta 1     2014-03-03
+---------------------------------------
+
+- Converted to XOOPS 2.5.6 Admin GUI (Mamba)
+
+---------------------------------------
+1.22            2008-07-16
+---------------------------------------
+
+Changes made by Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+With some configurations of PHP, it was not possible to access the different parts of the module's administration.
+This version corrects the problem and you should now be able to access all the parts of the administration.
+
+
+----------------------
+Jul 25, 2006: Version 1.21
+- Fixed compatibility problem with XOOPS 2.0.14
+- Modified WF-Downloads plugin for padcasting (requires WF-Downloads version 3.1)
+
+----------------------
+Dec 23, 2005: Version 1.2 / 1.5
+- (Version 1.5) Fixed incompatibility with XOOPS 2.2.3a
+- New editable feed information: copyright
+- PHP-debug messages are now completely hidden when prefernece "MIME type of RSS output" is set as "XML", even php-debug is turned on under system admin
+- UTF-8 encoding conversion now requires PHP mbstring extension (Reference: http://www.php.net/manual/en/ref.mbstring.php)
+- Updated plugins
+- Plugins can now serve their own custom tags. (i.e. enclosure)
+- Sticky text will now be hidden if either its title or content field is empty
+- Contents of item-level's "description" elements are now sectioned using "CDATA" (Reference: http://blogs.law.harvard.edu/tech/encodingDescriptions)
+- Fixed "call by reference" errors appear on PHP 4.4 / 5.1
+- German, Bulgarian, French language pack added (Thanks DocuAnt, Stefan Ilivanov, Machenzy)
+
+----------------------
+Mar 23, 2005: Version 1.1
+Individual sub-feeds based on activated plug-ins
+Editable channel elements
+Sticky text displays as the very first item of a feed
+New and updated plug-ins
+Various bug fixes
+Development sponsored by Stefanos Karagos <http://www.karagos.com/> and IIS-Resources <http://www.iis-resources.com/>
+
+Notes for upgrading from version 1.0x: There is no upgrade patch since over 90 percent of the files are modified. You have to replace the entire directory contents with the new version. Don't forget to update the module after uploading new files. If you have the rss feed smarty template customized you should take a look at the file templates/rssfit_rss.html for corresponding changes.
+
+----------------------
+Dec 26, 2004: Version 1.03
+Fixed incompatibility with PHP 5
+Fixed rss template not validated by rss-validators
+Fixed a typo in the mylinks plug-in
+Dutch language pack added.
+Italian language pack added.
+Portuguese language pack added.
+
+----------------------
+Jun 6, 2004: Version 1.02
+French language pack added.
+
+----------------------
+MAY 9, 2004: Version 1.01
+Spanish language pack added.
+
+----------------------
+MAY 5, 2004: Version 1.0
+First public release.

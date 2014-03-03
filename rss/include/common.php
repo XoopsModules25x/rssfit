@@ -48,9 +48,7 @@ $version = number_format($xoopsModule->getVar('version')/100, 2);
 $version = !substr($version, -1, 1) ? substr($version, 0, 3) : $version;
 define('RSSFIT_VERSION', 'RSSFit '.$version);
 
-$rss =& new RssfeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
+$rss = new RssfeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
 $myts =& $rss->myts;
 $plugins_handler =& $rss->pHandler;
 $misc_handler =& $rss->mHandler;
-
-?>

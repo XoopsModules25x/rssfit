@@ -62,6 +62,3 @@ define('_AM_STICKY_APPLYTO', 'Appliquer aux flux');
 define("_AM_EDIT_INTRO_TEXT_DESC_SUB", '<br /><br />{SUB} affichera une liste des sous-flux disponibles');
 define("_AM_EDIT_INTRO_SUB", 'Tags HTML pour les sous-flux list&eacute;s');
 define("_AM_EDIT_INTRO_SUB_DESC", "Tags extra :<br />{URL} (URL des sous-flux)<br />{TITLE} (titre des sous-flux)<br />{DESC} (description des sous-flux)");
-
-
-?>

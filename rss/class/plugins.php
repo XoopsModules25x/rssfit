@@ -34,6 +34,10 @@
 ###############################################################################
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssPlugins
+ */
 class RssPlugins extends XoopsObject{
 	function RssPlugins(){
 		$this->XoopsObject();
@@ -54,6 +58,9 @@ class RssPlugins extends XoopsObject{
 	}
 }
 
+/**
+ * Class RssPluginsHandler
+ */
 class RssPluginsHandler extends XoopsObjectHandler {
 	var $db;
 	var $db_table;
@@ -62,11 +69,19 @@ class RssPluginsHandler extends XoopsObjectHandler {
 	var $sortby = 'rssf_order';
 	var $order = 'ASC';
 
-	function RssPluginsHandler(&$db){
+    /**
+     * @param $db
+     */
+    function RssPluginsHandler(&$db){
 		$this->db =& $db;
 		$this->db_table = $this->db->prefix('rssfit_plugins');
 	}
-	function &getInstance(&$db){
+
+    /**
+     * @param $db
+     *
+     * @return RssPluginsHandler
+     */function &getInstance(&$db){
 		static $instance;
 		if( !isset($instance) ){
 			$instance = new RssPluginsHandler($db);
@@ -79,7 +94,12 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		return $obj;
 	}
 
-	function &get($id, $fields='*'){
+    /**
+     * @param int    $id
+     * @param string $fields
+     *
+     * @return bool
+     */function &get($id, $fields='*'){
 		$ret = false;
 		$criteria = new Criteria($this->obj_key, intval($id));
 		if( $objs =& $this->getObjects($criteria) && count($objs) === 1 ){
@@ -88,7 +108,12 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		return $ret;
 	}
 
-	function insert(&$obj, $force=false){
+    /**
+     * @param object $obj
+     * @param bool   $force
+     *
+     * @return bool
+     */function insert(&$obj, $force=false){
 		if( strtolower(get_class($obj)) != strtolower($this->obj_class) ){
 			return false;
 		}
@@ -134,8 +159,13 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		}
 		return $obj->getVar($this->obj_key);
 	}
-	
-	function delete(&$obj, $force = false){
+
+    /**
+     * @param object $obj
+     * @param bool   $force
+     *
+     * @return bool
+     */function delete(&$obj, $force = false){
 		if( strtolower(get_class($obj)) != strtolower($this->obj_class) ){
 			return false;
 		}
@@ -151,7 +181,13 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		return true;
 	}
 
-	function &getObjects($criteria=null, $fields='*', $key=''){
+    /**
+     * @param null   $criteria
+     * @param string $fields
+     * @param string $key
+     *
+     * @return array|bool
+     */function &getObjects($criteria=null, $fields='*', $key=''){
 		$ret = false;
 		$limit = $start = 0;
 		switch($fields){
@@ -196,8 +232,14 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		}
 		return $ret;
 	}
-	
-	function modifyObjects($criteria=null, $fields=array(), $force=false){
+
+    /**
+     * @param null  $criteria
+     * @param array $fields
+     * @param bool  $force
+     *
+     * @return bool|string
+     */function modifyObjects($criteria=null, $fields=array(), $force=false){
 		if( is_array($fields) && count($fields) > 0 ){
 			$obj = new $this->obj_class();
 			$sql = '';
@@ -223,6 +265,11 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		return false;
 	}
 
+    /**
+     * @param null $criteria
+     *
+     * @return bool
+     */
     function getCount($criteria = null){
 		$sql = 'SELECT COUNT(*) FROM '.$this->db_table;
 		if( isset($criteria) && is_subclass_of($criteria, 'criteriaelement') ){
@@ -235,15 +282,23 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		list($count) = $this->db->fetchRow($result);
 		return $count;
 	}
-	
-	function forceDeactivate(&$obj, $type='rssf_activated'){
+
+    /**
+     * @param        $obj
+     * @param string $type
+     *
+     * @return bool
+     */function forceDeactivate(&$obj, $type='rssf_activated'){
 		$criteria = new Criteria($this->obj_key, $obj->getVar($this->obj_key));
 		$fields = array('rssf_activated' => 0,'subfeed' => 0);
 		$this->modifyObjects($criteria, $fields, true);
 		return true;
 	}
-	
-	function &getPluginFileList(){
+
+    /**
+     * @return array|bool
+     */
+    function &getPluginFileList(){
 		$ret = false;
 		if( $objs =& $this->getObjects(null, 'rssf_filename') ){
 			foreach( $objs as $o ){
@@ -252,8 +307,12 @@ class RssPluginsHandler extends XoopsObjectHandler {
 		}
 		return $ret;
 	}
-	
-	function &checkPlugin(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &checkPlugin(&$obj){
 		$ret = false;
 		global $module_handler;
 		$file = RSSFIT_ROOT_PATH.'plugins/'.$obj->getVar('rssf_filename');
@@ -288,4 +347,3 @@ class RssPluginsHandler extends XoopsObjectHandler {
 
 }
 
-?>

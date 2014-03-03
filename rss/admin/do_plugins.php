@@ -33,14 +33,16 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !defined("RSSFIT_OK") ){
-	header('Location: index.php');
-}
+include_once dirname(__FILE__) . '/admin_header.php';
+
+//if( !defined("RSSFIT_OK") ){
+//	header('Location: index.php');
+//}
 
 switch($op){
 default:
 	$ret = '';
-	rssfitAdminHeader();
+//	rssfitAdminHeader();
 	// activated plugins
 	$criteria = new Criteria('rssf_activated', 1);
 	if( $plugins =& $plugins_handler->getObjects($criteria, 'p_activated') ){
@@ -229,11 +231,12 @@ case 'save':
 		}
 	}
 	if( !empty($err) ){
-		rssfitAdminHeader();
+//		rssfitAdminHeader();
 		echo $err;
 	}else{
 		redirect_header(RSSFIT_ADMIN_URL.'?do='.$do, 0, _AM_DBUPDATED);
 	}
 break;
 }
-?>
+
+include_once 'admin_footer.php';

@@ -90,4 +90,3 @@ if( function_exists('mb_convert_encoding') && $xoopsModuleConfig['utf8'] ){
 	$xoopsTpl->display($template, $rss->cached);
 }
 
-?>

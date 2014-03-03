@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitMylinks
+ */
 class RssfitMylinks{
 	var $dirname = 'mylinks';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitMylinks(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitMylinks{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		global $xoopsDB;
 		$myts =& MyTextSanitizer::getInstance();
 		$ret = false;
@@ -76,4 +87,3 @@ class RssfitMylinks{
 		return $ret;
 	}
 }
-?>

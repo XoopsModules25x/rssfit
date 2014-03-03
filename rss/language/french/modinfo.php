@@ -42,6 +42,3 @@ define("_MI_OUTOUT_MIME","Type MIME de la sortie RSS");
 define("_MI_OUTOUT_MIME_XML","XML (text/xml)");
 define("_MI_OUTOUT_MIME_HTML","HTML (text/html)");
 define("_MI_OUTOUT_MIME_PHP","HTML avec php-debug");
-
-
-?>

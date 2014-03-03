@@ -39,16 +39,23 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitCbb
+ */
 class RssfitCbb{
 	var $dirname = 'newbb';
 	var $modname;
 	var $module;
 	var $grab;
-	
+
 	function RssfitCbb(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -57,8 +64,12 @@ class RssfitCbb{
 		$this->module =& $mod;
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return mixed
+     */function &grabEntries(&$obj){
 		@include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
   		global $xoopsDB;
   		$xoopsModule =& $this->module;
@@ -67,7 +78,7 @@ class RssfitCbb{
 		$forum_handler =& xoops_getmodulehandler('forum', 'newbb');
 		$topic_handler =& xoops_getmodulehandler('topic', 'newbb');
 		$newbbConfig =& $GLOBALS['config_handler']->getConfigsByCat(0, $this->module->getVar('mid'));
-	  
+
 		$access_forums = $forum_handler->getForums(0, 'access');
 		$available_forums = array();
 		foreach($access_forums as $forum){
@@ -76,7 +87,7 @@ class RssfitCbb{
 			}
 		}
 		unset($access_forums);
-	    
+
 	    if( count($available_forums) > 0 ){
 	    	ksort($available_forums);
 			$cond = ' AND t.forum_id IN ('.implode(',', array_keys($available_forums)).')';
@@ -100,4 +111,3 @@ class RssfitCbb{
 	}
 }
 
-?>

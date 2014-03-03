@@ -33,6 +33,12 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+/**
+ * @param $a
+ * @param $b
+ *
+ * @return int
+ */
 function sortTimestamp($a, $b){
 	if( $a['timestamp'] == $b['timestamp'] ){
 		return 0;
@@ -48,24 +54,40 @@ function rssfitAdminHeader(){
 	}else{
 		include RSSFIT_ROOT_PATH.'language/english/modinfo.php';
 	}
-	include 'menu.php';
-	for( $i=0; $i<count($adminmenu); $i++ ){
-		$links[$i] = array(0 => RSSFIT_URL.$adminmenu[$i]['link'], 1 => $adminmenu[$i]['title']);
-	}
-	$links[] = array(0 => XOOPS_URL.'/modules/system/admin.php?fct=preferences&op=showmod&mod='.$xoopsModule->getVar('mid'), 1 => _PREFERENCES);
-	$admin_links = '<table class="outer" width="100%" cellspacing="1"><tr>';
-	for( $i=0; $i<count($links); $i++ ){
-		$admin_links .= '<td class="even" style="width: 14%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
-	}
-	$admin_links .= "<td class='even' style='width: 14%; text-align: center;'><a href='about.php'>About</a></td></tr></table><br clear='all' />\n";
-	xoops_cp_header();
-	echo $admin_links;
+//	include 'menu.php';
+//	for( $i=0; $i<count($adminmenu); $i++ ){
+//		$links[$i] = array(0 => RSSFIT_URL.$adminmenu[$i]['link'], 1 => $adminmenu[$i]['title']);
+//	}
+//	$links[] = array(0 => XOOPS_URL.'/modules/system/admin.php?fct=preferences&op=showmod&mod='.$xoopsModule->getVar('mid'), 1 => _PREFERENCES);
+//	$admin_links = '<table class="outer" width="100%" cellspacing="1"><tr>';
+//	for( $i=0; $i<count($links); $i++ ){
+//		$admin_links .= '<td class="even" style="width: 14%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
+//	}
+//	$admin_links .= "<td class='even' style='width: 14%; text-align: center;'><a href='about.php'>About</a></td></tr></table><br clear='all' />\n";
+//	xoops_cp_header();
+//	echo $admin_links;
 }
 
+/**
+ * @param int $spec
+ * @param     $rss
+ *
+ * @return string
+ */
 function genSpecMoreInfo($spec=0, &$rss){
 	return rssfGenAnchor($rss->specUrl($spec), _AM_EDIT_CHANNEL_QMARK, 'spec', _AM_EDIT_CHANNEL_MOREINFO);
 }
 
+/**
+ * @param string $url
+ * @param string $text
+ * @param string $target
+ * @param string $title
+ * @param string $class
+ * @param string $id
+ *
+ * @return string
+ */
 function rssfGenAnchor($url='', $text='', $target="", $title='', $class='', $id=''){
 	if( !empty($url) ){
 		$ret = '';
@@ -80,4 +102,3 @@ function rssfGenAnchor($url='', $text='', $target="", $title='', $class='', $id=
 	return $text;
 }
 
-?>

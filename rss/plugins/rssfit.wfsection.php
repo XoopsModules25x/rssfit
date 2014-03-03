@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitWfsection
+ */
 class RssfitWfsection{
 	var $dirname = 'wfsection';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitWfsection(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -58,8 +65,12 @@ class RssfitWfsection{
 		}
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		@include_once XOOPS_ROOT_PATH.'/modules/wfsection/include/groupaccess.php';
 		global $xoopsDB;
 		$ret = false;
@@ -83,4 +94,3 @@ class RssfitWfsection{
 		return $ret;
 	}
 }
-?>

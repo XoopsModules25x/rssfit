@@ -39,15 +39,22 @@
 */
 
 if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+
+/**
+ * Class RssfitSmartsection
+ */
 class RssfitSmartsection{
 	var $dirname = 'smartsection';
 	var $modname;
 	var $grab;
-	
+
 	function RssfitSmartsection(){
 	}
-	
-	function loadModule(){
+
+    /**
+     * @return bool
+     */
+    function loadModule(){
 		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
@@ -55,8 +62,12 @@ class RssfitSmartsection{
 		$this->modname = $mod->getVar('name');
 		return $mod;
 	}
-	
-	function &grabEntries(&$obj){
+
+    /**
+     * @param $obj
+     *
+     * @return bool
+     */function &grabEntries(&$obj){
 		$ret = false;
 		include XOOPS_ROOT_PATH."/modules/smartsection/include/common.php";
 		$items = $smartsection_item_handler->getAllPublished($this->grab, 0);
@@ -73,4 +84,3 @@ class RssfitSmartsection{
 		return $ret;
 	}
 }
-?>
