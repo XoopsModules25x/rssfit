@@ -39,8 +39,8 @@ if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
  * Class RssPlugins
  */
 class RssPlugins extends XoopsObject{
-	function RssPlugins(){
-		$this->XoopsObject();
+	function __construct(){
+		parent::__construct();
 	//	key, data_type, value, req, max, opt
 		$this->initVar("rssf_conf_id", XOBJ_DTYPE_INT, NULL);
 		$this->initVar("rssf_filename", XOBJ_DTYPE_TXTBOX, '');

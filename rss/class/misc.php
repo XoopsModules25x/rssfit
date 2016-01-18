@@ -39,8 +39,8 @@ if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
  * Class RssMisc
  */
 class RssMisc extends XoopsObject{
-	function RssMisc(){
-		$this->XoopsObject();
+	function __construct(){
+		parent::__construct();
 	//	key, data_type, value, req, max, opt
 		$this->initVar('misc_id', XOBJ_DTYPE_INT, null, false);
 		$this->initVar('misc_category', XOBJ_DTYPE_TXTBOX, '', true, 15);
