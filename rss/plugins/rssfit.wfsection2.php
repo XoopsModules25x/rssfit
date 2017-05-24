@@ -74,7 +74,7 @@ class RssfitWfsection2{
 		$articles = WfsArticle::getAllArticle($this->grab, 0, 'online');
 		if( count($articles) > 0 ){
 			$xoopsModuleConfig['shortartlen'] = 0;
-			$myts =& MyTextSanitizer::getInstance();
+			$myts = MyTextSanitizer::getInstance();
 			for( $i=0; $i<count($articles); $i++ ){
 				$link = XOOPS_URL.'/modules/wfsection/article.php?articleid='.$articles[$i]->articleid();
 				$ret[$i]['title'] = $myts->undoHtmlSpecialChars($articles[$i]->title());

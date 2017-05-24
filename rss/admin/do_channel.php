@@ -42,7 +42,7 @@ if( !defined("RSSFIT_OK") ){
 switch($op){
 default:
 //	rssfitAdminHeader();
-	if( $elements =& $rss->mHandler->getObjects(new Criteria('misc_category', 'channel'), '*', 'title') && $img =& $rss->mHandler->getObjects(new Criteria('misc_category', 'channelimg'), '*', 'title') ){
+	if( $elements = $rss->mHandler->getObjects(new Criteria('misc_category', 'channel'), '*', 'title') && $img = $rss->mHandler->getObjects(new Criteria('misc_category', 'channelimg'), '*', 'title') ){
 		$form = new XoopsThemeForm(_AM_EDIT_CHANNEL, 'editchannel', RSSFIT_ADMIN_URL);
 		$form->addElement(new XoopsFormLabel('', '<b>'._AM_EDIT_CHANNEL_REQUIRED.'</b> '.genSpecMoreInfo('req', $rss)));
 		$form->addElement(new XoopsFormText('title', 'ele['.$elements['title']->getVar('misc_id').']', 50, 255, $elements['title']->getVar('misc_content', 'e')), true);

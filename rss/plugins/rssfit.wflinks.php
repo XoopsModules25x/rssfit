@@ -51,7 +51,7 @@ class RssfitWflinks{
 		$groups = is_object( $xoopsUser ) ? $xoopsUser -> getGroups() : XOOPS_GROUP_ANONYMOUS;
 		$gperm_handler = &xoops_gethandler( 'groupperm' );
 
-		$myts =& MyTextSanitizer::getInstance();
+		$myts = MyTextSanitizer::getInstance();
 		$ret = array();
 		$i = 0;
 		$sql = "SELECT lid, cid, title, date, description FROM ".$xoopsDB->prefix("wflinks_links")." WHERE status>0 ORDER BY date DESC";

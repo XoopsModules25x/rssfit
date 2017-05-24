@@ -40,7 +40,7 @@
  */
 function xoops_module_install_rss(&$xoopsMod){
 	global $xoopsDB, $xoopsConfig;
-	$myts =& MyTextSanitizer::getInstance();
+	$myts = MyTextSanitizer::getInstance();
 	rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
 	$intro_setting = array('dohtml'=>1, 'dobr'=>1, 'sub'=>stripslashes(_INSTALL_INTRO_SUB));
 	$sql[] = "INSERT INTO `".$xoopsDB->prefix('rssfit_misc')."` VALUES (1, ".$xoopsDB->quoteString('intro').", ".$xoopsDB->quoteString(stripslashes(_INTRO_TITLE)).", ".$xoopsDB->quoteString(stripslashes(_INTRO_CONTENT)).", ".$xoopsDB->quoteString(serialize($intro_setting)).")";

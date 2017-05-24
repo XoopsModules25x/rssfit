@@ -89,7 +89,7 @@ class RssfitSample{
      * @return bool
      */function &grabEntries(&$obj){
 		global $xoopsDB;
-		$myts =& MyTextSanitizer::getInstance();
+		$myts = MyTextSanitizer::getInstance();
 		$ret = false;
 		$i = 0;
 	//	The following example code grabs the latest entries from the module MyLinks

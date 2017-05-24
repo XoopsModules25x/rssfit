@@ -102,7 +102,7 @@ class RssPluginsHandler extends XoopsObjectHandler {
      */function &get($id, $fields='*'){
 		$ret = false;
 		$criteria = new Criteria($this->obj_key, intval($id));
-		if( $objs =& $this->getObjects($criteria) && count($objs) === 1 ){
+		if( $objs = $this->getObjects($criteria) && count($objs) === 1 ){
 			$ret =& $objs[0];
 		}
 		return $ret;
@@ -300,7 +300,7 @@ class RssPluginsHandler extends XoopsObjectHandler {
      */
     function &getPluginFileList(){
 		$ret = false;
-		if( $objs =& $this->getObjects(null, 'rssf_filename') ){
+		if( $objs = $this->getObjects(null, 'rssf_filename') ){
 			foreach( $objs as $o ){
 				$ret[] = $o->getVar('rssf_filename');
 			}

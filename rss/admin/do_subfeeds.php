@@ -43,7 +43,7 @@ switch($op){
 default:
 //	rssfitAdminHeader();
 	$ret = '';
-	if( $plugins =& $plugins_handler->getObjects(null, 'sublist') ){
+	if( $plugins = $plugins_handler->getObjects(null, 'sublist') ){
 		$ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
 			."<tr><th colspan='4'>"._AM_SUB_LIST."</th></tr>\n"
 			."<tr>\n<td class='head' align='center'>"._AM_SUB_FILENAME_URL."</td>\n"
@@ -93,7 +93,7 @@ default:
 break;
 case 'save':
 	extract($_POST);
-	if( $plugins =& $plugins_handler->getObjects(null, 'sublist') ){
+	if( $plugins = $plugins_handler->getObjects(null, 'sublist') ){
 		$plugins_handler->modifyObjects(null, array('subfeed' => 0));
 		if( isset($activate) && is_array($activate) && count($activate) > 0 ){
 			$keys = array_keys($activate);
