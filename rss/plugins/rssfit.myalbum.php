@@ -69,7 +69,7 @@ class RssfitMyalbum{
      * @return bool
      */function &grabEntries(&$obj){
 		global $xoopsDB;
-		$myts =& MyTextSanitizer::getInstance();
+		$myts = MyTextSanitizer::getInstance();
 		$ret = false;
 		$i = 0;
 		$sql = "SELECT p.lid, p.cid, p.title as ptitle, p.ext, p.hits, p.submitter, p.date, t.description, c.title as ctitle FROM ".$xoopsDB->prefix("myalbum_photos")." p, ".$xoopsDB->prefix("myalbum_text")." t, ".$xoopsDB->prefix("myalbum_cat")." c WHERE t.lid=p.lid AND p.cid=c.cid AND p.status>0 ORDER BY p.date DESC";

@@ -40,7 +40,7 @@ if( !defined("RSSFIT_OK") ){
 	header('Location: main.php');
 }
 
-if( $intr =& $misc_handler->getObjects(new Criteria('misc_category', 'intro')) ){
+if( $intr = $misc_handler->getObjects(new Criteria('misc_category', 'intro')) ){
 	$intro =& $intr[0];
 	unset($intr);
 }else{

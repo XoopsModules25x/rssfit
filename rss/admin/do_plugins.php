@@ -45,7 +45,7 @@ default:
 //	rssfitAdminHeader();
 	// activated plugins
 	$criteria = new Criteria('rssf_activated', 1);
-	if( $plugins =& $plugins_handler->getObjects($criteria, 'p_activated') ){
+	if( $plugins = $plugins_handler->getObjects($criteria, 'p_activated') ){
 		$ret .= "<table cellspacing='1' class='outer' width='100%'>\n"
 			."<tr><th colspan='5'>"._AM_PLUGIN_ACTIVATED."</th></tr>\n"
 			."<tr>\n<td class='head' align='center' width='30%'>"._AM_PLUGIN_FILENAME."</td>\n"
@@ -84,7 +84,7 @@ default:
 	}
 
 	// inactive plugins
-	if( $plugins =& $plugins_handler->getObjects(new Criteria('rssf_activated', 0), 'p_inactive') ){
+	if( $plugins = $plugins_handler->getObjects(new Criteria('rssf_activated', 0), 'p_inactive') ){
 		$ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
 			."<tr><th colspan='3'>"._AM_PLUGIN_INACTIVE."</th></tr>\n"
 			."<tr>\n<td class='head' align='center' width='30%'>"._AM_PLUGIN_FILENAME."</td>\n"

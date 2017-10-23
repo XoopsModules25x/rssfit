@@ -40,7 +40,7 @@ include_once dirname(__FILE__) . '/admin_header.php';
 //	header('Location: index.php');
 //}
 
-if( $intr =& $misc_handler->getObjects(new Criteria('misc_category', 'sticky')) ){
+if( $intr = $misc_handler->getObjects(new Criteria('misc_category', 'sticky')) ){
 	$sticky =& $intr[0];
 	unset($intr);
 }else{

@@ -69,7 +69,7 @@ class RssfitpiCal{
      * @return bool
      */function &grabEntries(&$obj){
 		global $xoopsDB;
-		$myts =& MyTextSanitizer::getInstance();
+		$myts = MyTextSanitizer::getInstance();
 		$ret = false;
 		$i = 0;
 		$sql = "SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ".$xoopsDB->prefix("pical_event")." WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC";
