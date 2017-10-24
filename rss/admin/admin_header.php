@@ -42,15 +42,3 @@ require_once dirname(dirname(__FILE__)) . '/include/common.php';
 global $xoopsModule;
 
 $thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
-
-//if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-//    include_once(XOOPS_ROOT_PATH."/class/template.php");
-//    $xoopsTpl = new XoopsTpl();
-//}
-
-
-
-// Load language files
-xoops_loadLanguage('admin', $thisModuleDir);
-xoops_loadLanguage('modinfo', $thisModuleDir);
-xoops_loadLanguage('main', $thisModuleDir);
