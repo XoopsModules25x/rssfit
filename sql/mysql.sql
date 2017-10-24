@@ -5,7 +5,7 @@ CREATE TABLE `rssfit_misc` (
   `misc_content` text NOT NULL,
   `misc_setting` text NOT NULL,
   PRIMARY KEY  (`misc_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 CREATE TABLE `rssfit_plugins` (
   `rssf_conf_id` int(5) unsigned NOT NULL auto_increment,
@@ -22,4 +22,4 @@ CREATE TABLE `rssfit_plugins` (
   `img_link` varchar(255) NOT NULL default '',
   `img_title` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`rssf_conf_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
