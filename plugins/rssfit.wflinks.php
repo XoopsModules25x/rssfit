@@ -58,7 +58,7 @@ class RssfitWflinks
                 $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?cid='.$row['cid'].'&lid='.$row['lid'];
                 $ret[$i]['timestamp'] = $row['date'];
                 $ret[$i]['description'] = $row['description'];
-            //	optional
+                //	optional
                 $ret[$i]['category'] = $this->modname;
                 $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
                 $i++;

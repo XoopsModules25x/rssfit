@@ -40,7 +40,7 @@ class RssPlugins extends XoopsObject
     public function __construct()
     {
         parent::__construct();
-    //	key, data_type, value, req, max, opt
+        //	key, data_type, value, req, max, opt
         $this->initVar("rssf_conf_id", XOBJ_DTYPE_INT, null);
         $this->initVar("rssf_filename", XOBJ_DTYPE_TXTBOX, '');
         $this->initVar("rssf_activated", XOBJ_DTYPE_INT, 0);

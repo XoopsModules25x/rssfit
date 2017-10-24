@@ -74,25 +74,25 @@ class Rssfitlexikon extends XoopsObject
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             //	required
-                $ret[$i]['title'] = $row['term'];
+            $ret[$i]['title'] = $row['term'];
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/entry.php?entryID='.$row['entryID'];
-                //$ret[$i]['link'] = $ret[$i]['guid'] = $link;
-                $ret[$i]['link'] =  $link;
+            //$ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['link'] =  $link;
             $ret[$i]['timestamp'] = $row['datesub'];
             $ret[$i]['description'] = $myts->displayTarea($row['definition']);
-        //	optional
-                //5. The item synopsis, or description, whatever
-                //$ret[$i]['guid'] = $link;
-                //	6. A string + domain that identifies a categorization taxonomy
-                $ret[$i]['category'] = $this->modname;
+            //	optional
+            //5. The item synopsis, or description, whatever
+            //$ret[$i]['guid'] = $link;
+            //	6. A string + domain that identifies a categorization taxonomy
+            $ret[$i]['category'] = $this->modname;
             $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-                /*$ret[$i]['extras'] = array();
-                //	7a. without attribute
-                $ret[$i]['extras']['author'] = array('content' => 'aabbc@c.com');
-                //	7b. with attributes
-                $ret[$i]['extras']['enclosure']['attributes'] = array('url' => 'url-to-any-file', 'length' => 1024000, 'type' => 'audio/mpeg');
-                */
-                $i++;
+            /*$ret[$i]['extras'] = array();
+            //	7a. without attribute
+            $ret[$i]['extras']['author'] = array('content' => 'aabbc@c.com');
+            //	7b. with attributes
+            $ret[$i]['extras']['enclosure']['attributes'] = array('url' => 'url-to-any-file', 'length' => 1024000, 'type' => 'audio/mpeg');
+            */
+            $i++;
         }
         return $ret;
     }

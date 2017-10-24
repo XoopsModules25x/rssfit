@@ -72,7 +72,7 @@ class RssfitSample
         }
         $this->modname = $mod->getVar('name');
         $this->module = $mod;    // optional, remove this line if there is nothing
-                                // to do with module info when grabbing entries
+        // to do with module info when grabbing entries
         return $mod;
     }
 
@@ -82,35 +82,35 @@ class RssfitSample
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-    //	The following example code grabs the latest entries from the module MyLinks
+        //	The following example code grabs the latest entries from the module MyLinks
         $sql = "SELECT l.lid, l.cid, l.title, l.date, t.description FROM ".$xoopsDB->prefix("mylinks_links")." l, ".$xoopsDB->prefix("mylinks_text")." t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC";
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
-        /*
-        * Required elements of an RSS item
-        */
-        //	1. Title of an item
+            /*
+            * Required elements of an RSS item
+            */
+            //	1. Title of an item
             $ret[$i]['title'] = $row['title'];
-        //	2. URL of an item
+            //	2. URL of an item
             $ret[$i]['link'] = $link;
-        //	3. Item modification date, must be in Unix time format
+            //	3. Item modification date, must be in Unix time format
             $ret[$i]['timestamp'] = $row['date'];
-        //	4. The item synopsis, or description, whatever
+            //	4. The item synopsis, or description, whatever
             $ret[$i]['description'] = $myts->displayTarea($row['description']);
-        /*
-        * Optional elements of an RSS item
-        */
-        //	5. The item synopsis, or description, whatever
+            /*
+            * Optional elements of an RSS item
+            */
+            //	5. The item synopsis, or description, whatever
             $ret[$i]['guid'] = $link;
-        //	6. A string + domain that identifies a categorization taxonomy
+            //	6. A string + domain that identifies a categorization taxonomy
             $ret[$i]['category'] = $this->modname;
             $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-        //	7. extra tags examples
+            //	7. extra tags examples
             $ret[$i]['extras'] = array();
-        //	7a. without attribute
+            //	7a. without attribute
             $ret[$i]['extras']['author'] = array('content' => 'aabbc@c.com');
-        //	7b. with attributes
+            //	7b. with attributes
             $ret[$i]['extras']['enclosure']['attributes'] = array('url' => 'url-to-any-file', 'length' => 1024000, 'type' => 'audio/mpeg');
             $i++;
         }

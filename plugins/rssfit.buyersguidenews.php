@@ -39,42 +39,47 @@
  *  XOOPS version: 2.0.18.1
  */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
 
 /**
  * Class RssfitBuyersguidenews
  */
-class RssfitBuyersguidenews{
-	var $dirname = 'buyersguide';
-	var $modname;
-	var $grab;
+class RssfitBuyersguidenews
+{
+    public $dirname = 'buyersguide';
+    public $modname;
+    public $grab;
 
-    function loadModule(){
-		$mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		return $mod;
-	}
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        return $mod;
+    }
 
-    function &grabEntries(&$obj){
-		$ret = false;
-		include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
-		$items = $hBgNews->getRecentNews(0, $this->grab);
-		$i = 0;
+    public function &grabEntries(&$obj)
+    {
+        $ret = false;
+        include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
+        $items = $hBgNews->getRecentNews(0, $this->grab);
+        $i = 0;
 
-		if( false != $items && count($items) > 0 ){
-			foreach($items as $item) {
-				$ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
-				$ret[$i]['title'] = $item->getVar('news_title', 'n');
-				$ret[$i]['timestamp'] = $item->getVar('news_date');
-				$ret[$i]['description'] = $item->getShortenText();
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-				$i++;
-			}
-		}
-		return $ret;
-	}
+        if (false != $items && count($items) > 0) {
+            foreach ($items as $item) {
+                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title'] = $item->getVar('news_title', 'n');
+                $ret[$i]['timestamp'] = $item->getVar('news_date');
+                $ret[$i]['description'] = $item->getShortenText();
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $i++;
+            }
+        }
+        return $ret;
+    }
 }

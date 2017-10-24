@@ -72,7 +72,7 @@ class RssfitMyalbum
         }
         $this->modname = $mod->getVar('name');
         $this->module = $mod;    // optional, remove this line if there is nothing
-                                // to do with module info when grabbing entries
+        // to do with module info when grabbing entries
         return $mod;
     }
 
@@ -105,7 +105,7 @@ class RssfitMyalbum
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-    // For myalbum-p with thumbs enabled
+        // For myalbum-p with thumbs enabled
 
         $sql  = "SELECT p.lid, p.title, p.ext, p.date, t.description, c.cid, c.title as cat, p.submitter";
         $sql .= " FROM ".$xoopsDB->prefix("myalbum_photos")." p, ";
@@ -121,26 +121,26 @@ class RssfitMyalbum
             $title = $myts->displayTarea($row['title']);
             $cat = $myts->displayTarea($row['cat']);
             $catlink = XOOPS_URL.'/modules/'.$this->dirname.'/viewcat.php?cid='.$row['cid'];
-        /*
-        * Required elements of an RSS item
-        */
-        //	1. Title of an item
+            /*
+            * Required elements of an RSS item
+            */
+            //	1. Title of an item
             $ret[$i]['title'] = ($this->modname).': '.$title;
-        //	2. URL of an item
+            //	2. URL of an item
             $ret[$i]['link'] = $link;
-        //	3. Item modification date, must be in Unix time format
+            //	3. Item modification date, must be in Unix time format
             $ret[$i]['timestamp'] = $row['date'];
-        //	4. The item synopsis, or description, whatever
+            //	4. The item synopsis, or description, whatever
             $desc = '<p><a href="'.$link.'"><img src="'.$thumb.'" align="left" alt="'.$title.'" border="0" /></a> ';
             $desc .= 'By '.$name.' in <a href="'.$catlink.'">'.$cat.'</a><br />';
             $desc .= $myts->displayTarea($row['description']).'</p><br clear="all"/>';
             $ret[$i]['description'] = $desc;
-        /*
-        * Optional elements of an RSS item
-        */
-        //	5. The item synopsis, or description, whatever
+            /*
+            * Optional elements of an RSS item
+            */
+            //	5. The item synopsis, or description, whatever
             $ret[$i]['guid'] = $link;
-        //	6. A string + domain that identifies a categorization taxonomy
+            //	6. A string + domain that identifies a categorization taxonomy
             $ret[$i]['category'] = $cat;
             $ret[$i]['domain'] = $catlink;
 

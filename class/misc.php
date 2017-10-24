@@ -40,7 +40,7 @@ class RssMisc extends XoopsObject
     public function __construct()
     {
         parent::__construct();
-    //	key, data_type, value, req, max, opt
+        //	key, data_type, value, req, max, opt
         $this->initVar('misc_id', XOBJ_DTYPE_INT, null, false);
         $this->initVar('misc_category', XOBJ_DTYPE_TXTBOX, '', true, 15);
         $this->initVar('misc_title', XOBJ_DTYPE_TXTBOX, '', false, 255);

@@ -72,7 +72,7 @@ class RssfitExtcal
         }
         $this->modname = $mod->getVar('name');
         $this->module = $mod;    // optional, remove this line if there is nothing
-                                // to do with module info when grabbing entries
+        // to do with module info when grabbing entries
         return $mod;
     }
 
@@ -123,7 +123,7 @@ class RssfitExtcal
                 $ret[$i]['link'] = $link;
                 $ret[$i]['description'] = $desc;
                 $ret[$i]['timestamp'] = $event->getVar('event_submitdate');
-//				$ret[$i]['timestamp'] = time();
+                //				$ret[$i]['timestamp'] = time();
                 $ret[$i]['guid'] = $link;
                 $ret[$i]['category'] = $category;
             }
