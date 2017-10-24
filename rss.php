@@ -38,9 +38,9 @@ require 'header.php';
 $charset = $xoopsModuleConfig['utf8'] ? 'UTF-8' : _CHARSET;
 $docache = $xoopsModuleConfig['cache'] ? true : false;
 $template = 'db:rssfit_rss.tpl';
-if ($xoopsModuleConfig['mime'] == 3) {
+if (3 == $xoopsModuleConfig['mime']) {
     $xoopsLogger->enableRendering();
-    $xoopsLogger->usePopup = ($xoopsConfig['debug_mode'] == 2);
+    $xoopsLogger->usePopup = (2 == $xoopsConfig['debug_mode']);
     $docache = false;
 } else {
     error_reporting(0);

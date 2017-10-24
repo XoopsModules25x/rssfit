@@ -107,13 +107,13 @@ class RssfitExtcal
                 $address=$event->getVar('event_address');
 
                 $desc_link=$event->getVar('event_url');
-                if ($desc_link=='') {
+                if ('' == $desc_link) {
                     $desc_link=$link;
                 }
                 $desc  = "<a href=\"$desc_link\"><b>$title</b></a><br />";
                 $desc .= '<table>';
                 $desc .= "<tr><td valign='top'>When:</td><td>$event_start</td></tr>";
-                if ($address!='') {
+                if ('' != $address) {
                     $desc .= "<tr><td valign='top'>Where:</td><td>$address</td></tr>";
                 }
                 $desc .= "<tr><td valign='top'>What:</td><td>$description</td></tr>";

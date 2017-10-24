@@ -92,7 +92,7 @@ class RssMiscHandler extends XoopsObjectHandler
     {
         $criteria = new Criteria($this->obj_key, (int)$id);
         if ($objs =& $this->getObjects($criteria)) {
-            return count($objs) != 1 ? false : $objs[0];
+            return 1 != count($objs) ? false : $objs[0];
         }
         return false;
     }
@@ -117,7 +117,7 @@ class RssMiscHandler extends XoopsObjectHandler
         $sql = 'SELECT '.$fields.' FROM '.$this->db_table;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' '.$criteria->renderWhere();
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY '.$criteria->getSort().' '.$criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -162,7 +162,7 @@ class RssMiscHandler extends XoopsObjectHandler
             return false;
         }
         foreach ($obj->cleanVars as $k => $v) {
-            if ($obj->vars[$k]['data_type'] == XOBJ_DTYPE_INT) {
+            if (XOBJ_DTYPE_INT == $obj->vars[$k]['data_type']) {
                 $cleanvars[$k] = (int)$v;
             } else {
                 $cleanvars[$k] = $this->db->quoteString($v);
@@ -205,7 +205,7 @@ class RssMiscHandler extends XoopsObjectHandler
             $sql = '';
             foreach ($fields as $k => $v) {
                 $sql .= $k.' = ';
-                $sql .= $obj->vars[$k]['data_type'] == 3 ? (int)$v : $this->db->quoteString($v);
+                $sql .= 3 == $obj->vars[$k]['data_type'] ? (int)$v : $this->db->quoteString($v);
                 $sql .= ', ';
             }
             $sql = substr($sql, 0, -2);

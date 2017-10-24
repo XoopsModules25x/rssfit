@@ -76,7 +76,7 @@ class RssfitSurnames
             $thisUser = $member_handler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'));
-        if ($name=='') {
+        if ('' == $name) {
             $name = htmlspecialchars($thisUser->getVar('uname'));
         }
         $lastUid=$uid;

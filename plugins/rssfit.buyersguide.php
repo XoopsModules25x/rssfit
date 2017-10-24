@@ -74,7 +74,7 @@ class RssfitBuyersguide
                 $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
                 $ret[$i]['title'] = $item->getVar('prod_title', 'n');
                 $ret[$i]['timestamp'] = $item->getVar('prod_submited_date');
-                if (xoops_trim($item->getVar('prod_summary')) != '') {
+                if ('' != xoops_trim($item->getVar('prod_summary'))) {
                     $description = $item->getVar('prod_summary');
                 } else {
                     $description = $item->getVar('prod_description');

@@ -64,7 +64,7 @@ class RssfitNewbb2
         static $lastUid=false;
         static $lastName='';
 
-        if ($uid==0) {
+        if (0 == $uid) {
             return 'A guest';
         }
 
@@ -77,7 +77,7 @@ class RssfitNewbb2
             $thisUser = $member_handler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'));
-        if ($name=='') {
+        if ('' == $name) {
             $name = htmlspecialchars($thisUser->getVar('uname'));
         }
         $lastUid=$uid;

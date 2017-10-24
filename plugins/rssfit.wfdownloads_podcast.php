@@ -71,7 +71,7 @@ class Rssfitwfdownloads_podcast extends XoopsObject
                . time() . ' ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            if ((isset($perms[$row['cid']]) && $perms[$row['cid']] == true) || $perm_handler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+            if ((isset($perms[$row['cid']]) && true == $perms[$row['cid']]) || $perm_handler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                 $perms[$row['cid']] = true;
                 $ret[$i]['title'] = $row['title'];
                 $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];

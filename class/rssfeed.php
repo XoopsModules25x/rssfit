@@ -92,7 +92,7 @@ class RssfeedHandler
         $channel = [];
         if ($elements =& $this->mHandler->getObjects(new Criteria('misc_category', 'channel'))) {
             foreach ($elements as $e) {
-                if ($e->getVar('misc_content') != '') {
+                if ('' != $e->getVar('misc_content')) {
                     $channel[$e->getVar('misc_title')] = $e->getVar('misc_content', 'n');
                 }
             }
@@ -145,7 +145,7 @@ class RssfeedHandler
         $sticky =& $intr[0];
         unset($intr);
         $setting = $sticky->getVar('misc_setting');
-        if (in_array(0, $setting['feeds']) || $sticky->getVar('misc_title') == '' || $sticky->getVar('misc_content') == '') {
+        if (in_array(0, $setting['feeds']) || '' == $sticky->getVar('misc_title') || '' == $sticky->getVar('misc_content')) {
             return false;
         }
         if ((in_array(-1, $setting['feeds']) && empty($feed['plugin'])) ||
@@ -203,7 +203,7 @@ class RssfeedHandler
                 }
                 $entries[$i]['pubdate'] = $this->rssTimeStamp($entries[$i]['timestamp']);
             }
-            if (empty($feed['plugin']) && $this->modConfig['sort'] == 'd') {
+            if (empty($feed['plugin']) && 'd' == $this->modConfig['sort']) {
                 uasort($entries, 'sortTimestamp');
             }
             if (count($entries) > $this->modConfig['overall_entries'] && empty($feed['plugin'])) {
