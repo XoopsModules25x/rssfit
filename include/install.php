@@ -42,7 +42,7 @@ function xoops_module_install_rss(XoopsModule $xoopsMod)
     global $xoopsDB, $xoopsConfig;
     $myts = MyTextSanitizer::getInstance();
     rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
-    $intro_setting = array('dohtml'=>1, 'dobr'=>1, 'sub'=>stripslashes(_INSTALL_INTRO_SUB));
+    $intro_setting = ['dohtml' =>1, 'dobr' =>1, 'sub' =>stripslashes(_INSTALL_INTRO_SUB)];
     $sql[] = 'INSERT INTO `'
              . $xoopsDB->prefix('rssfit_misc') . '` VALUES (1, '
              . $xoopsDB->quoteString('intro') . ', '
@@ -52,7 +52,7 @@ function xoops_module_install_rss(XoopsModule $xoopsMod)
     $sql[] = rssfInsertChannel($xoopsMod);
     $sql[] = 'INSERT INTO '
              . $xoopsDB->prefix('rssfit_misc') . ' VALUES '
-             . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(array('dohtml' =>0, 'dobr' =>0, 'feeds' =>array(0 =>'0'), 'link' =>XOOPS_URL))) . ')';
+             . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' =>0, 'dobr' =>0, 'feeds' => [0 =>'0'], 'link' =>XOOPS_URL])) . ')';
     foreach ($sql as $s) {
         if (false == $xoopsDB->query($s)) {
             echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';
@@ -76,7 +76,7 @@ function xoops_module_update_rss(XoopsModule $xoopsMod, $oldversion)
     if (!$rows) {
         $sql[] = 'ALTER TABLE `'.$xoopsDB->prefix('rssfit_misc').'` ADD `misc_setting` TEXT NOT NULL;';
         $sql[] = 'ALTER TABLE `'.$xoopsDB->prefix('rssfit_misc').'` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
-        $intro_setting = array('dohtml'=>1, 'dobr'=>1, 'sub'=>_INSTALL_INTRO_SUB);
+        $intro_setting = ['dohtml' =>1, 'dobr' =>1, 'sub' =>_INSTALL_INTRO_SUB];
         $sql[] = 'UPDATE `'
                  . $xoopsDB->prefix('rssfit_misc') . '` SET misc_setting = '
                  . $xoopsDB->quoteString(serialize($intro_setting)) . " WHERE misc_category = 'intro'";
@@ -86,7 +86,7 @@ function xoops_module_update_rss(XoopsModule $xoopsMod, $oldversion)
         $sql[] = rssfInsertChannel($xoopsMod);
         $sql[] = 'INSERT INTO '
                  . $xoopsDB->prefix('rssfit_misc') . ' VALUES '
-                 . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(array('dohtml' =>0, 'dobr' =>0, 'feeds' =>array(0 =>'0'), 'link' =>XOOPS_URL))) . ')';
+                 . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' =>0, 'dobr' =>0, 'feeds' => [0 =>'0'], 'link' =>XOOPS_URL])) . ')';
         foreach ($sql as $s) {
             if (false == $xoopsDB->query($s)) {
                 echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';

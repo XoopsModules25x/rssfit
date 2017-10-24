@@ -75,10 +75,11 @@ switch ($op) {
         $intro->setVar('misc_category', 'intro');
         $intro->setVar('misc_title', trim($_POST['title']));
         $intro->setVar('misc_content', $_POST['content']);
-        $setting = array('dohtml' => isset($_POST['dohtml']) ? 1 : 0,
-            'dobr' => isset($_POST['dobr']) ? 1 : 0,
-            'sub' => isset($_POST['sub']) ? trim($_POST['sub']) : ''
-        );
+        $setting = [
+            'dohtml' => isset($_POST['dohtml']) ? 1 : 0,
+            'dobr'   => isset($_POST['dobr']) ? 1 : 0,
+            'sub'    => isset($_POST['sub']) ? trim($_POST['sub']) : ''
+        ];
         $intro->setVar('misc_setting', $setting);
         if (false == $misc_handler->insert($intro)) {
             echo $intro->getHtmlErrors();

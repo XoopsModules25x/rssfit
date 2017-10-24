@@ -119,10 +119,10 @@ switch ($op) {
 
         // Non-installed plugins
         if (!$filelist =& $plugins_handler->getPluginFileList()) {
-            $filelist = array();
+            $filelist = [];
         }
         $list = XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
-        $installable = array();
+        $installable = [];
         foreach ($list as $f) {
             if (preg_match('/rssfit\.+[a-zA-Z0-9_]+\.php/', $f) && !in_array($f, $filelist)) {
                 $installable[] = $f;
@@ -174,8 +174,8 @@ switch ($op) {
         }
         break;
     case 'save':
-        $rssf_grab = Request::getArray('rssf_grab', array(), 'POST');
-        $rssf_order = Request::getArray('rssf_order', array(), 'POST');
+        $rssf_grab = Request::getArray('rssf_grab', [], 'POST');
+        $rssf_order = Request::getArray('rssf_order', [], 'POST');
         $action = Request::getArray('action', null, 'POST');
         $err = '';
         if (isset($action)) {

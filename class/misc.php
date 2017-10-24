@@ -198,7 +198,7 @@ class RssMiscHandler extends XoopsObjectHandler
         return $obj->getVar($this->obj_key);
     }
 
-    public function modifyObjects($criteria=null, $fields=array(), $force=false)
+    public function modifyObjects($criteria=null, $fields= [], $force=false)
     {
         if (is_array($fields) && count($fields) > 0) {
             $obj = new $this->obj_class();

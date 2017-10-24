@@ -66,7 +66,7 @@ class RssfitComments
         $criteria->setSort('com_created');
         $criteria->setOrder('DESC');
         $comments = $comment_handler->getObjects($criteria, true);
-        $comment_config = array();
+        $comment_config = [];
         if (count($comments) > 0) {
             $modules = $GLOBALS['module_handler']->getObjects(new Criteria('hascomments', 1), true);
             foreach (array_keys($comments) as $i) {

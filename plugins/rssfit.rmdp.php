@@ -66,7 +66,7 @@ class Rssfitrmdp extends XoopsObject
     public function grabEntries(&$obj)
     {
         global $xoopsDB, $moduleperm_handler;
-        $ret = array();
+        $ret = [];
         $i = 0;
         $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);

@@ -79,15 +79,16 @@ switch ($op) {
         $sticky->setVar('misc_title', trim($_POST['title']));
         $sticky->setVar('misc_content', $_POST['content']);
         if (!isset($_POST['feeds']) || count($_POST['feeds']) < 1 || in_array(0, $_POST['feeds'])) {
-            $feeds = array('0' => 0);
+            $feeds = ['0' => 0];
         } else {
             $feeds = $_POST['feeds'];
         }
-        $setting = array('dohtml' => isset($_POST['dohtml']) ? 1 : 0,
-            'dobr' => isset($_POST['dobr']) ? 1 : 0,
-            'feeds' => $feeds,
-            'link' => isset($_POST['link']) ? trim($_POST['link']) : ''
-        );
+        $setting = [
+            'dohtml' => isset($_POST['dohtml']) ? 1 : 0,
+            'dobr'   => isset($_POST['dobr']) ? 1 : 0,
+            'feeds'  => $feeds,
+            'link'   => isset($_POST['link']) ? trim($_POST['link']) : ''
+        ];
         $sticky->setVar('misc_setting', $setting, true);
         if (false == $misc_handler->insert($sticky)) {
             echo $sticky->getHtmlErrors();

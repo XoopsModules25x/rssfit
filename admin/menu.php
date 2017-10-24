@@ -24,7 +24,7 @@ if (class_exists('Xmf\Module\Admin', true)) {
     $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 }
 
-$adminmenu              = array();
+$adminmenu              = [];
 $i                      =0;
 $adminmenu[$i]['title'] = _MI_RSSFIT_INDEX;
 $adminmenu[$i]['link']  = 'admin/index.php';

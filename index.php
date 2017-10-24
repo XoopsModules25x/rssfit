@@ -56,6 +56,6 @@ if ($intr = $misc_handler->getObjects(new Criteria('misc_category', 'intro'))) {
     } else {
         $content = str_replace('{SUB}', '', $content);
     }
-    $xoopsTpl->assign('intro', array('title' => $title, 'content' => $content));
+    $xoopsTpl->assign('intro', ['title' => $title, 'content' => $content]);
 }
 require XOOPS_ROOT_PATH.'/footer.php';

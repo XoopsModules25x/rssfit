@@ -56,7 +56,7 @@ if (!$docache) {
     $xoopsTpl->xoops_setCacheTime($xoopsModuleConfig['cache']*60);
 }
 
-$feed = array();
+$feed = [];
 $feed['plugin'] = isset($_GET[$rss->feedkey]) ? trim($_GET[$rss->feedkey]) : '';
 $rss->checkSubFeed($feed);
 if (!$xoopsTpl->is_cached($template, $rss->cached) || !$docache) {

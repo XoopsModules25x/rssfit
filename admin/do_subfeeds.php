@@ -91,11 +91,11 @@ switch ($op) {
         $activate = Request::getArray('activate', null, 'POST');
 
         if ($plugins = $plugins_handler->getObjects(null, 'sublist')) {
-            $plugins_handler->modifyObjects(null, array('subfeed' => 0));
+            $plugins_handler->modifyObjects(null, ['subfeed' => 0]);
             if (isset($activate) && is_array($activate) && count($activate) > 0) {
                 $keys = array_keys($activate);
                 $criteria = new Criteria('rssf_conf_id', '(' . implode(',', $keys) . ')', 'IN');
-                $plugins_handler->modifyObjects($criteria, array('subfeed' => 1));
+                $plugins_handler->modifyObjects($criteria, ['subfeed' => 1]);
             }
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
         } else {

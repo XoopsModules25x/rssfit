@@ -76,7 +76,7 @@ class RssfitAdslight
             $ret[$i]['link'] = $link;
             $ret[$i]['timestamp'] = $row['date'];
             $ret[$i]['description'] = $row['desctext'];  // $myts->displayTarea($row['desctext']);
-            $ret[$i]['extras'] = array();
+            $ret[$i]['extras'] = [];
             $i++;
         }
         return $ret;

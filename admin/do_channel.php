@@ -73,10 +73,10 @@ switch ($op) {
     case 'save':
         $ele = Request::getArray('ele', null, 'POST');
         $ids = array_keys($ele);
-        $errors = array();
+        $errors = [];
         foreach ($ids as $i) {
             $criteria = new Criteria('misc_id', $i);
-            $fields = array('misc_content' => trim($ele[$i]));
+            $fields = ['misc_content' => trim($ele[$i])];
             if ($err = $rss->mHandler->modifyObjects($criteria, $fields)) {
                 $errors[] = $err;
             }

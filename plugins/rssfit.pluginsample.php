@@ -109,11 +109,11 @@ class RssfitSample
             $ret[$i]['category'] = $this->modname;
             $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
             //	7. extra tags examples
-            $ret[$i]['extras'] = array();
+            $ret[$i]['extras'] = [];
             //	7a. without attribute
-            $ret[$i]['extras']['author'] = array('content' => 'aabbc@c.com');
+            $ret[$i]['extras']['author'] = ['content' => 'aabbc@c.com'];
             //	7b. with attributes
-            $ret[$i]['extras']['enclosure']['attributes'] = array('url' => 'url-to-any-file', 'length' => 1024000, 'type' => 'audio/mpeg');
+            $ret[$i]['extras']['enclosure']['attributes'] = ['url' => 'url-to-any-file', 'length' => 1024000, 'type' => 'audio/mpeg'];
             $i++;
         }
         return $ret;

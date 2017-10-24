@@ -210,7 +210,7 @@ class RssPluginsHandler extends XoopsObjectHandler
         return $ret;
     }
 
-    public function modifyObjects($criteria=null, $fields=array(), $force=false)
+    public function modifyObjects($criteria=null, $fields= [], $force=false)
     {
         if (is_array($fields) && count($fields) > 0) {
             $obj = new $this->obj_class();
@@ -254,7 +254,7 @@ class RssPluginsHandler extends XoopsObjectHandler
     public function forceDeactivate(&$obj, $type='rssf_activated')
     {
         $criteria = new Criteria($this->obj_key, $obj->getVar($this->obj_key));
-        $fields = array('rssf_activated' => 0,'subfeed' => 0);
+        $fields = ['rssf_activated' => 0, 'subfeed' => 0];
         $this->modifyObjects($criteria, $fields, true);
         return true;
     }

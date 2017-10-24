@@ -82,10 +82,11 @@ class Rssfitwfdownloads_podcast extends XoopsObject
                 $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
                 //	enclosure tag, a.k.a podcast
                 $ret[$i]['extras']['enclosure']['attributes']
-                    = array('url' => XOOPS_URL.'/modules/'.$this->dirname.'/visit.php?cid='.$row['cid'].'&amp;lid='.$row['lid'],
-                            'length' => $row['size'],
-                            'type' => $row['filetype']
-                            );
+                    = [
+                    'url'    => XOOPS_URL . '/modules/' . $this->dirname . '/visit.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'],
+                    'length' => $row['size'],
+                    'type'   => $row['filetype']
+                ];
                 $i++;
             } else {
                 $perms[$row['cid']] = false;

@@ -70,7 +70,7 @@ class RssfitCbb
         $newbbConfig = $GLOBALS['config_handler']->getConfigsByCat(0, $this->module->getVar('mid'));
 
         $access_forums = $forum_handler->getForums(0, 'access');
-        $available_forums = array();
+        $available_forums = [];
         foreach ($access_forums as $forum) {
             if ($topic_handler->getPermission($forum)) {
                 $available_forums[$forum->getVar('forum_id')] = $forum;

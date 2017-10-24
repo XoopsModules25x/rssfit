@@ -79,12 +79,12 @@ class RssfitSpecial
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $ret = array();
+        $ret = [];
         @include_once XOOPS_ROOT_PATH.'/modules/special/class/stuff.php';
         $myts = MyTextSanitizer::getInstance();
         $items = SpecialStuff::getAllPublished($this->grab, 0);
         foreach ($items as $item) {
-            $ret[] = array(
+            $ret[] = [
                 'title' => $myts->undoHtmlSpecialChars($item->title()),
                 'link' => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
                 'guid' => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
@@ -92,7 +92,7 @@ class RssfitSpecial
                 'description' => $item->hometext(),
                 'category' => $this->modname,
                 'domain' => XOOPS_URL . '/modules/' . $this->dirname . '/',
-            );
+            ];
         }
         return $ret;
     }
