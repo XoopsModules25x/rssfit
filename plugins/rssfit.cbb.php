@@ -65,8 +65,8 @@ class RssfitCbb
         $xoopsModule = $this->module;
         $myts = MyTextSanitizer::getInstance();
         $i = 0;
-        $forum_handler = xoops_getmodulehandler('forum', 'newbb');
-        $topic_handler = xoops_getmodulehandler('topic', 'newbb');
+        $forum_handler = xoops_getModuleHandler('forum', 'newbb');
+        $topic_handler = xoops_getModuleHandler('topic', 'newbb');
         $newbbConfig = $GLOBALS['config_handler']->getConfigsByCat(0, $this->module->getVar('mid'));
 
         $access_forums = $forum_handler->getForums(0, 'access');

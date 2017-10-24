@@ -44,7 +44,7 @@ class RssfitWflinks
         global $xoopsDB, $xoopsUser;
 
         $groups = is_object($xoopsUser) ? $xoopsUser -> getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $gperm_handler = &xoops_gethandler('groupperm');
+        $gperm_handler = &xoops_getHandler('groupperm');
 
         $myts = MyTextSanitizer::getInstance();
         $ret = array();

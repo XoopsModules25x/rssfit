@@ -73,8 +73,8 @@ class RssfeedHandler
     {
         $this->myts = MyTextSanitizer::getInstance();
         $this->rssmod = $xoopsModule;
-        $this->pHandler = xoops_getmodulehandler('plugins');
-        $this->mHandler = xoops_getmodulehandler('misc');
+        $this->pHandler = xoops_getModuleHandler('plugins');
+        $this->mHandler = xoops_getModuleHandler('misc');
         $this->modConfig = $modConfig;
         $this->xoopsConfig = $xoopsConfig;
         $this->channelreq = array('title' => $this->xoopsConfig['sitename'],

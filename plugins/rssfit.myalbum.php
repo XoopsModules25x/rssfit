@@ -87,12 +87,12 @@ class RssfitMyalbum
         }
 
         if (!is_object($thisUser)) {
-            $member_handler = xoops_gethandler('member');
+            $member_handler = xoops_getHandler('member');
             $thisUser = $member_handler->getUser($uid);
         }
-        $name = htmlSpecialChars($thisUser->getVar('name'));
+        $name = htmlspecialchars($thisUser->getVar('name'));
         if ($name=='') {
-            $name = htmlSpecialChars($thisUser->getVar('uname'));
+            $name = htmlspecialchars($thisUser->getVar('uname'));
         }
         $lastUid=$uid;
         $lastName=$name;

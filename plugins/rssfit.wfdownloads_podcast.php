@@ -62,7 +62,7 @@ class Rssfitwfdownloads_podcast extends XoopsObject
     {
         global $xoopsDB;
         $myts = MyTextSanitizer::getInstance();
-        $perm_handler = xoops_gethandler('groupperm');
+        $perm_handler = xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;
         $sql = "SELECT lid, cid, title, date, description, filetype, size FROM ".$xoopsDB->prefix("wfdownloads_downloads")." WHERE status > 0 AND offline = 0 AND (expired > ".time()." OR expired = 0) AND published <= ".time()." ORDER BY date DESC";

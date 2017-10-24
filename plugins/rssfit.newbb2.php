@@ -73,12 +73,12 @@ class RssfitNewbb2
         }
 
         if (!is_object($thisUser)) {
-            $member_handler = xoops_gethandler('member');
+            $member_handler = xoops_getHandler('member');
             $thisUser = $member_handler->getUser($uid);
         }
-        $name = htmlSpecialChars($thisUser->getVar('name'));
+        $name = htmlspecialchars($thisUser->getVar('name'));
         if ($name=='') {
-            $name = htmlSpecialChars($thisUser->getVar('uname'));
+            $name = htmlspecialchars($thisUser->getVar('uname'));
         }
         $lastUid=$uid;
         $lastName=$name;
@@ -93,8 +93,8 @@ class RssfitNewbb2
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-        $forum_handler = xoops_getmodulehandler('forum', 'newbb');
-        $topic_handler = xoops_getmodulehandler('topic', 'newbb');
+        $forum_handler = xoops_getModuleHandler('forum', 'newbb');
+        $topic_handler = xoops_getModuleHandler('topic', 'newbb');
         $newbbConfig = $config_handler->getConfigsByCat(0, $this->module->getVar('mid'));
 
         $access_forums = $forum_handler->getForums(0, 'access');
