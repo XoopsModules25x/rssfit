@@ -46,7 +46,7 @@ class RssfitOledrion
     {
         $ret = false;
         include XOOPS_ROOT_PATH.'/modules/oledrion/include/common.php';
-        $items = $h_oledrion_products->getRecentProducts(new oledrion_parameters(array('start' => 0, 'limit' => $this->grab)));
+        $items = $h_oledrion_products->getRecentProducts(new Oledrion_parameters(array('start' => 0, 'limit' => $this->grab)));
         $i = 0;
 
         if (false != $items && count($items) > 0) {
