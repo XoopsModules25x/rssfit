@@ -90,7 +90,7 @@ class RssfitWeblinks
         while ($row = $xoopsDB->fetchArray($result)) {
             $title=$row['title'];
             $name = $this->myGetUnameFromId($row['uid']);
-            $ret[$i]['title'] = ($this->modname).': '.$title;
+            $ret[$i]['title'] = $this->modname . ': ' . $title;
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?lid='.$row['lid'].'&amp;keywords=';
             $ret[$i]['link'] = $link;
             $ret[$i]['timestamp'] = $row['time_update'];

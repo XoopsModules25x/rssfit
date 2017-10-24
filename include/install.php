@@ -94,9 +94,9 @@ function rssfInstallLangFile(&$xoopsMod, $lang)
     $file = XOOPS_ROOT_PATH.'/modules/'.$xoopsMod->getVar('dirname')
             .'/language/%s/install.php';
     if (file_exists(sprintf($file, $lang))) {
-        include(sprintf($file, $lang));
+        include sprintf($file, $lang);
     } else {
-        include(sprintf($file, 'english'));
+        include sprintf($file, 'english');
     }
 }
 

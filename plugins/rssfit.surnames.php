@@ -115,7 +115,7 @@ class RssfitSurnames
                 if ($i<=$this->grab) {
                     $desc="";
                     $name = $this->myGetUnameFromId($row['uid']);
-                    $ret[$i]['title'] = ($this->modname).': by '.$name;
+                    $ret[$i]['title'] = $this->modname . ': by ' . $name;
                     $ret[$i]['link'] = XOOPS_URL.'/modules/surnames/list.php?uid='.$row['uid'];
                     $ret[$i]['timestamp'] = $changedate;
 

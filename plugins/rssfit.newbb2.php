@@ -116,7 +116,7 @@ class RssfitNewbb2
             $result = $xoopsDB->query($query, $this->grab);
             while ($row = $xoopsDB->fetchArray($result)) {
                 $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewtopic.php?topic_id='.$row['topic_id'].'&amp;forum='.$row['forum_id'].'&amp;post_id='.$row['post_id'].'#forumpost'.$row['post_id'];
-                $ret[$i]['title'] = ($this->modname).': '.$row['subject'];
+                $ret[$i]['title'] = $this->modname . ': ' . $row['subject'];
                 $ret[$i]['link'] = $ret[$i]['guid'] = $link;
                 $ret[$i]['timestamp'] = $row['post_time'];
                 $ret[$i]['description'] = sprintf("Posted by: <i>%s</i><br />%s", $this->myGetUnameFromId($row['uid']), $myts->displayTarea($row['post_text'], $row['dohtml'], $row['dosmiley'], $row['doxcode'], 1, $row['dobr']));

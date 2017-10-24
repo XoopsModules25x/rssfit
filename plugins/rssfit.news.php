@@ -70,7 +70,7 @@ class RssfitNews
         }
         if (count($news) > 0) {
             for ($i=0; $i<count($news); $i++) {
-                $ret[$i]['title'] = ($this->modname).': '.$myts->undoHtmlSpecialChars($news[$i]->title());
+                $ret[$i]['title'] = $this->modname . ': ' . $myts->undoHtmlSpecialChars($news[$i]->title());
                 $ret[$i]['link'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();
                 $ret[$i]['guid'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();
                 $ret[$i]['timestamp'] = $news[$i]->published();

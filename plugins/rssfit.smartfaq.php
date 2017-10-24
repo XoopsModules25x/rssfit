@@ -59,7 +59,7 @@ class RssfitSmartfaq
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        @include_once(XOOPS_ROOT_PATH."/modules/smartfaq/include/functions.php");
+        @include_once XOOPS_ROOT_PATH . "/modules/smartfaq/include/functions.php";
         $faq_handler = sf_gethandler('faq');
         $faqs = $faq_handler->getAllPublished($this->grab, 0);
         if (false != $faqs && count($faqs) > 0) {

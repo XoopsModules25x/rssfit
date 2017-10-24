@@ -84,7 +84,7 @@ class RssfitQueries
                     $desc=substr($desc, 0, 200).'...';
                 }
                 $link = XOOPS_URL.'/modules/queries/view.php?id='.$row['id'];
-                $ret[$i]['title'] = ($this->modname).': '.$row['title'];
+                $ret[$i]['title'] = $this->modname . ': ' . $row['title'];
                 $ret[$i]['link'] = $link;
                 $ret[$i]['timestamp'] = $row['posted'];
                 $ret[$i]['guid'] = $link;

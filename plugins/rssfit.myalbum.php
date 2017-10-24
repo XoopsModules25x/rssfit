@@ -125,7 +125,7 @@ class RssfitMyalbum
             * Required elements of an RSS item
             */
             //	1. Title of an item
-            $ret[$i]['title'] = ($this->modname).': '.$title;
+            $ret[$i]['title'] = $this->modname . ': ' . $title;
             //	2. URL of an item
             $ret[$i]['link'] = $link;
             //	3. Item modification date, must be in Unix time format
