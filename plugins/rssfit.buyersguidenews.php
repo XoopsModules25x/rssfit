@@ -30,7 +30,7 @@
 
 /**
  * About this RSSFit plug-in
- * Author: Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+ * Author: HervÃ© Thouzard of Instant Zero (http://www.instant-zero.com)
  * Requirements (Tested with):
  *  Module: Buyersguide
  *  Version: 1.33
