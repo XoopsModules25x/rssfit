@@ -89,7 +89,7 @@ class RssPluginsHandler extends XoopsObjectHandler
     public function get($id, $fields='*')
     {
         $ret = false;
-        $criteria = new Criteria($this->obj_key, intval($id));
+        $criteria = new Criteria($this->obj_key, (int)$id);
         if ($objs =& $this->getObjects($criteria) && count($objs) === 1) {
             $ret =& $objs[0];
         }
@@ -110,7 +110,7 @@ class RssPluginsHandler extends XoopsObjectHandler
         }
         foreach ($obj->cleanVars as $k=>$v) {
             if ($obj->vars[$k]['data_type'] == XOBJ_DTYPE_INT) {
-                $cleanvars[$k] = intval($v);
+                $cleanvars[$k] = (int)$v;
             } else {
                 $cleanvars[$k] = $this->db->quoteString($v);
             }
@@ -217,7 +217,7 @@ class RssPluginsHandler extends XoopsObjectHandler
             $sql = '';
             foreach ($fields as $k => $v) {
                 $sql .= $k.' = ';
-                $sql .= $obj->vars[$k]['data_type'] == 3 ? intval($v) : $this->db->quoteString($v);
+                $sql .= $obj->vars[$k]['data_type'] == 3 ? (int)$v : $this->db->quoteString($v);
                 $sql .= ', ';
             }
             $sql = substr($sql, 0, -2);

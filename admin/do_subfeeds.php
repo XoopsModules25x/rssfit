@@ -103,7 +103,7 @@ switch ($op) {
         }
         break;
     case 'edit':
-        $id = isset($_GET['feed']) ? intval($_GET['feed']) : 0;
+        $id = isset($_GET['feed']) ? (int)$_GET['feed'] : 0;
         if (!empty($id)) {
             $sub =& $plugins_handler->get($id);
             if (!$handler =& $plugins_handler->checkPlugin($sub)) {
