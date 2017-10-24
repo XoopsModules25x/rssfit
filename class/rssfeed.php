@@ -191,7 +191,7 @@ class RssfeedHandler
             }
         }
         if (count($entries) > 0) {
-            for ($i=0; $i<count($entries); $i++) {
+            for ($i=0, $iMax = count($entries); $i < $iMax; $i++) {
                 $this->cleanupChars($entries[$i]['title']);
                 $strip = $this->modConfig['strip_html'] ? 1 : 0;
                 $this->cleanupChars($entries[$i]['description'], $strip, 0, 1);

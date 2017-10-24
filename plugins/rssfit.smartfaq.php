@@ -64,7 +64,7 @@ class RssfitSmartfaq
         $faqs = $faq_handler->getAllPublished($this->grab, 0);
         if (false != $faqs && count($faqs) > 0) {
             $answer_handler = sf_gethandler('answer');
-            for ($i=0; $i<count($faqs); $i++) {
+            for ($i=0, $iMax = count($faqs); $i < $iMax; $i++) {
                 if (!$answer = $answer_handler->getOfficialAnswer($faqs[$i]->faqid())) {
                     continue;
                 }

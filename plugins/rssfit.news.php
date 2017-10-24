@@ -69,7 +69,7 @@ class RssfitNews
             $news = NewsStory::getAllPublished($this->grab, 0);
         }
         if (count($news) > 0) {
-            for ($i=0; $i<count($news); $i++) {
+            for ($i=0, $iMax = count($news); $i < $iMax; $i++) {
                 $ret[$i]['title'] = $this->modname . ': ' . $myts->undoHtmlSpecialChars($news[$i]->title());
                 $ret[$i]['link'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();
                 $ret[$i]['guid'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();

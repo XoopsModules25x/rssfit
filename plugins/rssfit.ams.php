@@ -63,7 +63,7 @@ class RssfitAms
         $myts = MyTextSanitizer::getInstance();
         $ams = AmsStory::getAllPublished($this->grab, 0);
         if (count($ams) > 0) {
-            for ($i=0; $i<count($ams); $i++) {
+            for ($i=0, $iMax = count($ams); $i < $iMax; $i++) {
                 $ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
                 $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/AMS/article.php?storyid='.$ams[$i]->storyid();
                 $ret[$i]['timestamp'] = $ams[$i]->published();
