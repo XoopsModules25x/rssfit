@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -33,12 +32,12 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if( !defined("RSSFIT_CONSTANTS_DEFINED") ){
-	define("RSSFIT_ROOT_PATH", XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->getVar('dirname').'/');
-	define("RSSFIT_URL", XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/');
-	define("RSSFIT_URL_FEED", RSSFIT_URL.'rss.php');
-	define("RSSFIT_ADMIN_URL", XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/admin/');
-	define("RSSFIT_CONSTANTS_DEFINED", 1);
+if (!defined("RSSFIT_CONSTANTS_DEFINED")) {
+    define("RSSFIT_ROOT_PATH", XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->getVar('dirname').'/');
+    define("RSSFIT_URL", XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/');
+    define("RSSFIT_URL_FEED", RSSFIT_URL.'rss.php');
+    define("RSSFIT_ADMIN_URL", XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/admin/');
+    define("RSSFIT_CONSTANTS_DEFINED", 1);
 }
 
 require_once RSSFIT_ROOT_PATH.'class/rssfeed.php';
@@ -49,6 +48,6 @@ $version = !substr($version, -1, 1) ? substr($version, 0, 3) : $version;
 define('RSSFIT_VERSION', 'RSSFit '.$version);
 
 $rss = new RssfeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
-$myts =& $rss->myts;
+$myts = $rss->myts;
 $plugins_handler =& $rss->pHandler;
 $misc_handler =& $rss->mHandler;

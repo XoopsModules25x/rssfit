@@ -1,6 +1,4 @@
-<{*
-$Id: rssfit_rss.html 70 2005-11-09 16:06:22Z tuff $
-*}><?xml version="1.0" encoding="<{$rss_encoding}>"?>
+<?xml version="1.0" encoding="<{$rss_encoding}>"?>
 <?xml-stylesheet href="rss.css" type="text/css"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>

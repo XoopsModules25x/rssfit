@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                   Copyright (c) 2004 NS Tai (aka tuff)                    ##
@@ -38,57 +37,48 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
+class Rssfitwfdownloads extends XoopsObject
+{
+    public $dirname = 'wfdownloads';
+    public $modname;
+    public $module;
+    public $grab;
 
-/**
- * Class Rssfitwfdownloads
- */
-class Rssfitwfdownloads extends XoopsObject{
-	var $dirname = 'wfdownloads';
-	var $modname;
-	var $module;
-	var $grab;
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        $this->module = $mod;
+        return $mod;
+    }
 
-	function Rssfitwfdownloads(){
-	}
-
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		$this->module =& $mod;
-		return $mod;
-	}
-
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		global $xoopsDB;
-		$myts = MyTextSanitizer::getInstance();
-		$perm_handler =& xoops_gethandler('groupperm');
-		$ret = false;
-		$i = 0;
-		$sql = "SELECT lid, cid, title, date, description FROM ".$xoopsDB->prefix("wfdownloads_downloads")." WHERE status > 0 AND offline = 0 ORDER BY date DESC";
-		$result = $xoopsDB->query($sql, $this->grab, 0);
-		while( $row = $xoopsDB->fetchArray($result) ){
-			if( $perm_handler->checkRight('WFDownFilePerm', $row['lid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid')) ){
-				$ret[$i]['title'] = $row['title'];
-				$link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
-				$ret[$i]['link'] = $ret[$i]['guid'] = $link;
-				$ret[$i]['timestamp'] = $row['date'];
-				$ret[$i]['description'] = $myts->displayTarea($row['description']);
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-				$i++;
-			}
-		}
-		return $ret;
-	}
+    public function &grabEntries(&$obj)
+    {
+        global $xoopsDB;
+        $myts = MyTextSanitizer::getInstance();
+        $perm_handler = xoops_gethandler('groupperm');
+        $ret = false;
+        $i = 0;
+        $sql = "SELECT lid, cid, title, date, description FROM ".$xoopsDB->prefix("wfdownloads_downloads")." WHERE status > 0 AND offline = 0 ORDER BY date DESC";
+        $result = $xoopsDB->query($sql, $this->grab, 0);
+        while ($row = $xoopsDB->fetchArray($result)) {
+            if ($perm_handler->checkRight('WFDownFilePerm', $row['lid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+                $ret[$i]['title'] = $row['title'];
+                $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
+                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp'] = $row['date'];
+                $ret[$i]['description'] = $myts->displayTarea($row['description']);
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $i++;
+            }
+        }
+        return $ret;
+    }
 }

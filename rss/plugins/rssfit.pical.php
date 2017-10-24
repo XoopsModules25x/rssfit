@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -28,62 +27,58 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-/*
-* About this RSSFit plug-in
-* Author: jayjay <http://www.sint-niklaas.be/>
-* Requirements (Tested with):
-*  Module: piCal <http://www.xoops.org/>
-*  Version: 1.0
-*  RSSFit version: 1.21
-*  XOOPS version: 2.0.18.1
-*/
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+/**
+ * About this RSSFit plug-in
+ * Author: jayjay <http://www.sint-niklaas.be/>
+ * Requirements (Tested with):
+ *  Module: piCal <http://www.xoops.org/>
+ *  Version: 1.0
+ *  RSSFit version: 1.21
+ *  XOOPS version: 2.0.18.1
+ */
+
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
 
 /**
  * Class RssfitpiCal
  */
-class RssfitpiCal{
-	var $dirname = 'piCal';
-	var $modname;
-	var $grab;
+class RssfitpiCal
+{
+    public $dirname = 'piCal';
+    public $modname;
+    public $grab;
 
-	function RssfitpiCal(){
-	}
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        return $mod;
+    }
 
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		return $mod;
-	}
-
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		global $xoopsDB;
-		$myts = MyTextSanitizer::getInstance();
-		$ret = false;
-		$i = 0;
-		$sql = "SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ".$xoopsDB->prefix("pical_event")." WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC";
-		$result = $xoopsDB->query($sql, $this->grab, 0);
-		while( $row = $xoopsDB->fetchArray($result) ){
-			$ret[$i]['title'] = $row['summary'];
-			$link = XOOPS_URL.'/modules/'.$this->dirname.'/index.php?event_id='.$row['id'];
-			$ret[$i]['link'] = $ret[$i]['guid'] = $link;
-			$ret[$i]['timestamp'] = $row['dtstamp'];
-			$ret[$i]['description'] = $myts->displayTarea($row['description']);
-			$ret[$i]['category'] = $this->modname;
-			$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-			$i++;
-		}
-		return $ret;
-	}
+    public function &grabEntries(&$obj)
+    {
+        global $xoopsDB;
+        $myts = MyTextSanitizer::getInstance();
+        $ret = false;
+        $i = 0;
+        $sql = "SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ".$xoopsDB->prefix("pical_event")." WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC";
+        $result = $xoopsDB->query($sql, $this->grab, 0);
+        while ($row = $xoopsDB->fetchArray($result)) {
+            $ret[$i]['title'] = $row['summary'];
+            $link = XOOPS_URL.'/modules/'.$this->dirname.'/index.php?event_id='.$row['id'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['dtstamp'];
+            $ret[$i]['description'] = $myts->displayTarea($row['description']);
+            $ret[$i]['category'] = $this->modname;
+            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            $i++;
+        }
+        return $ret;
+    }
 }

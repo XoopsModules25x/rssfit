@@ -15,28 +15,18 @@
  * @package     RSSFit
  * @since
  * @author     XOOPS Development Team
- * @version    $Id $
  */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
-$path = dirname(dirname(dirname(dirname(__FILE__))));
-include_once $path . '/mainfile.php';
-
-$module_handler  = xoops_gethandler('module');
-$module          = $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));
-$pathIcon32 = '../../' . $module->getInfo('icons32');
-xoops_loadLanguage('modinfo', $module->dirname());
-
-
-$pathModuleAdmin = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin').'/moduleadmin';
-if (!file_exists($fileinc = $pathModuleAdmin  . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
-    $fileinc = $pathModuleAdmin  . '/language/english/main.php';
+// get path to icons
+$pathIcon32='';
+if (class_exists('Xmf\Module\Admin', true)) {
+    $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 }
-include_once $fileinc;
 
 $adminmenu = array();
 $i=0;
-$adminmenu[$i]["title"] = _AM_MODULEADMIN_HOME;
+$adminmenu[$i]["title"] = _MI_RSSFIT_INDEX;
 $adminmenu[$i]['link'] = "admin/index.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
 
@@ -65,7 +55,6 @@ $adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU5;
 $adminmenu[$i]['link'] = "admin/?do=sticky";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/attach.png';
 ++$i;
-$adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
+$adminmenu[$i]['title'] = _MI_RSSFIT_ABOUT;
 $adminmenu[$i]["link"]  = "admin/about.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
-

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -28,65 +27,59 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-/*
-* About this RSSFit plug-in
-* Author: jayjay <http://www.sint-niklaas.be/>
-* Requirements (Tested with):
-*  Module: MyTube
-*  Version: 1.0
-*  RSSFit version: 1.21
-*  XOOPS version: 2.0.18.1
-*/
 
-if( !defined('RSSFIT_ROOT_PATH') ) {
-  exit();
+/**
+ * About this RSSFit plug-in
+ * Author: jayjay <http://www.sint-niklaas.be/>
+ * Requirements (Tested with):
+ *  Module: MyTube
+ *  Version: 1.0
+ *  RSSFit version: 1.21
+ *  XOOPS version: 2.0.18.1
+ */
+
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
 }
 
 /**
  * Class RssfitMytube
  */
-class RssfitMytube {
-	var $dirname = 'mytube';
-	var $modname;
-	var $grab;
+class RssfitMytube
+{
+    public $dirname = 'mytube';
+    public $modname;
+    public $grab;
 
-	function RssfitMytube() {
-	}
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler'] -> getByDirname($this -> dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this -> modname = $mod -> getVar('name');
+        return $mod;
+    }
 
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler'] -> getByDirname($this -> dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this -> modname = $mod -> getVar('name');
-		return $mod;
-	}
+    public function &grabEntries(&$obj)
+    {
+        global $xoopsDB;
+        $myts = MyTextSanitizer::getInstance();
+        $ret = false;
+        $i = 0;
+        $sql = "SELECT l.lid, l.title as ltitle, l.date, l.cid, l.hits, l.description, c.title as ctitle FROM " . $xoopsDB -> prefix("xoopstube_videos") . " l, " . $xoopsDB -> prefix('xoopstube_cat') . " c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC";
 
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj) {
-		global $xoopsDB;
-		$myts = MyTextSanitizer::getInstance();
-		$ret = false;
-		$i = 0;
-		$sql = "SELECT l.lid, l.title as ltitle, l.date, l.cid, l.hits, l.description, c.title as ctitle FROM " . $xoopsDB -> prefix("xoopstube_videos") . " l, " . $xoopsDB -> prefix('xoopstube_cat') . " c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC";
-
-		$result = $xoopsDB -> query($sql, $this -> grab, 0);
-		while( $row = $xoopsDB -> fetchArray($result) ) {
-			$ret[$i]['title'] = $row['ltitle'];
-			$link = XOOPS_URL . '/modules/' . $this -> dirname . '/singlevideo.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
-			$ret[$i]['link'] = $ret[$i]['guid'] = $link;
-			$ret[$i]['timestamp'] = $row['date'];
-			$ret[$i]['description'] = $myts -> displayTarea($row['description']);
-			$ret[$i]['category'] = $this -> modname;
-			$ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this -> dirname . '/';
-			$i++;
-		}
-		return $ret;
-	}
+        $result = $xoopsDB -> query($sql, $this -> grab, 0);
+        while ($row = $xoopsDB -> fetchArray($result)) {
+            $ret[$i]['title'] = $row['ltitle'];
+            $link = XOOPS_URL . '/modules/' . $this -> dirname . '/singlevideo.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['date'];
+            $ret[$i]['description'] = $myts -> displayTarea($row['description']);
+            $ret[$i]['category'] = $this -> modname;
+            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this -> dirname . '/';
+            $i++;
+        }
+        return $ret;
+    }
 }

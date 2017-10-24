@@ -1,10 +1,10 @@
 <?php
-// $Id$
-define("_AM_SAVE","Save");
-define("_AM_OK","Okay");
-define("_AM_DBUPDATED","Database Updated Successfully!");
-define("_AM_ACTION","Action");
-define("_AM_ID","ID");
+global $xoopsConfig;
+define("_AM_SAVE", "Save");
+define("_AM_OK", "Okay");
+define("_AM_DBUPDATED", "Database Updated Successfully!");
+define("_AM_ACTION", "Action");
+define("_AM_ID", "ID");
 
 define("_AM_EDIT_INTRO", "Edit introduction");
 define("_AM_EDIT_INTRO_TITLE", "Introduction title");
@@ -21,7 +21,7 @@ define('_AM_PLUGIN_FILENAME', 'File name');
 define('_AM_PLUGIN_SHOWXENTRIES', 'Entries to show');
 define('_AM_PLUGIN_ORDER', 'Display order');
 define('_AM_PLUGIN_DEACTIVATE', 'Deactivate');
-define('_AM_PLUGIN_ACTIVATE', 'Aactivate');
+define('_AM_PLUGIN_ACTIVATE', 'Activate');
 define('_AM_PLUGIN_INSTALL', 'Install');
 define('_AM_PLUGIN_UNINSTALL', 'Uninstall');
 

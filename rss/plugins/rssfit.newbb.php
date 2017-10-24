@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -38,58 +37,49 @@
 *  XOOPS version: 2.0.13.2
 */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
+class RssfitNewbb
+{
+    public $dirname = 'newbb';
+    public $modname;
+    public $grab;
 
-/**
- * Class RssfitNewbb
- */
-class RssfitNewbb{
-	var $dirname = 'newbb';
-	var $modname;
-	var $grab;
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        if ($mod->getVar('version') >= 200) {
+            return false;
+        }
+        return $mod;
+    }
 
-	function RssfitNewbb(){
-	}
-
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		if( $mod->getVar('version') >= 200 ){
-			return false;
-		}
-		return $mod;
-	}
-
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		global $xoopsDB;
-		include_once XOOPS_ROOT_PATH.'/modules/'.$this->dirname.'/class/class.forumposts.php';
-		$myts = MyTextSanitizer::getInstance();
-		$ret = false;
-		$i = 0;
-		$sql = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.nohtml, p.nosmiley, f.forum_name, t.post_text FROM '.$xoopsDB->prefix('bb_posts').' p, '.$xoopsDB->prefix('bb_forums').' f, '.$xoopsDB->prefix('bb_posts_text').' t WHERE f.forum_id = p.forum_id AND p.post_id = t.post_id AND f.forum_type != 1 ORDER BY p.post_time DESC';
-		if( !$result = $xoopsDB->query($sql, $this->grab, 0) ){
-			return $ret;
-		}
-		while( $row = $xoopsDB->fetchArray($result) ){
-			$link = XOOPS_URL.'/modules/'.$this->dirname.'/viewtopic.php?topic_id='.$row['topic_id'].'&amp;forum='.$row['forum_id'].'&amp;post_id='.$row['post_id'].'#forumpost'.$row['post_id'];
-			$ret[$i]['title'] = $row['subject'];
-			$ret[$i]['link'] = $ret[$i]['guid'] = $link;
-			$ret[$i]['timestamp'] = $row['post_time'];
-			$ret[$i]['description'] = $myts->displayTarea($row['post_text'], $row['nohtml'] ? 0 : 1, $row['nosmiley'] ? 0 : 1);
-			$ret[$i]['category'] = $row['forum_name'];
-			$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/viewforum.php?forum='.$row['forum_id'];
-			$i++;
-		}
-		return $ret;
-	}
+    public function &grabEntries(&$obj)
+    {
+        global $xoopsDB;
+        include_once XOOPS_ROOT_PATH.'/modules/'.$this->dirname.'/class/class.forumposts.php';
+        $myts = MyTextSanitizer::getInstance();
+        $ret = false;
+        $i = 0;
+        $sql = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.nohtml, p.nosmiley, f.forum_name, t.post_text FROM '.$xoopsDB->prefix('bb_posts').' p, '.$xoopsDB->prefix('bb_forums').' f, '.$xoopsDB->prefix('bb_posts_text').' t WHERE f.forum_id = p.forum_id AND p.post_id = t.post_id AND f.forum_type != 1 ORDER BY p.post_time DESC';
+        if (!$result = $xoopsDB->query($sql, $this->grab, 0)) {
+            return $ret;
+        }
+        while ($row = $xoopsDB->fetchArray($result)) {
+            $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewtopic.php?topic_id='.$row['topic_id'].'&amp;forum='.$row['forum_id'].'&amp;post_id='.$row['post_id'].'#forumpost'.$row['post_id'];
+            $ret[$i]['title'] = $row['subject'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['post_time'];
+            $ret[$i]['description'] = $myts->displayTarea($row['post_text'], $row['nohtml'] ? 0 : 1, $row['nosmiley'] ? 0 : 1);
+            $ret[$i]['category'] = $row['forum_name'];
+            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/viewforum.php?forum='.$row['forum_id'];
+            $i++;
+        }
+        return $ret;
+    }
 }

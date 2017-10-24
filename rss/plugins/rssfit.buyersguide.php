@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -28,9 +27,10 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-/*
+
+/**
  * About this RSSFit plug-in
- * Author: Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+ * Author: HervÃ© Thouzard of Instant Zero (http://www.instant-zero.com)
  * Requirements (Tested with):
  *  Module: Buyersguide
  *  Version: 1.33
@@ -39,57 +39,52 @@
  *  XOOPS version: 2.0.18.1
  */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
 
 /**
  * Class RssfitBuyersguide
  */
-class RssfitBuyersguide{
-	var $dirname = 'buyersguide';
-	var $modname;
-	var $grab;
+class RssfitBuyersguide
+{
+    public $dirname = 'buyersguide';
+    public $modname;
+    public $grab;
 
-	function RssfitBuyersguide(){
-	}
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        return $mod;
+    }
 
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		return $mod;
-	}
+    public function &grabEntries(&$obj)
+    {
+        $ret = false;
+        include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
+        $items = $hBgProduct->getRecentProducts(0, 0, $this->grab);
+        $i = 0;
 
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		$ret = false;
-		include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
-		$items = $hBgProduct->getRecentProducts(0, 0, $this->grab);
-		$i = 0;
-
-		if( false != $items && count($items) > 0 ){
-			foreach($items as $item) {
-				$ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
-				$ret[$i]['title'] = $item->getVar('prod_title', 'n');
-				$ret[$i]['timestamp'] = $item->getVar('prod_submited_date');
-				if(xoops_trim($item->getVar('prod_summary')) != '') {
-					$description = $item->getVar('prod_summary');
-				} else {
-					$description = $item->getVar('prod_description');
-				}
-				$ret[$i]['description'] = $description;
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-				$i++;
-			}
-		}
-		return $ret;
-	}
+        if (false != $items && count($items) > 0) {
+            foreach ($items as $item) {
+                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title'] = $item->getVar('prod_title', 'n');
+                $ret[$i]['timestamp'] = $item->getVar('prod_submited_date');
+                if (xoops_trim($item->getVar('prod_summary')) != '') {
+                    $description = $item->getVar('prod_summary');
+                } else {
+                    $description = $item->getVar('prod_description');
+                }
+                $ret[$i]['description'] = $description;
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $i++;
+            }
+        }
+        return $ret;
+    }
 }

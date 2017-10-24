@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2005 NS Tai (aka tuff)                ##
@@ -28,76 +27,55 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-/*
-* Adslight RSSFit plugin based on Jobs RSSFit plugin by www.jlmzone.com
-* Done by Bjuti (www.bjuti.info)
-*  Last release date:  Jan. 18 2010
-*  RSSFit version: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3 / 2.3.2b / 2.4.3
-*/
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+/**
+ * Adslight RSSFit plugin based on Jobs RSSFit plugin by www.jlmzone.com
+ * Done by Bjuti (www.bjuti.info)
+ *  Last release date:  Jan. 18 2010
+ *  RSSFit version: 1.2 / 1.5
+ *  XOOPS version: 2.0.13.2 / 2.2.3 / 2.3.2b / 2.4.3
+ */
+
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
 
 /**
  * Class RssfitAdslight
  */
-class RssfitAdslight{
-    var $dirname = 'adslight';
-    var $modname;
-    var $grab;
-    var $module;    // optional, see line 74
+class RssfitAdslight
+{
+    public $dirname = 'adslight';
+    public $modname;
+    public $grab;
+    public $module;    // optional, see line 74
 
-    function RssfitAdslight(){
-    }
-
-    /**
-     * @return bool
-     */
-    function loadModule(){
-        $mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if( !$mod || !$mod->getVar('isactive') ){
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
         $this->modname = $mod->getVar('name');
-        //$this->module =& $mod;    // optional, remove this line if there is nothing
-                                // to do with module info when grabbing entries
+        //$this->module = $mod;   // optional, remove this line if there is nothing
+                                  // to do with module info when grabbing entries
         return $mod;
     }
 
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
+    public function &grabEntries(&$obj)
+    {
         global $xoopsDB;
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-    //    The following example code grabs the latest entries from the module MyLinks
         $sql = "SELECT lid, title, status, desctext, date from ".$xoopsDB->prefix("adslight_listing")." WHERE valid = 'Yes' ORDER BY date DESC";
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while( $row = $xoopsDB->fetchArray($result) ){
+        while ($row = $xoopsDB->fetchArray($result)) {
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewads.php?lid='.$row['lid'];
-        /*
-        * Required elements of an RSS item
-        */
-        //    1. Title of an item
             $ret[$i]['title'] = $row['title'];
-        //    2. URL of an item
             $ret[$i]['link'] = $link;
-        //    3. Item modification date, must be in Unix time format
             $ret[$i]['timestamp'] = $row['date'];
-        //    4. The item synopsis, or description, whatever
             $ret[$i]['description'] = $row['desctext'];  // $myts->displayTarea($row['desctext']);
-        /*
-        * Optional elements of an RSS item
-        */
-        //    5. The item synopsis, or description, whatever
-            // $ret[$i]['guid'] = $link;
-        //    6. A string + domain that identifies a categorization taxonomy
-        //    $ret[$i]['category'] = $this->modname;
-            // $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-        //    7. extra tags examples
             $ret[$i]['extras'] = array();
             $i++;
         }

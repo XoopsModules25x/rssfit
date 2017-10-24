@@ -31,8 +31,8 @@
 * About this RSSFit plug-in
 * Author: tuff <http://www.brandycoke.com/>
 * Requirements (Tested with):
-*  Module: WF-section <http://www.wf-projects.com/>
-*  Version: 2.07 b3
+*  Module: MyLinks <http://www.xoops.org/>
+*  Version: 1.1
 *  RSSFit verision: 1.2 / 1.5
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
@@ -40,41 +40,68 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
-class RssfitWfsection2
+class RssfitWeblinks
 {
-    public $dirname = 'wfsection';
+    public $dirname = 'weblinks';
     public $modname;
     public $grab;
 
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 200) {
+        if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
         $this->modname = $mod->getVar('name');
         return $mod;
     }
 
+    public function myGetUnameFromId($uid)
+    {
+        static $thisUser=false;
+        static $lastUid=false;
+        static $lastName='';
+
+        if ($lastUid==$uid) {
+            return $lastName;
+        }
+
+        if (!is_object($thisUser)) {
+            $member_handler = xoops_gethandler('member');
+            $thisUser = $member_handler->getUser($uid);
+        }
+        $name = htmlSpecialChars($thisUser->getVar('name'));
+        if ($name=='') {
+            $name = htmlSpecialChars($thisUser->getVar('uname'));
+        }
+        $lastUid=$uid;
+        $lastName=$name;
+        return $name;
+    }
+
     public function &grabEntries(&$obj)
     {
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/common.php';
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/wfsarticle.php';
+        global $xoopsDB;
+        $myts = MyTextSanitizer::getInstance();
         $ret = false;
-        $articles = WfsArticle::getAllArticle($this->grab, 0, 'online');
-        if (count($articles) > 0) {
-            $xoopsModuleConfig['shortartlen'] = 0;
-            $myts = MyTextSanitizer::getInstance();
-            for ($i=0; $i<count($articles); $i++) {
-                $link = XOOPS_URL.'/modules/wfsection/article.php?articleid='.$articles[$i]->articleid();
-                $ret[$i]['title'] = $myts->undoHtmlSpecialChars($articles[$i]->title());
-                $ret[$i]['link'] = $link;
-                $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $articles[$i]->published();
-                $ret[$i]['description'] = $articles[$i]->summary();
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-            }
+        $i = 0;
+        $sql = "SELECT lid, title, time_update, description, url, uid FROM ".$xoopsDB->prefix("weblinks_link")."  ORDER BY time_update DESC";
+        $result = $xoopsDB->query($sql, $this->grab, 0);
+        while ($row = $xoopsDB->fetchArray($result)) {
+            $title=$row['title'];
+            $name = $this->myGetUnameFromId($row['uid']);
+            $ret[$i]['title'] = ($this->modname).': '.$title;
+            $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?lid='.$row['lid'].'&amp;keywords=';
+            $ret[$i]['link'] = $link;
+            $ret[$i]['timestamp'] = $row['time_update'];
+            $desc = '<p><a href="'.$row['url'].'"><b>'.$title.'</b></a><br /> ';
+            $desc .= 'Submitted by: <i>'.$name.'</i><br />';
+            $desc .= $myts->displayTarea($row['description']).'</p><br clear="all"/>';
+            $ret[$i]['description'] = $desc;
+            $ret[$i]['guid'] = $link;
+            $ret[$i]['category'] = $this->modname;
+            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            $i++;
         }
         return $ret;
     }

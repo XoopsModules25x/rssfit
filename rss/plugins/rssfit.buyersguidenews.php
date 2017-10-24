@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -28,7 +27,8 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-/*
+
+/**
  * About this RSSFit plug-in
  * Author: Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
  * Requirements (Tested with):
@@ -49,14 +49,8 @@ class RssfitBuyersguidenews{
 	var $modname;
 	var $grab;
 
-	function RssfitBuyersguidenews(){
-	}
-
-    /**
-     * @return bool
-     */
     function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
+		$mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
 		if( !$mod || !$mod->getVar('isactive') ){
 			return false;
 		}
@@ -64,11 +58,7 @@ class RssfitBuyersguidenews{
 		return $mod;
 	}
 
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
+    function &grabEntries(&$obj){
 		$ret = false;
 		include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
 		$items = $hBgNews->getRecentNews(0, $this->grab);

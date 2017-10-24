@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -32,48 +31,48 @@
 ##  URL: http://www.brandycoke.com/                                          ##
 ##  Project: RSSFit                                                          ##
 ###############################################################################
-if( function_exists('mb_http_output') ){
-	mb_http_output('pass');
+if (function_exists('mb_http_output')) {
+    mb_http_output('pass');
 }
 require 'header.php';
 $charset = $xoopsModuleConfig['utf8'] ? 'UTF-8' : _CHARSET;
 $docache = $xoopsModuleConfig['cache'] ? true : false;
-$template = 'db:rssfit_rss.html';
-if( $xoopsModuleConfig['mime'] == 3 ){
-	$xoopsLogger->enableRendering();
-	$xoopsLogger->usePopup = ( $xoopsConfig['debug_mode'] == 2 );
-	$docache = false;
-}else{
-	error_reporting(0);
-	$xoopsLogger->activated = false;
+$template = 'db:rssfit_rss.tpl';
+if ($xoopsModuleConfig['mime'] == 3) {
+    $xoopsLogger->enableRendering();
+    $xoopsLogger->usePopup = ($xoopsConfig['debug_mode'] == 2);
+    $docache = false;
+} else {
+    error_reporting(0);
+    $xoopsLogger->activated = false;
 }
 
 require_once XOOPS_ROOT_PATH.'/class/template.php';
 $xoopsTpl = new XoopsTpl();
-if( !$docache ){
-	$xoopsTpl->xoops_setCaching(0);
-}else{
-	$xoopsTpl->xoops_setCaching(2);
-	$xoopsTpl->xoops_setCacheTime($xoopsModuleConfig['cache']*60);
+if (!$docache) {
+    $xoopsTpl->xoops_setCaching(0);
+} else {
+    $xoopsTpl->xoops_setCaching(2);
+    $xoopsTpl->xoops_setCacheTime($xoopsModuleConfig['cache']*60);
 }
 
 $feed = array();
 $feed['plugin'] = isset($_GET[$rss->feedkey]) ? trim($_GET[$rss->feedkey]) : '';
 $rss->checkSubFeed($feed);
-if( !$xoopsTpl->is_cached($template, $rss->cached) || !$docache ){
-	$xoopsTpl->assign('rss_encoding', $charset);
-	$rss->buildFeed($feed);
-	$xoopsTpl->assign('feed', $feed);
+if (!$xoopsTpl->is_cached($template, $rss->cached) || !$docache) {
+    $xoopsTpl->assign('rss_encoding', $charset);
+    $rss->buildFeed($feed);
+    $xoopsTpl->assign('feed', $feed);
 }
 
-switch($xoopsModuleConfig['mime']){
-default:
-	header('Content-Type:text/xml; charset='.$charset);
-break;
-case 2:
-case 3:
-	header('Content-Type:text/html; charset='.$charset);
-break;
+switch ($xoopsModuleConfig['mime']) {
+    default:
+        header('Content-Type:text/xml; charset=' . $charset);
+        break;
+    case 2:
+    case 3:
+        header('Content-Type:text/html; charset=' . $charset);
+        break;
 }
 
 # if( $xoopsModuleConfig['mime'] == 3 ){
@@ -84,9 +83,8 @@ break;
 # 	require XOOPS_ROOT_PATH.'/footer.php';
 # }
 
-if( function_exists('mb_convert_encoding') && $xoopsModuleConfig['utf8'] ){
-	echo mb_convert_encoding($xoopsTpl->fetch($template, $rss->cached, null), 'UTF-8', _CHARSET);
-}else{
-	$xoopsTpl->display($template, $rss->cached);
+if (function_exists('mb_convert_encoding') && $xoopsModuleConfig['utf8']) {
+    echo mb_convert_encoding($xoopsTpl->fetch($template, $rss->cached, null), 'UTF-8', _CHARSET);
+} else {
+    $xoopsTpl->display($template, $rss->cached);
 }
-

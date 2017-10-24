@@ -1,4 +1,10 @@
 ---------------------------------------
+1.30 Beta 2     2017-10-24
+---------------------------------------
+
+- Converted to XOOPS 2.5.9/Xmf Admin GUI, PHP 7 compliance (geekwright)
+
+---------------------------------------
 1.30 Beta 1     2014-03-03
 ---------------------------------------
 
@@ -8,7 +14,7 @@
 1.22            2008-07-16
 ---------------------------------------
 
-Changes made by Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+Changes made by HervÃ© Thouzard of Instant Zero (http://www.instant-zero.com)
 With some configurations of PHP, it was not possible to access the different parts of the module's administration.
 This version corrects the problem and you should now be able to access all the parts of the administration.
 

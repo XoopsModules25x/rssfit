@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -38,51 +37,41 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
+class RssfitAms
+{
+    public $dirname = 'AMS';
+    public $modname;
+    public $grab;
 
-/**
- * Class RssfitAms
- */
-class RssfitAms{
-	var $dirname = 'AMS';
-	var $modname;
-	var $grab;
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        return $mod;
+    }
 
-	function RssfitAms(){
-	}
-
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		return $mod;
-	}
-
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		$ret = false;
-		@include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
-		$myts = MyTextSanitizer::getInstance();
-		$ams = AmsStory::getAllPublished($this->grab, 0);
-		if( count($ams) > 0 ){
-			for( $i=0; $i<count($ams); $i++ ){
-				$ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
-				$ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/AMS/article.php?storyid='.$ams[$i]->storyid();
-				$ret[$i]['timestamp'] = $ams[$i]->published();
-				$ret[$i]['description'] = $ams[$i]->hometext();
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-			}
-		}
-		return $ret;
-	}
-
+    public function &grabEntries(&$obj)
+    {
+        $ret = false;
+        @include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
+        $myts = MyTextSanitizer::getInstance();
+        $ams = AmsStory::getAllPublished($this->grab, 0);
+        if (count($ams) > 0) {
+            for ($i=0; $i<count($ams); $i++) {
+                $ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
+                $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/AMS/article.php?storyid='.$ams[$i]->storyid();
+                $ret[$i]['timestamp'] = $ams[$i]->published();
+                $ret[$i]['description'] = $ams[$i]->hometext();
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            }
+        }
+        return $ret;
+    }
 }

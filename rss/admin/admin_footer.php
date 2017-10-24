@@ -15,11 +15,10 @@
  * @package
  * @since
  * @author     XOOPS Development Team
- * @version    $Id $
  */
 
 global $xoopsModule;
-$pathIcon32      = '../../../' . $xoopsModule->getInfo('icons32');
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 
 echo "<div class='adminfooter'>\n"
     ."  <div style='text-align: center;'>\n"
