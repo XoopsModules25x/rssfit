@@ -21,7 +21,7 @@ use Xmf\Request;
  */
 
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 $moduleAdmin = Admin::getInstance();
 
 $do = Request::getString('do', '');

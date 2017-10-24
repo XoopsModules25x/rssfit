@@ -19,7 +19,7 @@ use Xmf\Module\Admin;
  * @author     XOOPS Development Team
  */
 
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 $moduleAdmin = Admin::getInstance();
 

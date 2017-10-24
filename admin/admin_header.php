@@ -36,7 +36,7 @@ xoops_cp_header();
 
 
 //if functions.php file exist
-require_once dirname(dirname(__FILE__)) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 //require '../include/common.php';
 
 global $xoopsModule;
