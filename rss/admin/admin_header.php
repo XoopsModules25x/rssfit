@@ -15,15 +15,25 @@
  * @package
  * @since
  * @author     XOOPS Development Team
- * @version    $Id $
  */
 
-$path = dirname(dirname(dirname(dirname(__FILE__))));
-include_once $path . '/mainfile.php';
-include_once $path . '/include/cp_functions.php';
+$path = dirname(dirname(dirname(__DIR__)));
+require_once $path . '/mainfile.php';
+require_once $path . '/include/cp_functions.php';
 require_once $path . '/include/cp_header.php';
 
-include_once $path.'/class/xoopsformloader.php';
+class_exists('\Xmf\Module\Admin') or die('XMF is required.');
+
+global $xoopsModule;
+
+$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+
+// Load language files
+\Xmf\Language::load('main', $thisModuleDir);
+//\Xmf\Language::load('modinfo', $thisModuleDir);
+
+xoops_cp_header();
+
 
 //if functions.php file exist
 require_once dirname(dirname(__FILE__)) . '/include/common.php';
@@ -32,20 +42,3 @@ require_once dirname(dirname(__FILE__)) . '/include/common.php';
 global $xoopsModule;
 
 $thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
-
-//if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-//    include_once(XOOPS_ROOT_PATH."/class/template.php");
-//    $xoopsTpl = new XoopsTpl();
-//}
-
-
-
-// Load language files
-xoops_loadLanguage('admin', $thisModuleDir);
-xoops_loadLanguage('modinfo', $thisModuleDir);
-xoops_loadLanguage('main', $thisModuleDir);
-
-$pathIcon16 = XOOPS_URL . '/' . $xoopsModule->getInfo('icons16');
-$pathIcon32 = XOOPS_URL . '/' . $xoopsModule->getInfo('icons32');
-$pathModuleAdmin = XOOPS_ROOT_PATH . '/' . $xoopsModule->getInfo('dirmoduleadmin');
-require_once $pathModuleAdmin . '/moduleadmin/moduleadmin.php';

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -39,48 +38,39 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
+class RssfitSmartpartner
+{
+    public $dirname = 'smartpartner';
+    public $modname;
+    public $grab;
 
-/**
- * Class RssfitSmartpartner
- */
-class RssfitSmartpartner{
-	var $dirname = 'smartpartner';
-	var $modname;
-	var $grab;
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        return $mod;
+    }
 
-	function RssfitSmartpartner(){
-	}
-
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		return $mod;
-	}
-
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		$ret = false;
-		include XOOPS_ROOT_PATH."/modules/smartpartner/include/common.php";
-		$partners =& $partner_handler->getPartners($this->grab, 0, _SPARTNER_STATUS_ACTIVE, 'weight', 'DESC');
-		if( false != $partners && count($partners) > 0 ){
-			for( $i=0; $i<count($partners); $i++ ){
-				$ret[$i]['link'] = $ret[$i]['guid'] = SMARTPARTNER_URL.'partner.php?id='.$partners[$i]->getVar('id');
-				$ret[$i]['title'] = $partners[$i]->getVar('title', 'n');
-				$ret[$i]['description'] = $partners[$i]->getVar('summary');
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-			}
-		}
-		return $ret;
-	}
+    public function &grabEntries(&$obj)
+    {
+        $ret = false;
+        include XOOPS_ROOT_PATH."/modules/smartpartner/include/common.php";
+        $partners = $partner_handler->getPartners($this->grab, 0, _SPARTNER_STATUS_ACTIVE, 'weight', 'DESC');
+        if (false != $partners && count($partners) > 0) {
+            for ($i=0; $i<count($partners); $i++) {
+                $ret[$i]['link'] = $ret[$i]['guid'] = SMARTPARTNER_URL.'partner.php?id='.$partners[$i]->getVar('id');
+                $ret[$i]['title'] = $partners[$i]->getVar('title', 'n');
+                $ret[$i]['description'] = $partners[$i]->getVar('summary');
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            }
+        }
+        return $ret;
+    }
 }

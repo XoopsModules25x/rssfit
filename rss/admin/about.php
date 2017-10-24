@@ -9,22 +9,22 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use Xmf\Module\Admin;
+
 /**
  * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
  * @author     XOOPS Development Team
- * @version    $Id $
  */
 
 include_once dirname(__FILE__) . '/admin_header.php';
 
-xoops_cp_header();
+$moduleAdmin = Admin::getInstance();
 
-$aboutAdmin = new ModuleAdmin();
-
-echo $aboutAdmin->addNavigation('about.php');
-echo $aboutAdmin->renderAbout('6KJ7RW5DR3VTJ', false);
+$moduleAdmin->displayNavigation(basename(__FILE__));
+Admin::setPaypal('xoopsfoundation@gmail.com');
+$moduleAdmin->displayAbout(false);
 
 include_once 'admin_footer.php';

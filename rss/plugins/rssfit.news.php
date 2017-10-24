@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -38,58 +37,49 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
+class RssfitNews
+{
+    public $dirname = 'news';
+    public $modname;
+    public $grab;
 
-/**
- * Class RssfitNews
- */
-class RssfitNews{
-	var $dirname = 'news';
-	var $modname;
-	var $grab;
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        $this->module = $mod;
+        return $mod;
+    }
 
-	function RssfitNews(){
-	}
-
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		$this->module =& $mod;
-		return $mod;
-	}
-
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		$ret = false;
-		@include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
-		$myts =& MyTextSanitizer::getInstance();
-		if( $this->module->getVar('version') >= 130 ){
-			@include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-			$news = NewsStory::getAllPublished($this->grab, 0, news_getmoduleoption('restrictindex'));
-		}else{
-			$news = NewsStory::getAllPublished($this->grab, 0);
-		}
-		if( count($news) > 0 ){
-			for( $i=0; $i<count($news); $i++ ){
-				$ret[$i]['title'] = $myts->undoHtmlSpecialChars($news[$i]->title());
-				$ret[$i]['link'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();
-				$ret[$i]['guid'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();
-				$ret[$i]['timestamp'] = $news[$i]->published();
-				$desc = $news[$i]->hometext();
-				$ret[$i]['description'] = $news[$i]->hometext();
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-			}
-		}
-		return $ret;
-	}
+    public function &grabEntries(&$obj)
+    {
+        $ret = false;
+        @include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+        $myts = MyTextSanitizer::getInstance();
+        if ($this->module->getVar('version') >= 130) {
+            @include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+            $news = NewsStory::getAllPublished($this->grab, 0, getmoduleoption('restrictindex'));
+        } else {
+            $news = NewsStory::getAllPublished($this->grab, 0);
+        }
+        if (count($news) > 0) {
+            for ($i=0; $i<count($news); $i++) {
+                $ret[$i]['title'] = ($this->modname).': '.$myts->undoHtmlSpecialChars($news[$i]->title());
+                $ret[$i]['link'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();
+                $ret[$i]['guid'] = XOOPS_URL.'/modules/news/article.php?storyid='.$news[$i]->storyid();
+                $ret[$i]['timestamp'] = $news[$i]->published();
+                $desc = $news[$i]->hometext();
+                $ret[$i]['description'] = $news[$i]->hometext();
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            }
+        }
+        return $ret;
+    }
 }

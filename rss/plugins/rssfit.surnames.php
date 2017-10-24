@@ -27,34 +27,37 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-/*
-* About this RSSFit plug-in
-* Author: tuff <http://www.brandycoke.com/>
-* Requirements (Tested with):
-*  Module: Newbb 2 <The XOOPS Project Module Dev Team | http://dev.xoops.org/>
-*  Version: 2.0.1
-*  RSSFit verision: 1.2
-*  XOOPS version: 2.0.13.2
-*/
+
+/**
+ * About this RSSFit plug-in
+ * Author: Richard Griffith <richard@geekwright.com>
+ * Requirements (or Tested with):
+ *  Module: Surnames https://github.com/geekwright/surnames
+ *  Version: 1.0
+ *  RSSFit verision: 1.3
+ *  XOOPS version: 2.5.9
+ */
 
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
-class RssfitNewbb2
+
+class RssfitSurnames
 {
-    public $dirname = 'newbb';
+    public $dirname = 'surnames';
     public $modname;
-    public $module;
     public $grab;
+    public $module;
 
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 200) {
+        if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;
+        $this->module = $mod;    // optional, remove this line if there is nothing
+                                // to do with module info when grabbing entries
         return $mod;
     }
 
@@ -63,10 +66,6 @@ class RssfitNewbb2
         static $thisUser=false;
         static $lastUid=false;
         static $lastName='';
-
-        if ($uid==0) {
-            return 'A guest';
-        }
 
         if ($lastUid==$uid) {
             return $lastName;
@@ -87,43 +86,53 @@ class RssfitNewbb2
 
     public function &grabEntries(&$obj)
     {
-        @include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
-        global $xoopsDB, $config_handler;
-        $xoopsModule = $this->module;
+        global $xoopsDB;
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
-        $i = 0;
-        $forum_handler = xoops_getmodulehandler('forum', 'newbb');
-        $topic_handler = xoops_getmodulehandler('topic', 'newbb');
-        $newbbConfig = $config_handler->getConfigsByCat(0, $this->module->getVar('mid'));
 
-        $access_forums = $forum_handler->getForums(0, 'access');
-        $available_forums = array();
-        foreach ($access_forums as $forum) {
-            if ($topic_handler->getPermission($forum)) {
-                $available_forums[$forum->getVar('forum_id')] = $forum;
+        $i = -1;
+        $lasttime=false;
+        $lastuser=false;
+        $limit=10*$this->grab;
+
+        $sql = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM ".$xoopsDB->prefix("surnames");
+        $sql .=" WHERE approved=1 ORDER BY changedate DESC, uid ";
+        $result = $xoopsDB->query($sql, $limit, 0);
+        while ($row = $xoopsDB->fetchArray($result)) {
+            $changedate=strtotime($row['changedate']);
+            $uid=$row['uid'];
+            if ($lasttime==$changedate && $lastuser==$uid) {
+                $link = XOOPS_URL.'/modules/surnames/view.php?id='.$row['id'];
+                $surname=$row['surname'];
+                $desc .= "<a href=\"$link\">$surname</a><br />";
+            } else {
+                if ($i>=0) {
+                    $ret[$i]['description'] = $desc;
+                }
+                ++$i;
+                $lasttime=$changedate;
+                $lastuser=$uid;
+                if ($i<=$this->grab) {
+                    $desc="";
+                    $name = $this->myGetUnameFromId($row['uid']);
+                    $ret[$i]['title'] = ($this->modname).': by '.$name;
+                    $ret[$i]['link'] = XOOPS_URL.'/modules/surnames/list.php?uid='.$row['uid'];
+                    $ret[$i]['timestamp'] = $changedate;
+
+                    $link = XOOPS_URL.'/modules/surnames/view.php?id='.$row['id'];
+                    $ret[$i]['guid'] = $link;
+                    $ret[$i]['category'] = $this->modname;
+
+                    $surname=$row['surname'];
+                    $desc .= "<a href=\"$link\">$surname</a><br />";
+                }
+            }
+            if ($i>$this->grab) {
+                break;
             }
         }
-        unset($access_forums);
-
-        if (count($available_forums) > 0) {
-            ksort($available_forums);
-            $cond = ' AND t.forum_id IN ('.implode(',', array_keys($available_forums)).')';
-            unset($available_forums);
-            $cond .= $newbbConfig['enable_karma'] ? ' AND p.post_karma = 0' : '';
-            $cond .= $newbbConfig['allow_require_reply'] ? ' AND p.require_reply = 0' : '';
-            $query = 'SELECT p.uid, p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.dohtml, p.dosmiley, p.doxcode, p.dobr, f.forum_name, pt.post_text FROM '.$xoopsDB->prefix('bb_posts').' p, '.$xoopsDB->prefix('bb_forums').' f, '.$xoopsDB->prefix('bb_topics').' t, '.$xoopsDB->prefix('bb_posts_text').' pt WHERE f.forum_id = p.forum_id AND p.post_id = pt.post_id AND p.topic_id = t.topic_id AND t.approved = 1 AND p.approved = 1 AND f.forum_id = t.forum_id '.$cond.' ORDER BY p.post_time DESC';
-            $result = $xoopsDB->query($query, $this->grab);
-            while ($row = $xoopsDB->fetchArray($result)) {
-                $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewtopic.php?topic_id='.$row['topic_id'].'&amp;forum='.$row['forum_id'].'&amp;post_id='.$row['post_id'].'#forumpost'.$row['post_id'];
-                $ret[$i]['title'] = ($this->modname).': '.$row['subject'];
-                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $row['post_time'];
-                $ret[$i]['description'] = sprintf("Posted by: <i>%s</i><br />%s", $this->myGetUnameFromId($row['uid']), $myts->displayTarea($row['post_text'], $row['dohtml'], $row['dosmiley'], $row['doxcode'], 1, $row['dobr']));
-                $ret[$i]['category'] = $row['forum_name'];
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/viewforum.php?forum='.$row['forum_id'];
-                $i++;
-            }
+        if ($i<$this->grab) {
+            $ret[$i]['description'] = $desc;
         }
         return $ret;
     }

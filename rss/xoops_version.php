@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -30,7 +29,7 @@
 ###############################################################################
 
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
+    die("XOOPS root path not defined");
 }
 
 $modversion['name'] = _MI_RSSFIT_NAME;
@@ -40,9 +39,10 @@ $modversion['author'] = "NS Tai (aka tuff)";
 $modversion['credits'] = "<a href='http://www.brandycoke.com/'>Brandycoke Productions</a>";
 $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = "www.gnu.org/licenses/gpl-2.0.html";$modversion['official'] = 0;
-$modversion['image'] = "images/rssfeed.png";
-$modversion['dirname'] = basename(dirname(__FILE__));
+$modversion['license_url'] = "https://www.gnu.org/licenses/gpl-2.0.html";
+$modversion['official']    = 0;
+$modversion['image']       = "images/rssfeed.png";
+$modversion['dirname']     = basename(__DIR__);
 
 $modversion['dirmoduleadmin'] = 'Frameworks/moduleclasses';
 $modversion['icons16']        = 'Frameworks/moduleclasses/icons/16';
@@ -53,8 +53,7 @@ $modversion["module_website_url"]  = "www.xoops.org";
 $modversion["module_website_name"] = "XOOPS";
 $modversion["module_status"]       = "Beta 1";
 $modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = "2.5.7.2";
-$modversion['min_admin']           = '1.1';
+$modversion['min_xoops']           = "2.5.9";
 $modversion['min_db']              = array(
     'mysql'  => '5.0.7',
     'mysqli' => '5.0.7'
@@ -83,10 +82,15 @@ $modversion['onUpdate'] = 'include/install.php';
 $modversion['hasMain'] = 1;
 
 // Templates
-$modversion['templates'][1]['file'] = 'rssfit_index.html';
-$modversion['templates'][1]['description'] = _MI_TMPL_INTRO;
-$modversion['templates'][2]['file'] = 'rssfit_rss.html';
-$modversion['templates'][2]['description'] = _MI_TMPL_RSS;
+$modversion['templates'] = array();
+$modversion['templates'][] = array(
+    'file'        => 'rssfit_index.tpl',
+    'description' => _MI_TMPL_INTRO,
+);
+$modversion['templates'][] = array(
+    'file'        => 'rssfit_rss.tpl',
+    'description' => _MI_TMPL_RSS,
+);
 
 //	Module Configs
 // $xoopsModuleConfig['overall_entries']
@@ -154,5 +158,3 @@ $modversion['config'][8]['formtype'] = 'select';
 $modversion['config'][8]['valuetype'] = 'int';
 $modversion['config'][8]['default'] = 1;
 $modversion['config'][8]['options'] = array(_MI_OUTOUT_MIME_XML=>1, _MI_OUTOUT_MIME_HTML=>2, _MI_OUTOUT_MIME_PHP=>3);
-
-

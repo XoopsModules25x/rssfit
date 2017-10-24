@@ -1,6 +1,6 @@
 <div id="help-template" class="outer">
     <h1 class="head">Help:
-        <a class="ui-corner-all tooltip" href="<{$xoops_url}>/modules/<{$smarty.const._MI_RSSFIT_DIRNAME}>/admin/index.php"
+        <a class="ui-corner-all tooltip" href="<{$xoops_url}>/modules/rss/admin/index.php"
            title="Back to the administration of <{$smarty.const._MI_RSSFIT_NAME}>"> <{$smarty.const._MI_RSSFIT_NAME}>
             <img src="<{xoAdminIcons home.png}>"
                  alt="Back to the Administration of <{$smarty.const._MI_RSSFIT_NAME}>"/>
@@ -20,12 +20,24 @@
     Detailed instructions on installing modules are available in the
     <a href="http://goo.gl/adT2i">XOOPS Operations Manual</a> </p>
 
+    <p class="even">Some modules may come with a plugin that needs to be installed before use. You install a plugin,
+    a file name rssfit.<em>module</em>.php by copying it to the module/rss/plugins directory. You will
+    need to activate the new plugin in the <em>Plug-ins</em> administration panel.</p>
 
     <h4 class="odd">Operating instructions</h4>
 
-    This module and its operations are very simple.<br /> <br />
-    Detailed instructions on configuring the access rights for user groups are available in the
-    <a href="http://goo.gl/adT2i">XOOPS Operations Manual</a><br /> <br />
+    <p class="even">Configure the rss feed in the administration area, activating the plugins
+        applicable to your system and needs. You can test your feed on the user side by visting
+        the <em>rss</em> module.</p>
+
+    <p class="even">You can access the feed directly <a href="<{$xoops_url}>/modules/rss/rss.php" rel="external"><em>your-site-URL</em>/modules/rss/rss.php</a></p>
+
+    <h4 class="odd">Creating Plugins</h4>
+
+    <p class="even">If you are a module author (or a PHP savy user,) you can create a custom plugin to meet your needs.
+        The file <em>plugins/rssfit.special.php</em> is an example that you can use as a model. It includes extensive
+        comments to help guide you along the way.
+    </p>
 
     <h4 class="odd">Tutorial</h4>
 

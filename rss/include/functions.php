@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -33,72 +32,30 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-/**
- * @param $a
- * @param $b
- *
- * @return int
- */
-function sortTimestamp($a, $b){
-	if( $a['timestamp'] == $b['timestamp'] ){
-		return 0;
-	}
-	return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
+function sortTimestamp($a, $b)
+{
+    if ($a['timestamp'] == $b['timestamp']) {
+        return 0;
+    }
+    return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
 }
 
-function rssfitAdminHeader(){
-	global $xoopsModule, $xoopsConfig;
-	$langf = RSSFIT_ROOT_PATH.'language/'.$xoopsConfig['language'].'/modinfo.php';
-	if( file_exists($langf) ){
-		include $langf;
-	}else{
-		include RSSFIT_ROOT_PATH.'language/english/modinfo.php';
-	}
-//	include 'menu.php';
-//	for( $i=0; $i<count($adminmenu); $i++ ){
-//		$links[$i] = array(0 => RSSFIT_URL.$adminmenu[$i]['link'], 1 => $adminmenu[$i]['title']);
-//	}
-//	$links[] = array(0 => XOOPS_URL.'/modules/system/admin.php?fct=preferences&op=showmod&mod='.$xoopsModule->getVar('mid'), 1 => _PREFERENCES);
-//	$admin_links = '<table class="outer" width="100%" cellspacing="1"><tr>';
-//	for( $i=0; $i<count($links); $i++ ){
-//		$admin_links .= '<td class="even" style="width: 14%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
-//	}
-//	$admin_links .= "<td class='even' style='width: 14%; text-align: center;'><a href='about.php'>About</a></td></tr></table><br clear='all' />\n";
-//	xoops_cp_header();
-//	echo $admin_links;
+function genSpecMoreInfo($spec=0, &$rss)
+{
+    return rssfGenAnchor($rss->specUrl($spec), _AM_EDIT_CHANNEL_QMARK, 'spec', _AM_EDIT_CHANNEL_MOREINFO);
 }
 
-/**
- * @param int $spec
- * @param     $rss
- *
- * @return string
- */
-function genSpecMoreInfo($spec=0, &$rss){
-	return rssfGenAnchor($rss->specUrl($spec), _AM_EDIT_CHANNEL_QMARK, 'spec', _AM_EDIT_CHANNEL_MOREINFO);
+function rssfGenAnchor($url='', $text='', $target="", $title='', $class='', $id='')
+{
+    if (!empty($url)) {
+        $ret = '';
+        $ret .= '<a href="'.$url.'"';
+        $ret .= !empty($target) ? ' target="'.$target.'"' : '';
+        $ret .= !empty($class) ? ' class="'.$class.'"' : '';
+        $ret .= !empty($id) ? ' id="'.$id.'"' : '';
+        $ret .= !empty($title) ? ' title="'.$title.'"' : '';
+        $ret .= '>'.$text.'</a>';
+        return $ret;
+    }
+    return $text;
 }
-
-/**
- * @param string $url
- * @param string $text
- * @param string $target
- * @param string $title
- * @param string $class
- * @param string $id
- *
- * @return string
- */
-function rssfGenAnchor($url='', $text='', $target="", $title='', $class='', $id=''){
-	if( !empty($url) ){
-		$ret = '';
-		$ret .= '<a href="'.$url.'"';
-		$ret .= !empty($target) ? ' target="'.$target.'"' : '';
-		$ret .= !empty($class) ? ' class="'.$class.'"' : '';
-		$ret .= !empty($id) ? ' id="'.$id.'"' : '';
-		$ret .= !empty($title) ? ' title="'.$title.'"' : '';
-		$ret .= '>'.$text.'</a>';
-		return $ret;
-	}
-	return $text;
-}
-

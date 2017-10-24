@@ -32,9 +32,9 @@
 * if you really want to do so.
 * Step 0:	Stop here if you are not sure what you are doing, it's no fun at all
 * Step 1:	Clone this file and rename as something like rssfit.[mod_dir].php
-* Step 2:	Replace the text "RssfitSample" with "Rssfit[mod_dir]" at line 59 and
+* Step 2:	Replace the text "RssfitMyalbum" with "Rssfit[mod_dir]" at line 59 and
 * 			line 65, i.e. "RssfitNews" for the module "News"
-* Step 3:	Modify the word in line 60 from 'sample' to [mod_dir]
+* Step 3:	Modify the word in line 60 from 'Myalbum' to [mod_dir]
 * Step 4:	Modify the function "grabEntries" to satisfy your needs
 * Step 5:	Move your new plug-in file to the RSSFit plugins folder,
 * 			i.e. your-xoops-root/modules/rss/plugins
@@ -57,12 +57,12 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
-class RssfitSample
+class RssfitExtcal
 {
-    public $dirname = 'sample';
+    public $dirname = 'extcal';
     public $modname;
     public $grab;
-    public $module;    // optional, see line 71
+    public $module;    // optional, see line 74
 
     public function loadModule()
     {
@@ -81,38 +81,52 @@ class RssfitSample
         global $xoopsDB;
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
+
         $i = 0;
-    //	The following example code grabs the latest entries from the module MyLinks
-        $sql = "SELECT l.lid, l.cid, l.title, l.date, t.description FROM ".$xoopsDB->prefix("mylinks_links")." l, ".$xoopsDB->prefix("mylinks_text")." t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC";
-        $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
-            $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
-        /*
-        * Required elements of an RSS item
-        */
-        //	1. Title of an item
-            $ret[$i]['title'] = $row['title'];
-        //	2. URL of an item
-            $ret[$i]['link'] = $link;
-        //	3. Item modification date, must be in Unix time format
-            $ret[$i]['timestamp'] = $row['date'];
-        //	4. The item synopsis, or description, whatever
-            $ret[$i]['description'] = $myts->displayTarea($row['description']);
-        /*
-        * Optional elements of an RSS item
-        */
-        //	5. The item synopsis, or description, whatever
-            $ret[$i]['guid'] = $link;
-        //	6. A string + domain that identifies a categorization taxonomy
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-        //	7. extra tags examples
-            $ret[$i]['extras'] = array();
-        //	7a. without attribute
-            $ret[$i]['extras']['author'] = array('content' => 'aabbc@c.com');
-        //	7b. with attributes
-            $ret[$i]['extras']['enclosure']['attributes'] = array('url' => 'url-to-any-file', 'length' => 1024000, 'type' => 'audio/mpeg');
-            $i++;
+
+        // read confgs to get timestamp format
+        $extcal = $this->module;
+        $config_handler = &xoops_gethandler('config');
+        $extcalConfig = &$config_handler->getConfigsByCat(0, $extcal->getVar('mid'));
+        $long_form=$extcalConfig['date_long'];
+
+        $eventHandler = xoops_getmodulehandler('event', 'extcal');
+        $catHandler = xoops_getmodulehandler('cat', 'extcal');
+        $events = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
+
+        if (is_array($events)) {
+            foreach ($events as $event) {
+                ++$i;
+
+                $cat=$catHandler->getCat($event->getVar('cat_id'), 0);
+                $category=$cat->getVar('cat_name');
+                $link=XOOPS_URL.'/modules/extcal/event.php?event='.$event->getVar('event_id');
+                $event_start = formatTimestamp($event->getVar('event_start'), $long_form);
+                $title = xoops_utf8_encode(htmlspecialchars($event->getVar('event_title'), ENT_QUOTES));
+                $description=xoops_utf8_encode(htmlspecialchars($event->getVar('event_desc'), ENT_QUOTES));
+                $address=$event->getVar('event_address');
+
+                $desc_link=$event->getVar('event_url');
+                if ($desc_link=='') {
+                    $desc_link=$link;
+                }
+                $desc  = "<a href=\"$desc_link\"><b>$title</b></a><br />";
+                $desc .= "<table>";
+                $desc .= "<tr><td valign='top'>When:</td><td>$event_start</td></tr>";
+                if ($address!='') {
+                    $desc .= "<tr><td valign='top'>Where:</td><td>$address</td></tr>";
+                }
+                $desc .= "<tr><td valign='top'>What:</td><td>$description</td></tr>";
+                $desc .= "</table>";
+
+                $ret[$i]['title'] = $category.': '.$title;
+                $ret[$i]['link'] = $link;
+                $ret[$i]['description'] = $desc;
+                $ret[$i]['timestamp'] = $event->getVar('event_submitdate');
+//				$ret[$i]['timestamp'] = time();
+                $ret[$i]['guid'] = $link;
+                $ret[$i]['category'] = $category;
+            }
         }
         return $ret;
     }

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -28,62 +27,55 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-/*
-* About this RSSFit plug-in
-* Author: tuff <http://www.brandycoke.com/>
-* Requirements (Tested with):
-*  Module: MyDownloads <http://www.xoops.org/>
-*  Version: 1.1
-*  RSSFit verision: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3
-*/
-
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
 
 /**
- * Class RssfitMydownloads
+ * About this RSSFit plug-in
+ * Author: tuff <http://www.brandycoke.com/>
+ * Requirements (Tested with):
+ *  Module: MyDownloads <http://www.xoops.org/>
+ *  Version: 1.1
+ *  RSSFit verision: 1.2 / 1.5
+ *  XOOPS version: 2.0.13.2 / 2.2.3
  */
-class RssfitMydownloads extends XoopsObject{
-	var $dirname = 'mydownloads';
-	var $modname;
-	var $grab;
 
-	function RssfitMydownloads(){
-	}
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
 
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		return $mod;
-	}
+class RssfitMydownloads extends XoopsObject
+{
+    public $dirname = 'mydownloads';
+    public $modname;
+    public $grab;
 
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		global $xoopsDB;
-		$myts =& MyTextSanitizer::getInstance();
-		$ret = false;
-		$i = 0;
-		$sql = "SELECT l.lid, l.cid, l.title, l.date, t.description FROM ".$xoopsDB->prefix("mydownloads_downloads")." l, ".$xoopsDB->prefix("mydownloads_text")." t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC";
-		$result = $xoopsDB->query($sql, $this->grab, 0);
-		while( $row = $xoopsDB->fetchArray($result) ){
-			$ret[$i]['title'] = $row['title'];
-			$link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
-			$ret[$i]['link'] = $ret[$i]['guid'] = $link;
-			$ret[$i]['timestamp'] = $row['date'];
-			$ret[$i]['description'] = $myts->displayTarea($row['description']);
-			$ret[$i]['category'] = $this->modname;
-			$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-			$i++;
-		}
-		return $ret;
-	}
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        return $mod;
+    }
+
+    public function &grabEntries(&$obj)
+    {
+        global $xoopsDB;
+        $myts = MyTextSanitizer::getInstance();
+        $ret = false;
+        $i = 0;
+        $sql = "SELECT l.lid, l.cid, l.title, l.date, t.description FROM ".$xoopsDB->prefix("mydownloads_downloads")." l, ".$xoopsDB->prefix("mydownloads_text")." t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC";
+        $result = $xoopsDB->query($sql, $this->grab, 0);
+        while ($row = $xoopsDB->fetchArray($result)) {
+            $ret[$i]['title'] = $row['title'];
+            $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['date'];
+            $ret[$i]['description'] = $myts->displayTarea($row['description']);
+            $ret[$i]['category'] = $this->modname;
+            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            $i++;
+        }
+        return $ret;
+    }
 }

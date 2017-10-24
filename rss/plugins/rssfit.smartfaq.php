@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -38,56 +37,47 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if( !defined('RSSFIT_ROOT_PATH') ){ exit(); }
+if (!defined('RSSFIT_ROOT_PATH')) {
+    exit();
+}
+class RssfitSmartfaq
+{
+    public $dirname = 'smartfaq';
+    public $modname;
+    public $grab;
 
-/**
- * Class RssfitSmartfaq
- */
-class RssfitSmartfaq{
-	var $dirname = 'smartfaq';
-	var $modname;
-	var $grab;
+    public function loadModule()
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return false;
+        }
+        $this->modname = $mod->getVar('name');
+        return $mod;
+    }
 
-	function RssfitSmartfaq(){
-	}
-
-    /**
-     * @return bool
-     */
-    function loadModule(){
-		$mod =& $GLOBALS['module_handler']->getByDirname($this->dirname);
-		if( !$mod || !$mod->getVar('isactive') ){
-			return false;
-		}
-		$this->modname = $mod->getVar('name');
-		return $mod;
-	}
-
-    /**
-     * @param $obj
-     *
-     * @return bool
-     */function &grabEntries(&$obj){
-		$ret = false;
-		@include_once(XOOPS_ROOT_PATH."/modules/smartfaq/include/functions.php");
-		$faq_handler =& sf_gethandler('faq');
-		$faqs = $faq_handler->getAllPublished($this->grab, 0);
-		if( false != $faqs && count($faqs) > 0 ){
-			$answer_handler =& sf_gethandler('answer');
-			for( $i=0; $i<count($faqs); $i++ ){
-				if( !$answer = $answer_handler->getOfficialAnswer($faqs[$i]->faqid()) ){
-					continue;
-				}
-				$ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/smartfaq/faq.php?faqid='.$faqs[$i]->faqid();
-				$q = $faqs[$i]->getVar('howdoi', 'n');
-				$q = empty($q) ? $faqs[$i]->getVar('question', 'n') : $q;
-				$ret[$i]['title'] = $q;
-				$ret[$i]['timestamp'] = $faqs[$i]->getVar('datesub');
-				$ret[$i]['description'] = $answer->getVar('answer');
-				$ret[$i]['category'] = $this->modname;
-				$ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
-			}
-		}
-		return $ret;
-	}
+    public function &grabEntries(&$obj)
+    {
+        $ret = false;
+        @include_once(XOOPS_ROOT_PATH."/modules/smartfaq/include/functions.php");
+        $faq_handler = sf_gethandler('faq');
+        $faqs = $faq_handler->getAllPublished($this->grab, 0);
+        if (false != $faqs && count($faqs) > 0) {
+            $answer_handler = sf_gethandler('answer');
+            for ($i=0; $i<count($faqs); $i++) {
+                if (!$answer = $answer_handler->getOfficialAnswer($faqs[$i]->faqid())) {
+                    continue;
+                }
+                $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/smartfaq/faq.php?faqid='.$faqs[$i]->faqid();
+                $q = $faqs[$i]->getVar('howdoi', 'n');
+                $q = empty($q) ? $faqs[$i]->getVar('question', 'n') : $q;
+                $ret[$i]['title'] = $q;
+                $ret[$i]['timestamp'] = $faqs[$i]->getVar('datesub');
+                $ret[$i]['description'] = $answer->getVar('answer');
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            }
+        }
+        return $ret;
+    }
 }
