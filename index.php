@@ -43,7 +43,7 @@ if ($intr = $misc_handler->getObjects(new Criteria('misc_category', 'intro'))) {
     $title = str_replace('{SITENAME}', $xoopsConfig['sitename'], $intro->getVar('misc_title'));
     $content = str_replace('{SITENAME}', $xoopsConfig['sitename'], $intro->getVar('misc_content'));
     $content = str_replace('{SITEURL}', XOOPS_URL.'/', $content);
-    if (strstr($content, '{SUB}') && $plugins = $plugins_handler->getObjects(new Criteria('subfeed', 1))) {
+    if (false !== strpos($content, '{SUB}') && $plugins = $plugins_handler->getObjects(new Criteria('subfeed', 1))) {
         $sublist = '';
         foreach ($plugins as $p) {
             $sub = $myts->stripSlashesGPC($setting['sub']);
