@@ -70,7 +70,8 @@ class Rssfitlexikon extends XoopsObject
         //$perm_handler = xoops_gethandler('groupperm');
         $ret = false;
         $i = 0;
-        $sql = "SELECT entryID, categoryID, term, definition, datesub FROM ".$xoopsDB->prefix("lxentries")." WHERE submit = 0 AND offline = 0 ORDER BY datesub DESC";
+        $sql = 'SELECT entryID, categoryID, term, definition, datesub FROM '
+               . $xoopsDB->prefix('lxentries') . ' WHERE submit = 0 AND offline = 0 ORDER BY datesub DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             //	required

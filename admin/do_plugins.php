@@ -106,7 +106,7 @@ switch ($op) {
                             $ret .= '<br />' . $e;
                         }
                     } else {
-                        $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . "</b>";
+                        $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . '</b>';
                     }
                 }
                 $ret .= "</td>\n";
@@ -153,7 +153,7 @@ switch ($op) {
                             $ret .= '<br />' . $e;
                         }
                     } else {
-                        $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . "</b>";
+                        $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . '</b>';
                     }
                     $action->setExtra('disabled="disabled"');
                 }

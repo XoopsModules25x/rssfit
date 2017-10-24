@@ -45,7 +45,7 @@ function genSpecMoreInfo($spec=0, &$rss)
     return rssfGenAnchor($rss->specUrl($spec), _AM_EDIT_CHANNEL_QMARK, 'spec', _AM_EDIT_CHANNEL_MOREINFO);
 }
 
-function rssfGenAnchor($url='', $text='', $target="", $title='', $class='', $id='')
+function rssfGenAnchor($url='', $text='', $target= '', $title='', $class='', $id='')
 {
     if (!empty($url)) {
         $ret = '';

@@ -26,7 +26,7 @@ $moduleAdmin = Admin::getInstance();
 
 $do = Request::getString('do', '');
 $op = Request::getString('op', 'list');
-define("RSSFIT_OK", 1);
+define('RSSFIT_OK', 1);
 
 if (file_exists(RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php')) {
     include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';

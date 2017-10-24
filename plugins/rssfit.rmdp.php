@@ -68,7 +68,7 @@ class Rssfitrmdp extends XoopsObject
         global $xoopsDB, $moduleperm_handler;
         $ret = array();
         $i = 0;
-        $sql = "SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ".$xoopsDB->prefix("rmdp_software")." ORDER BY fecha DESC";
+        $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $ret[$i]['title'] = $row['nombre'];

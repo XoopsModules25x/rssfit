@@ -250,7 +250,7 @@ class RssfeedHandler
 
     public function rssTimeStamp($time)
     {
-        return date("D, j M Y H:i:s O", $time);
+        return date('D, j M Y H:i:s O', $time);
     }
 
     public function sortTimestamp($a, $b)

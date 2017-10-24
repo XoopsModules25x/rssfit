@@ -107,12 +107,12 @@ class RssfitMyalbum
         $i = 0;
         // For myalbum-p with thumbs enabled
 
-        $sql  = "SELECT p.lid, p.title, p.ext, p.date, t.description, c.cid, c.title as cat, p.submitter";
-        $sql .= " FROM ".$xoopsDB->prefix("myalbum_photos")." p, ";
-        $sql .= $xoopsDB->prefix('myalbum_text')." t, ";
-        $sql .= $xoopsDB->prefix("myalbum_cat")." c ";
-        $sql .= "WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ";
-        $sql .= "ORDER BY date DESC";
+        $sql  = 'SELECT p.lid, p.title, p.ext, p.date, t.description, c.cid, c.title as cat, p.submitter';
+        $sql .= ' FROM ' . $xoopsDB->prefix('myalbum_photos') . ' p, ';
+        $sql .= $xoopsDB->prefix('myalbum_text') . ' t, ';
+        $sql .= $xoopsDB->prefix('myalbum_cat') . ' c ';
+        $sql .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
+        $sql .= 'ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/photo.php?lid='.$row['lid'];

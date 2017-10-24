@@ -60,7 +60,7 @@ class RssfitSmartpartner
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        include XOOPS_ROOT_PATH."/modules/smartpartner/include/common.php";
+        include XOOPS_ROOT_PATH . '/modules/smartpartner/include/common.php';
         $partners = $partner_handler->getPartners($this->grab, 0, _SPARTNER_STATUS_ACTIVE, 'weight', 'DESC');
         if (false != $partners && count($partners) > 0) {
             for ($i=0; $i<count($partners); $i++) {

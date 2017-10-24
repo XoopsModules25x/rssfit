@@ -83,7 +83,9 @@ class RssfitSample
         $ret = false;
         $i = 0;
         //	The following example code grabs the latest entries from the module MyLinks
-        $sql = "SELECT l.lid, l.cid, l.title, l.date, t.description FROM ".$xoopsDB->prefix("mylinks_links")." l, ".$xoopsDB->prefix("mylinks_text")." t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC";
+        $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM '
+               . $xoopsDB->prefix('mylinks_links') . ' l, '
+               . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];

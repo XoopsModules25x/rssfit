@@ -59,7 +59,7 @@ class RssfitSmartsection
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        include XOOPS_ROOT_PATH."/modules/smartsection/include/common.php";
+        include XOOPS_ROOT_PATH . '/modules/smartsection/include/common.php';
         $items = $smartsection_item_handler->getAllPublished($this->grab, 0);
         if (false != $items && count($items) > 0) {
             for ($i=0; $i<count($items); $i++) {

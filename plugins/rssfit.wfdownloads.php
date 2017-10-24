@@ -65,7 +65,8 @@ class Rssfitwfdownloads extends XoopsObject
         $perm_handler = xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;
-        $sql = "SELECT lid, cid, title, date, description FROM ".$xoopsDB->prefix("wfdownloads_downloads")." WHERE status > 0 AND offline = 0 ORDER BY date DESC";
+        $sql = 'SELECT lid, cid, title, date, description FROM '
+               . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             if ($perm_handler->checkRight('WFDownFilePerm', $row['lid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {

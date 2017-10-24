@@ -1,18 +1,18 @@
 <?php
 global $xoopsConfig;
-define("_AM_SAVE", "Save");
-define("_AM_OK", "Okay");
-define("_AM_DBUPDATED", "Database Updated Successfully!");
-define("_AM_ACTION", "Action");
-define("_AM_ID", "ID");
+define('_AM_SAVE', 'Save');
+define('_AM_OK', 'Okay');
+define('_AM_DBUPDATED', 'Database Updated Successfully!');
+define('_AM_ACTION', 'Action');
+define('_AM_ID', 'ID');
 
-define("_AM_EDIT_INTRO", "Edit introduction");
-define("_AM_EDIT_INTRO_TITLE", "Introduction title");
-define("_AM_EDIT_INTRO_TITLE_DESC", "{SITENAME} will print ".$xoopsConfig['sitename']);
-define("_AM_EDIT_INTRO_TEXT", "Introduction text");
-define("_AM_EDIT_INTRO_TEXT_DESC", _AM_EDIT_INTRO_TITLE_DESC.'<br /><br />{SITEURL} will print '.XOOPS_URL.'/');
+define('_AM_EDIT_INTRO', 'Edit introduction');
+define('_AM_EDIT_INTRO_TITLE', 'Introduction title');
+define('_AM_EDIT_INTRO_TITLE_DESC', '{SITENAME} will print ' . $xoopsConfig['sitename']);
+define('_AM_EDIT_INTRO_TEXT', 'Introduction text');
+define('_AM_EDIT_INTRO_TEXT_DESC', _AM_EDIT_INTRO_TITLE_DESC . '<br /><br />{SITEURL} will print ' . XOOPS_URL . '/');
 
-define("_AM_EDIT_PLUGIN", "Manage Plug-ins");
+define('_AM_EDIT_PLUGIN', 'Manage Plug-ins');
 define('_AM_PLUGIN_ACTIVATED', 'Activated Plug-ins');
 define('_AM_PLUGIN_INACTIVE', 'Inactive Plug-ins');
 define('_AM_PLUGIN_NONINSTALLED', 'Non-installed Plug-ins');
@@ -33,7 +33,7 @@ define('_AM_PLUGIN_CLASSNOTFOUND', 'Plug-in not compatible (Class not exist)');
 define('_AM_PLUGIN_FUNCNOTFOUND', 'Plug-in not compatible (Function not exist)');
 
 ################### version 1.1 additions ###################
-define("_AM_XOOPS_VERSION_WRONG", "Version of XOOPS does not meet the system requirement. RSSFit may not work properly.");
+define('_AM_XOOPS_VERSION_WRONG', 'Version of XOOPS does not meet the system requirement. RSSFit may not work properly.');
 define('_AM_DB_RECORD_MISSING', 'Could not found essential database records, please reinstall RSSFit');
 define('_AM_MAINFEED', 'Main feed');
 define('_AM_DO_HTML', 'Use HTML tags');
@@ -59,6 +59,6 @@ define('_AM_STICKY_TITLE', 'Sticky text title');
 define('_AM_STICKY_CONTENT', 'Sticky text content');
 define('_AM_STICKY_LINK', 'Sticky text link');
 define('_AM_STICKY_APPLYTO', 'Apply to feeds');
-define("_AM_EDIT_INTRO_TEXT_DESC_SUB", '<br /><br />{SUB} will print a list of available sub-feeds');
-define("_AM_EDIT_INTRO_SUB", 'HTML tags for listing sub-feeds');
-define("_AM_EDIT_INTRO_SUB_DESC", "Extra tags:<br />{URL} (sub-feed's URL)<br />{TITLE} (sub-feed's title)<br />{DESC} (sub-feed's description)");
+define('_AM_EDIT_INTRO_TEXT_DESC_SUB', '<br /><br />{SUB} will print a list of available sub-feeds');
+define('_AM_EDIT_INTRO_SUB', 'HTML tags for listing sub-feeds');
+define('_AM_EDIT_INTRO_SUB_DESC', "Extra tags:<br />{URL} (sub-feed's URL)<br />{TITLE} (sub-feed's title)<br />{DESC} (sub-feed's description)");

@@ -95,8 +95,8 @@ class RssfitSurnames
         $lastuser=false;
         $limit=10*$this->grab;
 
-        $sql = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM ".$xoopsDB->prefix("surnames");
-        $sql .=" WHERE approved=1 ORDER BY changedate DESC, uid ";
+        $sql = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM ".$xoopsDB->prefix('surnames');
+        $sql .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
         $result = $xoopsDB->query($sql, $limit, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $changedate=strtotime($row['changedate']);
@@ -113,7 +113,7 @@ class RssfitSurnames
                 $lasttime=$changedate;
                 $lastuser=$uid;
                 if ($i<=$this->grab) {
-                    $desc="";
+                    $desc= '';
                     $name = $this->myGetUnameFromId($row['uid']);
                     $ret[$i]['title'] = $this->modname . ': by ' . $name;
                     $ret[$i]['link'] = XOOPS_URL.'/modules/surnames/list.php?uid='.$row['uid'];

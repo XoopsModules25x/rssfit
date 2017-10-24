@@ -85,7 +85,7 @@ class RssfitWeblinks
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-        $sql = "SELECT lid, title, time_update, description, url, uid FROM ".$xoopsDB->prefix("weblinks_link")."  ORDER BY time_update DESC";
+        $sql = 'SELECT lid, title, time_update, description, url, uid FROM ' . $xoopsDB->prefix('weblinks_link') . '  ORDER BY time_update DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $title=$row['title'];

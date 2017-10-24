@@ -65,11 +65,15 @@ class RssfitWfsection
         global $xoopsDB;
         $ret = false;
         $i = 0;
-        $sql = "SELECT a.articleid, a.title as atitle, a.published, a.expired, a.counter, a.groupid, a.maintext, a.summary, b.title as btitle FROM ".$xoopsDB->prefix("wfs_article")." a, ".$xoopsDB->prefix("wfs_category")." b WHERE a.published < ".time()." AND a.published > 0 AND (a.expired = 0 OR a.expired > ".time().") AND a.noshowart = 0 AND a.offline = 0 AND a.categoryid = b.id ORDER BY published DESC";
+        $sql = 'SELECT a.articleid, a.title as atitle, a.published, a.expired, a.counter, a.groupid, a.maintext, a.summary, b.title as btitle FROM '
+               . $xoopsDB->prefix('wfs_article') . ' a, '
+               . $xoopsDB->prefix('wfs_category') . ' b WHERE a.published < '
+               . time() . ' AND a.published > 0 AND (a.expired = 0 OR a.expired > '
+               . time() . ') AND a.noshowart = 0 AND a.offline = 0 AND a.categoryid = b.id ORDER BY published DESC';
 
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            if (checkAccess($row["groupid"])) {
+            if (checkAccess($row['groupid'])) {
                 $link = XOOPS_URL.'/modules/'.$this->dirname.'/article.php?articleid='.$row['articleid'];
                 $ret[$i]['title'] = $row['atitle'];
                 $ret[$i]['link'] = $link;

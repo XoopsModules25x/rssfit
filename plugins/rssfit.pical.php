@@ -67,7 +67,8 @@ class RssfitpiCal
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-        $sql = "SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ".$xoopsDB->prefix("pical_event")." WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC";
+        $sql = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM '
+               . $xoopsDB->prefix('pical_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $ret[$i]['title'] = $row['summary'];

@@ -67,7 +67,9 @@ class RssfitMytube
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-        $sql = "SELECT l.lid, l.title as ltitle, l.date, l.cid, l.hits, l.description, c.title as ctitle FROM " . $xoopsDB -> prefix("xoopstube_videos") . " l, " . $xoopsDB -> prefix('xoopstube_cat') . " c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC";
+        $sql = 'SELECT l.lid, l.title as ltitle, l.date, l.cid, l.hits, l.description, c.title as ctitle FROM '
+               . $xoopsDB-> prefix('xoopstube_videos') . ' l, '
+               . $xoopsDB-> prefix('xoopstube_cat') . ' c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC';
 
         $result = $xoopsDB -> query($sql, $this -> grab, 0);
         while ($row = $xoopsDB -> fetchArray($result)) {

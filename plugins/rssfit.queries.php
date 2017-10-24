@@ -72,8 +72,8 @@ class RssfitQueries
         $lastuser=false;
         $limit=10*$this->grab;
 
-        $sql = "SELECT id, title, posted, querytext FROM ".$xoopsDB->prefix('queries_query');
-        $sql.=" WHERE approved=1 ORDER BY posted DESC ";
+        $sql = 'SELECT id, title, posted, querytext FROM ' . $xoopsDB->prefix('queries_query');
+        $sql.= ' WHERE approved=1 ORDER BY posted DESC ';
 
         $result = $xoopsDB->query($sql, $limit, 0);
         while ($row = $xoopsDB->fetchArray($result)) {

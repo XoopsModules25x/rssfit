@@ -64,7 +64,9 @@ class RssfitMydownloads extends XoopsObject
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-        $sql = "SELECT l.lid, l.cid, l.title, l.date, t.description FROM ".$xoopsDB->prefix("mydownloads_downloads")." l, ".$xoopsDB->prefix("mydownloads_text")." t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC";
+        $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM '
+               . $xoopsDB->prefix('mydownloads_downloads') . ' l, '
+               . $xoopsDB->prefix('mydownloads_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $ret[$i]['title'] = $row['title'];
