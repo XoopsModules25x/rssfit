@@ -53,7 +53,11 @@ switch ($op) {
                 . "<td class='head' align='center' width='20%'>" . _AM_ACTION . "</td>\n"
                 . "</tr>\n";
             foreach ($plugins as $p) {
+<<<<<<< HEAD
                 if ($handler = $pluginsHandler->checkPlugin($p)) {
+=======
+                if ($handler = $plugins_handler->checkPlugin($p)) {
+>>>>>>> c9e02ecfe26ae2f5fb83a1aabd25b97eae5f246d
                     $id = $p->getVar('rssf_conf_id');
                     $entries = new XoopsFormText('', 'rssf_grab[' . $id . ']', 3, 2, $p->getVar('rssf_grab'));
                     $order = new XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
@@ -96,7 +100,11 @@ switch ($op) {
                     . "<td class='odd' align='center'>"
                     . $p->getVar('rssf_filename') . "</td>\n"
                     . "<td class='even' align='center'>";
+<<<<<<< HEAD
                 if ($handler = $pluginsHandler->checkPlugin($p)) {
+=======
+                if ($handler = $plugins_handler->checkPlugin($p)) {
+>>>>>>> c9e02ecfe26ae2f5fb83a1aabd25b97eae5f246d
                     $ret .= $handler->modname;
                     $action->addOption('a', _AM_PLUGIN_ACTIVATE);
                 } else {
@@ -144,7 +152,11 @@ switch ($op) {
                     . "<td class='even' align='center'>";
                 $p = $pluginsHandler->create();
                 $p->setVar('rssf_filename', $i);
+<<<<<<< HEAD
                 if ($handler = $pluginsHandler->checkPlugin($p)) {
+=======
+                if ($handler = $plugins_handler->checkPlugin($p)) {
+>>>>>>> c9e02ecfe26ae2f5fb83a1aabd25b97eae5f246d
                     $ret .= $handler->modname;
                 } else {
                     if (count($p->getErrors()) > 0) {
@@ -214,9 +226,15 @@ switch ($op) {
         if (!empty($install)) {
             $files = array_keys($install);
             foreach ($files as $f) {
+<<<<<<< HEAD
                 $p = $pluginsHandler->create();
                 $p->setVar('rssf_filename', $f);
                 if ($handler = $pluginsHandler->checkPlugin($p)) {
+=======
+                $p = $plugins_handler->create();
+                $p->setVar('rssf_filename', $f);
+                if ($handler = $plugins_handler->checkPlugin($p)) {
+>>>>>>> c9e02ecfe26ae2f5fb83a1aabd25b97eae5f246d
                     $p->setVar('rssf_activated', 1);
                     $p->setVar('rssf_grab', $xoopsModuleConfig['plugin_entries']);
                     $p->setVar('sub_entries', $xoopsModuleConfig['plugin_entries']);
