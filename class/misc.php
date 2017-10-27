@@ -75,7 +75,7 @@ class RssMiscHandler extends XoopsObjectHandler
     public function getInstance(XoopsDatabase $db)
     {
         static $instance;
-        if (!isset($instance)) {
+        if (null === $instance) {
             $instance = new RssMiscHandler($db);
         }
         return $instance;
@@ -100,7 +100,7 @@ class RssMiscHandler extends XoopsObjectHandler
     public function getCount($criteria=null)
     {
         $sql = 'SELECT COUNT(*) FROM '.$this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' '.$criteria->renderWhere();
         }
         if (!$result =& $this->db->query($sql)) {
@@ -115,7 +115,7 @@ class RssMiscHandler extends XoopsObjectHandler
         $ret = false;
         $limit = $start = 0;
         $sql = 'SELECT '.$fields.' FROM '.$this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' '.$criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY '.$criteria->getSort().' '.$criteria->getOrder();
@@ -210,7 +210,7 @@ class RssMiscHandler extends XoopsObjectHandler
             }
             $sql = substr($sql, 0, -2);
             $sql = 'UPDATE '.$this->db_table.' SET '.$sql;
-            if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+            if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
                 $sql .= ' '.$criteria->renderWhere();
             }
             if (false !== $force) {
