@@ -43,7 +43,7 @@ switch ($op) {
         $ret = '';
         // activated plugins
         $criteria = new Criteria('rssf_activated', 1);
-        if ($plugins = $plugins_handler->getObjects($criteria, 'p_activated')) {
+        if ($plugins = $pluginsHandler->getObjects($criteria, 'p_activated')) {
             $ret .= "<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='5'>" . _AM_PLUGIN_ACTIVATED . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center' width='30%'>" . _AM_PLUGIN_FILENAME . "</td>\n"
@@ -53,7 +53,7 @@ switch ($op) {
                 . "<td class='head' align='center' width='20%'>" . _AM_ACTION . "</td>\n"
                 . "</tr>\n";
             foreach ($plugins as $p) {
-                if ($handler =& $plugins_handler->checkPlugin($p)) {
+                if ($handler = $pluginsHandler->checkPlugin($p)) {
                     $id = $p->getVar('rssf_conf_id');
                     $entries = new XoopsFormText('', 'rssf_grab[' . $id . ']', 3, 2, $p->getVar('rssf_grab'));
                     $order = new XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
@@ -74,14 +74,14 @@ switch ($op) {
                         . $action->render() . "</td>\n";
                     $ret .= "</tr>\n";
                 } else {
-                    $plugins_handler->forceDeactivate($p);
+                    $pluginsHandler->forceDeactivate($p);
                 }
             }
             $ret .= "</table>\n";
         }
 
         // inactive plugins
-        if ($plugins = $plugins_handler->getObjects(new Criteria('rssf_activated', 0), 'p_inactive')) {
+        if ($plugins = $pluginsHandler->getObjects(new Criteria('rssf_activated', 0), 'p_inactive')) {
             $ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='3'>" . _AM_PLUGIN_INACTIVE . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center' width='30%'>" . _AM_PLUGIN_FILENAME . "</td>\n"
@@ -96,7 +96,7 @@ switch ($op) {
                     . "<td class='odd' align='center'>"
                     . $p->getVar('rssf_filename') . "</td>\n"
                     . "<td class='even' align='center'>";
-                if ($handler =& $plugins_handler->checkPlugin($p)) {
+                if ($handler = $pluginsHandler->checkPlugin($p)) {
                     $ret .= $handler->modname;
                     $action->addOption('a', _AM_PLUGIN_ACTIVATE);
                 } else {
@@ -118,7 +118,7 @@ switch ($op) {
         }
 
         // Non-installed plugins
-        if (!$filelist =& $plugins_handler->getPluginFileList()) {
+        if (!$filelist =& $pluginsHandler->getPluginFileList()) {
             $filelist = [];
         }
         $list = XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
@@ -142,9 +142,9 @@ switch ($op) {
                     . "<td class='odd' align='center'>"
                     . $i . "</td>\n"
                     . "<td class='even' align='center'>";
-                $p = $plugins_handler->create();
+                $p = $pluginsHandler->create();
                 $p->setVar('rssf_filename', $i);
-                if ($handler =& $plugins_handler->checkPlugin($p)) {
+                if ($handler = $pluginsHandler->checkPlugin($p)) {
                     $ret .= $handler->modname;
                 } else {
                     if (count($p->getErrors()) > 0) {
@@ -177,32 +177,33 @@ switch ($op) {
         $rssf_grab = Request::getArray('rssf_grab', [], 'POST');
         $rssf_order = Request::getArray('rssf_order', [], 'POST');
         $action = Request::getArray('action', null, 'POST');
+        $install = Request::getArray('install', array(), 'POST');
         $err = '';
         if (isset($action)) {
             $keys = array_keys($action);
             foreach ($keys as $k) {
-                $plugin = $plugins_handler->get($k);
+                $plugin = $pluginsHandler->get($k);
                 if (isset($rssf_grab[$k])) {
                     $plugin->setVar('rssf_grab', $rssf_grab[$k]);
                     $plugin->setVar('rssf_order', $rssf_order[$k]);
                 }
                 switch ($action[$k]) {
                     default:
-                        $result = $plugins_handler->insert($plugin);
+                        $result = $pluginsHandler->insert($plugin);
                         break;
 
                     case 'u':    // uninstall
-                        $result = $plugins_handler->delete($plugin);
+                        $result = $pluginsHandler->delete($plugin);
                         break;
 
                     case 'd':    // deactivate
                         $plugin->setVar('rssf_activated', 0);
-                        $result = $plugins_handler->insert($plugin);
+                        $result = $pluginsHandler->insert($plugin);
                         break;
 
                     case 'a':    // activate
                         $plugin->setVar('rssf_activated', 1);
-                        $result = $plugins_handler->insert($plugin);
+                        $result = $pluginsHandler->insert($plugin);
                         break;
                 }
                 if (!$result) {
@@ -213,16 +214,16 @@ switch ($op) {
         if (!empty($install)) {
             $files = array_keys($install);
             foreach ($files as $f) {
-                $p =& $plugins_handler->create();
+                $p = $pluginsHandler->create();
                 $p->setVar('rssf_filename', $f);
-                if ($handler =& $plugins_handler->checkPlugin($p)) {
+                if ($handler = $pluginsHandler->checkPlugin($p)) {
                     $p->setVar('rssf_activated', 1);
                     $p->setVar('rssf_grab', $xoopsModuleConfig['plugin_entries']);
                     $p->setVar('sub_entries', $xoopsModuleConfig['plugin_entries']);
                     $p->setVar('sub_link', XOOPS_URL . '/modules/' . $handler->dirname);
                     $p->setVar('sub_title', $xoopsConfig['sitename'] . ' - ' . $handler->modname);
                     $p->setVar('sub_desc', $xoopsConfig['slogan']);
-                    if (!$result = $plugins_handler->insert($p)) {
+                    if (!$result = $pluginsHandler->insert($p)) {
                         $err .= $p->getHtmlErrors();
                     }
                 }
@@ -236,4 +237,4 @@ switch ($op) {
         break;
 }
 
-include_once 'admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

@@ -16,7 +16,7 @@
  * @since
  * @author     XOOPS Development Team
  */
-defined('XOOPS_ROOT_PATH') or die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 // get path to icons
 $pathIcon32='';

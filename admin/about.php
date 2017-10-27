@@ -27,4 +27,4 @@ $moduleAdmin->displayNavigation(basename(__FILE__));
 Admin::setPaypal('xoopsfoundation@gmail.com');
 $moduleAdmin->displayAbout(false);
 
-include_once 'admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

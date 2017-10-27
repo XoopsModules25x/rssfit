@@ -60,12 +60,12 @@ class RssfitSmartfaq
     {
         $ret = false;
         @include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
-        $faq_handler = sf_gethandler('faq');
-        $faqs = $faq_handler->getAllPublished($this->grab, 0);
-        if (false != $faqs && count($faqs) > 0) {
-            $answer_handler = sf_gethandler('answer');
+        $faqHandler = sf_gethandler('faq');
+        $faqs = $faqHandler->getAllPublished($this->grab, 0);
+        if (false !== $faqs && count($faqs) > 0) {
+            $answerHandler = sf_gethandler('answer');
             for ($i=0, $iMax = count($faqs); $i < $iMax; $i++) {
-                if (!$answer = $answer_handler->getOfficialAnswer($faqs[$i]->faqid())) {
+                if (!$answer = $answerHandler->getOfficialAnswer($faqs[$i]->faqid())) {
                     continue;
                 }
                 $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/smartfaq/faq.php?faqid='.$faqs[$i]->faqid();

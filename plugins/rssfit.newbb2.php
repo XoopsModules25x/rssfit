@@ -73,8 +73,8 @@ class RssfitNewbb2
         }
 
         if (!is_object($thisUser)) {
-            $member_handler = xoops_getHandler('member');
-            $thisUser = $member_handler->getUser($uid);
+            $memberHandler = xoops_getHandler('member');
+            $thisUser = $memberHandler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'));
         if ('' == $name) {
@@ -93,14 +93,14 @@ class RssfitNewbb2
         $myts = MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
-        $forum_handler = xoops_getModuleHandler('forum', 'newbb');
-        $topic_handler = xoops_getModuleHandler('topic', 'newbb');
+        $forumHandler = xoops_getModuleHandler('forum', 'newbb');
+        $topicHandler = xoops_getModuleHandler('topic', 'newbb');
         $newbbConfig = $config_handler->getConfigsByCat(0, $this->module->getVar('mid'));
 
-        $access_forums = $forum_handler->getForums(0, 'access');
+        $access_forums = $forumHandler->getForums(0, 'access');
         $available_forums = [];
         foreach ($access_forums as $forum) {
-            if ($topic_handler->getPermission($forum)) {
+            if ($topicHandler->getPermission($forum)) {
                 $available_forums[$forum->getVar('forum_id')] = $forum;
             }
         }

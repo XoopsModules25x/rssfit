@@ -183,7 +183,7 @@ class RssMiscHandler extends XoopsObjectHandler
             $sql = substr($sql, 0, -1);
             $sql .= ' WHERE '.$this->obj_key.' = '.$obj->getVar($this->obj_key);
         }
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -192,7 +192,7 @@ class RssMiscHandler extends XoopsObjectHandler
             $obj->setErrors('Could not store data in the database.<br />'.$this->db->error().' ('.$this->db->errno().')<br />'.$sql);
             return false;
         }
-        if (false == $obj->getVar($this->obj_key)) {
+        if (false === $obj->getVar($this->obj_key)) {
             $obj->assignVar($this->obj_key, $this->db->getInsertId());
         }
         return $obj->getVar($this->obj_key);
@@ -213,7 +213,7 @@ class RssMiscHandler extends XoopsObjectHandler
             if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
                 $sql .= ' '.$criteria->renderWhere();
             }
-            if (false != $force) {
+            if (false !== $force) {
                 $result = $this->db->queryF($sql);
             } else {
                 $result = $this->db->query($sql);
@@ -232,7 +232,7 @@ class RssMiscHandler extends XoopsObjectHandler
             return false;
         }
         $sql = 'DELETE FROM '.$this->db_table.' WHERE '.$this->obj_key.'='.$obj->getVar($this->obj_key);
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);

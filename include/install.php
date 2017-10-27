@@ -54,7 +54,7 @@ function xoops_module_install_rss(XoopsModule $xoopsMod)
              . $xoopsDB->prefix('rssfit_misc') . ' VALUES '
              . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' =>0, 'dobr' =>0, 'feeds' => [0 =>'0'], 'link' =>XOOPS_URL])) . ')';
     foreach ($sql as $s) {
-        if (false == $xoopsDB->query($s)) {
+        if (false === $xoopsDB->query($s)) {
             echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';
             return false;
         }
@@ -88,7 +88,7 @@ function xoops_module_update_rss(XoopsModule $xoopsMod, $oldversion)
                  . $xoopsDB->prefix('rssfit_misc') . ' VALUES '
                  . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' =>0, 'dobr' =>0, 'feeds' => [0 =>'0'], 'link' =>XOOPS_URL])) . ')';
         foreach ($sql as $s) {
-            if (false == $xoopsDB->query($s)) {
+            if (false === $xoopsDB->query($s)) {
                 echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';
                 return false;
             }

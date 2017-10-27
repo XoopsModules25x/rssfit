@@ -41,7 +41,7 @@ class RssfeedHandler
     public $pHandler;
     public $mHandler;
     public $channelreq;
-    public $sub_handler;
+    public $subHandler;
     public $plugin_obj;
     public $myts;
     public $modConfig;
@@ -103,7 +103,7 @@ class RssfeedHandler
             }
         }
         if (!empty($feed['plugin'])) {
-            if (is_object($this->plugin_obj) && is_object($this->sub_handler)) {
+            if (is_object($this->plugin_obj) && is_object($this->subHandler)) {
                 $channel['title'] = $this->plugin_obj->getVar('sub_title', 'n');
                 $channel['link'] = $this->plugin_obj->getVar('sub_link', 'n');
                 $channel['description'] = $this->plugin_obj->getVar('sub_desc', 'n');
@@ -170,9 +170,9 @@ class RssfeedHandler
         $entries = [];
         if (!empty($feed['plugin'])) {
             $this->plugin_obj->setVar('rssf_grab', $this->plugin_obj->getVar('sub_entries'));
-            $this->sub_handler->grab = $this->plugin_obj->getVar('sub_entries');
-            $grab =& $this->sub_handler->grabEntries($this->plugin_obj);
-            if (false != $grab && count($grab) > 0) {
+            $this->subHandler->grab = $this->plugin_obj->getVar('sub_entries');
+            $grab =& $this->subHandler->grabEntries($this->plugin_obj);
+            if (false !== $grab && count($grab) > 0) {
                 foreach ($grab as $g) {
                     array_push($entries, $g);
                 }
@@ -182,7 +182,7 @@ class RssfeedHandler
                 if ($handler =& $this->pHandler->checkPlugin($p)) {
                     $handler->grab = $p->getVar('rssf_grab');
                     $grab =& $handler->grabEntries($p);
-                    if (false != $grab && count($grab) > 0) {
+                    if (false !== $grab && count($grab) > 0) {
                         foreach ($grab as $g) {
                             array_push($entries, $g);
                         }
@@ -219,15 +219,15 @@ class RssfeedHandler
         $len = function_exists('mb_strlen') ? mb_strlen($ret, $this->charset) : strlen($ret);
         if ($len > $this->modConfig['max_char'] && $this->modConfig['max_char'] > 0) {
             $ret = $this->substrDetect($ret, 0, $this->modConfig['max_char']-1);
-            if (false == $this->strrposDetect($ret, ' ')) {
-                if (false != $this->strrposDetect($text, ' ')) {
+            if (false === $this->strrposDetect($ret, ' ')) {
+                if (false !== $this->strrposDetect($text, ' ')) {
                     $ret = $this->substrDetect($text, 0, strpos($text, ' '));
                 }
             }
             if (in_array($this->substrDetect($text, $this->modConfig['max_char']-1, 1), $this->substr_add)) {
                 $ret .= $this->substrDetect($text, $this->modConfig['max_char']-1, 1);
             } else {
-                if (false != $this->strrposDetect($ret, ' ')) {
+                if (false !== $this->strrposDetect($ret, ' ')) {
                     $ret = $this->substrDetect($ret, 0, $this->strrposDetect($ret, ' '));
                 }
                 if (in_array($this->substrDetect($ret, -1, 1), $this->substr_remove)) {
@@ -356,7 +356,7 @@ class RssfeedHandler
             }
             if ($handler) {
                 $this->plugin_obj = $sub[0];
-                $this->sub_handler = $handler;
+                $this->subHandler = $handler;
                 $this->cached = 'mod_' . $this->rssmod->getVar('dirname') . '|'
                     . md5(str_replace(XOOPS_URL, '', $GLOBALS['xoopsRequestUri']));
             } else {

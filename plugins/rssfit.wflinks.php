@@ -44,7 +44,7 @@ class RssfitWflinks
         global $xoopsDB, $xoopsUser;
 
         $groups = is_object($xoopsUser) ? $xoopsUser -> getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $gperm_handler = &xoops_getHandler('groupperm');
+        $gpermHandler =  xoops_getHandler('groupperm');
 
         $myts = MyTextSanitizer::getInstance();
         $ret = [];
@@ -52,7 +52,7 @@ class RssfitWflinks
         $sql = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wflinks_links') . ' WHERE status>0 ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            if ($gperm_handler -> checkRight('WFLinkCatPerm', $row['cid'], $groups, $this->mid)) {
+            if ($gpermHandler -> checkRight('WFLinkCatPerm', $row['cid'], $groups, $this->mid)) {
                 //	required
                 $ret[$i]['title'] = $row['title'];
                 $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?cid='.$row['cid'].'&lid='.$row['lid'];

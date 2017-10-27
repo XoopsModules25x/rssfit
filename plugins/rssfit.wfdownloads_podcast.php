@@ -62,7 +62,7 @@ class Rssfitwfdownloads_podcast extends XoopsObject
     {
         global $xoopsDB;
         $myts = MyTextSanitizer::getInstance();
-        $perm_handler = xoops_getHandler('groupperm');
+        $permHandler = xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;
         $sql = 'SELECT lid, cid, title, date, description, filetype, size FROM '
@@ -71,7 +71,7 @@ class Rssfitwfdownloads_podcast extends XoopsObject
                . time() . ' ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            if ((isset($perms[$row['cid']]) && true == $perms[$row['cid']]) || $perm_handler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+            if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']]) || $permHandler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                 $perms[$row['cid']] = true;
                 $ret[$i]['title'] = $row['title'];
                 $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];

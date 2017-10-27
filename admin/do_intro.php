@@ -36,11 +36,11 @@ if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
 }
 
-if ($intr = $misc_handler->getObjects(new Criteria('misc_category', 'intro'))) {
+if ($intr = $miscHandler->getObjects(new Criteria('misc_category', 'intro'))) {
     $intro = $intr[0];
     unset($intr);
 } else {
-    $intro = $misc_handler->create();
+    $intro = $miscHandler->create();
 }
 switch ($op) {
     default:
@@ -81,7 +81,7 @@ switch ($op) {
             'sub'    => isset($_POST['sub']) ? trim($_POST['sub']) : ''
         ];
         $intro->setVar('misc_setting', $setting);
-        if (false == $misc_handler->insert($intro)) {
+        if (false === $miscHandler->insert($intro)) {
             echo $intro->getHtmlErrors();
         } else {
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);

@@ -41,7 +41,7 @@ if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
 switch ($op) {
     default:
         $ret = '';
-        if ($plugins =& $plugins_handler->getObjects(null, 'sublist')) {
+        if ($plugins =& $pluginsHandler->getObjects(null, 'sublist')) {
             $ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='4'>" . _AM_SUB_LIST . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center'>" . _AM_SUB_FILENAME_URL . "</td>\n"
@@ -51,8 +51,8 @@ switch ($op) {
                 . "</tr>\n";
             foreach ($plugins as $p) {
                 $id = $p->getVar('rssf_conf_id');
-                if (!$handler =& $plugins_handler->checkPlugin($p)) {
-                    $plugins_handler->forceDeactivate($p);
+                if (!$handler =& $pluginsHandler->checkPlugin($p)) {
+                    $pluginsHandler->forceDeactivate($p);
                     $mod = implode('<br />', $p->getErrors());
                     $activate = new XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
                     $activate->setExtra('disabled="disabled"');
@@ -90,12 +90,12 @@ switch ($op) {
     case 'save':
         $activate = Request::getArray('activate', null, 'POST');
 
-        if ($plugins = $plugins_handler->getObjects(null, 'sublist')) {
-            $plugins_handler->modifyObjects(null, ['subfeed' => 0]);
+        if ($plugins = $pluginsHandler->getObjects(null, 'sublist')) {
+            $pluginsHandler->modifyObjects(null, ['subfeed' => 0]);
             if (isset($activate) && is_array($activate) && count($activate) > 0) {
                 $keys = array_keys($activate);
                 $criteria = new Criteria('rssf_conf_id', '(' . implode(',', $keys) . ')', 'IN');
-                $plugins_handler->modifyObjects($criteria, ['subfeed' => 1]);
+                $pluginsHandler->modifyObjects($criteria, ['subfeed' => 1]);
             }
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
         } else {
@@ -105,9 +105,9 @@ switch ($op) {
     case 'edit':
         $id = isset($_GET['feed']) ? (int)$_GET['feed'] : 0;
         if (!empty($id)) {
-            $sub =& $plugins_handler->get($id);
-            if (!$handler =& $plugins_handler->checkPlugin($sub)) {
-                $plugins_handler->forceDeactivate($sub);
+            $sub =& $pluginsHandler->get($id);
+            if (!$handler =& $pluginsHandler->checkPlugin($sub)) {
+                $pluginsHandler->forceDeactivate($sub);
             }
         }
         if (empty($id) || !$sub) {
@@ -136,9 +136,9 @@ switch ($op) {
     case 'savefeed':
         $id = Request::getInt('feed', 0, 'POST');
         if (!empty($id)) {
-            $sub = $plugins_handler->get($id);
-            if (!$handler = $plugins_handler->checkPlugin($sub)) {
-                $plugins_handler->forceDeactivate($sub);
+            $sub = $pluginsHandler->get($id);
+            if (!$handler = $pluginsHandler->checkPlugin($sub)) {
+                $pluginsHandler->forceDeactivate($sub);
             }
         }
         if (empty($id) || !$sub || !$handler) {
@@ -162,7 +162,7 @@ switch ($op) {
         $sub->setVar('img_url', $img_url);
         $sub->setVar('img_link', $img_link);
         $sub->setVar('img_title', $img_title);
-        if (false != $plugins_handler->insert($sub)) {
+        if (false !== $pluginsHandler->insert($sub)) {
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
         } else {
             echo $sub->getHtmlErrors();

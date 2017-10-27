@@ -86,8 +86,8 @@ class RssfitExtcal
 
         // read confgs to get timestamp format
         $extcal = $this->module;
-        $config_handler = &xoops_getHandler('config');
-        $extcalConfig = &$config_handler->getConfigsByCat(0, $extcal->getVar('mid'));
+        $configHandler =  xoops_getHandler('config');
+        $extcalConfig = &$configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
         $long_form=$extcalConfig['date_long'];
 
         $eventHandler = xoops_getModuleHandler('event', 'extcal');

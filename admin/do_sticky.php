@@ -36,11 +36,11 @@ if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
 }
 
-if ($intr = $misc_handler->getObjects(new Criteria('misc_category', 'sticky'))) {
+if ($intr = $miscHandler->getObjects(new Criteria('misc_category', 'sticky'))) {
     $sticky = $intr[0];
     unset($intr);
 } else {
-    $sticky = $misc_handler->create();
+    $sticky = $miscHandler->create();
 }
 switch ($op) {
     default:
@@ -90,7 +90,7 @@ switch ($op) {
             'link'   => isset($_POST['link']) ? trim($_POST['link']) : ''
         ];
         $sticky->setVar('misc_setting', $setting, true);
-        if (false == $misc_handler->insert($sticky)) {
+        if (false === $miscHandler->insert($sticky)) {
             echo $sticky->getHtmlErrors();
         } else {
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);

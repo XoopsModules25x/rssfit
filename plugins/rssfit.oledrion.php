@@ -49,7 +49,7 @@ class RssfitOledrion
         $items = $h_oledrion_products->getRecentProducts(new Oledrion_parameters(['start' => 0, 'limit' => $this->grab]));
         $i = 0;
 
-        if (false != $items && count($items) > 0) {
+        if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
                 $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
                 $ret[$i]['title'] = $item->getVar('product_title', 'n');

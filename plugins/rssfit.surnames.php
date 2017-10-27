@@ -72,8 +72,8 @@ class RssfitSurnames
         }
 
         if (!is_object($thisUser)) {
-            $member_handler = xoops_getHandler('member');
-            $thisUser = $member_handler->getUser($uid);
+            $memberHandler = xoops_getHandler('member');
+            $thisUser = $memberHandler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'));
         if ('' == $name) {

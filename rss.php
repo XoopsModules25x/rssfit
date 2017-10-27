@@ -34,7 +34,7 @@
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
-require 'header.php';
+require __DIR__ . '/header.php';
 $charset = $xoopsModuleConfig['utf8'] ? 'UTF-8' : _CHARSET;
 $docache = $xoopsModuleConfig['cache'] ? true : false;
 $template = 'db:rssfit_rss.tpl';

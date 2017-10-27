@@ -60,12 +60,12 @@ class RssfitComments
     {
         $ret = false;
         include_once XOOPS_ROOT_PATH.'/include/comment_constants.php';
-        $comment_handler = xoops_getHandler('comment');
+        $commentHandler = xoops_getHandler('comment');
         $criteria = new CriteriaCompo(new Criteria('com_status', XOOPS_COMMENT_ACTIVE));
         $criteria->setLimit($this->grab);
         $criteria->setSort('com_created');
         $criteria->setOrder('DESC');
-        $comments = $comment_handler->getObjects($criteria, true);
+        $comments = $commentHandler->getObjects($criteria, true);
         $comment_config = [];
         if (count($comments) > 0) {
             $modules = $GLOBALS['module_handler']->getObjects(new Criteria('hascomments', 1), true);

@@ -9,7 +9,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use Xmf\Module\Admin;
 use Xmf\Request;
 
 /**
@@ -22,7 +21,7 @@ use Xmf\Request;
 
 
 include_once __DIR__ . '/admin_header.php';
-$moduleAdmin = Admin::getInstance();
+$moduleAdmin = \Xmf\Module\Admin::getInstance();
 
 $do = Request::getString('do', '');
 $op = Request::getString('op', 'list');
@@ -45,4 +44,4 @@ if (file_exists(RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php')) {
     $moduleAdmin->displayIndex();
 }
 
-include_once 'admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

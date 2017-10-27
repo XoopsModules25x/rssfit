@@ -69,7 +69,7 @@ class RssfitBuyersguide
         $items = $hBgProduct->getRecentProducts(0, 0, $this->grab);
         $i = 0;
 
-        if (false != $items && count($items) > 0) {
+        if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
                 $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
                 $ret[$i]['title'] = $item->getVar('prod_title', 'n');
