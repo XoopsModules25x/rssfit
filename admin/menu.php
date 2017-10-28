@@ -43,7 +43,7 @@ $adminmenu[] = [
     'title' => _MI_RSSFIT_ADMENU2,
     'link'  => 'admin/?do=plugins',
     //'link' =>  "admin/do_plugins.php",
-    'icon'  => 'images/icons/32/plugin.png',
+    'icon'  => 'assets/images/icons/32/plugin.png',
 ];
 
 $adminmenu[] = [

@@ -44,3 +44,17 @@ define('_MI_OUTOUT_MIME', 'MIME type of RSS output');
 define('_MI_OUTOUT_MIME_XML', 'XML (text/xml)');
 define('_MI_OUTOUT_MIME_HTML', 'HTML (text/html)');
 define('_MI_OUTOUT_MIME_PHP', 'HTML with php-debug');
+
+//1.30
+//Help
+define('_MI_RSSFIT_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_RSSFIT_HELP_HEADER', __DIR__.'/help/helpheader.tpl');
+define('_MI_RSSFIT_BACK_2_ADMIN', 'Back to Administration of ');
+define('_MI_RSSFIT_OVERVIEW', 'Overview');
+
+//define('_MI_RSSFIT_HELP_DIR', __DIR__);
+
+//help multi-page
+define('_MI_RSSFIT_DISCLAIMER', 'Disclaimer');
+define('_MI_RSSFIT_LICENSE', 'License');
+define('_MI_RSSFIT_SUPPORT', 'Support');

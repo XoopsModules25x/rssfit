@@ -90,7 +90,7 @@ $modversion = [
     // -------------------  PayPal ---------------------------
     'paypal'              => [
         'business'      => 'foundation@xoops.org',
-        'item_name'     => 'Donation : ' . _MI_XXXXX_NAME,
+        'item_name'     => 'Donation : ' . _MI_RSSFIT_NAME,
         'amount'        => 0,
         'currency_code' => 'USD'
     ],
@@ -103,6 +103,14 @@ $modversion = [
         'rssfit_plugins',
         'rssfit_misc',
     ],
+];
+
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = [
+    ['name' => _MI_RSSFIT_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_RSSFIT_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_RSSFIT_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_RSSFIT_SUPPORT, 'link' => 'page=support'],
 ];
 
 // Templates

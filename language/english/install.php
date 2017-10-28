@@ -1,6 +1,6 @@
 <?php
 define('_INTRO_TITLE', 'Syndicates this site');
-define('_INTRO_CONTENT', '<a href="rss.php"><img src="images/rss.gif" alt="RSS feed" /></a> <a href="rss.php"> <img src="images/xml.gif" alt="RSS feed" /></a>
+define('_INTRO_CONTENT', '<a href="rss.php"><img src="assets/images/rss.gif" alt="RSS feed" /></a> <a href="rss.php"> <img src="assets/images/xml.gif" alt="RSS feed" /></a>
 
 At {SITENAME} we provide our XML <a href="rss.php">RSS feed</a> that you can quickly find the latest updates and short descriptions with an RSS reader.
 
