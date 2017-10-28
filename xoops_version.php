@@ -34,8 +34,8 @@ $moduleDirName = basename(__DIR__);
 
 // ------------------- Informations ------------------- //
 $modversion = [
-    'version'             => 1.30,
-    'module_status'       => 'Beta 3',
+    'version'             => 1.31,
+    'module_status'       => 'Beta 2',
     'release_date'        => '2017/10/27',
     'name'                => _MI_RSSFIT_NAME,
     'description'         => _MI_RSSFIT_DESC,

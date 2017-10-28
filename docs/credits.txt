@@ -1,7 +1,7 @@
 Credits
 ===============
 
-Originally developed by Programmed by NS Tai <tuff@brandycoke.com>
+Originally developed by NS Tai <tuff@brandycoke.com>
 
 Version 1.22 was updated by Hervé Thouzard
 
