@@ -41,7 +41,7 @@ if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
 switch ($op) {
     default:
         $ret = '';
-        if ($plugins =& $pluginsHandler->getObjects(null, 'sublist')) {
+        if ($plugins = $pluginsHandler->getObjects(null, 'sublist')) {
             $ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='4'>" . _AM_SUB_LIST . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center'>" . _AM_SUB_FILENAME_URL . "</td>\n"
@@ -51,7 +51,7 @@ switch ($op) {
                 . "</tr>\n";
             foreach ($plugins as $p) {
                 $id = $p->getVar('rssf_conf_id');
-                if (!$handler =& $pluginsHandler->checkPlugin($p)) {
+                if (!$handler = $pluginsHandler->checkPlugin($p)) {
                     $pluginsHandler->forceDeactivate($p);
                     $mod = implode('<br />', $p->getErrors());
                     $activate = new XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
@@ -105,8 +105,8 @@ switch ($op) {
     case 'edit':
         $id = isset($_GET['feed']) ? (int)$_GET['feed'] : 0;
         if (!empty($id)) {
-            $sub =& $pluginsHandler->get($id);
-            if (!$handler =& $pluginsHandler->checkPlugin($sub)) {
+            $sub = $pluginsHandler->get($id);
+            if (!$handler = $pluginsHandler->checkPlugin($sub)) {
                 $pluginsHandler->forceDeactivate($sub);
             }
         }
