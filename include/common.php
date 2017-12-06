@@ -49,5 +49,5 @@ define('RSSFIT_VERSION', 'RSSFit '.$version);
 
 $rss = new RssfeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
 $myts = $rss->myts;
-$pluginsHandler =& $rss->pHandler;
-$miscHandler =& $rss->mHandler;
+$pluginsHandler = $rss->pHandler;
+$miscHandler = $rss->mHandler;
