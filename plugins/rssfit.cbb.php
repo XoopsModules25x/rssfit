@@ -31,7 +31,7 @@
 * About this RSSFit plug-in
 * Author: tuff <http://www.brandycoke.com/>
 * Requirements (Tested with):
-*  Module: CBB <D.J. (phppp), XOOPS CHINA Dev Group | <http://xoops.org.cn/>
+*  Module: CBB <D.J. (phppp), XOOPS Project | <https://xoops.org>
 *  Version: 1.15 / 2.30 / 2.31
 *  RSSFit verision: 1.2 / 1.5
 *  XOOPS version: 2.0.13.2 / 2.2.3
