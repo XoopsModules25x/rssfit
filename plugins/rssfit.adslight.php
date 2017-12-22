@@ -65,7 +65,7 @@ class RssfitAdslight
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         $sql = 'SELECT lid, title, status, desctext, date from ' . $xoopsDB->prefix('adslight_listing') . " WHERE valid = 'Yes' ORDER BY date DESC";

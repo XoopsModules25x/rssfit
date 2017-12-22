@@ -83,7 +83,7 @@ switch ($op) {
         }
         if (count($errors) > 0) {
             foreach ($errors as $e) {
-                echo $e . "<br /><br />\n";
+                echo $e . "<br><br>\n";
             }
         } else {
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);

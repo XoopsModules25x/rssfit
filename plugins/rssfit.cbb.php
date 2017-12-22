@@ -63,7 +63,7 @@ class RssfitCbb
         @include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
         global $xoopsDB;
         $xoopsModule = $this->module;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $i = 0;
         $forumHandler = xoops_getModuleHandler('forum', 'newbb');
         $topicHandler = xoops_getModuleHandler('topic', 'newbb');

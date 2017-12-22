@@ -102,7 +102,7 @@ class RssfitMyalbum
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         // For myalbum-p with thumbs enabled
@@ -132,7 +132,7 @@ class RssfitMyalbum
             $ret[$i]['timestamp'] = $row['date'];
             //	4. The item synopsis, or description, whatever
             $desc = '<p><a href="'.$link.'"><img src="'.$thumb.'" align="left" alt="'.$title.'" border="0" /></a> ';
-            $desc .= 'By '.$name.' in <a href="'.$catlink.'">'.$cat.'</a><br />';
+            $desc .= 'By '.$name.' in <a href="'.$catlink.'">'.$cat.'</a><br>';
             $desc .= $myts->displayTarea($row['description']).'</p><br clear="all"/>';
             $ret[$i]['description'] = $desc;
             /*

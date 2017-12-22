@@ -87,7 +87,7 @@ class RssfitSurnames
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
 
         $i = -1;
@@ -104,7 +104,7 @@ class RssfitSurnames
             if ($lasttime==$changedate && $lastuser==$uid) {
                 $link = XOOPS_URL.'/modules/surnames/view.php?id='.$row['id'];
                 $surname=$row['surname'];
-                $desc .= "<a href=\"$link\">$surname</a><br />";
+                $desc .= "<a href=\"$link\">$surname</a><br>";
             } else {
                 if ($i>=0) {
                     $ret[$i]['description'] = $desc;
@@ -124,7 +124,7 @@ class RssfitSurnames
                     $ret[$i]['category'] = $this->modname;
 
                     $surname=$row['surname'];
-                    $desc .= "<a href=\"$link\">$surname</a><br />";
+                    $desc .= "<a href=\"$link\">$surname</a><br>";
                 }
             }
             if ($i>$this->grab) {

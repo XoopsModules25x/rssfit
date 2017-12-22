@@ -40,7 +40,7 @@
 function xoops_module_install_rss(XoopsModule $xoopsMod)
 {
     global $xoopsDB, $xoopsConfig;
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
     $intro_setting = ['dohtml' =>1, 'dobr' =>1, 'sub' =>stripslashes(_INSTALL_INTRO_SUB)];
     $sql[] = 'INSERT INTO `'
@@ -55,7 +55,7 @@ function xoops_module_install_rss(XoopsModule $xoopsMod)
              . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' =>0, 'dobr' =>0, 'feeds' => [0 =>'0'], 'link' =>XOOPS_URL])) . ')';
     foreach ($sql as $s) {
         if (false === $xoopsDB->query($s)) {
-            echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';
+            echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br>'.$s.'<br><br>';
             return false;
         }
     }
@@ -89,7 +89,7 @@ function xoops_module_update_rss(XoopsModule $xoopsMod, $oldversion)
                  . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' =>0, 'dobr' =>0, 'feeds' => [0 =>'0'], 'link' =>XOOPS_URL])) . ')';
         foreach ($sql as $s) {
             if (false === $xoopsDB->query($s)) {
-                echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';
+                echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br>'.$s.'<br><br>';
                 return false;
             }
         }

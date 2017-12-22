@@ -79,7 +79,7 @@ class RssfitExtcal
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
 
         $i = 0;
@@ -110,7 +110,7 @@ class RssfitExtcal
                 if ('' == $desc_link) {
                     $desc_link=$link;
                 }
-                $desc  = "<a href=\"$desc_link\"><b>$title</b></a><br />";
+                $desc  = "<a href=\"$desc_link\"><b>$title</b></a><br>";
                 $desc .= '<table>';
                 $desc .= "<tr><td valign='top'>When:</td><td>$event_start</td></tr>";
                 if ('' != $address) {

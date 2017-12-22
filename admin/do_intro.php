@@ -48,7 +48,7 @@ switch ($op) {
         $title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
 
         $setting = $intro->getVar('misc_setting');
-        $tray_content = new XoopsFormElementTray(_AM_EDIT_INTRO_TEXT, '<br />');
+        $tray_content = new XoopsFormElementTray(_AM_EDIT_INTRO_TEXT, '<br>');
         $tray_content->setDescription(_AM_EDIT_INTRO_TEXT_DESC . _AM_EDIT_INTRO_TEXT_DESC_SUB);
         $tray_content->addElement(new XoopsFormDhtmlTextArea('', 'content', $intro->getVar('misc_content', 'e'), 15, 60));
         $dohtml = new XoopsFormCheckbox('', 'dohtml', $setting['dohtml']);

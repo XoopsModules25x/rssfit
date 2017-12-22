@@ -79,7 +79,7 @@ switch ($xoopsModuleConfig['mime']) {
 # 	$src = $xoopsTpl->fetch($template, $rss->cached, null);
 # 	unset($xoopsOption['template_main']);
 # 	require XOOPS_ROOT_PATH.'/header.php';
-# 	echo '<textarea cols="90" rows="20">'.$src.'</textarea><br />';
+# 	echo '<textarea cols="90" rows="20">'.$src.'</textarea><br>';
 # 	require XOOPS_ROOT_PATH.'/footer.php';
 # }
 

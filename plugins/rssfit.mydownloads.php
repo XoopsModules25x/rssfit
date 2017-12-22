@@ -61,7 +61,7 @@ class RssfitMydownloads extends XoopsObject
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM '

@@ -189,7 +189,7 @@ class RssMiscHandler extends XoopsObjectHandler
             $result = $this->db->query($sql);
         }
         if (!$result) {
-            $obj->setErrors('Could not store data in the database.<br />'.$this->db->error().' ('.$this->db->errno().')<br />'.$sql);
+            $obj->setErrors('Could not store data in the database.<br>'.$this->db->error().' ('.$this->db->errno().')<br>'.$sql);
             return false;
         }
         if (false === $obj->getVar($this->obj_key)) {
@@ -219,7 +219,7 @@ class RssMiscHandler extends XoopsObjectHandler
                 $result = $this->db->query($sql);
             }
             if (!$result) {
-                return 'Could not store data in the database.<br />'.$this->db->error().' ('.$this->db->errno().')<br />'.$sql;
+                return 'Could not store data in the database.<br>'.$this->db->error().' ('.$this->db->errno().')<br>'.$sql;
             }
         }
         return false;

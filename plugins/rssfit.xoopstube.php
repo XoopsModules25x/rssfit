@@ -64,7 +64,7 @@ class RssfitXoopstube
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         $sql = 'SELECT l.lid, l.title as ltitle, l.date, l.cid, l.hits, l.description, c.title as ctitle FROM '

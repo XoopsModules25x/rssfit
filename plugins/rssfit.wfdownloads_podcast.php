@@ -61,7 +61,7 @@ class Rssfitwfdownloads_podcast extends XoopsObject
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $permHandler = xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;

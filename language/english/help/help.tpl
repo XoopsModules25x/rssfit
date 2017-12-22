@@ -3,8 +3,8 @@
 
     <h4 class="odd">DESCRIPTION</h4>
 
-    <p class="even">RSSFit is a module for XOOPS generates RSS 2.0 validated XML feed. <br />
-        Web masters can decide what to be display in the XML output by activating installed plug-ins<br /> <br />
+    <p class="even">RSSFit is a module for XOOPS generates RSS 2.0 validated XML feed. <br>
+        Web masters can decide what to be display in the XML output by activating installed plug-ins<br> <br>
     </p>
 
     <h4 class="odd">INSTALL/UNINSTALL</h4>

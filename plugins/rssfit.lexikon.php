@@ -66,7 +66,7 @@ class Rssfitlexikon extends XoopsObject
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         //$perm_handler = xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;

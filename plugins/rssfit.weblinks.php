@@ -82,7 +82,7 @@ class RssfitWeblinks
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         $sql = 'SELECT lid, title, time_update, description, url, uid FROM ' . $xoopsDB->prefix('weblinks_link') . '  ORDER BY time_update DESC';
@@ -94,8 +94,8 @@ class RssfitWeblinks
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?lid='.$row['lid'].'&amp;keywords=';
             $ret[$i]['link'] = $link;
             $ret[$i]['timestamp'] = $row['time_update'];
-            $desc = '<p><a href="'.$row['url'].'"><b>'.$title.'</b></a><br /> ';
-            $desc .= 'Submitted by: <i>'.$name.'</i><br />';
+            $desc = '<p><a href="'.$row['url'].'"><b>'.$title.'</b></a><br> ';
+            $desc .= 'Submitted by: <i>'.$name.'</i><br>';
             $desc .= $myts->displayTarea($row['description']).'</p><br clear="all"/>';
             $ret[$i]['description'] = $desc;
             $ret[$i]['guid'] = $link;

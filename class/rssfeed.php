@@ -74,7 +74,7 @@ class RssfeedHandler
 
     public function __construct($modConfig, $xoopsConfig, $xoopsModule)
     {
-        $this->myts = MyTextSanitizer::getInstance();
+        $this->myts = \MyTextSanitizer::getInstance();
         $this->rssmod = $xoopsModule;
         $this->pHandler = xoops_getModuleHandler('plugins');
         $this->mHandler = xoops_getModuleHandler('misc');

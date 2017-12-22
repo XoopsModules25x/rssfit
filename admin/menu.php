@@ -16,13 +16,15 @@
  * @since
  * @author       XOOPS Development Team
  */
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
+use Xoopsmodules\rss;
+
+require_once __DIR__ . '/../class/Helper.php';
+//require_once __DIR__ . '/../include/common.php';
+$helper = rss\Helper::getInstance();
 // get path to icons
-$pathIcon32 = '';
-if (class_exists('Xmf\Module\Admin', true)) {
-    $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-}
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 $adminmenu = [];
 
@@ -71,4 +73,3 @@ $adminmenu[] = [
     'link'  => 'admin/about.php',
     'icon'  => $pathIcon32 . '/about.png',
 ];
-

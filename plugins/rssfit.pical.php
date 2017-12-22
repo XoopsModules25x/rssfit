@@ -64,7 +64,7 @@ class RssfitpiCal
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         $sql = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM '

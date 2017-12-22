@@ -40,7 +40,7 @@ if (file_exists(RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php')) {
     $moduleAdmin->displayNavigation('?do=' . $do);
     require RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php';
 } else {
-    $moduleAdmin->displayNavigation('index.php');
+    $moduleAdmin->displayNavigation(basename(__FILE__));
     $moduleAdmin->displayIndex();
 }
 

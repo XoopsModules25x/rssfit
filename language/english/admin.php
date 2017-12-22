@@ -10,7 +10,7 @@ define('_AM_EDIT_INTRO', 'Edit introduction');
 define('_AM_EDIT_INTRO_TITLE', 'Introduction title');
 define('_AM_EDIT_INTRO_TITLE_DESC', '{SITENAME} will print ' . $xoopsConfig['sitename']);
 define('_AM_EDIT_INTRO_TEXT', 'Introduction text');
-define('_AM_EDIT_INTRO_TEXT_DESC', _AM_EDIT_INTRO_TITLE_DESC . '<br /><br />{SITEURL} will print ' . XOOPS_URL . '/');
+define('_AM_EDIT_INTRO_TEXT_DESC', _AM_EDIT_INTRO_TITLE_DESC . '<br><br>{SITEURL} will print ' . XOOPS_URL . '/');
 
 define('_AM_EDIT_PLUGIN', 'Manage Plug-ins');
 define('_AM_PLUGIN_ACTIVATED', 'Activated Plug-ins');
@@ -59,9 +59,9 @@ define('_AM_STICKY_TITLE', 'Sticky text title');
 define('_AM_STICKY_CONTENT', 'Sticky text content');
 define('_AM_STICKY_LINK', 'Sticky text link');
 define('_AM_STICKY_APPLYTO', 'Apply to feeds');
-define('_AM_EDIT_INTRO_TEXT_DESC_SUB', '<br /><br />{SUB} will print a list of available sub-feeds');
+define('_AM_EDIT_INTRO_TEXT_DESC_SUB', '<br><br>{SUB} will print a list of available sub-feeds');
 define('_AM_EDIT_INTRO_SUB', 'HTML tags for listing sub-feeds');
-define('_AM_EDIT_INTRO_SUB_DESC', "Extra tags:<br />{URL} (sub-feed's URL)<br />{TITLE} (sub-feed's title)<br />{DESC} (sub-feed's description)");
+define('_AM_EDIT_INTRO_SUB_DESC', "Extra tags:<br>{URL} (sub-feed's URL)<br>{TITLE} (sub-feed's title)<br>{DESC} (sub-feed's description)");
 //1.30
 define('_AM_RSSFIT_UPGRADEFAILED0', "Update failed - couldn't rename field '%s'");
 define('_AM_RSSFIT_UPGRADEFAILED1', "Update failed - couldn't add new fields");

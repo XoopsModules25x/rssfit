@@ -90,7 +90,7 @@ class RssfitNewbb2
         @include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
         global $xoopsDB, $config_handler;
         $xoopsModule = $this->module;
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         $forumHandler = xoops_getModuleHandler('forum', 'newbb');
@@ -119,7 +119,7 @@ class RssfitNewbb2
                 $ret[$i]['title'] = $this->modname . ': ' . $row['subject'];
                 $ret[$i]['link'] = $ret[$i]['guid'] = $link;
                 $ret[$i]['timestamp'] = $row['post_time'];
-                $ret[$i]['description'] = sprintf('Posted by: <i>%s</i><br />%s', $this->myGetUnameFromId($row['uid']), $myts->displayTarea($row['post_text'], $row['dohtml'], $row['dosmiley'], $row['doxcode'], 1, $row['dobr']));
+                $ret[$i]['description'] = sprintf('Posted by: <i>%s</i><br>%s', $this->myGetUnameFromId($row['uid']), $myts->displayTarea($row['post_text'], $row['dohtml'], $row['dosmiley'], $row['doxcode'], 1, $row['dobr']));
                 $ret[$i]['category'] = $row['forum_name'];
                 $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/viewforum.php?forum='.$row['forum_id'];
                 $i++;

@@ -60,7 +60,7 @@ class RssfitAms
     {
         $ret = false;
         @include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $ams = AmsStory::getAllPublished($this->grab, 0);
         if (count($ams) > 0) {
             for ($i=0, $iMax = count($ams); $i < $iMax; $i++) {

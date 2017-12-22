@@ -82,7 +82,7 @@ switch ($op) {
 
         // inactive plugins
         if ($plugins = $pluginsHandler->getObjects(new Criteria('rssf_activated', 0), 'p_inactive')) {
-            $ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
+            $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='3'>" . _AM_PLUGIN_INACTIVE . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center' width='30%'>" . _AM_PLUGIN_FILENAME . "</td>\n"
                 . "<td class='head' align='center'>" . _AM_PLUGIN_MODNAME . "</td>\n"
@@ -103,7 +103,7 @@ switch ($op) {
                     if (count($p->getErrors()) > 0) {
                         $ret .= '<b>' . _ERRORS . "</b>\n";
                         foreach ($p->getErrors() as $e) {
-                            $ret .= '<br />' . $e;
+                            $ret .= '<br>' . $e;
                         }
                     } else {
                         $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . '</b>';
@@ -129,7 +129,7 @@ switch ($op) {
             }
         }
         if (count($installable) > 0) {
-            $ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
+            $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='3'>" . _AM_PLUGIN_NONINSTALLED . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center' width='30%'>" . _AM_PLUGIN_FILENAME . "</td>\n"
                 . "<td class='head' align='center'>" . _AM_PLUGIN_MODNAME . "</td>\n"
@@ -150,7 +150,7 @@ switch ($op) {
                     if (count($p->getErrors()) > 0) {
                         $ret .= '<b>' . _ERRORS . "</b>\n";
                         foreach ($p->getErrors() as $e) {
-                            $ret .= '<br />' . $e;
+                            $ret .= '<br>' . $e;
                         }
                     } else {
                         $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . '</b>';
@@ -167,7 +167,7 @@ switch ($op) {
         if (!empty($ret)) {
             $hidden = new XoopsFormHidden('op', 'save');
             $ret = "<form action='" . RSSFIT_ADMIN_URL . "' method='post'>\n" . $ret
-                . "<br /><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
+                . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
                 . $tray_save_cancel->render() . "\n" . $hidden->render() . "\n"
                 . $hidden_do->render() . "\n</td></tr></table></form>";
             echo $ret;
