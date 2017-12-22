@@ -42,7 +42,7 @@ switch ($op) {
     default:
         $ret = '';
         if ($plugins = $pluginsHandler->getObjects(null, 'sublist')) {
-            $ret .= "<br />\n<table cellspacing='1' class='outer' width='100%'>\n"
+            $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='4'>" . _AM_SUB_LIST . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center'>" . _AM_SUB_FILENAME_URL . "</td>\n"
                 . "<td class='head' align='center'>" . _AM_PLUGIN_MODNAME . "</td>\n"
@@ -53,33 +53,29 @@ switch ($op) {
                 $id = $p->getVar('rssf_conf_id');
                 if (!$handler = $pluginsHandler->checkPlugin($p)) {
                     $pluginsHandler->forceDeactivate($p);
-                    $mod = implode('<br />', $p->getErrors());
+                    $mod = implode('<br>', $p->getErrors());
                     $activate = new XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
                     $activate->setExtra('disabled="disabled"');
                     $config = '&nbsp;';
+                    $urlLink = $rss->subFeedUrl($p->getVar('rssf_filename'));
                 } else {
                     $mod = $handler->modname;
                     $activate = new XoopsFormCheckbox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
                     $config = rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
+                    $urlLink = '<a href="' . $rss->subFeedUrl($p->getVar('rssf_filename'))  . '">' . $rss->subFeedUrl($p->getVar('rssf_filename'))  .'</a>';
                 }
                 $activate->addOption(1, ' ');
                 $ret .= "<tr>\n"
-                    . "<td class='even'>"
-                    . $p->getVar('rssf_filename') . '<br />'
-                    . $rss->subFeedUrl($p->getVar('rssf_filename'))
-                    . "</td>\n"
-                    . "<td class='even' align='center'>"
-                    . $mod . "</td>\n"
-                    . "<td class='odd' align='center'>"
-                    . $activate->render() . "</td>\n"
-                    . "<td class='even' align='center'>"
-                    . $config . "</td>\n";
+                    . "<td class='even'>" . $p->getVar('rssf_filename') . '<br>' . $urlLink . "</td>\n"
+                    . "<td class='even' align='center'>" . $mod . "</td>\n"
+                    . "<td class='odd' align='center'>" . $activate->render() . "</td>\n"
+                    . "<td class='even' align='center'>" . $config . "</td>\n";
                 $ret .= "</tr>\n";
             }
             $ret .= "</table>\n";
             $hidden = new XoopsFormHidden('op', 'save');
             $ret = "<form action='" . RSSFIT_ADMIN_URL . "' method='post'>\n" . $ret
-                . "<br /><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
+                . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
                 . $tray_save_cancel->render() . "\n" . $hidden->render() . "\n"
                 . $hidden_do->render() . "\n</td></tr></table></form>";
             echo $ret;
