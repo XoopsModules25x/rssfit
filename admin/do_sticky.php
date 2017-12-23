@@ -59,7 +59,7 @@ switch ($op) {
         $dobr->addOption(1, _AM_RSSFIT_DO_BR);
         $tray_content->addElement($dobr);
 
-        $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255, $myts->makeTboxData4PreviewInForm($setting['link']));
+        $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255, $myts->htmlSpecialChars($myts->stripSlashesGPC($setting['link'])));
 
         $applyto = $rss->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds'], 10);
 

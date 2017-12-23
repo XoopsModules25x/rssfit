@@ -58,7 +58,7 @@ switch ($op) {
         $dobr->addOption(1, _AM_RSSFIT_DO_BR);
         $tray_content->addElement($dobr);
 
-        $sub = new \XoopsFormTextArea(_AM_RSSFIT_EDIT_INTRO_SUB, 'sub', isset($setting['dobr']) ? $myts->makeTboxData4PreviewInForm($setting['sub']) : '');
+        $sub = new \XoopsFormTextArea(_AM_RSSFIT_EDIT_INTRO_SUB, 'sub', isset($setting['dobr']) ? $myts->htmlSpecialChars($myts->stripSlashesGPC($setting['sub'])) : '');
         $sub->setDescription(_AM_RSSFIT_EDIT_INTRO_SUB_DESC);
 
         $form = new \XoopsThemeForm(_AM_RSSFIT_EDIT_INTRO, 'editintro', RSSFIT_ADMIN_URL);
