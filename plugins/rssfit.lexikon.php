@@ -45,13 +45,16 @@ if (!defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Rssfitlexikon
  */
-class Rssfitlexikon extends XoopsObject
+class Rssfitlexikon extends \XoopsObject
 {
     public $dirname = 'lexikon';
     public $modname;
     public $module;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -59,34 +62,37 @@ class Rssfitlexikon extends XoopsObject
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;
+        $this->module  = $mod;
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
         //$perm_handler = xoops_getHandler('groupperm');
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT entryID, categoryID, term, definition, datesub FROM '
-               . $xoopsDB->prefix('lxentries') . ' WHERE submit = 0 AND offline = 0 ORDER BY datesub DESC';
+        $ret    = false;
+        $i      = 0;
+        $sql    = 'SELECT entryID, categoryID, term, definition, datesub FROM ' . $xoopsDB->prefix('lxentries') . ' WHERE submit = 0 AND offline = 0 ORDER BY datesub DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             //	required
             $ret[$i]['title'] = $row['term'];
-            $link = XOOPS_URL.'/modules/'.$this->dirname.'/entry.php?entryID='.$row['entryID'];
+            $link             = XOOPS_URL . '/modules/' . $this->dirname . '/entry.php?entryID=' . $row['entryID'];
             //$ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['link'] =  $link;
-            $ret[$i]['timestamp'] = $row['datesub'];
+            $ret[$i]['link']        = $link;
+            $ret[$i]['timestamp']   = $row['datesub'];
             $ret[$i]['description'] = $myts->displayTarea($row['definition']);
             //	optional
             //5. The item synopsis, or description, whatever
             //$ret[$i]['guid'] = $link;
             //	6. A string + domain that identifies a categorization taxonomy
             $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            $ret[$i]['domain']   = XOOPS_URL . '/modules/' . $this->dirname . '/';
             /*$ret[$i]['extras'] = array();
             //	7a. without attribute
             $ret[$i]['extras']['author'] = array('content' => 'aabbc@c.com');

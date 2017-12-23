@@ -40,12 +40,19 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitWfsection2
+ */
 class RssfitWfsection2
 {
     public $dirname = 'wfsection';
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -56,24 +63,28 @@ class RssfitWfsection2
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/common.php';
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/wfsarticle.php';
-        $ret = false;
+        @include_once XOOPS_ROOT_PATH . '/modules/wfsection/class/common.php';
+        @include_once XOOPS_ROOT_PATH . '/modules/wfsection/class/wfsarticle.php';
+        $ret      = false;
         $articles = WfsArticle::getAllArticle($this->grab, 0, 'online');
         if (count($articles) > 0) {
             $xoopsModuleConfig['shortartlen'] = 0;
-            $myts = \MyTextSanitizer::getInstance();
-            for ($i=0, $iMax = count($articles); $i < $iMax; $i++) {
-                $link = XOOPS_URL.'/modules/wfsection/article.php?articleid='.$articles[$i]->articleid();
-                $ret[$i]['title'] = $myts->undoHtmlSpecialChars($articles[$i]->title());
-                $ret[$i]['link'] = $link;
-                $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $articles[$i]->published();
+            $myts                             = \MyTextSanitizer::getInstance();
+            for ($i = 0, $iMax = count($articles); $i < $iMax; $i++) {
+                $link                   = XOOPS_URL . '/modules/wfsection/article.php?articleid=' . $articles[$i]->articleid();
+                $ret[$i]['title']       = $myts->undoHtmlSpecialChars($articles[$i]->title());
+                $ret[$i]['link']        = $link;
+                $ret[$i]['guid']        = $link;
+                $ret[$i]['timestamp']   = $articles[$i]->published();
                 $ret[$i]['description'] = $articles[$i]->summary();
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
         return $ret;

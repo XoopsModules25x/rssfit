@@ -14,8 +14,8 @@ x renamed
 ---------------------------------------
 
 _ _admin.php__
-+ _AM_OLEDRION_ADD_ATTRIBUTE
-+ _AM_OLEDRION_EDIT_ATTRIBUTE
++ _AM_RSSFIT_OLEDRION_ADD_ATTRIBUTE
++ _AM_RSSFIT_OLEDRION_EDIT_ATTRIBUTE
 
 
 New file to translate :

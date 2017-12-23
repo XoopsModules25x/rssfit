@@ -19,29 +19,28 @@ use Xmf\Request;
  * @author       XOOPS Development Team
  */
 
-
 include_once __DIR__ . '/admin_header.php';
-$moduleAdmin = \Xmf\Module\Admin::getInstance();
+$adminObject = \Xmf\Module\Admin::getInstance();
 
 $do = Request::getString('do', '');
 $op = Request::getString('op', 'list');
 define('RSSFIT_OK', 1);
 
-if (file_exists(RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php')) {
-    include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-    $hidden_do = new XoopsFormHidden('do', $do);
-    $button_save = new XoopsFormButton('', 'submit', _AM_SAVE, 'submit');
-    $button_go = new XoopsFormButton('', 'submit', _GO, 'submit');
-    $button_cancel = new XoopsFormButton('', 'cancel', _CANCEL);
+if (file_exists(RSSFIT_ROOT_PATH . 'admin/do_' . $do . '.php')) {
+    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    $hidden_do     = new \XoopsFormHidden('do', $do);
+    $button_save   = new \XoopsFormButton('', 'submit', _AM_RSSFIT_SAVE, 'submit');
+    $button_go     = new \XoopsFormButton('', 'submit', _GO, 'submit');
+    $button_cancel = new \XoopsFormButton('', 'cancel', _CANCEL);
     $button_cancel->setExtra('onclick="javascript:history.go(-1)"');
-    $tray_save_cancel = new XoopsFormElementTray('', '');
+    $tray_save_cancel = new \XoopsFormElementTray('', '');
     $tray_save_cancel->addElement($button_save);
     $tray_save_cancel->addElement($button_cancel);
-    $moduleAdmin->displayNavigation('?do=' . $do);
-    require RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php';
+    $adminObject->displayNavigation('?do=' . $do);
+    require RSSFIT_ROOT_PATH . 'admin/do_' . $do . '.php';
 } else {
-    $moduleAdmin->displayNavigation(basename(__FILE__));
-    $moduleAdmin->displayIndex();
+    $adminObject->displayNavigation(basename(__FILE__));
+    $adminObject->displayIndex();
 }
 
 include_once __DIR__ . '/admin_footer.php';

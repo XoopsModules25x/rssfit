@@ -38,9 +38,9 @@
  * Step 3: Modify the definition of $dirname in line 62 to your modules dirname, i.e. 'news'
  * Step 4: Modify the function "grabEntries" method to satisfy your needs
  * Step 5: Move your new plug-in file to the RSSFit plugins folder,
- *         i.e. your-xoops-root/modules/rss/plugins
+ *         i.e. your-xoops-root/modules/rssfit/plugins
  * Step 6: Install your plug-in by pointing your browser to
- *         your-xoops-url/modules/rss/admin/?do=plugins
+ *         your-xoops-url/modules/rssfit/admin/?do=plugins
  * Step 7: Finally, tell us about yourself and this file by modifying the
  *         "About this RSSFit plug-in" section located below.
  *
@@ -57,6 +57,9 @@ if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
+/**
+ * Class RssfitSpecial
+ */
 class RssfitSpecial
 {
     public $dirname = 'special';
@@ -64,6 +67,9 @@ class RssfitSpecial
     public $grab;                // will be set to the maximum number of items to grab
     public $module;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -71,27 +77,31 @@ class RssfitSpecial
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;   // optional, remove this line if there is nothing
+        $this->module  = $mod;   // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return array
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
         $ret = [];
-        @include_once XOOPS_ROOT_PATH.'/modules/special/class/stuff.php';
-        $myts = \MyTextSanitizer::getInstance();
+        @include_once XOOPS_ROOT_PATH . '/modules/special/class/stuff.php';
+        $myts  = \MyTextSanitizer::getInstance();
         $items = SpecialStuff::getAllPublished($this->grab, 0);
         foreach ($items as $item) {
             $ret[] = [
-                'title' => $myts->undoHtmlSpecialChars($item->title()),
-                'link' => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
-                'guid' => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
-                'timestamp' => $item->published(),
+                'title'       => $myts->undoHtmlSpecialChars($item->title()),
+                'link'        => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
+                'guid'        => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
+                'timestamp'   => $item->published(),
                 'description' => $item->hometext(),
-                'category' => $this->modname,
-                'domain' => XOOPS_URL . '/modules/' . $this->dirname . '/',
+                'category'    => $this->modname,
+                'domain'      => XOOPS_URL . '/modules/' . $this->dirname . '/',
             ];
         }
         return $ret;

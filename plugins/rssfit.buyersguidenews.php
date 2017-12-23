@@ -52,6 +52,9 @@ class RssfitBuyersguidenews
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -62,21 +65,25 @@ class RssfitBuyersguidenews
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
+        include XOOPS_ROOT_PATH . '/modules/buyersguide/include/common.php';
         $items = $hBgNews->getRecentNews(0, $this->grab);
-        $i = 0;
+        $i     = 0;
 
         if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
-                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title'] = $item->getVar('news_title', 'n');
-                $ret[$i]['timestamp'] = $item->getVar('news_date');
+                $ret[$i]['link']        = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title']       = $item->getVar('news_title', 'n');
+                $ret[$i]['timestamp']   = $item->getVar('news_date');
                 $ret[$i]['description'] = $item->getShortenText();
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

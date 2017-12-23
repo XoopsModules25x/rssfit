@@ -50,6 +50,9 @@ class RssfitAdslight
     public $grab;
     public $module;    // optional, see line 74
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -62,21 +65,25 @@ class RssfitAdslight
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT lid, title, status, desctext, date from ' . $xoopsDB->prefix('adslight_listing') . " WHERE valid = 'Yes' ORDER BY date DESC";
+        $myts   = \MyTextSanitizer::getInstance();
+        $ret    = false;
+        $i      = 0;
+        $sql    = 'SELECT lid, title, status, desctext, date FROM ' . $xoopsDB->prefix('adslight_listing') . " WHERE valid = 'Yes' ORDER BY date DESC";
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewads.php?lid='.$row['lid'];
-            $ret[$i]['title'] = $row['title'];
-            $ret[$i]['link'] = $link;
-            $ret[$i]['timestamp'] = $row['date'];
+            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/viewads.php?lid=' . $row['lid'];
+            $ret[$i]['title']       = $row['title'];
+            $ret[$i]['link']        = $link;
+            $ret[$i]['timestamp']   = $row['date'];
             $ret[$i]['description'] = $row['desctext'];  // $myts->displayTarea($row['desctext']);
-            $ret[$i]['extras'] = [];
+            $ret[$i]['extras']      = [];
             $i++;
         }
         return $ret;

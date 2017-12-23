@@ -40,6 +40,10 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitNewbb2
+ */
 class RssfitNewbb2
 {
     public $dirname = 'newbb';
@@ -47,6 +51,9 @@ class RssfitNewbb2
     public $module;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -54,50 +61,58 @@ class RssfitNewbb2
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;
+        $this->module  = $mod;
         return $mod;
     }
 
+    /**
+     * @param $uid
+     * @return string
+     */
     public function myGetUnameFromId($uid)
     {
-        static $thisUser=false;
-        static $lastUid=false;
-        static $lastName='';
+        static $thisUser = false;
+        static $lastUid = false;
+        static $lastName = '';
 
         if (0 == $uid) {
             return 'A guest';
         }
 
-        if ($lastUid==$uid) {
+        if ($lastUid == $uid) {
             return $lastName;
         }
 
         if (!is_object($thisUser)) {
             $memberHandler = xoops_getHandler('member');
-            $thisUser = $memberHandler->getUser($uid);
+            $thisUser      = $memberHandler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'));
         if ('' == $name) {
             $name = htmlspecialchars($thisUser->getVar('uname'));
         }
-        $lastUid=$uid;
-        $lastName=$name;
+        $lastUid  = $uid;
+        $lastName = $name;
         return $name;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
-        @include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
+        @include XOOPS_ROOT_PATH . '/modules/newbb/include/functions.php';
         global $xoopsDB, $config_handler;
-        $xoopsModule = $this->module;
-        $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
+        $xoopsModule  = $this->module;
+        $myts         = \MyTextSanitizer::getInstance();
+        $ret          = false;
+        $i            = 0;
         $forumHandler = xoops_getModuleHandler('forum', 'newbb');
         $topicHandler = xoops_getModuleHandler('topic', 'newbb');
-        $newbbConfig = $config_handler->getConfigsByCat(0, $this->module->getVar('mid'));
+        $newbbConfig  = $config_handler->getConfigsByCat(0, $this->module->getVar('mid'));
 
-        $access_forums = $forumHandler->getForums(0, 'access');
+        $access_forums    = $forumHandler->getForums(0, 'access');
         $available_forums = [];
         foreach ($access_forums as $forum) {
             if ($topicHandler->getPermission($forum)) {
@@ -108,20 +123,30 @@ class RssfitNewbb2
 
         if (count($available_forums) > 0) {
             ksort($available_forums);
-            $cond = ' AND t.forum_id IN ('.implode(',', array_keys($available_forums)).')';
+            $cond = ' AND t.forum_id IN (' . implode(',', array_keys($available_forums)) . ')';
             unset($available_forums);
-            $cond .= $newbbConfig['enable_karma'] ? ' AND p.post_karma = 0' : '';
-            $cond .= $newbbConfig['allow_require_reply'] ? ' AND p.require_reply = 0' : '';
-            $query = 'SELECT p.uid, p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.dohtml, p.dosmiley, p.doxcode, p.dobr, f.forum_name, pt.post_text FROM '.$xoopsDB->prefix('bb_posts').' p, '.$xoopsDB->prefix('bb_forums').' f, '.$xoopsDB->prefix('bb_topics').' t, '.$xoopsDB->prefix('bb_posts_text').' pt WHERE f.forum_id = p.forum_id AND p.post_id = pt.post_id AND p.topic_id = t.topic_id AND t.approved = 1 AND p.approved = 1 AND f.forum_id = t.forum_id '.$cond.' ORDER BY p.post_time DESC';
+            $cond   .= $newbbConfig['enable_karma'] ? ' AND p.post_karma = 0' : '';
+            $cond   .= $newbbConfig['allow_require_reply'] ? ' AND p.require_reply = 0' : '';
+            $query  = 'SELECT p.uid, p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.dohtml, p.dosmiley, p.doxcode, p.dobr, f.forum_name, pt.post_text FROM '
+                      . $xoopsDB->prefix('bb_posts')
+                      . ' p, '
+                      . $xoopsDB->prefix('bb_forums')
+                      . ' f, '
+                      . $xoopsDB->prefix('bb_topics')
+                      . ' t, '
+                      . $xoopsDB->prefix('bb_posts_text')
+                      . ' pt WHERE f.forum_id = p.forum_id AND p.post_id = pt.post_id AND p.topic_id = t.topic_id AND t.approved = 1 AND p.approved = 1 AND f.forum_id = t.forum_id '
+                      . $cond
+                      . ' ORDER BY p.post_time DESC';
             $result = $xoopsDB->query($query, $this->grab);
             while ($row = $xoopsDB->fetchArray($result)) {
-                $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewtopic.php?topic_id='.$row['topic_id'].'&amp;forum='.$row['forum_id'].'&amp;post_id='.$row['post_id'].'#forumpost'.$row['post_id'];
-                $ret[$i]['title'] = $this->modname . ': ' . $row['subject'];
-                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $row['post_time'];
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/viewtopic.php?topic_id=' . $row['topic_id'] . '&amp;forum=' . $row['forum_id'] . '&amp;post_id=' . $row['post_id'] . '#forumpost' . $row['post_id'];
+                $ret[$i]['title']       = $this->modname . ': ' . $row['subject'];
+                $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp']   = $row['post_time'];
                 $ret[$i]['description'] = sprintf('Posted by: <i>%s</i><br>%s', $this->myGetUnameFromId($row['uid']), $myts->displayTarea($row['post_text'], $row['dohtml'], $row['dosmiley'], $row['doxcode'], 1, $row['dobr']));
-                $ret[$i]['category'] = $row['forum_name'];
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/viewforum.php?forum='.$row['forum_id'];
+                $ret[$i]['category']    = $row['forum_name'];
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/viewforum.php?forum=' . $row['forum_id'];
                 $i++;
             }
         }

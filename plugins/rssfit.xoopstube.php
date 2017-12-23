@@ -51,6 +51,9 @@ class RssfitXoopstube
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -61,25 +64,27 @@ class RssfitXoopstube
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT l.lid, l.title as ltitle, l.date, l.cid, l.hits, l.description, c.title as ctitle FROM '
-               . $xoopsDB->prefix('xoopstube_videos') . ' l, '
-               . $xoopsDB->prefix('xoopstube_cat') . ' c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC';
+        $ret  = false;
+        $i    = 0;
+        $sql  = 'SELECT l.lid, l.title AS ltitle, l.date, l.cid, l.hits, l.description, c.title AS ctitle FROM ' . $xoopsDB->prefix('xoopstube_videos') . ' l, ' . $xoopsDB->prefix('xoopstube_cat') . ' c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC';
 
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            $ret[$i]['title'] = $row['ltitle'];
-            $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlevideo.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
-            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp'] = $row['date'];
+            $ret[$i]['title']       = $row['ltitle'];
+            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlevideo.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp']   = $row['date'];
             $ret[$i]['description'] = $myts->displayTarea($row['description']);
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            $ret[$i]['category']    = $this->modname;
+            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
         return $ret;

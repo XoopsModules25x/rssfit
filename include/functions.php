@@ -32,6 +32,11 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+/**
+ * @param $a
+ * @param $b
+ * @return int
+ */
 function sortTimestamp($a, $b)
 {
     if ($a['timestamp'] == $b['timestamp']) {
@@ -40,21 +45,35 @@ function sortTimestamp($a, $b)
     return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
 }
 
-function genSpecMoreInfo($spec=0, &$rss)
+/**
+ * @param int $spec
+ * @param     $rss
+ * @return string
+ */
+function genSpecMoreInfo($spec = 0, &$rss)
 {
-    return rssfGenAnchor($rss->specUrl($spec), _AM_EDIT_CHANNEL_QMARK, 'spec', _AM_EDIT_CHANNEL_MOREINFO);
+    return rssfGenAnchor($rss->specUrl($spec), _AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', _AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
 }
 
-function rssfGenAnchor($url='', $text='', $target= '', $title='', $class='', $id='')
+/**
+ * @param string $url
+ * @param string $text
+ * @param string $target
+ * @param string $title
+ * @param string $class
+ * @param string $id
+ * @return string
+ */
+function rssfGenAnchor($url = '', $text = '', $target = '', $title = '', $class = '', $id = '')
 {
     if (!empty($url)) {
         $ret = '';
-        $ret .= '<a href="'.$url.'"';
-        $ret .= !empty($target) ? ' target="'.$target.'"' : '';
-        $ret .= !empty($class) ? ' class="'.$class.'"' : '';
-        $ret .= !empty($id) ? ' id="'.$id.'"' : '';
-        $ret .= !empty($title) ? ' title="'.$title.'"' : '';
-        $ret .= '>'.$text.'</a>';
+        $ret .= '<a href="' . $url . '"';
+        $ret .= !empty($target) ? ' target="' . $target . '"' : '';
+        $ret .= !empty($class) ? ' class="' . $class . '"' : '';
+        $ret .= !empty($id) ? ' id="' . $id . '"' : '';
+        $ret .= !empty($title) ? ' title="' . $title . '"' : '';
+        $ret .= '>' . $text . '</a>';
         return $ret;
     }
     return $text;

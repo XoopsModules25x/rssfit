@@ -37,9 +37,9 @@
 * Step 3:	Modify the word in line 60 from 'Myalbum' to [mod_dir]
 * Step 4:	Modify the function "grabEntries" to satisfy your needs
 * Step 5:	Move your new plug-in file to the RSSFit plugins folder,
-* 			i.e. your-xoops-root/modules/rss/plugins
+* 			i.e. your-xoops-root/modules/rssfit/plugins
 * Step 6:	Install your plug-in by pointing your browser to
-* 			your-xoops-url/modules/rss/admin/?do=plugins
+* 			your-xoops-url/modules/rssfit/admin/?do=plugins
 * Step 7:	Finally, tell us about yourself and this file by modifying the
 * 			"About this RSSFit plug-in" section which is located... somewhere.
 *
@@ -57,6 +57,10 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitMyalbum
+ */
 class RssfitMyalbum
 {
     public $dirname = 'myalbum';
@@ -64,6 +68,9 @@ class RssfitMyalbum
     public $grab;
     public $module;    // optional, see line 74
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -71,56 +78,64 @@ class RssfitMyalbum
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;    // optional, remove this line if there is nothing
+        $this->module  = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
 
+    /**
+     * @param $uid
+     * @return string
+     */
     public function myGetUnameFromId($uid)
     {
-        static $thisUser=false;
-        static $lastUid=false;
-        static $lastName='';
+        static $thisUser = false;
+        static $lastUid = false;
+        static $lastName = '';
 
-        if ($lastUid==$uid) {
+        if ($lastUid == $uid) {
             return $lastName;
         }
 
         if (!is_object($thisUser)) {
             $memberHandler = xoops_getHandler('member');
-            $thisUser = $memberHandler->getUser($uid);
+            $thisUser      = $memberHandler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'));
         if ('' == $name) {
             $name = htmlspecialchars($thisUser->getVar('uname'));
         }
-        $lastUid=$uid;
-        $lastName=$name;
+        $lastUid  = $uid;
+        $lastName = $name;
         return $name;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
+        $ret  = false;
+        $i    = 0;
         // For myalbum-p with thumbs enabled
 
-        $sql  = 'SELECT p.lid, p.title, p.ext, p.date, t.description, c.cid, c.title as cat, p.submitter';
-        $sql .= ' FROM ' . $xoopsDB->prefix('myalbum_photos') . ' p, ';
-        $sql .= $xoopsDB->prefix('myalbum_text') . ' t, ';
-        $sql .= $xoopsDB->prefix('myalbum_cat') . ' c ';
-        $sql .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
-        $sql .= 'ORDER BY date DESC';
+        $sql    = 'SELECT p.lid, p.title, p.ext, p.date, t.description, c.cid, c.title as cat, p.submitter';
+        $sql    .= ' FROM ' . $xoopsDB->prefix('myalbum_photos') . ' p, ';
+        $sql    .= $xoopsDB->prefix('myalbum_text') . ' t, ';
+        $sql    .= $xoopsDB->prefix('myalbum_cat') . ' c ';
+        $sql    .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
+        $sql    .= 'ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            $link = XOOPS_URL.'/modules/'.$this->dirname.'/photo.php?lid='.$row['lid'];
-            $thumb = XOOPS_URL.'/uploads/thumbs/'.$row['lid'].'.'.$row['ext'];
-            $name = $this->myGetUnameFromId($row['submitter']);
-            $title = $myts->displayTarea($row['title']);
-            $cat = $myts->displayTarea($row['cat']);
-            $catlink = XOOPS_URL.'/modules/'.$this->dirname.'/viewcat.php?cid='.$row['cid'];
+            $link    = XOOPS_URL . '/modules/' . $this->dirname . '/photo.php?lid=' . $row['lid'];
+            $thumb   = XOOPS_URL . '/uploads/thumbs/' . $row['lid'] . '.' . $row['ext'];
+            $name    = $this->myGetUnameFromId($row['submitter']);
+            $title   = $myts->displayTarea($row['title']);
+            $cat     = $myts->displayTarea($row['cat']);
+            $catlink = XOOPS_URL . '/modules/' . $this->dirname . '/viewcat.php?cid=' . $row['cid'];
             /*
             * Required elements of an RSS item
             */
@@ -131,9 +146,9 @@ class RssfitMyalbum
             //	3. Item modification date, must be in Unix time format
             $ret[$i]['timestamp'] = $row['date'];
             //	4. The item synopsis, or description, whatever
-            $desc = '<p><a href="'.$link.'"><img src="'.$thumb.'" align="left" alt="'.$title.'" border="0" /></a> ';
-            $desc .= 'By '.$name.' in <a href="'.$catlink.'">'.$cat.'</a><br>';
-            $desc .= $myts->displayTarea($row['description']).'</p><br clear="all"/>';
+            $desc                   = '<p><a href="' . $link . '"><img src="' . $thumb . '" align="left" alt="' . $title . '" border="0" /></a> ';
+            $desc                   .= 'By ' . $name . ' in <a href="' . $catlink . '">' . $cat . '</a><br>';
+            $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all"/>';
             $ret[$i]['description'] = $desc;
             /*
             * Optional elements of an RSS item
@@ -142,7 +157,7 @@ class RssfitMyalbum
             $ret[$i]['guid'] = $link;
             //	6. A string + domain that identifies a categorization taxonomy
             $ret[$i]['category'] = $cat;
-            $ret[$i]['domain'] = $catlink;
+            $ret[$i]['domain']   = $catlink;
 
             $i++;
         }

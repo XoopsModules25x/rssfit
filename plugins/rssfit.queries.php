@@ -42,6 +42,9 @@ if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
+/**
+ * Class RssfitQueries
+ */
 class RssfitQueries
 {
     public $dirname = 'queries';
@@ -49,6 +52,9 @@ class RssfitQueries
     public $grab;
     public $module;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -56,42 +62,46 @@ class RssfitQueries
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;    // optional, remove this line if there is nothing
+        $this->module  = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
+        $ret  = false;
 
-        $i = -1;
-        $lasttime=false;
-        $lastuser=false;
-        $limit=10*$this->grab;
+        $i        = -1;
+        $lasttime = false;
+        $lastuser = false;
+        $limit    = 10 * $this->grab;
 
         $sql = 'SELECT id, title, posted, querytext FROM ' . $xoopsDB->prefix('queries_query');
-        $sql.= ' WHERE approved=1 ORDER BY posted DESC ';
+        $sql .= ' WHERE approved=1 ORDER BY posted DESC ';
 
         $result = $xoopsDB->query($sql, $limit, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             ++$i;
-            if ($i<=$this->grab) {
-                $desc=$row['querytext'];
-                if (strlen($desc)>200) {
-                    $desc=substr($desc, 0, 200).'...';
+            if ($i <= $this->grab) {
+                $desc = $row['querytext'];
+                if (strlen($desc) > 200) {
+                    $desc = substr($desc, 0, 200) . '...';
                 }
-                $link = XOOPS_URL.'/modules/queries/view.php?id='.$row['id'];
-                $ret[$i]['title'] = $this->modname . ': ' . $row['title'];
-                $ret[$i]['link'] = $link;
-                $ret[$i]['timestamp'] = $row['posted'];
-                $ret[$i]['guid'] = $link;
-                $ret[$i]['category'] = $this->modname;
+                $link                   = XOOPS_URL . '/modules/queries/view.php?id=' . $row['id'];
+                $ret[$i]['title']       = $this->modname . ': ' . $row['title'];
+                $ret[$i]['link']        = $link;
+                $ret[$i]['timestamp']   = $row['posted'];
+                $ret[$i]['guid']        = $link;
+                $ret[$i]['category']    = $this->modname;
                 $ret[$i]['description'] = $desc;
             }
-            if ($i>$this->grab) {
+            if ($i > $this->grab) {
                 break;
             }
         }

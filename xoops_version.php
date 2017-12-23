@@ -36,7 +36,7 @@ $moduleDirName = basename(__DIR__);
 $modversion = [
     'version'             => 1.31,
     'module_status'       => 'Beta 2',
-    'release_date'        => '2017/10/27',
+    'release_date'        => '2017/12/20',
     'name'                => _MI_RSSFIT_NAME,
     'description'         => _MI_RSSFIT_DESC,
     'official'            => 0,
@@ -84,8 +84,8 @@ $modversion = [
     // ------------------- Main Menu -------------------
     'hasMain'             => 1,
     // ------------------- Install/Update -------------------
-    'onInstall'           => 'include/install.php',
-    'onUpdate'            => 'include/install.php',
+    'onInstall'           => 'include/oninstall.php',
+    'onUpdate'            => 'include/onupdate.php',
     //  'onUninstall'         => 'include/onuninstall.php',
     // -------------------  PayPal ---------------------------
     'paypal'              => [
@@ -98,10 +98,8 @@ $modversion = [
     'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
     // ------------------- Tables ----------------------------
     'tables'              => [
-        //        $moduleDirName . '_' . 'XXX',
-        //        $moduleDirName . '_' . 'XXX',
-        'rssfit_plugins',
-        'rssfit_misc',
+        $moduleDirName . '_' . 'plugins',
+        $moduleDirName . '_' . 'misc',
     ],
 ];
 
@@ -117,11 +115,11 @@ $modversion['helpsection'] = [
 $modversion['templates']   = [];
 $modversion['templates'][] = [
     'file'        => 'rssfit_index.tpl',
-    'description' => _MI_TMPL_INTRO,
+    'description' => _MI_RSSFIT_TMPL_INTRO,
 ];
 $modversion['templates'][] = [
     'file'        => 'rssfit_rss.tpl',
-    'description' => _MI_TMPL_RSS,
+    'description' => _MI_RSSFIT_TMPL_RSS,
 ];
 
 //	Module Configs
@@ -129,8 +127,8 @@ $modversion['templates'][] = [
 
 $modversion['config'][] = [
     'name'        => 'overall_entries',
-    'title'       => '_MI_OVERALL_ENTRIES',
-    'description' => '_MI_OVERALL_ENTRIES_DESC',
+    'title'       => '_MI_RSSFIT_OVERALL_ENTRIES',
+    'description' => '_MI_RSSFIT_OVERALL_ENTRIES_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 20,
@@ -139,8 +137,8 @@ $modversion['config'][] = [
 // $xoopsModuleConfig['plugin_entries']
 $modversion['config'][] = [
     'name'        => 'plugin_entries',
-    'title'       => '_MI_PLUGIN_ENTRIES',
-    'description' => '_MI_PLUGIN_ENTRIES_DESC',
+    'title'       => '_MI_RSSFIT_PLUGIN_ENTRIES',
+    'description' => '_MI_RSSFIT_PLUGIN_ENTRIES_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 5,
@@ -149,19 +147,19 @@ $modversion['config'][] = [
 // $xoopsModuleConfig['sort']
 $modversion['config'][] = [
     'name'        => 'sort',
-    'title'       => '_MI_ENTRIES_SORT',
-    'description' => '_MI_ENTRIES_SORT_DESC',
+    'title'       => '_MI_RSSFIT_ENTRIES_SORT',
+    'description' => '_MI_RSSFIT_ENTRIES_SORT_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'd',
-    'options'     => [_MI_ENTRIES_SORT_DATE => 'd', _MI_ENTRIES_SORT_CAT => 'c'],
+    'options'     => [_MI_RSSFIT_ENTRIES_SORT_DATE => 'd', _MI_RSSFIT_ENTRIES_SORT_CAT => 'c'],
 ];
 
 // $xoopsModuleConfig['cache']
 $modversion['config'][] = [
     'name'        => 'cache',
-    'title'       => '_MI_CACHE',
-    'description' => '_MI_CACHE_DESC',
+    'title'       => '_MI_RSSFIT_CACHE',
+    'description' => '_MI_RSSFIT_CACHE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -170,8 +168,8 @@ $modversion['config'][] = [
 // $xoopsModuleConfig['max_char']
 $modversion['config'][] = [
     'name'        => 'max_char',
-    'title'       => '_MI_MAXCHAR',
-    'description' => '_MI_MAXCHAR_DESC',
+    'title'       => '_MI_RSSFIT_MAXCHAR',
+    'description' => '_MI_RSSFIT_MAXCHAR_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -180,8 +178,8 @@ $modversion['config'][] = [
 // $xoopsModuleConfig['strip_html']
 $modversion['config'][] = [
     'name'        => 'strip_html',
-    'title'       => '_MI_STRIPHTML',
-    'description' => '_MI_STRIPHTML_DESC',
+    'title'       => '_MI_RSSFIT_STRIPHTML',
+    'description' => '_MI_RSSFIT_STRIPHTML_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -190,8 +188,8 @@ $modversion['config'][] = [
 // $xoopsModuleConfig['utf8']
 $modversion['config'][] = [
     'name'        => 'utf8',
-    'title'       => '_MI_ENCODE_UTF8',
-    'description' => '_MI_ENCODE_UTF8_DESC',
+    'title'       => '_MI_RSSFIT_ENCODE_UTF8',
+    'description' => '_MI_RSSFIT_ENCODE_UTF8_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -200,10 +198,10 @@ $modversion['config'][] = [
 // $xoopsModuleConfig['mime']
 $modversion['config'][] = [
     'name'        => 'mime',
-    'title'       => '_MI_OUTOUT_MIME',
+    'title'       => '_MI_RSSFIT_OUTOUT_MIME',
     'description' => '',
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 1,
-    'options'     => [_MI_OUTOUT_MIME_XML => 1, _MI_OUTOUT_MIME_HTML => 2, _MI_OUTOUT_MIME_PHP => 3],
+    'options'     => [_MI_RSSFIT_OUTOUT_MIME_XML => 1, _MI_RSSFIT_OUTOUT_MIME_HTML => 2, _MI_RSSFIT_OUTOUT_MIME_PHP => 3],
 ];

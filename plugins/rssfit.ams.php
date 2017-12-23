@@ -40,12 +40,19 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitAms
+ */
 class RssfitAms
 {
     public $dirname = 'AMS';
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -56,20 +63,24 @@ class RssfitAms
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        @include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
+        @include_once XOOPS_ROOT_PATH . '/modules/AMS/class/class.newsstory.php';
         $myts = \MyTextSanitizer::getInstance();
-        $ams = AmsStory::getAllPublished($this->grab, 0);
+        $ams  = AmsStory::getAllPublished($this->grab, 0);
         if (count($ams) > 0) {
-            for ($i=0, $iMax = count($ams); $i < $iMax; $i++) {
-                $ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
-                $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL.'/modules/AMS/article.php?storyid='.$ams[$i]->storyid();
-                $ret[$i]['timestamp'] = $ams[$i]->published();
+            for ($i = 0, $iMax = count($ams); $i < $iMax; $i++) {
+                $ret[$i]['title']       = $myts->undoHtmlSpecialChars($ams[$i]->title());
+                $ret[$i]['link']        = $ret[$i]['guid'] = XOOPS_URL . '/modules/AMS/article.php?storyid=' . $ams[$i]->storyid();
+                $ret[$i]['timestamp']   = $ams[$i]->published();
                 $ret[$i]['description'] = $ams[$i]->hometext();
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
         return $ret;

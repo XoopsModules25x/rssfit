@@ -37,9 +37,9 @@
 * Step 3:	Modify the word in line 60 from 'sample' to [mod_dir]
 * Step 4:	Modify the function "grabEntries" to satisfy your needs
 * Step 5:	Move your new plug-in file to the RSSFit plugins folder,
-* 			i.e. your-xoops-root/modules/rss/plugins
+* 			i.e. your-xoops-root/modules/rssfit/plugins
 * Step 6:	Install your plug-in by pointing your browser to
-* 			your-xoops-url/modules/rss/admin/?do=plugins
+* 			your-xoops-url/modules/rssfit/admin/?do=plugins
 * Step 7:	Finally, tell us about yourself and this file by modifying the
 * 			"About this RSSFit plug-in" section which is located... somewhere.
 *
@@ -57,6 +57,10 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitSample
+ */
 class RssfitSample
 {
     public $dirname = 'sample';
@@ -64,6 +68,9 @@ class RssfitSample
     public $grab;
     public $module;    // optional, see line 71
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -71,24 +78,26 @@ class RssfitSample
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;    // optional, remove this line if there is nothing
+        $this->module  = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
+        $ret  = false;
+        $i    = 0;
         //	The following example code grabs the latest entries from the module MyLinks
-        $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM '
-               . $xoopsDB->prefix('mylinks_links') . ' l, '
-               . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC';
+        $sql    = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
+            $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
             /*
             * Required elements of an RSS item
             */
@@ -107,7 +116,7 @@ class RssfitSample
             $ret[$i]['guid'] = $link;
             //	6. A string + domain that identifies a categorization taxonomy
             $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            $ret[$i]['domain']   = XOOPS_URL . '/modules/' . $this->dirname . '/';
             //	7. extra tags examples
             $ret[$i]['extras'] = [];
             //	7a. without attribute

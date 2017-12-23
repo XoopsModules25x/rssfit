@@ -32,11 +32,11 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
+if (!preg_match('#/rssfit/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
 }
 
-if ($intr = $miscHandler->getObjects(new Criteria('misc_category', 'intro'))) {
+if ($intr = $miscHandler->getObjects(new \Criteria('misc_category', 'intro'))) {
     $intro = $intr[0];
     unset($intr);
 } else {
@@ -44,30 +44,30 @@ if ($intr = $miscHandler->getObjects(new Criteria('misc_category', 'intro'))) {
 }
 switch ($op) {
     default:
-        $title = new XoopsFormText(_AM_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
-        $title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
+        $title = new \XoopsFormText(_AM_RSSFIT_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
+        $title->setDescription(_AM_RSSFIT_EDIT_INTRO_TITLE_DESC);
 
-        $setting = $intro->getVar('misc_setting');
-        $tray_content = new XoopsFormElementTray(_AM_EDIT_INTRO_TEXT, '<br>');
-        $tray_content->setDescription(_AM_EDIT_INTRO_TEXT_DESC . _AM_EDIT_INTRO_TEXT_DESC_SUB);
-        $tray_content->addElement(new XoopsFormDhtmlTextArea('', 'content', $intro->getVar('misc_content', 'e'), 15, 60));
-        $dohtml = new XoopsFormCheckbox('', 'dohtml', $setting['dohtml']);
-        $dohtml->addOption(1, _AM_DO_HTML);
+        $setting      = $intro->getVar('misc_setting');
+        $tray_content = new \XoopsFormElementTray(_AM_RSSFIT_EDIT_INTRO_TEXT, '<br>');
+        $tray_content->setDescription(_AM_RSSFIT_EDIT_INTRO_TEXT_DESC . _AM_RSSFIT_EDIT_INTRO_TEXT_DESC_SUB);
+        $tray_content->addElement(new \XoopsFormDhtmlTextArea('', 'content', $intro->getVar('misc_content', 'e'), 15, 60));
+        $dohtml = new \XoopsFormCheckbox('', 'dohtml', isset($setting['dohtml']) ?: '');
+        $dohtml->addOption(1, _AM_RSSFIT_DO_HTML);
         $tray_content->addElement($dohtml);
-        $dobr = new XoopsFormCheckbox('', 'dobr', $setting['dobr']);
-        $dobr->addOption(1, _AM_DO_BR);
+        $dobr = new \XoopsFormCheckbox('', 'dobr', isset($setting['dobr']) ?: '');
+        $dobr->addOption(1, _AM_RSSFIT_DO_BR);
         $tray_content->addElement($dobr);
 
-        $sub = new XoopsFormTextArea(_AM_EDIT_INTRO_SUB, 'sub', $myts->makeTboxData4PreviewInForm($setting['sub']));
-        $sub->setDescription(_AM_EDIT_INTRO_SUB_DESC);
+        $sub = new \XoopsFormTextArea(_AM_RSSFIT_EDIT_INTRO_SUB, 'sub', isset($setting['dobr']) ? $myts->makeTboxData4PreviewInForm($setting['sub']) : '');
+        $sub->setDescription(_AM_RSSFIT_EDIT_INTRO_SUB_DESC);
 
-        $form = new XoopsThemeForm(_AM_EDIT_INTRO, 'editintro', RSSFIT_ADMIN_URL);
+        $form = new \XoopsThemeForm(_AM_RSSFIT_EDIT_INTRO, 'editintro', RSSFIT_ADMIN_URL);
         $form->addElement($title);
         $form->addElement($tray_content);
         $form->addElement($sub);
         $form->addElement($tray_save_cancel);
         $form->addElement($hidden_do);
-        $form->addElement(new XoopsFormHidden('op', 'save'));
+        $form->addElement(new \XoopsFormHidden('op', 'save'));
         $form->display();
         break;
 
@@ -84,7 +84,7 @@ switch ($op) {
         if (false === $miscHandler->insert($intro)) {
             echo $intro->getHtmlErrors();
         } else {
-            redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
+            redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_RSSFIT_DBUPDATED);
         }
         break;
 }

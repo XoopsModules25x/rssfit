@@ -11,10 +11,10 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright       Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         oledrion
- * @author 			Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+ * @copyright         Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+ * @license           http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @package           oledrion
+ * @author            Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
  *
  * ****************************************************************************
  */
@@ -32,6 +32,9 @@ class RssfitOledrion
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -42,17 +45,21 @@ class RssfitOledrion
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        include XOOPS_ROOT_PATH.'/modules/oledrion/include/common.php';
+        include XOOPS_ROOT_PATH . '/modules/oledrion/include/common.php';
         $items = $h_oledrion_products->getRecentProducts(new Oledrion_parameters(['start' => 0, 'limit' => $this->grab]));
-        $i = 0;
+        $i     = 0;
 
         if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
-                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title'] = $item->getVar('product_title', 'n');
+                $ret[$i]['link']      = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title']     = $item->getVar('product_title', 'n');
                 $ret[$i]['timestamp'] = $item->getVar('product_submitted');
                 if ('' != xoops_trim($item->getVar('product_summary'))) {
                     $description = $item->getVar('product_summary');
@@ -60,8 +67,8 @@ class RssfitOledrion
                     $description = $item->getVar('product_description');
                 }
                 $ret[$i]['description'] = $description;
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

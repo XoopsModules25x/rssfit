@@ -35,28 +35,28 @@ if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 require __DIR__ . '/header.php';
-$charset = $xoopsModuleConfig['utf8'] ? 'UTF-8' : _CHARSET;
-$docache = $xoopsModuleConfig['cache'] ? true : false;
+$charset  = $xoopsModuleConfig['utf8'] ? 'UTF-8' : _CHARSET;
+$docache  = $xoopsModuleConfig['cache'] ? true : false;
 $template = 'db:rssfit_rss.tpl';
 if (3 == $xoopsModuleConfig['mime']) {
     $xoopsLogger->enableRendering();
     $xoopsLogger->usePopup = (2 == $xoopsConfig['debug_mode']);
-    $docache = false;
+    $docache               = false;
 } else {
     error_reporting(0);
     $xoopsLogger->activated = false;
 }
 
-require_once XOOPS_ROOT_PATH.'/class/template.php';
-$xoopsTpl = new XoopsTpl();
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+$xoopsTpl = new \XoopsTpl();
 if (!$docache) {
     $xoopsTpl->xoops_setCaching(0);
 } else {
     $xoopsTpl->xoops_setCaching(2);
-    $xoopsTpl->xoops_setCacheTime($xoopsModuleConfig['cache']*60);
+    $xoopsTpl->xoops_setCacheTime($xoopsModuleConfig['cache'] * 60);
 }
 
-$feed = [];
+$feed           = [];
 $feed['plugin'] = isset($_GET[$rss->feedkey]) ? trim($_GET[$rss->feedkey]) : '';
 $rss->checkSubFeed($feed);
 if (!$xoopsTpl->is_cached($template, $rss->cached) || !$docache) {

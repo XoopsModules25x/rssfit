@@ -52,6 +52,9 @@ class RssfitBuyersguide
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -62,17 +65,21 @@ class RssfitBuyersguide
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        include XOOPS_ROOT_PATH.'/modules/buyersguide/include/common.php';
+        include XOOPS_ROOT_PATH . '/modules/buyersguide/include/common.php';
         $items = $hBgProduct->getRecentProducts(0, 0, $this->grab);
-        $i = 0;
+        $i     = 0;
 
         if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
-                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title'] = $item->getVar('prod_title', 'n');
+                $ret[$i]['link']      = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title']     = $item->getVar('prod_title', 'n');
                 $ret[$i]['timestamp'] = $item->getVar('prod_submited_date');
                 if ('' != xoops_trim($item->getVar('prod_summary'))) {
                     $description = $item->getVar('prod_summary');
@@ -80,8 +87,8 @@ class RssfitBuyersguide
                     $description = $item->getVar('prod_description');
                 }
                 $ret[$i]['description'] = $description;
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

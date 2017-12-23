@@ -1,4 +1,5 @@
-<?php
+<?php namespace Xoopsmodules\rssfit;
+
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -32,55 +33,50 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+use Xoopsmodules\rssfit;
+
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
-class RssMisc extends XoopsObject
+
+/**
+ * Class RssMiscHandler
+ * @package Xoopsmodules\rssfit
+ */
+class RssMiscHandler extends \XoopsObjectHandler
 {
-    public function __construct()
-    {
-        parent::__construct();
-        //	key, data_type, value, req, max, opt
-        $this->initVar('misc_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('misc_category', XOBJ_DTYPE_TXTBOX, '', true, 15);
-        $this->initVar('misc_title', XOBJ_DTYPE_TXTBOX, '', false, 255);
-        $this->initVar('misc_content', XOBJ_DTYPE_TXTAREA, '', false);
-        $this->initVar('misc_setting', XOBJ_DTYPE_ARRAY, '');
-    }
-
-    public function setDoHtml($do=true)
-    {
-        $this->vars['dohtml']['value'] = $do;
-    }
-
-    public function setDoBr($do=true)
-    {
-        $this->vars['dobr']['value'] = $do;
-    }
-}
-
-class RssMiscHandler extends XoopsObjectHandler
-{
-    public $db;
+    //    public $db;
     public $db_table;
-    public $obj_class = 'RssMisc';
-    public $obj_key = 'misc_id';
+    public $obj_class = 'Xoopsmodules\rssfit\RssMisc';
+    public $obj_key   = 'misc_id';
 
-    public function __construct(XoopsDatabase $db)
+    /**
+     * RssMiscHandler constructor.
+     * @param \XoopsDatabase $db
+     */
+    public function __construct(\XoopsDatabase $db)
     {
-        $this->db = $db;
-        $this->db_table = $this->db->prefix('rssfit_misc');
+        $this->db       = $db;
+        $helper         = rssfit\Helper::getInstance();
+        $this->db_table = $this->db->prefix($helper->getDirname() . '_misc');
     }
 
-    public function getInstance(XoopsDatabase $db)
+    /**
+     * @param \XoopsDatabase $db
+     * @return static
+     */
+    public function getInstance(\XoopsDatabase $db)
     {
         static $instance;
         if (null === $instance) {
-            $instance = new RssMiscHandler($db);
+            $instance = new static($db);
         }
         return $instance;
     }
 
+    /**
+     * @return mixed|\XoopsObject
+     */
     public function create()
     {
         $obj = new $this->obj_class();
@@ -88,20 +84,29 @@ class RssMiscHandler extends XoopsObjectHandler
         return $obj;
     }
 
-    public function get($id, $fields='*')
+    /**
+     * @param int    $id
+     * @param string $fields
+     * @return bool|mixed|\XoopsObject
+     */
+    public function get($id, $fields = '*')
     {
-        $criteria = new Criteria($this->obj_key, (int)$id);
+        $criteria = new \Criteria($this->obj_key, (int)$id);
         if ($objs =& $this->getObjects($criteria)) {
             return 1 != count($objs) ? false : $objs[0];
         }
         return false;
     }
 
-    public function getCount($criteria=null)
+    /**
+     * @param null $criteria
+     * @return bool
+     */
+    public function getCount($criteria = null)
     {
-        $sql = 'SELECT COUNT(*) FROM '.$this->db_table;
+        $sql = 'SELECT COUNT(*) FROM ' . $this->db_table;
         if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
-            $sql .= ' '.$criteria->renderWhere();
+            $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result =& $this->db->query($sql)) {
             return false;
@@ -110,21 +115,27 @@ class RssMiscHandler extends XoopsObjectHandler
         return $count;
     }
 
-    public function &getObjects($criteria=null, $fields='*', $key='')
+    /**
+     * @param null   $criteria
+     * @param string $fields
+     * @param string $key
+     * @return array|bool
+     */
+    public function &getObjects($criteria = null, $fields = '*', $key = '')
     {
-        $ret = false;
+        $ret   = false;
         $limit = $start = 0;
-        $sql = 'SELECT '.$fields.' FROM '.$this->db_table;
+        $sql   = 'SELECT ' . $fields . ' FROM ' . $this->db_table;
         if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
-            $sql .= ' '.$criteria->renderWhere();
+            $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
-                $sql .= ' ORDER BY '.$criteria->getSort().' '.$criteria->getOrder();
+                $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
         if (!preg_match('/ORDER\ BY/', $sql)) {
-            $sql .= ' ORDER BY '.$this->obj_key.' ASC';
+            $sql .= ' ORDER BY ' . $this->obj_key . ' ASC';
         }
         $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
@@ -149,7 +160,11 @@ class RssMiscHandler extends XoopsObjectHandler
         return $ret;
     }
 
-    public function insert(XoopsObject $obj) //, $force = false)
+    /**
+     * @param \XoopsObject $obj
+     * @return bool|mixed|void
+     */
+    public function insert(\XoopsObject $obj) //, $force = false)
     {
         $force = false;
         if (strtolower(get_class($obj)) != strtolower($this->obj_class)) {
@@ -172,16 +187,16 @@ class RssMiscHandler extends XoopsObjectHandler
             return false;
         }
         if ($obj->isNew() || empty($cleanvars[$this->obj_key])) {
-            $cleanvars[$this->obj_key] = $this->db->genId($this->db_table.'_'.$this->obj_key.'_seq');
-            $sql = 'INSERT INTO '.$this->db_table.' ('.implode(',', array_keys($cleanvars)).') VALUES ('.implode(',', array_values($cleanvars)) .')';
+            $cleanvars[$this->obj_key] = $this->db->genId($this->db_table . '_' . $this->obj_key . '_seq');
+            $sql                       = 'INSERT INTO ' . $this->db_table . ' (' . implode(',', array_keys($cleanvars)) . ') VALUES (' . implode(',', array_values($cleanvars)) . ')';
         } else {
             unset($cleanvars[$this->obj_key]);
-            $sql = 'UPDATE '.$this->db_table.' SET';
+            $sql = 'UPDATE ' . $this->db_table . ' SET';
             foreach ($cleanvars as $k => $v) {
-                $sql .= ' '.$k.'='.$v.',';
+                $sql .= ' ' . $k . '=' . $v . ',';
             }
             $sql = substr($sql, 0, -1);
-            $sql .= ' WHERE '.$this->obj_key.' = '.$obj->getVar($this->obj_key);
+            $sql .= ' WHERE ' . $this->obj_key . ' = ' . $obj->getVar($this->obj_key);
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -189,7 +204,7 @@ class RssMiscHandler extends XoopsObjectHandler
             $result = $this->db->query($sql);
         }
         if (!$result) {
-            $obj->setErrors('Could not store data in the database.<br>'.$this->db->error().' ('.$this->db->errno().')<br>'.$sql);
+            $obj->setErrors('Could not store data in the database.<br>' . $this->db->error() . ' (' . $this->db->errno() . ')<br>' . $sql);
             return false;
         }
         if (false === $obj->getVar($this->obj_key)) {
@@ -198,20 +213,26 @@ class RssMiscHandler extends XoopsObjectHandler
         return $obj->getVar($this->obj_key);
     }
 
-    public function modifyObjects($criteria=null, $fields= [], $force=false)
+    /**
+     * @param null  $criteria
+     * @param array $fields
+     * @param bool  $force
+     * @return bool|string
+     */
+    public function modifyObjects($criteria = null, $fields = [], $force = false)
     {
         if (is_array($fields) && count($fields) > 0) {
             $obj = new $this->obj_class();
             $sql = '';
             foreach ($fields as $k => $v) {
-                $sql .= $k.' = ';
+                $sql .= $k . ' = ';
                 $sql .= 3 == $obj->vars[$k]['data_type'] ? (int)$v : $this->db->quoteString($v);
                 $sql .= ', ';
             }
             $sql = substr($sql, 0, -2);
-            $sql = 'UPDATE '.$this->db_table.' SET '.$sql;
+            $sql = 'UPDATE ' . $this->db_table . ' SET ' . $sql;
             if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
-                $sql .= ' '.$criteria->renderWhere();
+                $sql .= ' ' . $criteria->renderWhere();
             }
             if (false !== $force) {
                 $result = $this->db->queryF($sql);
@@ -219,19 +240,23 @@ class RssMiscHandler extends XoopsObjectHandler
                 $result = $this->db->query($sql);
             }
             if (!$result) {
-                return 'Could not store data in the database.<br>'.$this->db->error().' ('.$this->db->errno().')<br>'.$sql;
+                return 'Could not store data in the database.<br>' . $this->db->error() . ' (' . $this->db->errno() . ')<br>' . $sql;
             }
         }
         return false;
     }
 
-    public function delete(XoopsObject $obj) // , $force=false)
+    /**
+     * @param \XoopsObject $obj
+     * @return bool|void
+     */
+    public function delete(\XoopsObject $obj) // , $force=false)
     {
         $force = false;
         if (strtolower(get_class($obj)) != strtolower($this->obj_class)) {
             return false;
         }
-        $sql = 'DELETE FROM '.$this->db_table.' WHERE '.$this->obj_key.'='.$obj->getVar($this->obj_key);
+        $sql = 'DELETE FROM ' . $this->db_table . ' WHERE ' . $this->obj_key . '=' . $obj->getVar($this->obj_key);
         if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {

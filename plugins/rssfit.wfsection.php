@@ -40,12 +40,19 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitWfsection
+ */
 class RssfitWfsection
 {
     public $dirname = 'wfsection';
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -59,29 +66,37 @@ class RssfitWfsection
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/include/groupaccess.php';
+        @include_once XOOPS_ROOT_PATH . '/modules/wfsection/include/groupaccess.php';
         global $xoopsDB;
         $ret = false;
-        $i = 0;
-        $sql = 'SELECT a.articleid, a.title as atitle, a.published, a.expired, a.counter, a.groupid, a.maintext, a.summary, b.title as btitle FROM '
-               . $xoopsDB->prefix('wfs_article') . ' a, '
-               . $xoopsDB->prefix('wfs_category') . ' b WHERE a.published < '
-               . time() . ' AND a.published > 0 AND (a.expired = 0 OR a.expired > '
-               . time() . ') AND a.noshowart = 0 AND a.offline = 0 AND a.categoryid = b.id ORDER BY published DESC';
+        $i   = 0;
+        $sql = 'SELECT a.articleid, a.title AS atitle, a.published, a.expired, a.counter, a.groupid, a.maintext, a.summary, b.title AS btitle FROM '
+               . $xoopsDB->prefix('wfs_article')
+               . ' a, '
+               . $xoopsDB->prefix('wfs_category')
+               . ' b WHERE a.published < '
+               . time()
+               . ' AND a.published > 0 AND (a.expired = 0 OR a.expired > '
+               . time()
+               . ') AND a.noshowart = 0 AND a.offline = 0 AND a.categoryid = b.id ORDER BY published DESC';
 
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             if (checkAccess($row['groupid'])) {
-                $link = XOOPS_URL.'/modules/'.$this->dirname.'/article.php?articleid='.$row['articleid'];
-                $ret[$i]['title'] = $row['atitle'];
-                $ret[$i]['link'] = $link;
-                $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $row['published'];
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/article.php?articleid=' . $row['articleid'];
+                $ret[$i]['title']       = $row['atitle'];
+                $ret[$i]['link']        = $link;
+                $ret[$i]['guid']        = $link;
+                $ret[$i]['timestamp']   = $row['published'];
                 $ret[$i]['description'] = $myts->displayTarea(!empty($row['summary']) ? $row['summary'] : $row['maintext']);
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

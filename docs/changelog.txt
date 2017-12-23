@@ -17,6 +17,10 @@
 - update README.md (mamba)
 - added URL links for active plugins in sub-feeds (mamba)
 - added Publisher plugin (mamba)
+- PHPDoc updates (mamba)
+- standardization of language variables (mamba)
+- namespaces (mamba)
+-
 
 <h5>1.31 Beta 1     [2017-10-24]</h5>
 <hr>

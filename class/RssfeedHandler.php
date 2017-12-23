@@ -1,4 +1,5 @@
-<?php
+<?php namespace Xoopsmodules\rssfit;
+
 ###############################################################################
 ##                RSSFit - Extendable XML news feed generator                ##
 ##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
@@ -32,9 +33,16 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+use Xoopsmodules\rssfit;
+
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfeedHandler
+ * @package Xoopsmodules\rssfit
+ */
 class RssfeedHandler
 {
     public $rssmod;
@@ -46,57 +54,85 @@ class RssfeedHandler
     public $myts;
     public $modConfig;
     public $xoopsConfig;
-    public $cached = '';
-    public $charset = _CHARSET;
-    public $feedkey = 'feed';
-    public $plugin_file = 'rssfit.%s.php';
-    public $substr_remove = [',', '/', ';', ':', '(', '{', '[', ' '];
-    public $substr_add = ['.', '!', '?', '}', ']', ')', '%'];
+    public $cached         = '';
+    public $charset        = _CHARSET;
+    public $feedkey        = 'feed';
+    public $plugin_file    = 'rssfit.%s.php';
+    public $substr_remove  = [',', '/', ';', ':', '(', '{', '[', ' '];
+    public $substr_add     = ['.', '!', '?', '}', ']', ')', '%'];
     public $substr_endwith = '...';
-    public $spec_url = 'http://blogs.law.harvard.edu/tech/rss';
-    public $specs = [
+    public $spec_url       = 'http://blogs.law.harvard.edu/tech/rss';
+    public $specs          = [
         'req'   => 'requiredChannelElements',
         'opt'   => 'optionalChannelElements',
         'cloud' => 'ltcloudgtSubelementOfLtchannelgt',
         'img'   => 'ltimagegtSubelementOfLtchannelgt'
     ];
-    public $escaped = [
-        128 => '&#8364;', 130 => '&#8218;', 131 => '&#402;',
-        132 => '&#8222;', 133 => '&#8230;', 134 => '&#8224;',
-        135 => '&#8225;', 136 => '&#710;', 137 => '&#8240;',
-        138 => '&#352;', 139 => '&#8249;', 140 => '&#338;',
-        142 => '&#381;', 145 => '&#8216;', 146 => '&#8217;',
-        147 => '&#8220;', 148 => '&#8221;', 149 => '&#8226;',
-        150 => '&#8211;', 151 => '&#8212;', 152 => '&#732;',
-        153 => '&#8482;', 154 => '&#353;', 155 => '&#8250;',
-        156 => '&#339;', 158 => '&#382;', 159 => '&#376;'
+    public $escaped        = [
+        128 => '&#8364;',
+        130 => '&#8218;',
+        131 => '&#402;',
+        132 => '&#8222;',
+        133 => '&#8230;',
+        134 => '&#8224;',
+        135 => '&#8225;',
+        136 => '&#710;',
+        137 => '&#8240;',
+        138 => '&#352;',
+        139 => '&#8249;',
+        140 => '&#338;',
+        142 => '&#381;',
+        145 => '&#8216;',
+        146 => '&#8217;',
+        147 => '&#8220;',
+        148 => '&#8221;',
+        149 => '&#8226;',
+        150 => '&#8211;',
+        151 => '&#8212;',
+        152 => '&#732;',
+        153 => '&#8482;',
+        154 => '&#353;',
+        155 => '&#8250;',
+        156 => '&#339;',
+        158 => '&#382;',
+        159 => '&#376;'
     ];
 
+    /**
+     * RssfeedHandler constructor.
+     * @param $modConfig
+     * @param $xoopsConfig
+     * @param $xoopsModule
+     */
     public function __construct($modConfig, $xoopsConfig, $xoopsModule)
     {
-        $this->myts = \MyTextSanitizer::getInstance();
-        $this->rssmod = $xoopsModule;
-        $this->pHandler = xoops_getModuleHandler('plugins');
-        $this->mHandler = xoops_getModuleHandler('misc');
-        $this->modConfig = $modConfig;
+        $this->myts        = \MyTextSanitizer::getInstance();
+        $this->rssmod      = $xoopsModule;
+        $db                = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->pHandler    = new rssfit\RssPluginsHandler($db);// xoops_getModuleHandler('plugins');
+        $this->mHandler    = new rssfit\RssMiscHandler($db); //xoops_getModuleHandler('misc');
+        $this->modConfig   = $modConfig;
         $this->xoopsConfig = $xoopsConfig;
-        $this->channelreq = [
+        $this->channelreq  = [
             'title'       => $this->xoopsConfig['sitename'],
             'link'        => XOOPS_URL,
             'description' => $this->xoopsConfig['slogan']
         ];
     }
 
+    /**
+     * @param $feed
+     */
     public function getChannel(&$feed)
     {
         $channel = [];
-        if ($elements =& $this->mHandler->getObjects(new Criteria('misc_category', 'channel'))) {
+        if ($elements =& $this->mHandler->getObjects(new \Criteria('misc_category', 'channel'))) {
             foreach ($elements as $e) {
                 if ('' != $e->getVar('misc_content')) {
                     $channel[$e->getVar('misc_title')] = $e->getVar('misc_content', 'n');
                 }
             }
-            $channel['language'] = _LANGCODE;
+            $channel['language']      = _LANGCODE;
             $channel['lastBuildDate'] = $this->rssTimeStamp(time());
             if ($this->modConfig['cache']) {
                 $channel['ttl'] = $this->modConfig['cache'];
@@ -104,17 +140,17 @@ class RssfeedHandler
         }
         if (!empty($feed['plugin'])) {
             if (is_object($this->plugin_obj) && is_object($this->subHandler)) {
-                $channel['title'] = $this->plugin_obj->getVar('sub_title', 'n');
-                $channel['link'] = $this->plugin_obj->getVar('sub_link', 'n');
+                $channel['title']       = $this->plugin_obj->getVar('sub_title', 'n');
+                $channel['link']        = $this->plugin_obj->getVar('sub_link', 'n');
                 $channel['description'] = $this->plugin_obj->getVar('sub_desc', 'n');
-                $image = [
+                $image                  = [
                     'url'   => $this->plugin_obj->getVar('img_url', 'n'),
                     'title' => $this->plugin_obj->getVar('img_title', 'n'),
                     'link'  => $this->plugin_obj->getVar('img_link', 'n')
                 ];
             }
         } else {
-            if ($img =& $this->mHandler->getObjects(new Criteria('misc_category', 'channelimg'), '*', 'title')) {
+            if ($img =& $this->mHandler->getObjects(new \Criteria('misc_category', 'channelimg'), '*', 'title')) {
                 $image = [
                     'url'   => $img['url']->getVar('misc_content', 'n'),
                     'title' => $img['title']->getVar('misc_content', 'n'),
@@ -137,9 +173,13 @@ class RssfeedHandler
         $feed['channel'] =& $channel;
     }
 
+    /**
+     * @param $feed
+     * @return bool
+     */
     public function getSticky(&$feed)
     {
-        if (!$intr = $this->mHandler->getObjects(new Criteria('misc_category', 'sticky'))) {
+        if (!$intr = $this->mHandler->getObjects(new \Criteria('misc_category', 'sticky'))) {
             return false;
         }
         $sticky =& $intr[0];
@@ -148,11 +188,10 @@ class RssfeedHandler
         if (in_array(0, $setting['feeds']) || '' == $sticky->getVar('misc_title') || '' == $sticky->getVar('misc_content')) {
             return false;
         }
-        if ((in_array(-1, $setting['feeds']) && empty($feed['plugin'])) ||
-            (!empty($feed['plugin']) && in_array($this->plugin_obj->getVar('rssf_conf_id'), $setting['feeds']))
-        ) {
+        if ((in_array(-1, $setting['feeds']) && empty($feed['plugin']))
+            || (!empty($feed['plugin']) && in_array($this->plugin_obj->getVar('rssf_conf_id'), $setting['feeds']))) {
             $feed['sticky']['title'] = $sticky->getVar('misc_title', 'n');
-            $feed['sticky']['link'] = $setting['link'];
+            $feed['sticky']['link']  = $setting['link'];
             $sticky->setDoHtml($setting['dohtml']);
             $sticky->setDoBr($setting['dobr']);
             $feed['sticky']['description'] = $sticky->getVar('misc_content');
@@ -165,23 +204,26 @@ class RssfeedHandler
         return true;
     }
 
+    /**
+     * @param $feed
+     */
     public function getItems(&$feed)
     {
         $entries = [];
         if (!empty($feed['plugin'])) {
             $this->plugin_obj->setVar('rssf_grab', $this->plugin_obj->getVar('sub_entries'));
             $this->subHandler->grab = $this->plugin_obj->getVar('sub_entries');
-            $grab =& $this->subHandler->grabEntries($this->plugin_obj);
+            $grab                   =& $this->subHandler->grabEntries($this->plugin_obj);
             if (false !== $grab && count($grab) > 0) {
                 foreach ($grab as $g) {
                     array_push($entries, $g);
                 }
             }
-        } elseif ($plugins =& $this->pHandler->getObjects(new Criteria('rssf_activated', 1))) {
+        } elseif ($plugins =& $this->pHandler->getObjects(new \Criteria('rssf_activated', 1))) {
             foreach ($plugins as $p) {
-                if ($handler =& $this->pHandler->checkPlugin($p)) {
+                if ($handler == $this->pHandler->checkPlugin($p)) {
                     $handler->grab = $p->getVar('rssf_grab');
-                    $grab =& $handler->grabEntries($p);
+                    $grab          =& $handler->grabEntries($p);
                     if (false !== $grab && count($grab) > 0) {
                         foreach ($grab as $g) {
                             array_push($entries, $g);
@@ -191,7 +233,7 @@ class RssfeedHandler
             }
         }
         if (count($entries) > 0) {
-            for ($i=0, $iMax = count($entries); $i < $iMax; $i++) {
+            for ($i = 0, $iMax = count($entries); $i < $iMax; $i++) {
                 $this->cleanupChars($entries[$i]['title']);
                 $strip = $this->modConfig['strip_html'] ? 1 : 0;
                 $this->cleanupChars($entries[$i]['description'], $strip, 0, 1);
@@ -213,19 +255,23 @@ class RssfeedHandler
         $feed['items'] =& $entries;
     }
 
+    /**
+     * @param $text
+     * @return bool|string
+     */
     public function doSubstr($text)
     {
         $ret = $text;
         $len = function_exists('mb_strlen') ? mb_strlen($ret, $this->charset) : strlen($ret);
         if ($len > $this->modConfig['max_char'] && $this->modConfig['max_char'] > 0) {
-            $ret = $this->substrDetect($ret, 0, $this->modConfig['max_char']-1);
+            $ret = $this->substrDetect($ret, 0, $this->modConfig['max_char'] - 1);
             if (false === $this->strrposDetect($ret, ' ')) {
                 if (false !== $this->strrposDetect($text, ' ')) {
                     $ret = $this->substrDetect($text, 0, strpos($text, ' '));
                 }
             }
-            if (in_array($this->substrDetect($text, $this->modConfig['max_char']-1, 1), $this->substr_add)) {
-                $ret .= $this->substrDetect($text, $this->modConfig['max_char']-1, 1);
+            if (in_array($this->substrDetect($text, $this->modConfig['max_char'] - 1, 1), $this->substr_add)) {
+                $ret .= $this->substrDetect($text, $this->modConfig['max_char'] - 1, 1);
             } else {
                 if (false !== $this->strrposDetect($ret, ' ')) {
                     $ret = $this->substrDetect($ret, 0, $this->strrposDetect($ret, ' '));
@@ -239,6 +285,12 @@ class RssfeedHandler
         return $ret;
     }
 
+    /**
+     * @param $text
+     * @param $start
+     * @param $len
+     * @return bool|string
+     */
     public function substrDetect($text, $start, $len)
     {
         if (function_exists('mb_strcut')) {
@@ -247,6 +299,11 @@ class RssfeedHandler
         return substr($text, $start, $len);
     }
 
+    /**
+     * @param $text
+     * @param $find
+     * @return bool|false|int
+     */
     public function strrposDetect($text, $find)
     {
         if (function_exists('mb_strrpos')) {
@@ -255,11 +312,20 @@ class RssfeedHandler
         return strrpos($text, $find);
     }
 
+    /**
+     * @param $time
+     * @return false|string
+     */
     public function rssTimeStamp($time)
     {
         return date('D, j M Y H:i:s O', $time);
     }
 
+    /**
+     * @param $a
+     * @param $b
+     * @return int
+     */
     public function sortTimestamp($a, $b)
     {
         if ($a['timestamp'] == $b['timestamp']) {
@@ -268,7 +334,13 @@ class RssfeedHandler
         return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
     }
 
-    public function cleanupChars(&$text, $strip=true, $dospec=true, $dosub=false)
+    /**
+     * @param      $text
+     * @param bool $strip
+     * @param bool $dospec
+     * @param bool $dosub
+     */
+    public function cleanupChars(&$text, $strip = true, $dospec = true, $dosub = false)
     {
         if ($strip) {
             $text = strip_tags($text);
@@ -285,15 +357,23 @@ class RssfeedHandler
         }
     }
 
+    /**
+     * @param $text
+     */
     public function wrapCdata(&$text)
     {
-        $text = '<![CDATA['.str_replace(['<![CDATA[', ']]>'], ['&lt;![CDATA[', ']]&gt;'], $text) . ']]>';
+        $text = '<![CDATA[' . str_replace(['<![CDATA[', ']]>'], ['&lt;![CDATA[', ']]&gt;'], $text) . ']]>';
     }
 
-    public function &getActivatedSubfeeds($fields='', $type='')
+    /**
+     * @param string $fields
+     * @param string $type
+     * @return array|bool
+     */
+    public function &getActivatedSubfeeds($fields = '', $type = '')
     {
         $ret = false;
-        if ($subs =& $this->pHandler->getObjects(new Criteria('subfeed', 1), $fields)) {
+        if ($subs =& $this->pHandler->getObjects(new \Criteria('subfeed', 1), $fields)) {
             switch ($type) {
                 default:
                     $ret =& $subs;
@@ -308,48 +388,70 @@ class RssfeedHandler
         return $ret;
     }
 
-    public function feedSelectBox($caption='', $selected='', $size=1, $multi=true, $none=true, $main=true, $name='feeds', $type='id')
+    /**
+     * @param string $caption
+     * @param string $selected
+     * @param int    $size
+     * @param bool   $multi
+     * @param bool   $none
+     * @param bool   $main
+     * @param string $name
+     * @param string $type
+     * @return \XoopsFormSelect
+     */
+    public function feedSelectBox($caption = '', $selected = '', $size = 1, $multi = true, $none = true, $main = true, $name = 'feeds', $type = 'id')
     {
-        $select = new XoopsFormSelect($caption, $name, $selected, $size, $multi);
+        $select = new \XoopsFormSelect($caption, $name, $selected, $size, $multi);
         if ($none) {
             $select->addOption(0, '-------');
         }
         if ($main) {
-            $select->addOption('-1', _AM_MAINFEED);
+            $select->addOption('-1', _AM_RSSFIT_MAINFEED);
         }
         if ($subs =& $this->getActivatedSubfeeds('sublist', 'list')) {
-            foreach ($subs as $k=>$v) {
+            foreach ($subs as $k => $v) {
                 $select->addOption($k, $v);
             }
         }
         return $select;
     }
 
-    public function specUrl($key=0)
+    /**
+     * @param int $key
+     * @return bool|string
+     */
+    public function specUrl($key = 0)
     {
         if (isset($this->specs[$key])) {
-            return $this->spec_url.'#'.$this->specs[$key];
+            return $this->spec_url . '#' . $this->specs[$key];
         }
         return false;
     }
 
-    public function subFeedUrl($filename='')
+    /**
+     * @param string $filename
+     * @return bool|string
+     */
+    public function subFeedUrl($filename = '')
     {
         if (!empty($filename)) {
             $filename = str_replace('rssfit.', '', $filename);
             $filename = str_replace('.php', '', $filename);
-            return RSSFIT_URL_FEED.'?'.$this->feedkey.'='.$filename;
+            return RSSFIT_URL_FEED . '?' . $this->feedkey . '=' . $filename;
         }
         return false;
     }
 
+    /**
+     * @param $feed
+     */
     public function checkSubFeed(&$feed)
     {
         if (!empty($feed['plugin'])) {
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('rssf_filename', sprintf($this->plugin_file, $feed['plugin'])));
-            $criteria->add(new Criteria('subfeed', 1));
-            $sub = $this->pHandler->getObjects($criteria);
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('rssf_filename', sprintf($this->plugin_file, $feed['plugin'])));
+            $criteria->add(new \Criteria('subfeed', 1));
+            $sub     = $this->pHandler->getObjects($criteria);
             $handler = false;
             if (isset($sub[0])) {
                 $handler = $this->pHandler->checkPlugin($sub[0]);
@@ -357,14 +459,16 @@ class RssfeedHandler
             if ($handler) {
                 $this->plugin_obj = $sub[0];
                 $this->subHandler = $handler;
-                $this->cached = 'mod_' . $this->rssmod->getVar('dirname') . '|'
-                    . md5(str_replace(XOOPS_URL, '', $GLOBALS['xoopsRequestUri']));
+                $this->cached     = 'mod_' . $this->rssmod->getVar('dirname') . '|' . md5(str_replace(XOOPS_URL, '', $GLOBALS['xoopsRequestUri']));
             } else {
                 $feed['plugin'] = '';
             }
         }
     }
 
+    /**
+     * @param $feed
+     */
     public function buildFeed(&$feed)
     {
         $this->getChannel($feed);

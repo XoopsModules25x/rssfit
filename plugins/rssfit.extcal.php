@@ -37,9 +37,9 @@
 * Step 3:	Modify the word in line 60 from 'Myalbum' to [mod_dir]
 * Step 4:	Modify the function "grabEntries" to satisfy your needs
 * Step 5:	Move your new plug-in file to the RSSFit plugins folder,
-* 			i.e. your-xoops-root/modules/rss/plugins
+* 			i.e. your-xoops-root/modules/rssfit/plugins
 * Step 6:	Install your plug-in by pointing your browser to
-* 			your-xoops-url/modules/rss/admin/?do=plugins
+* 			your-xoops-url/modules/rssfit/admin/?do=plugins
 * Step 7:	Finally, tell us about yourself and this file by modifying the
 * 			"About this RSSFit plug-in" section which is located... somewhere.
 *
@@ -57,6 +57,10 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitExtcal
+ */
 class RssfitExtcal
 {
     public $dirname = 'extcal';
@@ -64,6 +68,9 @@ class RssfitExtcal
     public $grab;
     public $module;    // optional, see line 74
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -71,46 +78,50 @@ class RssfitExtcal
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;    // optional, remove this line if there is nothing
+        $this->module  = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
+        $ret  = false;
 
         $i = 0;
 
         // read confgs to get timestamp format
-        $extcal = $this->module;
-        $configHandler =  xoops_getHandler('config');
-        $extcalConfig = &$configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
-        $long_form=$extcalConfig['date_long'];
+        $extcal        = $this->module;
+        $configHandler = xoops_getHandler('config');
+        $extcalConfig  = &$configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
+        $long_form     = $extcalConfig['date_long'];
 
         $eventHandler = xoops_getModuleHandler('event', 'extcal');
-        $catHandler = xoops_getModuleHandler('cat', 'extcal');
-        $events = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
+        $catHandler   = xoops_getModuleHandler('cat', 'extcal');
+        $events       = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
 
         if (is_array($events)) {
             foreach ($events as $event) {
                 ++$i;
 
-                $cat=$catHandler->getCat($event->getVar('cat_id'), 0);
-                $category=$cat->getVar('cat_name');
-                $link=XOOPS_URL.'/modules/extcal/event.php?event='.$event->getVar('event_id');
+                $cat         = $catHandler->getCat($event->getVar('cat_id'), 0);
+                $category    = $cat->getVar('cat_name');
+                $link        = XOOPS_URL . '/modules/extcal/event.php?event=' . $event->getVar('event_id');
                 $event_start = formatTimestamp($event->getVar('event_start'), $long_form);
-                $title = xoops_utf8_encode(htmlspecialchars($event->getVar('event_title'), ENT_QUOTES));
-                $description=xoops_utf8_encode(htmlspecialchars($event->getVar('event_desc'), ENT_QUOTES));
-                $address=$event->getVar('event_address');
+                $title       = xoops_utf8_encode(htmlspecialchars($event->getVar('event_title'), ENT_QUOTES));
+                $description = xoops_utf8_encode(htmlspecialchars($event->getVar('event_desc'), ENT_QUOTES));
+                $address     = $event->getVar('event_address');
 
-                $desc_link=$event->getVar('event_url');
+                $desc_link = $event->getVar('event_url');
                 if ('' == $desc_link) {
-                    $desc_link=$link;
+                    $desc_link = $link;
                 }
-                $desc  = "<a href=\"$desc_link\"><b>$title</b></a><br>";
+                $desc = "<a href=\"$desc_link\"><b>$title</b></a><br>";
                 $desc .= '<table>';
                 $desc .= "<tr><td valign='top'>When:</td><td>$event_start</td></tr>";
                 if ('' != $address) {
@@ -119,12 +130,12 @@ class RssfitExtcal
                 $desc .= "<tr><td valign='top'>What:</td><td>$description</td></tr>";
                 $desc .= '</table>';
 
-                $ret[$i]['title'] = $category.': '.$title;
-                $ret[$i]['link'] = $link;
+                $ret[$i]['title']       = $category . ': ' . $title;
+                $ret[$i]['link']        = $link;
                 $ret[$i]['description'] = $desc;
-                $ret[$i]['timestamp'] = $event->getVar('event_submitdate');
+                $ret[$i]['timestamp']   = $event->getVar('event_submitdate');
                 //				$ret[$i]['timestamp'] = time();
-                $ret[$i]['guid'] = $link;
+                $ret[$i]['guid']     = $link;
                 $ret[$i]['category'] = $category;
             }
         }

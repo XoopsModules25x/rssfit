@@ -40,13 +40,20 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
-class Rssfitwfdownloads_podcast extends XoopsObject
+
+/**
+ * Class Rssfitwfdownloads_podcast
+ */
+class Rssfitwfdownloads_podcast extends \XoopsObject
 {
     public $dirname = 'wfdownloads';
     public $modname;
     public $module;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -54,35 +61,36 @@ class Rssfitwfdownloads_podcast extends XoopsObject
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;
+        $this->module  = $mod;
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = \MyTextSanitizer::getInstance();
+        $myts        = \MyTextSanitizer::getInstance();
         $permHandler = xoops_getHandler('groupperm');
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT lid, cid, title, date, description, filetype, size FROM '
-               . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 AND (expired > '
-               . time() . ' OR expired = 0) AND published <= '
-               . time() . ' ORDER BY date DESC';
-        $result = $xoopsDB->query($sql, $this->grab, 0);
+        $ret         = false;
+        $i           = 0;
+        $sql         = 'SELECT lid, cid, title, date, description, filetype, size FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 AND (expired > ' . time() . ' OR expired = 0) AND published <= ' . time() . ' ORDER BY date DESC';
+        $result      = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']]) || $permHandler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
-                $perms[$row['cid']] = true;
-                $ret[$i]['title'] = $row['title'];
-                $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
-                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $row['date'];
+            if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']])
+                || $permHandler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+                $perms[$row['cid']]     = true;
+                $ret[$i]['title']       = $row['title'];
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+                $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp']   = $row['date'];
                 $ret[$i]['description'] = $myts->displayTarea($row['description']);
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 //	enclosure tag, a.k.a podcast
-                $ret[$i]['extras']['enclosure']['attributes']
-                    = [
+                $ret[$i]['extras']['enclosure']['attributes'] = [
                     'url'    => XOOPS_URL . '/modules/' . $this->dirname . '/visit.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'],
                     'length' => $row['size'],
                     'type'   => $row['filetype']

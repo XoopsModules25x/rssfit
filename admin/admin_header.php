@@ -14,31 +14,32 @@
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\rssfit;
+
 $path = dirname(dirname(dirname(__DIR__)));
-require_once $path . '/mainfile.php';
-require_once $path . '/include/cp_functions.php';
 require_once $path . '/include/cp_header.php';
 
-class_exists('\Xmf\Module\Admin') || exit('XMF is required.');
+require_once dirname(__DIR__) . '/include/common.php';
 
-global $xoopsModule;
+$moduleDirName = basename(dirname(__DIR__));
+/** @var rssfit\Helper $helper */
+$helper = rssfit\Helper::getInstance();
 
-$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = \Xmf\Module\Admin::getInstance();
+
+$thisModuleDir = $helper->getDirname();
 
 // Load language files
-\Xmf\Language::load('main', $thisModuleDir);
-//\Xmf\Language::load('modinfo', $thisModuleDir);
+$helper->loadLanguage('admin');
 
 xoops_cp_header();
 
 
 //if functions.php file exist
-require_once dirname(__DIR__) . '/include/common.php';
+
 //require __DIR__ . '/../include/common.php';
 
-global $xoopsModule;
-
-$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');

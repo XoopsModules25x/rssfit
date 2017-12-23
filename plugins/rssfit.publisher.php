@@ -40,12 +40,19 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
+
+/**
+ * Class RssfitPublisher
+ */
 class RssfitPublisher
 {
     public $dirname = 'publisher';
     public $modname;
     public $grab;
 
+    /**
+     * @return bool
+     */
     public function loadModule()
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -56,21 +63,25 @@ class RssfitPublisher
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return bool
+     */
     public function &grabEntries(&$obj)
     {
         $ret = false;
         include XOOPS_ROOT_PATH . '/modules/publisher/include/common.php';
-        $publisherHelper = Xmf\Module\Helper::getHelper('publisher');
-        $publisherItemHandler               = $publisherHelper->getHandler('item');
-        $items = $publisherItemHandler->getAllPublished($this->grab, 0);
+        $publisherHelper      = Xmf\Module\Helper::getHelper('publisher');
+        $publisherItemHandler = $publisherHelper->getHandler('item');
+        $items                = $publisherItemHandler->getAllPublished($this->grab, 0);
         if (false !== $items && count($items) > 0) {
-            for ($i=0, $iMax = count($items); $i < $iMax; $i++) {
-                $ret[$i]['link'] = $ret[$i]['guid'] = $items[$i]->getItemUrl();
-                $ret[$i]['title'] = $items[$i]->getVar('title', 'n');
-                $ret[$i]['timestamp'] = $items[$i]->getVar('datesub');
+            for ($i = 0, $iMax = count($items); $i < $iMax; $i++) {
+                $ret[$i]['link']        = $ret[$i]['guid'] = $items[$i]->getItemUrl();
+                $ret[$i]['title']       = $items[$i]->getVar('title', 'n');
+                $ret[$i]['timestamp']   = $items[$i]->getVar('datesub');
                 $ret[$i]['description'] = $items[$i]->getVar('summary');
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
         return $ret;

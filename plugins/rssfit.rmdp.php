@@ -44,13 +44,16 @@ if (!defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Rssfitrmdp
  */
-class Rssfitrmdp extends XoopsObject
+class Rssfitrmdp extends \XoopsObject
 {
     public $dirname = 'rmdp';
     public $modname;
     public $module;
     public $grab;
 
+    /**
+     * @return bool|FALSE|\XoopsModule
+     */
     public function loadModule()
     {
         global $module_handler;
@@ -59,25 +62,29 @@ class Rssfitrmdp extends XoopsObject
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;
+        $this->module  = $mod;
         return $mod;
     }
 
+    /**
+     * @param $obj
+     * @return array
+     */
     public function grabEntries(&$obj)
     {
         global $xoopsDB, $moduleperm_handler;
-        $ret = [];
-        $i = 0;
-        $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
+        $ret    = [];
+        $i      = 0;
+        $sql    = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
-            $ret[$i]['title'] = $row['nombre'];
-            $link = XOOPS_URL.'/modules/'.$this->dirname.'/down.php?id='.$row['id_soft'];
-            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp'] = $row['fecha'];
+            $ret[$i]['title']       = $row['nombre'];
+            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/down.php?id=' . $row['id_soft'];
+            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp']   = $row['fecha'];
             $ret[$i]['description'] = $row['longdesc'];
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL.'/modules/'.$this->dirname.'/';
+            $ret[$i]['category']    = $this->modname;
+            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
         return $ret;
