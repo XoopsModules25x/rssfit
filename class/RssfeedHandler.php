@@ -213,17 +213,17 @@ class RssfeedHandler
         if (!empty($feed['plugin'])) {
             $this->plugin_obj->setVar('rssf_grab', $this->plugin_obj->getVar('sub_entries'));
             $this->subHandler->grab = $this->plugin_obj->getVar('sub_entries');
-            $grab                   =& $this->subHandler->grabEntries($this->plugin_obj);
+            $grab                   = $this->subHandler->grabEntries($this->plugin_obj);
             if (false !== $grab && count($grab) > 0) {
                 foreach ($grab as $g) {
                     array_push($entries, $g);
                 }
             }
-        } elseif ($plugins =& $this->pHandler->getObjects(new \Criteria('rssf_activated', 1))) {
+        } elseif ($plugins = $this->pHandler->getObjects(new \Criteria('rssf_activated', 1))) {
             foreach ($plugins as $p) {
                 if ($handler == $this->pHandler->checkPlugin($p)) {
                     $handler->grab = $p->getVar('rssf_grab');
-                    $grab          =& $handler->grabEntries($p);
+                    $grab          = $handler->grabEntries($p);
                     if (false !== $grab && count($grab) > 0) {
                         foreach ($grab as $g) {
                             array_push($entries, $g);
