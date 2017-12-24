@@ -33,17 +33,16 @@ function tableExists($tablename)
 {
     $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) ? true : false;
+    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
 }
 
 /**
  *
  * Prepares system prior to attempting to install module
- * @param \XoopsModule $xoopsModule
- * @param null         $previousVersion
+ * @param \XoopsModule $module {@link XoopsModule}
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVersion = null)
+function xoops_module_pre_update_rssfit(\XoopsModule $module, $previousVersion = null)
 {
     $moduleDirName = basename(dirname(__DIR__));
     /** @var rssfit\Helper $helper */
@@ -68,7 +67,7 @@ function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVers
 function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = null)
 {
     $moduleDirName = basename(dirname(__DIR__));
-    $capsDirName   = strtoupper($moduleDirName);
+    $moduleDirNameUpper   = strtoupper($moduleDirName);
 
     /** @var rssfit\Helper $helper */
     /** @var rssfit\Utility $utility */
@@ -77,25 +76,25 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
     $utility      = new rssfit\Utility();
     $configurator = new rssfit\common\Configurator();
 
+    $helper->loadLanguage('common');
     $helper->loadLanguage('install');
 
-    global $xoopsDB, $xoopsConfig;
     //    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
-    list($rows) = $xoopsDB->fetchRow($xoopsDB->query('SELECT COUNT(*) FROM ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . " WHERE misc_category = 'channel'"));
+    list($rows) =$GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' .$GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_misc') . " WHERE misc_category = 'channel'"));
     if (!$rows) {
-        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` ADD `misc_setting` TEXT NOT NULL;';
-        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
+        $sql[]         = 'ALTER TABLE `' .$GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_misc') . '` ADD `misc_setting` TEXT NOT NULL;';
+        $sql[]         = 'ALTER TABLE `' .$GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_misc') . '` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
         $intro_setting = ['dohtml' => 1, 'dobr' => 1, 'sub' => _INSTALL_INTRO_SUB];
-        $sql[]         = 'UPDATE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` SET misc_setting = ' . $xoopsDB->quoteString(serialize($intro_setting)) . " WHERE misc_category = 'intro'";
+        $sql[]         = 'UPDATE `' .$GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_misc') . '` SET misc_setting = ' .$GLOBALS['xoopsDB']->quoteString(serialize($intro_setting)) . " WHERE misc_category = 'intro'";
         $sql[]         = 'ALTER TABLE `'
-                         . $xoopsDB->prefix($helper->getDirname() . '_plugins')
+                         .$GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_plugins')
                          . "` ADD `subfeed` TINYINT( 1 ) DEFAULT '0' NOT NULL, ADD `sub_entries` VARCHAR( 2 ) NOT NULL, ADD `sub_link` VARCHAR( 255 ) NOT NULL, ADD `sub_title` VARCHAR( 255 ) NOT NULL, ADD `sub_desc` VARCHAR( 255 ) NOT NULL, ADD `img_url` VARCHAR( 255 ) NOT NULL, ADD `img_link` VARCHAR( 255 ) NOT NULL, ADD `img_title` VARCHAR( 255 ) NOT NULL;";
-        $sql[]         = 'UPDATE `' . $xoopsDB->prefix($helper->getDirname() . '_plugins') . '` SET sub_entries = 5';
+        $sql[]         = 'UPDATE `' .$GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_plugins') . '` SET sub_entries = 5';
         $sql[]         = rssfInsertChannel($xoopsMod);
-        $sql[]         = 'INSERT INTO ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . ' VALUES ' . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' => 0, 'dobr' => 0, 'feeds' => [0 => '0'], 'link' => XOOPS_URL])) . ')';
+        $sql[]         = 'INSERT INTO ' .$GLOBALS['xoopsDB']->prefix($helper->getDirname() . '_misc') . ' VALUES ' . "('', 'sticky', '', '', " .$GLOBALS['xoopsDB']->quoteString(serialize(['dohtml' => 0, 'dobr' => 0, 'feeds' => [0 => '0'], 'link' => XOOPS_URL])) . ')';
         foreach ($sql as $s) {
-            if (false === $xoopsDB->query($s)) {
-                echo '<span style="color: #ff0000;"><b>' . $xoopsDB->error() . '<b></span><br>' . $s . '<br><br>';
+            if (false ===$GLOBALS['xoopsDB']->query($s)) {
+                echo '<span style="color: #ff0000;"><b>' .$GLOBALS['xoopsDB']->error() . '<b></span><br>' . $s . '<br><br>';
                 return false;
             }
         }
@@ -139,8 +138,8 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->oldFolders) as $i) {
                 $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
-                /* @var $folderHandler XoopsObjectHandler */
-                $folderHandler = XoopsFile::getHandler('folder', $tempFolder);
+                /** @var XoopsObjectHandler $folderHandler */
+                $folderHandler = \XoopsFile::getHandler('folder', $tempFolder);
                 $folderHandler->delete($tempFolder);
             }
         }
@@ -149,21 +148,21 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
         if (count($configurator->uploadFolders) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->uploadFolders) as $i) {
-                $utilityClass::createFolder($configurator->uploadFolders[$i]);
+                $utility::createFolder($configurator->uploadFolders[$i]);
             }
         }
 
         //  ---  COPY blank.png FILES ---------------
-        if (count($configurator->blankFiles) > 0) {
+        if (count($configurator->copyBlankFiles) > 0) {
             $file = __DIR__ . '/../assets/images/blank.png';
-            foreach (array_keys($configurator->blankFiles) as $i) {
-                $dest = $configurator->blankFiles[$i] . '/blank.png';
-                $utilityClass::copyFile($file, $dest);
+            foreach (array_keys($configurator->copyBlankFiles) as $i) {
+                $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
+                $utility::copyFile($file, $dest);
             }
         }
 
         //delete .html entries from the tpl table
-        $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . '\' AND `tpl_file` LIKE \'%.html%\'';
+        $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
         $GLOBALS['xoopsDB']->queryF($sql);
 
         /** @var XoopsGroupPermHandler $gpermHandler */
@@ -173,4 +172,3 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
     }
     return true;
 }
-

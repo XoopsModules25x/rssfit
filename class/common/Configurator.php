@@ -30,7 +30,8 @@ class Configurator
     public $name;
     public $paths           = [];
     public $uploadFolders   = [];
-    public $blankFiles      = [];
+    public $copyBlankFiles  = [];
+    public $copyTestFolders = [];
     public $templateFolders = [];
     public $oldFiles        = [];
     public $oldFolders      = [];
@@ -49,7 +50,8 @@ class Configurator
         $this->name            = $config->name;
         $this->paths           = $config->paths;
         $this->uploadFolders   = $config->uploadFolders;
-        $this->blankFiles      = $config->blankFiles;
+        $this->copyBlankFiles  = $config->copyBlankFiles;
+        $this->copyTestFolders = $config->copyTestFolders;
         $this->templateFolders = $config->templateFolders;
         $this->oldFiles        = $config->oldFiles;
         $this->oldFolders      = $config->oldFolders;

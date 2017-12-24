@@ -84,15 +84,6 @@ class RssPluginsHandler extends \XoopsObjectHandler
         $obj = new $this->obj_class();
         $obj->setNew();
         return $obj;
-
-        //        $class = $this->obj_class;
-        //        $bingo = 'rssfit';
-        //        $bingo2 = 'rssfit\\' . $class;
-        //        $bingo3 = new $bingo2;
-        //        echo $bingo3;
-        //        $bingo3->setNew();
-        //        return false;
-        //        return $bingo3 ;
     }
 
     /**

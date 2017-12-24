@@ -20,18 +20,6 @@
 $moduleDirName = basename(dirname(__DIR__));
 $capsDirName   = strtoupper($moduleDirName);
 
-//if (!defined($capsDirName . '_DIRNAME')) {
-//    //if (!defined(constant($capsDirName . '_DIRNAME'))) {
-//    define($capsDirName . '_DIRNAME', $GLOBALS['xoopsModule']->dirname());
-//    define($capsDirName . '_PATH', XOOPS_ROOT_PATH . '/modules/' . constant($capsDirName . '_DIRNAME'));
-//    define($capsDirName . '_URL', XOOPS_URL . '/modules/' . constant($capsDirName . '_DIRNAME'));
-//    define($capsDirName . '_ADMIN', constant($capsDirName . '_URL') . '/admin/index.php');
-//    define($capsDirName . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . constant($capsDirName . '_DIRNAME'));
-//    define($capsDirName . '_AUTHOR_LOGOIMG', constant($capsDirName . '_URL') . '/assets/images/logoModule.png');
-//    define($capsDirName . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $moduleDirName); // WITHOUT Trailing slash
-//    define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName); // WITHOUT Trailing slash
-//}
-
 //Configurator
 return (object)[
     'name'          => strtoupper($moduleDirName) . ' Module Configurator',
@@ -44,16 +32,24 @@ return (object)[
         'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
     'uploadFolders' => [
-        constant($capsDirName . '_UPLOAD_PATH'),
-        constant($capsDirName . '_UPLOAD_PATH') . '/category',
-        constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
+//        constant($capsDirName . '_UPLOAD_PATH'),
+//        constant($capsDirName . '_UPLOAD_PATH') . '/category',
+//        constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
-    'blankFiles'    => [
-        constant($capsDirName . '_UPLOAD_PATH'),
-        constant($capsDirName . '_UPLOAD_PATH') . '/category',
-        constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
+    'copyBlankFiles'     => [
+//        constant($capsDirName . '_UPLOAD_PATH'),
+//        constant($capsDirName . '_UPLOAD_PATH') . '/category',
+//        constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
+    ],
+
+    'copyTestFolders' => [
+        //        constant($capsDirName . '_UPLOAD_PATH'),
+//        [
+//            constant($capsDirName . '_PATH') . '/testdata/images',
+//            constant($capsDirName . '_UPLOAD_PATH') . '/images',
+//        ]
     ],
 
     'templateFolders' => [
@@ -63,20 +59,19 @@ return (object)[
 
     ],
     'oldFiles'        => [
-        '/class/request.php',
-        '/class/registry.php',
-        '/class/utilities.php',
-        '/class/util.php',
-        '/include/constants.php',
+//        '/class/request.php',
+//        '/class/registry.php',
+//        '/class/utilities.php',
+//        '/class/util.php',
+//        '/include/constants.php',
         '/include/functions.php',
-        '/ajaxrating.txt',
+//        '/ajaxrating.txt',
     ],
     'oldFolders'      => [
         '/images',
         '/css',
         '/js',
         '/tcpdf',
-        '/images',
     ],
     'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . constant($capsDirName . '_AUTHOR_LOGOIMG') . '\' alt=\'XOOPS Project\' /></a>',

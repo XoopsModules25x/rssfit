@@ -1,4 +1,14 @@
 <?php
+
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 /**
  * uninstall.php - cleanup on module uninstall
  *
@@ -8,6 +18,7 @@
  * @link            https://xoops.org XOOPS
  */
 
+use Xoopsmodules\rssfit;
 /**
  * Prepares system prior to attempting to uninstall module
  * @param XoopsModule $module {@link XoopsModule}
@@ -15,9 +26,9 @@
  * @return bool true if ready to uninstall, false if not
  */
 
-function xoops_module_pre_uninstall_rssfit(XoopsModule $module)
+function xoops_module_pre_uninstall_rssfit(\XoopsModule $module)
 {
-    // Do some synchronization
+    // Do some synchronization if needed
     return true;
 }
 
@@ -28,21 +39,20 @@ function xoops_module_pre_uninstall_rssfit(XoopsModule $module)
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_rssfit(XoopsModule $module)
+function xoops_module_uninstall_rssfit(\XoopsModule $module)
 {
-    //    return true;
-
+    include __DIR__ . '/common.php';
     $moduleDirName  = basename(dirname(__DIR__));
-    $xsitemapHelper = \Xmf\Module\Helper::getHelper($moduleDirName);
+    $moduleDirNameUpper = strtoupper($moduleDirName);
 
-    /** @var XXXXXXUtility $utilityClass */
-    $utilityClass = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utilityClass)) {
-        xoops_load('utility', $moduleDirName);
-    }
-
+    /** @var rssfit\Helper $helper */
+    $helper = rssfit\Helper::getInstance();
+    $utility      = new rssfit\Utility();
+//    $configurator = new rssfit\common\Configurator();
+    // Load language files
+    $helper->loadLanguage('admin');
+    $helper->loadLanguage('common');
     $success = true;
-    $xsitemapHelper->loadLanguage('admin');
 
     //------------------------------------------------------------------
     // Remove uploads folder (and all subfolders) if they exist
@@ -53,8 +63,8 @@ function xoops_module_uninstall_rssfit(XoopsModule $module)
         $dirInfo = new SplFileInfo($old_dir);
         if ($dirInfo->isDir()) {
             // The directory exists so delete it
-            if (false === $utilityClass::rrmdir($old_dir)) {
-                $module->setErrors(sprintf(_AM_RSSFIT_ERROR_BAD_DEL_PATH, $old_dir));
+            if (false === $utility::rrmdir($old_dir)) {
+                $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_DEL_PATH'), $old_dir));
                 $success = false;
             }
         }
@@ -68,7 +78,7 @@ function xoops_module_uninstall_rssfit(XoopsModule $module)
     $xmlfile = $GLOBALS['xoops']->path('xsitemap.xml');
     if (is_file($xmlfile)) {
         if (false === ($delOk = unlink($xmlfile))) {
-            $module->setErrors(sprintf(_AM_RSSFIT_XXXXX_ERROR_BAD_REMOVE, $xmlfile));
+            $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_REMOVE'), $xmlfile));
         }
     }
 //    return $success && $delOk; // use this if you're using this routine
@@ -78,4 +88,3 @@ function xoops_module_uninstall_rssfit(XoopsModule $module)
     //------------ END  ----------------
 
 }
-

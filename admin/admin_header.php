@@ -19,10 +19,9 @@
 
 use Xoopsmodules\rssfit;
 
-$path = dirname(dirname(dirname(__DIR__)));
-require_once $path . '/include/cp_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
 
-require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 /** @var rssfit\Helper $helper */
@@ -31,7 +30,6 @@ $helper = rssfit\Helper::getInstance();
 /** @var Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$thisModuleDir = $helper->getDirname();
 
 // Load language files
 $helper->loadLanguage('admin');
@@ -39,7 +37,5 @@ $helper->loadLanguage('admin');
 xoops_cp_header();
 
 
-//if functions.php file exist
 
-//require __DIR__ . '/../include/common.php';
 

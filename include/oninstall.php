@@ -31,14 +31,16 @@ function xoops_module_pre_install_rssfit(\XoopsModule $module)
 {
 
     include __DIR__ . '/common.php';
-    //    include __DIR__ . '/../preloads/autoloader.php';
     /** @var rssfit\Utility $utility */
     $utility      = new \Xoopsmodules\rssfit\Utility();
+    //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);
+    
+    // check for minimum PHP version
     $phpSuccess   = $utility::checkVerPhp($module);
 
     if (false !== $xoopsSuccess && false !== $phpSuccess) {
-        $moduleTables =& $module->getInfo('tables');
+        $moduleTables = $module->getInfo('tables');
         foreach ($moduleTables as $table) {
             $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
         }
@@ -57,12 +59,16 @@ function xoops_module_pre_install_rssfit(\XoopsModule $module)
 function xoops_module_install_rssfit(\XoopsModule $module)
 {
     global $xoopsConfig;
-    include __DIR__ . '/../preloads/autoloader.php';
+//    include __DIR__ . '/../preloads/autoloader.php';
+    include __DIR__ . '/common.php';
     require_once __DIR__ . '/../../../mainfile.php';
     require_once __DIR__ . '/../include/config.php';
 
     $moduleDirName = basename(dirname(__DIR__));
 
+/** @var rssfit\Helper $helper */
+    /** @var rssfit\Utility $utility */
+   /** @var rssfit\Configurator $configurator */
     $helper       = rssfit\Helper::getInstance();
     $utility      = new rssfit\Utility();
     $configurator = new rssfit\common\Configurator();
@@ -94,10 +100,6 @@ function xoops_module_install_rssfit(\XoopsModule $module)
         }
     }
 
-    //
-    //    $configurator = new rssfit\common\Configurator();
-    //    /** @var rssfit\Utility $utility */
-    //    $utility = new rssfit\Utility();
 
     // default Permission Settings ----------------------
 
@@ -118,20 +120,28 @@ function xoops_module_install_rssfit(\XoopsModule $module)
             $utility::createFolder($configurator->uploadFolders[$i]);
         }
     }
-
     //  ---  COPY blank.png FILES ---------------
-    if (count($configurator->blankFiles) > 0) {
+    if (count($configurator->copyBlankFiles) > 0) {
         $file = __DIR__ . '/../assets/images/blank.png';
-        foreach (array_keys($configurator->blankFiles) as $i) {
-            $dest = $configurator->blankFiles[$i] . '/blank.png';
+        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);
         }
     }
+    
+        //  ---  COPY test folder files ---------------
+    if (count($configurator->copyTestFolders) > 0) {
+        //        $file = __DIR__ . '/../testdata/images/';
+        foreach (array_keys($configurator->copyTestFolders) as $i) {
+            $src  = $configurator->copyTestFolders[$i][0];
+            $dest = $configurator->copyTestFolders[$i][1];
+            $utility::recurseCopy($src, $dest);
+        }
+    }
+    
     //delete .html entries from the tpl table
     $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
     $GLOBALS['xoopsDB']->queryF($sql);
 
     return true;
-
 }
-

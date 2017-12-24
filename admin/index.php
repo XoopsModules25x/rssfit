@@ -19,7 +19,7 @@ use Xmf\Request;
  * @author       XOOPS Development Team
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 $do = Request::getString('do', '');
@@ -43,4 +43,4 @@ if (file_exists(RSSFIT_ROOT_PATH . 'admin/do_' . $do . '.php')) {
     $adminObject->displayIndex();
 }
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
