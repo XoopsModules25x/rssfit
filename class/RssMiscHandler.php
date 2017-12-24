@@ -35,9 +35,7 @@
 
 use Xoopsmodules\rssfit;
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssMiscHandler
@@ -219,7 +217,7 @@ class RssMiscHandler extends \XoopsObjectHandler
      * @param bool  $force
      * @return bool|string
      */
-    public function modifyObjects($criteria = null, $fields = [], $force = false)
+    public function modifyObjects($criteria = null, array $fields = [], $force = false)
     {
         if (is_array($fields) && count($fields) > 0) {
             $obj = new $this->obj_class();
@@ -248,7 +246,7 @@ class RssMiscHandler extends \XoopsObjectHandler
 
     /**
      * @param \XoopsObject $obj
-     * @return bool|void
+     * @return bool
      */
     public function delete(\XoopsObject $obj) // , $force=false)
     {

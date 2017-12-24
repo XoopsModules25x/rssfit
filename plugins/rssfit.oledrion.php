@@ -19,9 +19,7 @@
  * ****************************************************************************
  */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfitOledrion
@@ -46,10 +44,10 @@ class RssfitOledrion
     }
 
     /**
-     * @param $obj
+     * @param null $obj
      * @return bool
      */
-    public function &grabEntries(&$obj)
+    public function &grabEntries($obj=null)
     {
         $ret = false;
         include XOOPS_ROOT_PATH . '/modules/oledrion/include/common.php';

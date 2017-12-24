@@ -116,6 +116,7 @@ switch ($op) {
                     . _AM_RSSFIT_ACTION
                     . "</td>\n"
                     . "</tr>\n";
+            /** @var rssfit\RssPlugin $p */
             foreach ($plugins as $p) {
                 $id     = $p->getVar('rssf_conf_id');
                 $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
@@ -142,7 +143,7 @@ switch ($op) {
         }
 
         // Non-installed plugins
-        if (!$filelist =& $pluginsHandler->getPluginFileList()) {
+        if (!$filelist = $pluginsHandler->getPluginFileList()) {
             $filelist = [];
         }
         $list        = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');

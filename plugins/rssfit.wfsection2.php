@@ -37,9 +37,7 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfitWfsection2
@@ -64,10 +62,10 @@ class RssfitWfsection2
     }
 
     /**
-     * @param $obj
+     * @param null $obj
      * @return bool
      */
-    public function &grabEntries(&$obj)
+    public function &grabEntries($obj=null)
     {
         @include_once XOOPS_ROOT_PATH . '/modules/wfsection/class/common.php';
         @include_once XOOPS_ROOT_PATH . '/modules/wfsection/class/wfsarticle.php';

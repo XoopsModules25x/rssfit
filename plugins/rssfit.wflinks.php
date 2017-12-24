@@ -13,9 +13,7 @@
 *   Version : 1.03
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfitWflinks
@@ -43,10 +41,10 @@ class RssfitWflinks
     }
 
     /**
-     * @param $obj
+     * @param null $obj
      * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries($obj=null)
     {
         global $xoopsDB, $xoopsUser;
 

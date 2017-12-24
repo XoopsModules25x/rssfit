@@ -21,7 +21,7 @@ define('_AM_RSSFIT_PLUGIN_FILENAME', 'File name');
 define('_AM_RSSFIT_PLUGIN_SHOWXENTRIES', 'Entries to show');
 define('_AM_RSSFIT_PLUGIN_ORDER', 'Display order');
 define('_AM_RSSFIT_PLUGIN_DEACTIVATE', 'Deactivate');
-define('_AM_RSSFIT_PLUGIN_ACTIVATE', 'Activate');
+define('_AM_RSSFIT_PLUGIN_ACTIVATE', 'Activated');
 define('_AM_RSSFIT_PLUGIN_INSTALL', 'Install');
 define('_AM_RSSFIT_PLUGIN_UNINSTALL', 'Uninstall');
 
@@ -47,7 +47,7 @@ define('_AM_RSSFIT_EDIT_CHANNEL_IMAGE', 'Feed image properties');
 define('_AM_RSSFIT_PLUGIN_NONE', 'You have no plugin installed');
 define('_AM_RSSFIT_SUB_LIST', 'Sub-feeds');
 define('_AM_RSSFIT_SUB_FILENAME_URL', 'Plug-in file name / sub-feed URL');
-define('_AM_RSSFIT_SUB_ACTIVATE', 'Activate');
+define('_AM_RSSFIT_SUB_ACTIVATE', 'Activated');
 define('_AM_RSSFIT_SUB_CONFIGURE', 'Configure');
 define('_AM_RSSFIT_SUB_EDIT', 'Configure sub-feed: %s');
 define('_AM_RSSFIT_SUB_PLUGIN_NONE', 'Plugin not installed');
@@ -77,3 +77,5 @@ define('_AM_RSSFIT_FOLDERS_DELETED_OK', 'Upload Folders have been deleted');
 define('_AM_RSSFIT_ERROR_BAD_DEL_PATH', 'Could not delete %s directory');
 define('_AM_RSSFIT_ERROR_BAD_REMOVE', 'Could not delete %s');
 define('_AM_RSSFIT_ERROR_NO_PLUGIN', 'Could not load plugin');
+//1.31
+define('_AM_RSSFIT_SUB_URL', 'URL');

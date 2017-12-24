@@ -33,9 +33,7 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssMisc

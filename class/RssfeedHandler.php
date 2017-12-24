@@ -35,9 +35,7 @@
 
 use Xoopsmodules\rssfit;
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfeedHandler
@@ -109,7 +107,7 @@ class RssfeedHandler
         $this->myts        = \MyTextSanitizer::getInstance();
         $this->rssmod      = $xoopsModule;
         $db                = \XoopsDatabaseFactory::getDatabaseConnection();
-        $this->pHandler    = new rssfit\RssPluginsHandler($db);// xoops_getModuleHandler('plugins');
+        $this->pHandler    = new rssfit\RssPluginHandler($db);// xoops_getModuleHandler('plugins');
         $this->mHandler    = new rssfit\RssMiscHandler($db); //xoops_getModuleHandler('misc');
         $this->modConfig   = $modConfig;
         $this->xoopsConfig = $xoopsConfig;
@@ -126,7 +124,7 @@ class RssfeedHandler
     public function getChannel(&$feed)
     {
         $channel = [];
-        if ($elements =& $this->mHandler->getObjects(new \Criteria('misc_category', 'channel'))) {
+        if ($elements = $this->mHandler->getObjects(new \Criteria('misc_category', 'channel'))) {
             foreach ($elements as $e) {
                 if ('' != $e->getVar('misc_content')) {
                     $channel[$e->getVar('misc_title')] = $e->getVar('misc_content', 'n');
@@ -215,6 +213,7 @@ class RssfeedHandler
             $this->subHandler->grab = $this->pluginObj->getVar('sub_entries');
             $grab                   = $this->subHandler->grabEntries($this->pluginObj);
             if (false !== $grab && count($grab) > 0) {
+                /** @var rssfit\RssPlugin $g */
                 foreach ($grab as $g) {
                     array_push($entries, $g);
                 }
@@ -371,10 +370,10 @@ class RssfeedHandler
      * @param string $type
      * @return array|bool
      */
-    public function &getActivatedSubfeeds($fields = '', $type = '')
+    public function getActivatedSubfeeds($fields = '', $type = '')
     {
         $ret = false;
-        if ($subs =& $this->pHandler->getObjects(new \Criteria('subfeed', 1), $fields)) {
+        if ($subs = $this->pHandler->getObjects(new \Criteria('subfeed', 1), $fields)) {
             switch ($type) {
                 default:
                     $ret =& $subs;
@@ -409,7 +408,7 @@ class RssfeedHandler
         if ($main) {
             $select->addOption('-1', _AM_RSSFIT_MAINFEED);
         }
-        if ($subs =& $this->getActivatedSubfeeds('sublist', 'list')) {
+        if ($subs = $this->getActivatedSubfeeds('sublist', 'list')) {
             foreach ($subs as $k => $v) {
                 $select->addOption($k, $v);
             }

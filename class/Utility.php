@@ -64,7 +64,7 @@ class Utility
      * @param     $rss
      * @return string
      */
-    public static function genSpecMoreInfo($spec = 0, &$rss)
+    public static function genSpecMoreInfo($spec = 0, $rss)
     {
         return static::rssfGenAnchor($rss->specUrl($spec), _AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', _AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
     }

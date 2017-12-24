@@ -2,7 +2,7 @@
 // Module Info
 
 // The name of this module
-define('_MI_RSSFIT_NAME', 'XML (RSS feed)');
+define('_MI_RSSFIT_NAME', 'RSSFit');
 
 // A brief description of this module
 define('_MI_RSSFIT_DESC', 'Extendable XML news feed generator');

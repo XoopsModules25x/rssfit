@@ -142,14 +142,14 @@ switch ($op) {
         $form->addElement(new \XoopsFormText(_AM_RSSFIT_PLUGIN_SHOWXENTRIES, 'sub_entries', 3, 2, $sub->getVar('sub_entries')), true);
 
         $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_RSSFIT_EDIT_CHANNEL_REQUIRED . '</b> ' . rssfit\Utility::genSpecMoreInfo('req', $rss)));
-        $form->addElement(new \XoopsFormText('title', 'sub_title', 50, 255, $sub->getVar('sub_title', 'e')), true);
-        $form->addElement(new \XoopsFormText('link', 'sub_link', 50, 255, $sub->getVar('sub_link', 'e')), true);
-        $form->addElement(new \XoopsFormTextArea('description', 'sub_desc', $sub->getVar('sub_desc', 'e')), true);
+        $form->addElement(new \XoopsFormText(_AM_RSSFIT_SUB_TITLE, 'sub_title', 50, 255, $sub->getVar('sub_title', 'e')), true);
+        $form->addElement(new \XoopsFormText(_AM_RSSFIT_SUB_LINK, 'sub_link', 50, 255, $sub->getVar('sub_link', 'e')), true);
+        $form->addElement(new \XoopsFormTextArea(_AM_RSSFIT_SUB_DESC, 'sub_desc', $sub->getVar('sub_desc', 'e')), true);
 
         $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_RSSFIT_EDIT_CHANNEL_IMAGE . '</b> ' . rssfit\Utility::genSpecMoreInfo('img', $rss)));
-        $form->addElement(new \XoopsFormText('url', 'img_url', 50, 255, $sub->getVar('img_url', 'e')));
-        $form->addElement(new \XoopsFormText('link', 'img_link', 50, 255, $sub->getVar('img_link', 'e')));
-        $form->addElement(new \XoopsFormText('title', 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
+        $form->addElement(new \XoopsFormText(_AM_RSSFIT_SUB_URL, 'img_url', 50, 255, $sub->getVar('img_url', 'e')));
+        $form->addElement(new \XoopsFormText(_AM_RSSFIT_SUB_LINK, 'img_link', 50, 255, $sub->getVar('img_link', 'e')));
+        $form->addElement(new \XoopsFormText(_AM_RSSFIT_SUB_TITLE, 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
 
         $form->addElement(new \XoopsFormHidden('feed', $id));
         $form->addElement(new \XoopsFormHidden('op', 'savefeed'));

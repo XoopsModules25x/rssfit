@@ -38,9 +38,7 @@
  *  XOOPS version: 2.5.9
  */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfitQueries
@@ -68,10 +66,10 @@ class RssfitQueries
     }
 
     /**
-     * @param $obj
+     * @param null $obj
      * @return bool
      */
-    public function &grabEntries(&$obj)
+    public function &grabEntries($obj=null)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();

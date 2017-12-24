@@ -37,9 +37,7 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfitSmartsection
@@ -64,10 +62,10 @@ class RssfitSmartsection
     }
 
     /**
-     * @param $obj
+     * @param null $obj
      * @return bool
      */
-    public function &grabEntries(&$obj)
+    public function &grabEntries($obj=null)
     {
         $ret = false;
         include XOOPS_ROOT_PATH . '/modules/smartsection/include/common.php';

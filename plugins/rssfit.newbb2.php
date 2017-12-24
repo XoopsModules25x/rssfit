@@ -37,9 +37,7 @@
 *  XOOPS version: 2.0.13.2
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfitNewbb2
@@ -97,10 +95,10 @@ class RssfitNewbb2
     }
 
     /**
-     * @param $obj
+     * @param null $obj
      * @return bool
      */
-    public function &grabEntries(&$obj)
+    public function &grabEntries($obj=null)
     {
         @include XOOPS_ROOT_PATH . '/modules/newbb/include/functions.php';
         global $xoopsDB, $config_handler;

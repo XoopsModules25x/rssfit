@@ -54,9 +54,7 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
  * Class RssfitMyalbum
@@ -111,10 +109,10 @@ class RssfitMyalbum
     }
 
     /**
-     * @param $obj
+     * @param null $obj
      * @return bool
      */
-    public function &grabEntries(&$obj)
+    public function &grabEntries($obj=null)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
@@ -128,6 +126,7 @@ class RssfitMyalbum
         $sql    .= $xoopsDB->prefix('myalbum_cat') . ' c ';
         $sql    .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
         $sql    .= 'ORDER BY date DESC';
+        /** @var mysqli_result $result */
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while ($row = $xoopsDB->fetchArray($result)) {
             $link    = XOOPS_URL . '/modules/' . $this->dirname . '/photo.php?lid=' . $row['lid'];

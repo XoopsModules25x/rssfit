@@ -35,15 +35,13 @@
 
 //use Xoopsmodules\rssfit;
 
-if (!defined('RSSFIT_ROOT_PATH')) {
-    exit();
-}
+defined('RSSFIT_ROOT_PATH') || exit('RSSFIT root path not defined');
 
 /**
- * Class RssPlugins
+ * Class RssPlugin
  * @package Xoopsmodules\rssfit
  */
-class RssPlugins extends \XoopsObject
+class RssPlugin extends \XoopsObject
 {
     public function __construct()
     {
