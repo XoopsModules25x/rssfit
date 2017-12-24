@@ -50,9 +50,9 @@ if (3 == $xoopsModuleConfig['mime']) {
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 $xoopsTpl = new \XoopsTpl();
 if (!$docache) {
-    $xoopsTpl->xoops_setCaching(0);
+    $xoopsTpl->caching=0;
 } else {
-    $xoopsTpl->xoops_setCaching(2);
+    $xoopsTpl->caching=2;
     $xoopsTpl->xoops_setCacheTime($xoopsModuleConfig['cache'] * 60);
 }
 
