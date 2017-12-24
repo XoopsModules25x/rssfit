@@ -50,7 +50,7 @@ class RssfeedHandler
     public $mHandler;
     public $channelreq;
     public $subHandler;
-    public $plugin_obj;
+    public $pluginObj;
     public $myts;
     public $modConfig;
     public $xoopsConfig;
@@ -139,14 +139,14 @@ class RssfeedHandler
             }
         }
         if (!empty($feed['plugin'])) {
-            if (is_object($this->plugin_obj) && is_object($this->subHandler)) {
-                $channel['title']       = $this->plugin_obj->getVar('sub_title', 'n');
-                $channel['link']        = $this->plugin_obj->getVar('sub_link', 'n');
-                $channel['description'] = $this->plugin_obj->getVar('sub_desc', 'n');
+            if (is_object($this->pluginObj) && is_object($this->subHandler)) {
+                $channel['title']       = $this->pluginObj->getVar('sub_title', 'n');
+                $channel['link']        = $this->pluginObj->getVar('sub_link', 'n');
+                $channel['description'] = $this->pluginObj->getVar('sub_desc', 'n');
                 $image                  = [
-                    'url'   => $this->plugin_obj->getVar('img_url', 'n'),
-                    'title' => $this->plugin_obj->getVar('img_title', 'n'),
-                    'link'  => $this->plugin_obj->getVar('img_link', 'n')
+                    'url'   => $this->pluginObj->getVar('img_url', 'n'),
+                    'title' => $this->pluginObj->getVar('img_title', 'n'),
+                    'link'  => $this->pluginObj->getVar('img_link', 'n')
                 ];
             }
         } else {
@@ -189,7 +189,7 @@ class RssfeedHandler
             return false;
         }
         if ((in_array(-1, $setting['feeds']) && empty($feed['plugin']))
-            || (!empty($feed['plugin']) && in_array($this->plugin_obj->getVar('rssf_conf_id'), $setting['feeds']))) {
+            || (!empty($feed['plugin']) && in_array($this->pluginObj->getVar('rssf_conf_id'), $setting['feeds']))) {
             $feed['sticky']['title'] = $sticky->getVar('misc_title', 'n');
             $feed['sticky']['link']  = $setting['link'];
             $sticky->setDoHtml($setting['dohtml']);
@@ -211,9 +211,9 @@ class RssfeedHandler
     {
         $entries = [];
         if (!empty($feed['plugin'])) {
-            $this->plugin_obj->setVar('rssf_grab', $this->plugin_obj->getVar('sub_entries'));
-            $this->subHandler->grab = $this->plugin_obj->getVar('sub_entries');
-            $grab                   = $this->subHandler->grabEntries($this->plugin_obj);
+            $this->pluginObj->setVar('rssf_grab', $this->pluginObj->getVar('sub_entries'));
+            $this->subHandler->grab = $this->pluginObj->getVar('sub_entries');
+            $grab                   = $this->subHandler->grabEntries($this->pluginObj);
             if (false !== $grab && count($grab) > 0) {
                 foreach ($grab as $g) {
                     array_push($entries, $g);
@@ -458,7 +458,7 @@ class RssfeedHandler
                 $handler = $this->pHandler->checkPlugin($sub[0]);
             }
             if ($handler) {
-                $this->plugin_obj = $sub[0];
+                $this->pluginObj = $sub[0];
                 $this->subHandler = $handler;
                 $this->cached     = 'mod_' . $this->rssmod->getVar('dirname') . '|' . md5(str_replace(XOOPS_URL, '', $GLOBALS['xoopsRequestUri']));
             } else {
