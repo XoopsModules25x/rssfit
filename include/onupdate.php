@@ -42,7 +42,7 @@ function tableExists($tablename)
  * @param \XoopsModule $module {@link XoopsModule}
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_rssfit(\XoopsModule $module, $previousVersion = null)
+function xoops_module_pre_update_rssfit(\XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
     /** @var rssfit\Helper $helper */
@@ -168,7 +168,6 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
         /** @var XoopsGroupPermHandler $gpermHandler */
         $gpermHandler = xoops_getHandler('groupperm');
         return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
-
     }
     return true;
 }

@@ -47,7 +47,7 @@ class RssPluginsHandler extends \XoopsObjectHandler
 {
     //    public $db;
     public $db_table;
-    public $obj_class = 'Xoopsmodules\rssfit\RssPlugins';
+    public $obj_class = RssPlugins::class;
     public $obj_key   = 'rssf_conf_id';
     public $sortby    = 'rssf_order';
     public $order     = 'ASC';
@@ -77,7 +77,7 @@ class RssPluginsHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @return bool
+     * @return \XoopsObject
      */
     public function create()
     {
@@ -103,7 +103,7 @@ class RssPluginsHandler extends \XoopsObjectHandler
 
     /**
      * @param \XoopsObject $obj
-     * @return bool|mixed|void
+     * @return bool|mixed
      */
     public function insert(\XoopsObject $obj) //, $force=false)
     {

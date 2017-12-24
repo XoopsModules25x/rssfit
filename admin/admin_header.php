@@ -35,7 +35,3 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 $helper->loadLanguage('admin');
 
 xoops_cp_header();
-
-
-
-

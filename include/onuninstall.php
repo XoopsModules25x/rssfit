@@ -19,6 +19,7 @@
  */
 
 use Xoopsmodules\rssfit;
+
 /**
  * Prepares system prior to attempting to uninstall module
  * @param XoopsModule $module {@link XoopsModule}
@@ -86,5 +87,4 @@ function xoops_module_uninstall_rssfit(\XoopsModule $module)
 
     return $success;
     //------------ END  ----------------
-
 }

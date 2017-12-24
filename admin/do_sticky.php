@@ -32,6 +32,10 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+use Xoopsmodules\rssfit;
+
+include_once __DIR__ . '/admin_header.php';
+
 if (!preg_match('#/rssfit/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
 }

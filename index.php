@@ -31,11 +31,13 @@
 ##  URL: http://www.brandycoke.com/                                          ##
 ##  Project: RSSFit                                                          ##
 ###############################################################################
+use Xoopsmodules\rssfit;
 
 require __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'rssfit_index.tpl';
 require XOOPS_ROOT_PATH . '/header.php';
 if ($intr = $miscHandler->getObjects(new \Criteria('misc_category', 'intro'))) {
+    /** @var rssfit\RssMisc $intro */
     $intro   = $intr[0];
     $setting = $intro->getVar('misc_setting');
     $intro->setDoHtml($setting['dohtml'] ? 1 : 0);

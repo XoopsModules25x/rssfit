@@ -64,4 +64,3 @@ class RssPlugins extends \XoopsObject
         $this->initVar('img_title', XOBJ_DTYPE_TXTBOX, '');
     }
 }
-

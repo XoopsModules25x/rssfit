@@ -29,7 +29,6 @@ use Xoopsmodules\rssfit;
  */
 function xoops_module_pre_install_rssfit(\XoopsModule $module)
 {
-
     include __DIR__ . '/common.php';
     /** @var rssfit\Utility $utility */
     $utility      = new \Xoopsmodules\rssfit\Utility();
@@ -66,9 +65,9 @@ function xoops_module_install_rssfit(\XoopsModule $module)
 
     $moduleDirName = basename(dirname(__DIR__));
 
-/** @var rssfit\Helper $helper */
+    /** @var rssfit\Helper $helper */
     /** @var rssfit\Utility $utility */
-   /** @var rssfit\Configurator $configurator */
+    /** @var rssfit\common\Configurator $configurator */
     $helper       = rssfit\Helper::getInstance();
     $utility      = new rssfit\Utility();
     $configurator = new rssfit\common\Configurator();
@@ -129,7 +128,7 @@ function xoops_module_install_rssfit(\XoopsModule $module)
         }
     }
     
-        //  ---  COPY test folder files ---------------
+    //  ---  COPY test folder files ---------------
     if (count($configurator->copyTestFolders) > 0) {
         //        $file = __DIR__ . '/../testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {

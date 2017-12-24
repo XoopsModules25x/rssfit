@@ -32,6 +32,10 @@
 ##  Project: RSSFit                                                          ##
 ###############################################################################
 
+use Xoopsmodules\rssfit;
+
+include_once __DIR__ . '/admin_header.php';
+
 if (!preg_match('#/rssfit/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
 }
@@ -65,7 +69,9 @@ switch ($op) {
         $form->addElement($title);
         $form->addElement($tray_content);
         $form->addElement($sub);
+        /** @var \XoopsFormElementTray $tray_save_cancel */
         $form->addElement($tray_save_cancel);
+        /** @var \XoopsFormHidden $hidden_do */
         $form->addElement($hidden_do);
         $form->addElement(new \XoopsFormHidden('op', 'save'));
         $form->display();

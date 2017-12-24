@@ -33,6 +33,9 @@
 ###############################################################################
 
 use Xmf\Request;
+use Xoopsmodules\rssfit;
+
+include_once __DIR__ . '/admin_header.php';
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
@@ -142,7 +145,7 @@ switch ($op) {
         if (!$filelist =& $pluginsHandler->getPluginFileList()) {
             $filelist = [];
         }
-        $list        = XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
+        $list        = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
         $installable = [];
         foreach ($list as $f) {
             if (preg_match('/rssfit\.+[a-zA-Z0-9_]+\.php/', $f) && !in_array($f, $filelist)) {
@@ -191,17 +194,19 @@ switch ($op) {
 
         if (!empty($ret)) {
             $hidden = new \XoopsFormHidden('op', 'save');
-            $ret    = "<form action='"
-                      . RSSFIT_ADMIN_URL
-                      . "' method='post'>\n"
-                      . $ret
-                      . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
-                      . $tray_save_cancel->render()
-                      . "\n"
-                      . $hidden->render()
-                      . "\n"
-                      . $hidden_do->render()
-                      . "\n</td></tr></table></form>";
+            /** @var \XoopsFormElementTray $tray_save_cancel */
+            /** @var \XoopsFormHidden $hidden_do */
+            $ret = "<form action='"
+                   . RSSFIT_ADMIN_URL
+                   . "' method='post'>\n"
+                   . $ret
+                   . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
+                   . $tray_save_cancel->render()
+                   . "\n"
+                   . $hidden->render()
+                   . "\n"
+                   . $hidden_do->render()
+                   . "\n</td></tr></table></form>";
             echo $ret;
         }
         break;

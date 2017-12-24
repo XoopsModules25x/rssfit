@@ -47,7 +47,7 @@ class RssMiscHandler extends \XoopsObjectHandler
 {
     //    public $db;
     public $db_table;
-    public $obj_class = 'Xoopsmodules\rssfit\RssMisc';
+    public $obj_class = RssMisc::class;
     public $obj_key   = 'misc_id';
 
     /**
@@ -162,7 +162,7 @@ class RssMiscHandler extends \XoopsObjectHandler
 
     /**
      * @param \XoopsObject $obj
-     * @return bool|mixed|void
+     * @return bool|mixed
      */
     public function insert(\XoopsObject $obj) //, $force = false)
     {

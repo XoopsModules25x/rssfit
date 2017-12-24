@@ -70,4 +70,3 @@ class RssMisc extends \XoopsObject
         $this->vars['dobr']['value'] = $do;
     }
 }
-

@@ -19,6 +19,7 @@
  */
 
 use Xoopsmodules\rssfit;
+
 include __DIR__ . '/../preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -105,6 +106,6 @@ if (is_object($helper->getModule())) {
     $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
     $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
-$GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
-$GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
+    $GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
+    $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
 }
