@@ -73,7 +73,7 @@ class Rssfitlexikon extends XoopsObject
         $sql = 'SELECT entryID, categoryID, term, definition, datesub FROM '
                . $xoopsDB->prefix('lxentries') . ' WHERE submit = 0 AND offline = 0 ORDER BY datesub DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             //	required
             $ret[$i]['title'] = $row['term'];
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/entry.php?entryID='.$row['entryID'];

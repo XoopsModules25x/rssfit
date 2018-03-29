@@ -80,7 +80,7 @@ class RssfitSpecial
     {
         global $xoopsDB;
         $ret = [];
-        @include_once XOOPS_ROOT_PATH.'/modules/special/class/stuff.php';
+        @require_once XOOPS_ROOT_PATH.'/modules/special/class/stuff.php';
         $myts = \MyTextSanitizer::getInstance();
         $items = SpecialStuff::getAllPublished($this->grab, 0);
         foreach ($items as $item) {

@@ -33,6 +33,7 @@
 ###############################################################################
 
 use Xmf\Request;
+use XoopsModules\rss;
 
 if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
@@ -54,14 +55,14 @@ switch ($op) {
                 if (!$handler = $pluginsHandler->checkPlugin($p)) {
                     $pluginsHandler->forceDeactivate($p);
                     $mod = implode('<br>', $p->getErrors());
-                    $activate = new XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
+                    $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
                     $activate->setExtra('disabled="disabled"');
                     $config = '&nbsp;';
                     $urlLink = $rss->subFeedUrl($p->getVar('rssf_filename'));
                 } else {
                     $mod = $handler->modname;
-                    $activate = new XoopsFormCheckbox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
-                    $config = rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
+                    $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
+                    $config = rss\Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
                     $urlLink = '<a href="' . $rss->subFeedUrl($p->getVar('rssf_filename'))  . '">' . $rss->subFeedUrl($p->getVar('rssf_filename'))  .'</a>';
                 }
                 $activate->addOption(1, ' ');
@@ -73,7 +74,7 @@ switch ($op) {
                 $ret .= "</tr>\n";
             }
             $ret .= "</table>\n";
-            $hidden = new XoopsFormHidden('op', 'save');
+            $hidden = new \XoopsFormHidden('op', 'save');
             $ret = "<form action='" . RSSFIT_ADMIN_URL . "' method='post'>\n" . $ret
                 . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
                 . $tray_save_cancel->render() . "\n" . $hidden->render() . "\n"
@@ -90,7 +91,7 @@ switch ($op) {
             $pluginsHandler->modifyObjects(null, ['subfeed' => 0]);
             if (isset($activate) && is_array($activate) && count($activate) > 0) {
                 $keys = array_keys($activate);
-                $criteria = new Criteria('rssf_conf_id', '(' . implode(',', $keys) . ')', 'IN');
+                $criteria = new \Criteria('rssf_conf_id', '(' . implode(',', $keys) . ')', 'IN');
                 $pluginsHandler->modifyObjects($criteria, ['subfeed' => 1]);
             }
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
@@ -109,22 +110,22 @@ switch ($op) {
         if (empty($id) || !$sub) {
             redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
         }
-        $form = new XoopsThemeForm(sprintf(_AM_SUB_EDIT, $handler->modname), 'editsub', RSSFIT_ADMIN_URL);
-        $form->addElement(new XoopsFormRadioYN(_AM_SUB_ACTIVATE, 'subfeed', $sub->getVar('subfeed')));
-        $form->addElement(new XoopsFormText(_AM_PLUGIN_SHOWXENTRIES, 'sub_entries', 3, 2, $sub->getVar('sub_entries')), true);
+        $form = new \XoopsThemeForm(sprintf(_AM_SUB_EDIT, $handler->modname), 'editsub', RSSFIT_ADMIN_URL);
+        $form->addElement(new \XoopsFormRadioYN(_AM_SUB_ACTIVATE, 'subfeed', $sub->getVar('subfeed')));
+        $form->addElement(new \XoopsFormText(_AM_PLUGIN_SHOWXENTRIES, 'sub_entries', 3, 2, $sub->getVar('sub_entries')), true);
 
-        $form->addElement(new XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . genSpecMoreInfo('req', $rss)));
-        $form->addElement(new XoopsFormText('title', 'sub_title', 50, 255, $sub->getVar('sub_title', 'e')), true);
-        $form->addElement(new XoopsFormText('link', 'sub_link', 50, 255, $sub->getVar('sub_link', 'e')), true);
-        $form->addElement(new XoopsFormTextArea('description', 'sub_desc', $sub->getVar('sub_desc', 'e')), true);
+        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . rss\Utility::genSpecMoreInfo('req', $rss)));
+        $form->addElement(new \XoopsFormText('title', 'sub_title', 50, 255, $sub->getVar('sub_title', 'e')), true);
+        $form->addElement(new \XoopsFormText('link', 'sub_link', 50, 255, $sub->getVar('sub_link', 'e')), true);
+        $form->addElement(new \XoopsFormTextArea('description', 'sub_desc', $sub->getVar('sub_desc', 'e')), true);
 
-        $form->addElement(new XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_IMAGE . '</b> ' . genSpecMoreInfo('img', $rss)));
-        $form->addElement(new XoopsFormText('url', 'img_url', 50, 255, $sub->getVar('img_url', 'e')));
-        $form->addElement(new XoopsFormText('link', 'img_link', 50, 255, $sub->getVar('img_link', 'e')));
-        $form->addElement(new XoopsFormText('title', 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
+        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_IMAGE . '</b> ' . rss\Utility::genSpecMoreInfo('img', $rss)));
+        $form->addElement(new \XoopsFormText('url', 'img_url', 50, 255, $sub->getVar('img_url', 'e')));
+        $form->addElement(new \XoopsFormText('link', 'img_link', 50, 255, $sub->getVar('img_link', 'e')));
+        $form->addElement(new \XoopsFormText('title', 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
 
-        $form->addElement(new XoopsFormHidden('feed', $id));
-        $form->addElement(new XoopsFormHidden('op', 'savefeed'));
+        $form->addElement(new \XoopsFormHidden('feed', $id));
+        $form->addElement(new \XoopsFormHidden('op', 'savefeed'));
         $form->addElement($hidden_do);
         $form->addElement($tray_save_cancel);
         $form->display();

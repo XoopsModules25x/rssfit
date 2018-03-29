@@ -28,7 +28,9 @@
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+
+require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
 
@@ -36,7 +38,7 @@ $moduleDirName = basename(__DIR__);
 $modversion = [
     'version'             => 1.31,
     'module_status'       => 'Beta 2',
-    'release_date'        => '2017/10/27',
+    'release_date'        => '2017/12/20',
     'name'                => _MI_RSSFIT_NAME,
     'description'         => _MI_RSSFIT_DESC,
     'official'            => 0,
@@ -98,10 +100,8 @@ $modversion = [
     'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
     // ------------------- Tables ----------------------------
     'tables'              => [
-        //        $moduleDirName . '_' . 'XXX',
-        //        $moduleDirName . '_' . 'XXX',
-        'rssfit_plugins',
-        'rssfit_misc',
+                $moduleDirName . '_' . 'plugins',
+                $moduleDirName . '_' . 'misc',
     ],
 ];
 
@@ -125,7 +125,7 @@ $modversion['templates'][] = [
 ];
 
 //	Module Configs
-// $xoopsModuleConfig['overall_entries']
+// $helper->getConfig('overall_entries')
 
 $modversion['config'][] = [
     'name'        => 'overall_entries',
@@ -136,7 +136,7 @@ $modversion['config'][] = [
     'default'     => 20,
 ];
 
-// $xoopsModuleConfig['plugin_entries']
+// $helper->getConfig('plugin_entries')
 $modversion['config'][] = [
     'name'        => 'plugin_entries',
     'title'       => '_MI_PLUGIN_ENTRIES',
@@ -146,7 +146,7 @@ $modversion['config'][] = [
     'default'     => 5,
 ];
 
-// $xoopsModuleConfig['sort']
+// $helper->getConfig('sort')
 $modversion['config'][] = [
     'name'        => 'sort',
     'title'       => '_MI_ENTRIES_SORT',
@@ -157,7 +157,7 @@ $modversion['config'][] = [
     'options'     => [_MI_ENTRIES_SORT_DATE => 'd', _MI_ENTRIES_SORT_CAT => 'c'],
 ];
 
-// $xoopsModuleConfig['cache']
+// $helper->getConfig('cache')
 $modversion['config'][] = [
     'name'        => 'cache',
     'title'       => '_MI_CACHE',
@@ -167,7 +167,7 @@ $modversion['config'][] = [
     'default'     => 0,
 ];
 
-// $xoopsModuleConfig['max_char']
+// $helper->getConfig('max_char')
 $modversion['config'][] = [
     'name'        => 'max_char',
     'title'       => '_MI_MAXCHAR',
@@ -177,7 +177,7 @@ $modversion['config'][] = [
     'default'     => 0,
 ];
 
-// $xoopsModuleConfig['strip_html']
+// $helper->getConfig('strip_html')
 $modversion['config'][] = [
     'name'        => 'strip_html',
     'title'       => '_MI_STRIPHTML',
@@ -187,7 +187,7 @@ $modversion['config'][] = [
     'default'     => 0,
 ];
 
-// $xoopsModuleConfig['utf8']
+// $helper->getConfig('utf8')
 $modversion['config'][] = [
     'name'        => 'utf8',
     'title'       => '_MI_ENCODE_UTF8',
@@ -197,7 +197,7 @@ $modversion['config'][] = [
     'default'     => 0,
 ];
 
-// $xoopsModuleConfig['mime']
+// $helper->getConfig('mime')
 $modversion['config'][] = [
     'name'        => 'mime',
     'title'       => '_MI_OUTOUT_MIME',

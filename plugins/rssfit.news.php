@@ -60,10 +60,10 @@ class RssfitNews
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        @include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+        @require_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
         $myts = \MyTextSanitizer::getInstance();
         if ($this->module->getVar('version') >= 130) {
-            @include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+            @require_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
             $news = NewsStory::getAllPublished($this->grab, 0, getmoduleoption('restrictindex'));
         } else {
             $news = NewsStory::getAllPublished($this->grab, 0);

@@ -70,7 +70,7 @@ class RssfitpiCal
         $sql = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM '
                . $xoopsDB->prefix('pical_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $ret[$i]['title'] = $row['summary'];
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/index.php?event_id='.$row['id'];
             $ret[$i]['link'] = $ret[$i]['guid'] = $link;

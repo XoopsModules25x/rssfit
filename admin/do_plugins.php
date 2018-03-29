@@ -33,6 +33,9 @@
 ###############################################################################
 
 use Xmf\Request;
+use XoopsModules\Rss;
+/** @var Rss\Helper $helper */
+$helper = Rss\Helper::getInstance();
 
 if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
@@ -42,7 +45,7 @@ switch ($op) {
     default:
         $ret = '';
         // activated plugins
-        $criteria = new Criteria('rssf_activated', 1);
+        $criteria = new \Criteria('rssf_activated', 1);
         if ($plugins = $pluginsHandler->getObjects($criteria, 'p_activated')) {
             $ret .= "<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='5'>" . _AM_PLUGIN_ACTIVATED . "</th></tr>\n"
@@ -55,9 +58,9 @@ switch ($op) {
             foreach ($plugins as $p) {
                 if ($handler = $pluginsHandler->checkPlugin($p)) {
                     $id = $p->getVar('rssf_conf_id');
-                    $entries = new XoopsFormText('', 'rssf_grab[' . $id . ']', 3, 2, $p->getVar('rssf_grab'));
-                    $order = new XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
-                    $action = new XoopsFormSelect('', 'action[' . $id . ']', '');
+                    $entries = new \XoopsFormText('', 'rssf_grab[' . $id . ']', 3, 2, $p->getVar('rssf_grab'));
+                    $order = new \XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
+                    $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
                     $action->addOption('', _SELECT);
                     $action->addOption('d', _AM_PLUGIN_DEACTIVATE);
                     $action->addOption('u', _AM_PLUGIN_UNINSTALL);
@@ -81,7 +84,7 @@ switch ($op) {
         }
 
         // inactive plugins
-        if ($plugins = $pluginsHandler->getObjects(new Criteria('rssf_activated', 0), 'p_inactive')) {
+        if ($plugins = $pluginsHandler->getObjects(new \Criteria('rssf_activated', 0), 'p_inactive')) {
             $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                 . "<tr><th colspan='3'>" . _AM_PLUGIN_INACTIVE . "</th></tr>\n"
                 . "<tr>\n<td class='head' align='center' width='30%'>" . _AM_PLUGIN_FILENAME . "</td>\n"
@@ -90,7 +93,7 @@ switch ($op) {
                 . "</tr>\n";
             foreach ($plugins as $p) {
                 $id = $p->getVar('rssf_conf_id');
-                $action = new XoopsFormSelect('', 'action[' . $id . ']', '');
+                $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
                 $action->addOption('', _SELECT);
                 $ret .= "<tr>\n"
                     . "<td class='odd' align='center'>"
@@ -136,7 +139,7 @@ switch ($op) {
                 . "<td class='head' align='center' width='20%'>" . _AM_PLUGIN_INSTALL . "</td>\n"
                 . "</tr>\n";
             foreach ($installable as $i) {
-                $action = new XoopsFormCheckbox('', 'install[' . $i . ']');
+                $action = new \XoopsFormCheckbox('', 'install[' . $i . ']');
                 $action->addOption('i', ' ');
                 $ret .= "<tr>\n"
                     . "<td class='odd' align='center'>"
@@ -165,7 +168,7 @@ switch ($op) {
         }
 
         if (!empty($ret)) {
-            $hidden = new XoopsFormHidden('op', 'save');
+            $hidden = new \XoopsFormHidden('op', 'save');
             $ret = "<form action='" . RSSFIT_ADMIN_URL . "' method='post'>\n" . $ret
                 . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
                 . $tray_save_cancel->render() . "\n" . $hidden->render() . "\n"
@@ -177,7 +180,7 @@ switch ($op) {
         $rssf_grab = Request::getArray('rssf_grab', [], 'POST');
         $rssf_order = Request::getArray('rssf_order', [], 'POST');
         $action = Request::getArray('action', null, 'POST');
-        $install = Request::getArray('install', array(), 'POST');
+        $install = Request::getArray('install', [], 'POST');
         $err = '';
         if (isset($action)) {
             $keys = array_keys($action);
@@ -218,8 +221,8 @@ switch ($op) {
                 $p->setVar('rssf_filename', $f);
                 if ($handler = $pluginsHandler->checkPlugin($p)) {
                     $p->setVar('rssf_activated', 1);
-                    $p->setVar('rssf_grab', $xoopsModuleConfig['plugin_entries']);
-                    $p->setVar('sub_entries', $xoopsModuleConfig['plugin_entries']);
+                    $p->setVar('rssf_grab', $helper->getConfig('plugin_entries'));
+                    $p->setVar('sub_entries', $helper->getConfig('plugin_entries'));
                     $p->setVar('sub_link', XOOPS_URL . '/modules/' . $handler->dirname);
                     $p->setVar('sub_title', $xoopsConfig['sitename'] . ' - ' . $handler->modname);
                     $p->setVar('sub_desc', $xoopsConfig['slogan']);
@@ -237,4 +240,4 @@ switch ($op) {
         break;
 }
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

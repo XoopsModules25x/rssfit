@@ -75,9 +75,9 @@ class RssfitSurnames
             $memberHandler = xoops_getHandler('member');
             $thisUser = $memberHandler->getUser($uid);
         }
-        $name = htmlspecialchars($thisUser->getVar('name'));
+        $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
         if ('' == $name) {
-            $name = htmlspecialchars($thisUser->getVar('uname'));
+            $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
         }
         $lastUid=$uid;
         $lastName=$name;
@@ -98,7 +98,7 @@ class RssfitSurnames
         $sql = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM ".$xoopsDB->prefix('surnames');
         $sql .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
         $result = $xoopsDB->query($sql, $limit, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $changedate=strtotime($row['changedate']);
             $uid=$row['uid'];
             if ($lasttime==$changedate && $lastuser==$uid) {

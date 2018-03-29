@@ -72,7 +72,7 @@ class RssfitMytube
                . $xoopsDB-> prefix('xoopstube_cat') . ' c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC';
 
         $result = $xoopsDB -> query($sql, $this -> grab, 0);
-        while ($row = $xoopsDB -> fetchArray($result)) {
+        while (false !== ($row = $xoopsDB -> fetchArray($result))) {
             $ret[$i]['title'] = $row['ltitle'];
             $link = XOOPS_URL . '/modules/' . $this -> dirname . '/singlevideo.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
             $ret[$i]['link'] = $ret[$i]['guid'] = $link;

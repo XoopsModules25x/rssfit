@@ -90,7 +90,7 @@ class RssfeedHandler
     public function getChannel(&$feed)
     {
         $channel = [];
-        if ($elements =& $this->mHandler->getObjects(new Criteria('misc_category', 'channel'))) {
+        if ($elements =& $this->mHandler->getObjects(new \Criteria('misc_category', 'channel'))) {
             foreach ($elements as $e) {
                 if ('' != $e->getVar('misc_content')) {
                     $channel[$e->getVar('misc_title')] = $e->getVar('misc_content', 'n');
@@ -114,7 +114,7 @@ class RssfeedHandler
                 ];
             }
         } else {
-            if ($img =& $this->mHandler->getObjects(new Criteria('misc_category', 'channelimg'), '*', 'title')) {
+            if ($img =& $this->mHandler->getObjects(new \Criteria('misc_category', 'channelimg'), '*', 'title')) {
                 $image = [
                     'url'   => $img['url']->getVar('misc_content', 'n'),
                     'title' => $img['title']->getVar('misc_content', 'n'),
@@ -139,7 +139,7 @@ class RssfeedHandler
 
     public function getSticky(&$feed)
     {
-        if (!$intr = $this->mHandler->getObjects(new Criteria('misc_category', 'sticky'))) {
+        if (!$intr = $this->mHandler->getObjects(new \Criteria('misc_category', 'sticky'))) {
             return false;
         }
         $sticky =& $intr[0];
@@ -177,7 +177,7 @@ class RssfeedHandler
                     array_push($entries, $g);
                 }
             }
-        } elseif ($plugins =& $this->pHandler->getObjects(new Criteria('rssf_activated', 1))) {
+        } elseif ($plugins =& $this->pHandler->getObjects(new \Criteria('rssf_activated', 1))) {
             foreach ($plugins as $p) {
                 if ($handler =& $this->pHandler->checkPlugin($p)) {
                     $handler->grab = $p->getVar('rssf_grab');
@@ -203,7 +203,7 @@ class RssfeedHandler
                 }
                 $entries[$i]['pubdate'] = $this->rssTimeStamp($entries[$i]['timestamp']);
             }
-            if (empty($feed['plugin']) && 'd' == $this->modConfig['sort']) {
+            if (empty($feed['plugin']) && 'd' === $this->modConfig['sort']) {
                 uasort($entries, 'sortTimestamp');
             }
             if (count($entries) > $this->modConfig['overall_entries'] && empty($feed['plugin'])) {
@@ -293,7 +293,7 @@ class RssfeedHandler
     public function &getActivatedSubfeeds($fields='', $type='')
     {
         $ret = false;
-        if ($subs =& $this->pHandler->getObjects(new Criteria('subfeed', 1), $fields)) {
+        if ($subs =& $this->pHandler->getObjects(new \Criteria('subfeed', 1), $fields)) {
             switch ($type) {
                 default:
                     $ret =& $subs;
@@ -310,7 +310,7 @@ class RssfeedHandler
 
     public function feedSelectBox($caption='', $selected='', $size=1, $multi=true, $none=true, $main=true, $name='feeds', $type='id')
     {
-        $select = new XoopsFormSelect($caption, $name, $selected, $size, $multi);
+        $select = new \XoopsFormSelect($caption, $name, $selected, $size, $multi);
         if ($none) {
             $select->addOption(0, '-------');
         }
@@ -346,9 +346,9 @@ class RssfeedHandler
     public function checkSubFeed(&$feed)
     {
         if (!empty($feed['plugin'])) {
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('rssf_filename', sprintf($this->plugin_file, $feed['plugin'])));
-            $criteria->add(new Criteria('subfeed', 1));
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('rssf_filename', sprintf($this->plugin_file, $feed['plugin'])));
+            $criteria->add(new \Criteria('subfeed', 1));
             $sub = $this->pHandler->getObjects($criteria);
             $handler = false;
             if (isset($sub[0])) {

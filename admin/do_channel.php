@@ -33,6 +33,7 @@
 ###############################################################################
 
 use Xmf\Request;
+use XoopsModules\rss;
 
 if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
@@ -40,31 +41,31 @@ if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
 
 switch ($op) {
     default:
-        $elements = $rss->mHandler->getObjects(new Criteria('misc_category', 'channel'), '*', 'title');
-        $img = $rss->mHandler->getObjects(new Criteria('misc_category', 'channelimg'), '*', 'title');
+        $elements = $rss->mHandler->getObjects(new \Criteria('misc_category', 'channel'), '*', 'title');
+        $img = $rss->mHandler->getObjects(new \Criteria('misc_category', 'channelimg'), '*', 'title');
         if (!empty($elements) && !empty($img)) {
-            $form = new XoopsThemeForm(_AM_EDIT_CHANNEL, 'editchannel', RSSFIT_ADMIN_URL);
-            $form->addElement(new XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . genSpecMoreInfo('req', $rss)));
-            $form->addElement(new XoopsFormText('title', 'ele[' . $elements['title']->getVar('misc_id') . ']', 50, 255, $elements['title']->getVar('misc_content', 'e')), true);
-            $form->addElement(new XoopsFormText('link', 'ele[' . $elements['link']->getVar('misc_id') . ']', 50, 255, $elements['link']->getVar('misc_content', 'e')), true);
-            $form->addElement(new XoopsFormTextArea('description', 'ele[' . $elements['description']->getVar('misc_id') . ']', $elements['description']->getVar('misc_content', 'e')), true);
+            $form = new \XoopsThemeForm(_AM_EDIT_CHANNEL, 'editchannel', RSSFIT_ADMIN_URL);
+            $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . rss\Utility::genSpecMoreInfo('req', $rss)));
+            $form->addElement(new \XoopsFormText('title', 'ele[' . $elements['title']->getVar('misc_id') . ']', 50, 255, $elements['title']->getVar('misc_content', 'e')), true);
+            $form->addElement(new \XoopsFormText('link', 'ele[' . $elements['link']->getVar('misc_id') . ']', 50, 255, $elements['link']->getVar('misc_content', 'e')), true);
+            $form->addElement(new \XoopsFormTextArea('description', 'ele[' . $elements['description']->getVar('misc_id') . ']', $elements['description']->getVar('misc_content', 'e')), true);
 
-            $form->addElement(new XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_OPTIONAL . '</b> ' . genSpecMoreInfo('opt', $rss)));
-            $form->addElement(new XoopsFormText('copyright', 'ele[' . $elements['copyright']->getVar('misc_id') . ']', 50, 255, $elements['copyright']->getVar('misc_content', 'e')));
-            $form->addElement(new XoopsFormText('managingEditor', 'ele[' . $elements['managingEditor']->getVar('misc_id') . ']', 50, 255, $elements['managingEditor']->getVar('misc_content', 'e')));
-            $form->addElement(new XoopsFormText('webMaster', 'ele[' . $elements['webMaster']->getVar('misc_id') . ']', 50, 255, $elements['webMaster']->getVar('misc_content', 'e')));
-            $form->addElement(new XoopsFormText('category', 'ele[' . $elements['category']->getVar('misc_id') . ']', 50, 255, $elements['category']->getVar('misc_content', 'e')));
-            $form->addElement(new XoopsFormText('generator', 'ele[' . $elements['generator']->getVar('misc_id') . ']', 50, 255, $elements['generator']->getVar('misc_content', 'e')));
-            $form->addElement(new XoopsFormText('docs', 'ele[' . $elements['docs']->getVar('misc_id') . ']', 50, 255, $elements['docs']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_OPTIONAL . '</b> ' . rss\Utility::genSpecMoreInfo('opt', $rss)));
+            $form->addElement(new \XoopsFormText('copyright', 'ele[' . $elements['copyright']->getVar('misc_id') . ']', 50, 255, $elements['copyright']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormText('managingEditor', 'ele[' . $elements['managingEditor']->getVar('misc_id') . ']', 50, 255, $elements['managingEditor']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormText('webMaster', 'ele[' . $elements['webMaster']->getVar('misc_id') . ']', 50, 255, $elements['webMaster']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormText('category', 'ele[' . $elements['category']->getVar('misc_id') . ']', 50, 255, $elements['category']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormText('generator', 'ele[' . $elements['generator']->getVar('misc_id') . ']', 50, 255, $elements['generator']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormText('docs', 'ele[' . $elements['docs']->getVar('misc_id') . ']', 50, 255, $elements['docs']->getVar('misc_content', 'e')));
 
-            $form->addElement(new XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_IMAGE . '</b> ' . genSpecMoreInfo('img', $rss)));
-            $form->addElement(new XoopsFormText('url', 'ele[' . $img['url']->getVar('misc_id') . ']', 50, 255, $img['url']->getVar('misc_content', 'e')));
-            $form->addElement(new XoopsFormText('link', 'ele[' . $img['link']->getVar('misc_id') . ']', 50, 255, $img['link']->getVar('misc_content', 'e')));
-            $form->addElement(new XoopsFormText('title', 'ele[' . $img['title']->getVar('misc_id') . ']', 50, 255, $img['title']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_IMAGE . '</b> ' . rss\Utility::genSpecMoreInfo('img', $rss)));
+            $form->addElement(new \XoopsFormText('url', 'ele[' . $img['url']->getVar('misc_id') . ']', 50, 255, $img['url']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormText('link', 'ele[' . $img['link']->getVar('misc_id') . ']', 50, 255, $img['link']->getVar('misc_content', 'e')));
+            $form->addElement(new \XoopsFormText('title', 'ele[' . $img['title']->getVar('misc_id') . ']', 50, 255, $img['title']->getVar('misc_content', 'e')));
 
             $form->addElement($tray_save_cancel);
             $form->addElement($hidden_do);
-            $form->addElement(new XoopsFormHidden('op', 'save'));
+            $form->addElement(new \XoopsFormHidden('op', 'save'));
             $form->display();
         } else {
             echo '<p>' . _AM_DB_RECORD_MISSING . '</p>';
@@ -75,7 +76,7 @@ switch ($op) {
         $ids = array_keys($ele);
         $errors = [];
         foreach ($ids as $i) {
-            $criteria = new Criteria('misc_id', $i);
+            $criteria = new \Criteria('misc_id', $i);
             $fields = ['misc_content' => trim($ele[$i])];
             if ($err = $rss->mHandler->modifyObjects($criteria, $fields)) {
                 $errors[] = $err;

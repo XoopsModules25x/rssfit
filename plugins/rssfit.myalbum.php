@@ -90,9 +90,9 @@ class RssfitMyalbum
             $memberHandler = xoops_getHandler('member');
             $thisUser = $memberHandler->getUser($uid);
         }
-        $name = htmlspecialchars($thisUser->getVar('name'));
+        $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
         if ('' == $name) {
-            $name = htmlspecialchars($thisUser->getVar('uname'));
+            $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
         }
         $lastUid=$uid;
         $lastName=$name;
@@ -114,7 +114,7 @@ class RssfitMyalbum
         $sql .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
         $sql .= 'ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/photo.php?lid='.$row['lid'];
             $thumb = XOOPS_URL.'/uploads/thumbs/'.$row['lid'].'.'.$row['ext'];
             $name = $this->myGetUnameFromId($row['submitter']);

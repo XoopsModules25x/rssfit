@@ -51,7 +51,7 @@ class RssfitWflinks
         $i = 0;
         $sql = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wflinks_links') . ' WHERE status>0 ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if ($gpermHandler -> checkRight('WFLinkCatPerm', $row['cid'], $groups, $this->mid)) {
                 //	required
                 $ret[$i]['title'] = $row['title'];

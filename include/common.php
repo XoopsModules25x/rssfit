@@ -41,7 +41,7 @@ if (!defined('RSSFIT_CONSTANTS_DEFINED')) {
 }
 
 require_once RSSFIT_ROOT_PATH.'class/rssfeed.php';
-require_once RSSFIT_ROOT_PATH.'include/functions.php';
+//require_once RSSFIT_ROOT_PATH.'include/functions.php';
 
 $version = number_format($xoopsModule->getVar('version')/100, 2);
 $version = !substr($version, -1, 1) ? substr($version, 0, 3) : $version;

@@ -61,7 +61,7 @@ class RssfitWfsection
 
     public function &grabEntries(&$obj)
     {
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/include/groupaccess.php';
+        @require_once XOOPS_ROOT_PATH.'/modules/wfsection/include/groupaccess.php';
         global $xoopsDB;
         $ret = false;
         $i = 0;
@@ -72,7 +72,7 @@ class RssfitWfsection
                . time() . ') AND a.noshowart = 0 AND a.offline = 0 AND a.categoryid = b.id ORDER BY published DESC';
 
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if (checkAccess($row['groupid'])) {
                 $link = XOOPS_URL.'/modules/'.$this->dirname.'/article.php?articleid='.$row['articleid'];
                 $ret[$i]['title'] = $row['atitle'];

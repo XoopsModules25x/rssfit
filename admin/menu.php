@@ -10,16 +10,16 @@
  */
 
 /**
- * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit
  * @since
  * @author       XOOPS Development Team
  */
 
-use Xoopsmodules\rss;
+use XoopsModules\rss;
 
-require_once __DIR__ . '/../class/Helper.php';
+// require_once __DIR__ . '/../class/Helper.php';
 //require_once __DIR__ . '/../include/common.php';
 $helper = rss\Helper::getInstance();
 // get path to icons

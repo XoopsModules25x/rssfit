@@ -66,12 +66,12 @@ class RssPluginsHandler extends XoopsObjectHandler
     public $sortby = 'rssf_order';
     public $order = 'ASC';
 
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
-        $this->db_table = $this->db->prefix('rssfit_plugins');
+        $this->db_table = $this->db->prefix($helper->getDirname() . '_plugins');
     }
-    public function getInstance(XoopsDatabase $db)
+    public function getInstance(\XoopsDatabase $db)
     {
         static $instance;
         if (null === $instance) {
@@ -89,14 +89,14 @@ class RssPluginsHandler extends XoopsObjectHandler
     public function get($id, $fields='*')
     {
         $ret = false;
-        $criteria = new Criteria($this->obj_key, (int)$id);
+        $criteria = new \Criteria($this->obj_key, (int)$id);
         if ($objs =& $this->getObjects($criteria) && 1 === count($objs)) {
             $ret =& $objs[0];
         }
         return $ret;
     }
 
-    public function insert(XoopsObject $obj) //, $force=false)
+    public function insert(\XoopsObject $obj) //, $force=false)
     {
         $force=false;
         if (strtolower(get_class($obj)) != strtolower($this->obj_class)) {
@@ -145,7 +145,7 @@ class RssPluginsHandler extends XoopsObjectHandler
         return $obj->getVar($this->obj_key);
     }
 
-    public function delete(XoopsObject $obj) //, $force = false)
+    public function delete(\XoopsObject $obj) //, $force = false)
     {
         $force = false;
         if (strtolower(get_class($obj)) != strtolower($this->obj_class)) {
@@ -194,7 +194,7 @@ class RssPluginsHandler extends XoopsObjectHandler
         if (!$result) {
             return false;
         }
-        while ($myrow = $this->db->fetchArray($result)) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $obj = new $this->obj_class();
             $obj->assignVars($myrow);
             switch ($key) {
@@ -253,7 +253,7 @@ class RssPluginsHandler extends XoopsObjectHandler
 
     public function forceDeactivate(&$obj, $type='rssf_activated')
     {
-        $criteria = new Criteria($this->obj_key, $obj->getVar($this->obj_key));
+        $criteria = new \Criteria($this->obj_key, $obj->getVar($this->obj_key));
         $fields = ['rssf_activated' => 0, 'subfeed' => 0];
         $this->modifyObjects($criteria, $fields, true);
         return true;

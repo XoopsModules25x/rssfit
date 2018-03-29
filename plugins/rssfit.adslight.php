@@ -70,7 +70,7 @@ class RssfitAdslight
         $i = 0;
         $sql = 'SELECT lid, title, status, desctext, date from ' . $xoopsDB->prefix('adslight_listing') . " WHERE valid = 'Yes' ORDER BY date DESC";
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewads.php?lid='.$row['lid'];
             $ret[$i]['title'] = $row['title'];
             $ret[$i]['link'] = $link;

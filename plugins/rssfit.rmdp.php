@@ -70,7 +70,7 @@ class Rssfitrmdp extends XoopsObject
         $i = 0;
         $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $ret[$i]['title'] = $row['nombre'];
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/down.php?id='.$row['id_soft'];
             $ret[$i]['link'] = $ret[$i]['guid'] = $link;

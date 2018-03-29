@@ -66,13 +66,13 @@ class RssMiscHandler extends XoopsObjectHandler
     public $obj_class = 'RssMisc';
     public $obj_key = 'misc_id';
 
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
-        $this->db_table = $this->db->prefix('rssfit_misc');
+        $this->db_table = $this->db->prefix($helper->getDirname() . '_misc');
     }
 
-    public function getInstance(XoopsDatabase $db)
+    public function getInstance(\XoopsDatabase $db)
     {
         static $instance;
         if (null === $instance) {
@@ -90,7 +90,7 @@ class RssMiscHandler extends XoopsObjectHandler
 
     public function get($id, $fields='*')
     {
-        $criteria = new Criteria($this->obj_key, (int)$id);
+        $criteria = new \Criteria($this->obj_key, (int)$id);
         if ($objs =& $this->getObjects($criteria)) {
             return 1 != count($objs) ? false : $objs[0];
         }
@@ -130,7 +130,7 @@ class RssMiscHandler extends XoopsObjectHandler
         if (!$result) {
             return false;
         }
-        while ($myrow = $this->db->fetchArray($result)) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $obj = new $this->obj_class();
             $obj->assignVars($myrow);
             switch ($key) {
@@ -149,7 +149,7 @@ class RssMiscHandler extends XoopsObjectHandler
         return $ret;
     }
 
-    public function insert(XoopsObject $obj) //, $force = false)
+    public function insert(\XoopsObject $obj) //, $force = false)
     {
         $force = false;
         if (strtolower(get_class($obj)) != strtolower($this->obj_class)) {
@@ -225,7 +225,7 @@ class RssMiscHandler extends XoopsObjectHandler
         return false;
     }
 
-    public function delete(XoopsObject $obj) // , $force=false)
+    public function delete(\XoopsObject $obj) // , $force=false)
     {
         $force = false;
         if (strtolower(get_class($obj)) != strtolower($this->obj_class)) {

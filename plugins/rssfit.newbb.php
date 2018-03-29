@@ -62,7 +62,7 @@ class RssfitNewbb
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        include_once XOOPS_ROOT_PATH.'/modules/'.$this->dirname.'/class/class.forumposts.php';
+        require_once XOOPS_ROOT_PATH.'/modules/'.$this->dirname.'/class/class.forumposts.php';
         $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
@@ -70,7 +70,7 @@ class RssfitNewbb
         if (!$result = $xoopsDB->query($sql, $this->grab, 0)) {
             return $ret;
         }
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewtopic.php?topic_id='.$row['topic_id'].'&amp;forum='.$row['forum_id'].'&amp;post_id='.$row['post_id'].'#forumpost'.$row['post_id'];
             $ret[$i]['title'] = $row['subject'];
             $ret[$i]['link'] = $ret[$i]['guid'] = $link;

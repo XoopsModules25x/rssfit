@@ -70,7 +70,7 @@ class Rssfitwfdownloads_podcast extends XoopsObject
                . time() . ' OR expired = 0) AND published <= '
                . time() . ' ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']]) || $permHandler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                 $perms[$row['cid']] = true;
                 $ret[$i]['title'] = $row['title'];

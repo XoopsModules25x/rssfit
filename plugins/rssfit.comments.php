@@ -59,16 +59,16 @@ class RssfitComments
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        include_once XOOPS_ROOT_PATH.'/include/comment_constants.php';
+        require_once XOOPS_ROOT_PATH.'/include/comment_constants.php';
         $commentHandler = xoops_getHandler('comment');
-        $criteria = new CriteriaCompo(new Criteria('com_status', XOOPS_COMMENT_ACTIVE));
+        $criteria = new \CriteriaCompo(new \Criteria('com_status', XOOPS_COMMENT_ACTIVE));
         $criteria->setLimit($this->grab);
         $criteria->setSort('com_created');
         $criteria->setOrder('DESC');
         $comments = $commentHandler->getObjects($criteria, true);
         $comment_config = [];
         if (count($comments) > 0) {
-            $modules = $GLOBALS['module_handler']->getObjects(new Criteria('hascomments', 1), true);
+            $modules = $GLOBALS['module_handler']->getObjects(new \Criteria('hascomments', 1), true);
             foreach (array_keys($comments) as $i) {
                 $mid = $comments[$i]->getVar('com_modid');
                 if (!isset($comment_config[$mid])) {

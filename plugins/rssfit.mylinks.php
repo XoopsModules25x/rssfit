@@ -66,7 +66,7 @@ class RssfitMylinks
                . $xoopsDB->prefix('mylinks_links') . ' l, '
                . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $ret[$i]['title'] = $row['title'];
             $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlelink.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
             $ret[$i]['link'] = $ret[$i]['guid'] = $link;

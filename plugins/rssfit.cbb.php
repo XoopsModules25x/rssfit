@@ -86,7 +86,7 @@ class RssfitCbb
             $cond .= $newbbConfig['allow_require_reply'] ? ' AND p.require_reply = 0' : '';
             $query = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.dohtml, p.dosmiley, p.doxcode, p.dobr, f.forum_name, pt.post_text FROM '.$xoopsDB->prefix('bb_posts').' p, '.$xoopsDB->prefix('bb_forums').' f, '.$xoopsDB->prefix('bb_topics').' t, '.$xoopsDB->prefix('bb_posts_text').' pt WHERE f.forum_id = p.forum_id AND p.post_id = pt.post_id AND p.topic_id = t.topic_id AND t.approved = 1 AND p.approved = 1 AND f.forum_id = t.forum_id '.$cond.' ORDER BY p.post_time DESC';
             $result = $xoopsDB->query($query, $this->grab);
-            while ($row = $xoopsDB->fetchArray($result)) {
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
                 $link = XOOPS_URL.'/modules/'.$this->dirname.'/viewtopic.php?topic_id='.$row['topic_id'].'&amp;forum='.$row['forum_id'].'&amp;post_id='.$row['post_id'].'#forumpost'.$row['post_id'];
                 $ret[$i]['title'] = $row['subject'];
                 $ret[$i]['link'] = $ret[$i]['guid'] = $link;

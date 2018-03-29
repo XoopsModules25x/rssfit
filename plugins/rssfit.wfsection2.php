@@ -37,6 +37,10 @@
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Rssfit;
+/** @var Rssfit\Helper $helper */
+$helper = Rssfit\Helper::getInstance();
+
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -58,12 +62,12 @@ class RssfitWfsection2
 
     public function &grabEntries(&$obj)
     {
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/common.php';
-        @include_once XOOPS_ROOT_PATH.'/modules/wfsection/class/wfsarticle.php';
+        @require_once XOOPS_ROOT_PATH.'/modules/wfsection/class/common.php';
+        @require_once XOOPS_ROOT_PATH.'/modules/wfsection/class/wfsarticle.php';
         $ret = false;
         $articles = WfsArticle::getAllArticle($this->grab, 0, 'online');
         if (count($articles) > 0) {
-            $xoopsModuleConfig['shortartlen'] = 0;
+            $helper->getConfig('shortartlen') = 0;
             $myts = \MyTextSanitizer::getInstance();
             for ($i=0, $iMax = count($articles); $i < $iMax; $i++) {
                 $link = XOOPS_URL.'/modules/wfsection/article.php?articleid='.$articles[$i]->articleid();

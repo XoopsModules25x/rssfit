@@ -59,11 +59,14 @@ class RssfitSmartfaq
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        @include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
-        $faqHandler = sf_gethandler('faq');
-        $faqs = $faqHandler->getAllPublished($this->grab, 0);
+        @require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+
+        /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+        $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+        $faqs       = $faqHandler->getAllPublished($this->grab, 0);
         if (false !== $faqs && count($faqs) > 0) {
-            $answerHandler = sf_gethandler('answer');
+            /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+            $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
             for ($i=0, $iMax = count($faqs); $i < $iMax; $i++) {
                 if (!$answer = $answerHandler->getOfficialAnswer($faqs[$i]->faqid())) {
                     continue;

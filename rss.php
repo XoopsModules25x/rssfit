@@ -31,14 +31,19 @@
 ##  URL: http://www.brandycoke.com/                                          ##
 ##  Project: RSSFit                                                          ##
 ###############################################################################
+
+use XoopsModules\Rss;
+/** @var Rss\Helper $helper */
+$helper = Rss\Helper::getInstance();
+
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 require __DIR__ . '/header.php';
-$charset = $xoopsModuleConfig['utf8'] ? 'UTF-8' : _CHARSET;
-$docache = $xoopsModuleConfig['cache'] ? true : false;
+$charset = $helper->getConfig('utf8') ? 'UTF-8' : _CHARSET;
+$docache = $helper->getConfig('cache') ? true : false;
 $template = 'db:rssfit_rss.tpl';
-if (3 == $xoopsModuleConfig['mime']) {
+if (3 == $helper->getConfig('mime')) {
     $xoopsLogger->enableRendering();
     $xoopsLogger->usePopup = (2 == $xoopsConfig['debug_mode']);
     $docache = false;
@@ -48,12 +53,12 @@ if (3 == $xoopsModuleConfig['mime']) {
 }
 
 require_once XOOPS_ROOT_PATH.'/class/template.php';
-$xoopsTpl = new XoopsTpl();
+$xoopsTpl = new \XoopsTpl();
 if (!$docache) {
-    $xoopsTpl->xoops_setCaching(0);
+    $xoopsTpl->caching=(0);
 } else {
-    $xoopsTpl->xoops_setCaching(2);
-    $xoopsTpl->xoops_setCacheTime($xoopsModuleConfig['cache']*60);
+    $xoopsTpl->caching=(2);
+    $xoopsTpl->xoops_setCacheTime($helper->getConfig('cache')*60);
 }
 
 $feed = [];
@@ -65,7 +70,7 @@ if (!$xoopsTpl->is_cached($template, $rss->cached) || !$docache) {
     $xoopsTpl->assign('feed', $feed);
 }
 
-switch ($xoopsModuleConfig['mime']) {
+switch ($helper->getConfig('mime')) {
     default:
         header('Content-Type:text/xml; charset=' . $charset);
         break;
@@ -75,7 +80,7 @@ switch ($xoopsModuleConfig['mime']) {
         break;
 }
 
-# if( $xoopsModuleConfig['mime'] == 3 ){
+# if( $helper->getConfig('mime') == 3 ){
 # 	$src = $xoopsTpl->fetch($template, $rss->cached, null);
 # 	unset($xoopsOption['template_main']);
 # 	require XOOPS_ROOT_PATH.'/header.php';
@@ -83,7 +88,7 @@ switch ($xoopsModuleConfig['mime']) {
 # 	require XOOPS_ROOT_PATH.'/footer.php';
 # }
 
-if (function_exists('mb_convert_encoding') && $xoopsModuleConfig['utf8']) {
+if (function_exists('mb_convert_encoding') && $helper->getConfig('utf8')) {
     echo mb_convert_encoding($xoopsTpl->fetch($template, $rss->cached, null), 'UTF-8', _CHARSET);
 } else {
     $xoopsTpl->display($template, $rss->cached);

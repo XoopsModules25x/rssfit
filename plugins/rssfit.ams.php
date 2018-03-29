@@ -59,7 +59,7 @@ class RssfitAms
     public function &grabEntries(&$obj)
     {
         $ret = false;
-        @include_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
+        @require_once XOOPS_ROOT_PATH.'/modules/AMS/class/class.newsstory.php';
         $myts = \MyTextSanitizer::getInstance();
         $ams = AmsStory::getAllPublished($this->grab, 0);
         if (count($ams) > 0) {

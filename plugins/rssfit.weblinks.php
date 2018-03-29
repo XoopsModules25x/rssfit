@@ -70,9 +70,9 @@ class RssfitWeblinks
             $memberHandler = xoops_getHandler('member');
             $thisUser = $memberHandler->getUser($uid);
         }
-        $name = htmlspecialchars($thisUser->getVar('name'));
+        $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
         if ('' == $name) {
-            $name = htmlspecialchars($thisUser->getVar('uname'));
+            $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
         }
         $lastUid=$uid;
         $lastName=$name;
@@ -87,7 +87,7 @@ class RssfitWeblinks
         $i = 0;
         $sql = 'SELECT lid, title, time_update, description, url, uid FROM ' . $xoopsDB->prefix('weblinks_link') . '  ORDER BY time_update DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $title=$row['title'];
             $name = $this->myGetUnameFromId($row['uid']);
             $ret[$i]['title'] = $this->modname . ': ' . $title;
