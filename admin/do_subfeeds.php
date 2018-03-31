@@ -100,7 +100,7 @@ switch ($op) {
         }
         break;
     case 'edit':
-        $id = isset($_GET['feed']) ? (int)$_GET['feed'] : 0;
+        $id = \Xmf\Request::getInt('feed', 0, 'GET');
         if (!empty($id)) {
             $sub = $pluginsHandler->get($id);
             if (!$handler = $pluginsHandler->checkPlugin($sub)) {
