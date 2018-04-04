@@ -9,6 +9,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use Xmf\Module\Admin;
+
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
@@ -22,7 +24,7 @@ require_once $path . '/mainfile.php';
 require_once $path . '/include/cp_functions.php';
 require_once $path . '/include/cp_header.php';
 
-class_exists('\Xmf\Module\Admin') || exit('XMF is required.');
+class_exists(Admin::class) || exit('XMF is required.');
 
 global $xoopsModule;
 

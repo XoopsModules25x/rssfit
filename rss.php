@@ -33,13 +33,14 @@
 ###############################################################################
 
 use XoopsModules\Rss;
-/** @var Rss\Helper $helper */
-$helper = Rss\Helper::getInstance();
 
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 require __DIR__ . '/header.php';
+/** @var Rss\Helper $helper */
+$helper = Rss\Helper::getInstance();
+
 $charset = $helper->getConfig('utf8') ? 'UTF-8' : _CHARSET;
 $docache = $helper->getConfig('cache') ? true : false;
 $template = 'db:rssfit_rss.tpl';
