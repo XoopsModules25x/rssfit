@@ -91,7 +91,7 @@ class RssMiscHandler extends XoopsObjectHandler
     public function get($id, $fields='*')
     {
         $criteria = new \Criteria($this->obj_key, (int)$id);
-        if ($objs =& $this->getObjects($criteria)) {
+        if ($objs = $this->getObjects($criteria)) {
             return 1 != count($objs) ? false : $objs[0];
         }
         return false;
