@@ -49,7 +49,7 @@ class Rssfitwfdownloads extends XoopsObject
 
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        $mod = $GLOBALS['moduleHandler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
@@ -69,7 +69,7 @@ class Rssfitwfdownloads extends XoopsObject
                . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            if ($permHandler->checkRight('WFDownFilePerm', $row['lid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['member_handler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+            if ($permHandler->checkRight('WFDownFilePerm', $row['lid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['memberHandler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                 $ret[$i]['title'] = $row['title'];
                 $link = XOOPS_URL.'/modules/'.$this->dirname.'/singlefile.php?cid='.$row['cid'].'&amp;lid='.$row['lid'];
                 $ret[$i]['link'] = $ret[$i]['guid'] = $link;

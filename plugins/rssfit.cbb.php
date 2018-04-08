@@ -49,7 +49,7 @@ class RssfitCbb
 
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        $mod = $GLOBALS['moduleHandler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
@@ -67,7 +67,7 @@ class RssfitCbb
         $i = 0;
         $forumHandler = xoops_getModuleHandler('forum', 'newbb');
         $topicHandler = xoops_getModuleHandler('topic', 'newbb');
-        $newbbConfig = $GLOBALS['config_handler']->getConfigsByCat(0, $this->module->getVar('mid'));
+        $newbbConfig = $GLOBALS['configHandler']->getConfigsByCat(0, $this->module->getVar('mid'));
 
         $access_forums = $forumHandler->getForums(0, 'access');
         $available_forums = [];

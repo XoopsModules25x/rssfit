@@ -48,7 +48,7 @@ class RssfitComments
 
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        $mod = $GLOBALS['moduleHandler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
@@ -68,7 +68,7 @@ class RssfitComments
         $comments = $commentHandler->getObjects($criteria, true);
         $comment_config = [];
         if (count($comments) > 0) {
-            $modules = $GLOBALS['module_handler']->getObjects(new \Criteria('hascomments', 1), true);
+            $modules = $GLOBALS['moduleHandler']->getObjects(new \Criteria('hascomments', 1), true);
             foreach (array_keys($comments) as $i) {
                 $mid = $comments[$i]->getVar('com_modid');
                 if (!isset($comment_config[$mid])) {

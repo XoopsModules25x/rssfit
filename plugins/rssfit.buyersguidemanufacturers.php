@@ -54,7 +54,7 @@ class RssfitBuyersguidemanufacturers
 
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        $mod = $GLOBALS['moduleHandler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }

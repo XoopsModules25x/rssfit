@@ -53,8 +53,8 @@ class Rssfitrmdp extends XoopsObject
 
     public function loadModule()
     {
-        global $module_handler;
-        $mod = $module_handler->getByDirname($this->dirname);
+        global $moduleHandler;
+        $mod = $moduleHandler->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
@@ -65,7 +65,7 @@ class Rssfitrmdp extends XoopsObject
 
     public function grabEntries(&$obj)
     {
-        global $xoopsDB, $moduleperm_handler;
+        global $xoopsDB, $modulepermHandler;
         $ret = [];
         $i = 0;
         $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';

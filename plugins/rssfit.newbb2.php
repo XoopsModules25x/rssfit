@@ -49,7 +49,7 @@ class RssfitNewbb2
 
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        $mod = $GLOBALS['moduleHandler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 200) {
             return false;
         }
@@ -88,14 +88,14 @@ class RssfitNewbb2
     public function &grabEntries(&$obj)
     {
         @include XOOPS_ROOT_PATH.'/modules/newbb/include/functions.php';
-        global $xoopsDB, $config_handler;
+        global $xoopsDB, $configHandler;
         $xoopsModule = $this->module;
         $myts = \MyTextSanitizer::getInstance();
         $ret = false;
         $i = 0;
         $forumHandler = xoops_getModuleHandler('forum', 'newbb');
         $topicHandler = xoops_getModuleHandler('topic', 'newbb');
-        $newbbConfig = $config_handler->getConfigsByCat(0, $this->module->getVar('mid'));
+        $newbbConfig = $configHandler->getConfigsByCat(0, $this->module->getVar('mid'));
 
         $access_forums = $forumHandler->getForums(0, 'access');
         $available_forums = [];

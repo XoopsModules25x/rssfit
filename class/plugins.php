@@ -273,7 +273,7 @@ class RssPluginsHandler extends XoopsObjectHandler
     public function &checkPlugin($obj)
     {
         $ret = false;
-        global $module_handler;
+        global $moduleHandler;
         $file = RSSFIT_ROOT_PATH.'plugins/'.$obj->getVar('rssf_filename');
         if (file_exists($file)) {
             $require = require_once $file;

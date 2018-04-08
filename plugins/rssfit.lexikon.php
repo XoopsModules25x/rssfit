@@ -54,7 +54,7 @@ class Rssfitlexikon extends XoopsObject
 
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        $mod = $GLOBALS['moduleHandler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
@@ -67,7 +67,7 @@ class Rssfitlexikon extends XoopsObject
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        //$perm_handler = xoops_getHandler('groupperm');
+        //$permHandler = xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;
         $sql = 'SELECT entryID, categoryID, term, definition, datesub FROM '

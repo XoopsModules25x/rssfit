@@ -29,8 +29,8 @@ class RssfitWflinks
 
     public function loadModule()
     {
-        global $module_handler;
-        $mod = $module_handler->getByDirname($this->dirname);
+        global $moduleHandler;
+        $mod = $moduleHandler->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }

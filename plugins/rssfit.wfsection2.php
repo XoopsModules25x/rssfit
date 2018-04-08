@@ -52,7 +52,7 @@ class RssfitWfsection2
 
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        $mod = $GLOBALS['moduleHandler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 200) {
             return false;
         }
