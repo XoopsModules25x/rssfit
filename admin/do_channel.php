@@ -33,7 +33,7 @@
 ###############################################################################
 
 use Xmf\Request;
-use XoopsModules\rss;
+use XoopsModules\Rss;
 
 if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');

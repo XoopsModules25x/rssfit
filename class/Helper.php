@@ -1,4 +1,4 @@
-<?php namespace XoopsModules\rss;
+<?php namespace XoopsModules\Rss;
 
 /*
  * You may not change or alter any portion of this comment or credits

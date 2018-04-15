@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-use XoopsModules\rss;
+use XoopsModules\Rss;
 
 /**
  *
@@ -29,9 +29,9 @@ use XoopsModules\rss;
  */
 function xoops_module_pre_install_rss(\XoopsModule $module)
 {
-    include __DIR__ . '/../preloads/autoloader.php';
+    include  dirname(__DIR__) . '/preloads/autoloader.php';
     /** @var rss\Utility $utility */
-    $utility = new \XoopsModules\rss\Utility();
+    $utility = new \XoopsModules\Rss\Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
 
@@ -54,9 +54,9 @@ function xoops_module_pre_install_rss(\XoopsModule $module)
  */
 function xoops_module_install_rss(\XoopsModule $module)
 {
-    include __DIR__ . '/../preloads/autoloader.php';
-    require_once  __DIR__ . '/../../../mainfile.php';
-    require_once  __DIR__ . '/../include/config.php';
+    include  dirname(__DIR__) . '/preloads/autoloader.php';
+    require_once   dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+    require_once   dirname(__DIR__) . '/include/config.php';
 
     $moduleDirName = basename(dirname(__DIR__));
 
@@ -91,7 +91,7 @@ function xoops_module_install_rss(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator->copyBlankFiles) > 0) {
-        $file = __DIR__ . '/../assets/images/blank.png';
+        $file =  dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);

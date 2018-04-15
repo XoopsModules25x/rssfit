@@ -1,4 +1,4 @@
-<?php namespace XoopsModules\rss;
+<?php namespace XoopsModules\Rss;
 
 /*
  Utility Class Definition
@@ -24,10 +24,10 @@
  */
 
 use Xmf\Request;
-use XoopsModules\rss;
-use XoopsModules\rss\Common;
+use XoopsModules\Rss;
+use XoopsModules\Rss\Common;
 
-//require_once __DIR__ . '/../include/common.php';
+//require_once  dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Utility

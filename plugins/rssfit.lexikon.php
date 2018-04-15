@@ -45,7 +45,7 @@ if (!defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Rssfitlexikon
  */
-class Rssfitlexikon extends XoopsObject
+class Rssfitlexikon extends \XoopsObject
 {
     public $dirname = 'lexikon';
     public $modname;

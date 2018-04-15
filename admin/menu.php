@@ -17,10 +17,10 @@
  * @author       XOOPS Development Team
  */
 
-use XoopsModules\rss;
+use XoopsModules\Rss;
 
-// require_once __DIR__ . '/../class/Helper.php';
-//require_once __DIR__ . '/../include/common.php';
+// require_once  dirname(__DIR__) . '/class/Helper.php';
+//require_once  dirname(__DIR__) . '/include/common.php';
 $helper = rss\Helper::getInstance();
 // get path to icons
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');

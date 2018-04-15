@@ -44,7 +44,7 @@ if (!defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Rssfitrmdp
  */
-class Rssfitrmdp extends XoopsObject
+class Rssfitrmdp extends \XoopsObject
 {
     public $dirname = 'rmdp';
     public $modname;
@@ -65,7 +65,7 @@ class Rssfitrmdp extends XoopsObject
 
     public function grabEntries(&$obj)
     {
-        global $xoopsDB, $modulepermHandler;
+        global $xoopsDB, $grouppermHandler;
         $ret = [];
         $i = 0;
         $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';

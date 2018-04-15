@@ -42,7 +42,7 @@ if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
-class RssfitMydownloads extends XoopsObject
+class RssfitMydownloads extends \XoopsObject
 {
     public $dirname = 'mydownloads';
     public $modname;

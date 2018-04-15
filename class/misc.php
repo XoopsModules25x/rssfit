@@ -35,7 +35,7 @@
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
-class RssMisc extends XoopsObject
+class RssMisc extends \XoopsObject
 {
     public function __construct()
     {
@@ -59,7 +59,7 @@ class RssMisc extends XoopsObject
     }
 }
 
-class RssMiscHandler extends XoopsObjectHandler
+class RssMiscHandler extends \XoopsObjectHandler
 {
     public $db;
     public $db_table;

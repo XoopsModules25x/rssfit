@@ -34,12 +34,14 @@
 
 use Xmf\Request;
 use XoopsModules\Rss;
-/** @var Rss\Helper $helper */
-$helper = Rss\Helper::getInstance();
+
 
 if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
     header('Location: index.php');
 }
+
+/** @var Rss\Helper $helper */
+$helper = Rss\Helper::getInstance();
 
 switch ($op) {
     default:
@@ -124,7 +126,7 @@ switch ($op) {
         if (!$filelist =& $pluginsHandler->getPluginFileList()) {
             $filelist = [];
         }
-        $list = XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
+        $list = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
         $installable = [];
         foreach ($list as $f) {
             if (preg_match('/rssfit\.+[a-zA-Z0-9_]+\.php/', $f) && !in_array($f, $filelist)) {
