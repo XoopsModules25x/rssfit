@@ -21,7 +21,7 @@ use XoopsModules\Rssfit;
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
-require_once __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 $helper = Rssfit\Helper::getInstance();
 
 $charset = $helper->getConfig('utf8') ? 'UTF-8' : _CHARSET;

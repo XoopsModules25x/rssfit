@@ -49,7 +49,7 @@ switch ($op) {
                     . _AM_RSSFIT_PLUGIN_ORDER
                     . "</td>\n"
                     . "<td class='head' align='center' width='20%'>"
-                    . _AM_ACTION
+                    . _AM_RSSFIT_ACTION
                     . "</td>\n"
                     . "</tr>\n";
             foreach ($plugins as $p) {
@@ -100,7 +100,7 @@ switch ($op) {
                     . _AM_RSSFIT_PLUGIN_MODNAME
                     . "</td>\n"
                     . "<td class='head' align='center' width='20%'>"
-                    . _AM_ACTION
+                    . _AM_RSSFIT_ACTION
                     . "</td>\n"
                     . "</tr>\n";
             foreach ($plugins as $p) {

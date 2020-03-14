@@ -16,7 +16,7 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-require_once __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'rssfit_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 $intr = $miscHandler->getObjects2(new \Criteria('misc_category', 'intro'));
@@ -43,4 +43,4 @@ if ($intr) {
     }
     $xoopsTpl->assign('intro', ['title' => $title, 'content' => $content]);
 }
-require_once XOOPS_ROOT_PATH . '/footer.php';
+require XOOPS_ROOT_PATH . '/footer.php';

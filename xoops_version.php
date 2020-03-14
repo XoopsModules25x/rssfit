@@ -108,11 +108,11 @@ $modversion['helpsection'] = [
 $modversion['templates'] = [];
 $modversion['templates'][] = [
     'file' => 'rssfit_index.tpl',
-    'description' => _MI_TMPL_INTRO,
+    'description' => _MI_RSSFIT_TMPL_INTRO,
 ];
 $modversion['templates'][] = [
     'file' => 'rssfit_rss.tpl',
-    'description' => _MI_TMPL_RSS,
+    'description' => _MI_RSSFIT_TMPL_RSS,
 ];
 
 //  Module Configs
@@ -120,8 +120,8 @@ $modversion['templates'][] = [
 
 $modversion['config'][] = [
     'name' => 'overall_entries',
-    'title' => '_MI_OVERALL_ENTRIES',
-    'description' => '_MI_OVERALL_ENTRIES_DESC',
+    'title' => '_MI_RSSFIT_OVERALL_ENTRIES',
+    'description' => '_MI_RSSFIT_OVERALL_ENTRIES_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'int',
     'default' => 20,
@@ -130,8 +130,8 @@ $modversion['config'][] = [
 // $helper->getConfig('plugin_entries')
 $modversion['config'][] = [
     'name' => 'plugin_entries',
-    'title' => '_MI_PLUGIN_ENTRIES',
-    'description' => '_MI_PLUGIN_ENTRIES_DESC',
+    'title' => '_MI_RSSFIT_PLUGIN_ENTRIES',
+    'description' => '_MI_RSSFIT_PLUGIN_ENTRIES_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'int',
     'default' => 5,
@@ -140,19 +140,19 @@ $modversion['config'][] = [
 // $helper->getConfig('sort')
 $modversion['config'][] = [
     'name' => 'sort',
-    'title' => '_MI_ENTRIES_SORT',
-    'description' => '_MI_ENTRIES_SORT_DESC',
+    'title' => '_MI_RSSFIT_ENTRIES_SORT',
+    'description' => '_MI_RSSFIT_ENTRIES_SORT_DESC',
     'formtype' => 'select',
     'valuetype' => 'text',
     'default' => 'd',
-    'options' => [_MI_ENTRIES_SORT_DATE => 'd', _MI_ENTRIES_SORT_CAT => 'c'],
+    'options' => [_MI_RSSFIT_ENTRIES_SORT_DATE => 'd', _MI_RSSFIT_ENTRIES_SORT_CAT => 'c'],
 ];
 
 // $helper->getConfig('cache')
 $modversion['config'][] = [
     'name' => 'cache',
-    'title' => '_MI_CACHE',
-    'description' => '_MI_CACHE_DESC',
+    'title' => '_MI_RSSFIT_CACHE',
+    'description' => '_MI_RSSFIT_CACHE_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'int',
     'default' => 0,
@@ -161,8 +161,8 @@ $modversion['config'][] = [
 // $helper->getConfig('max_char')
 $modversion['config'][] = [
     'name' => 'max_char',
-    'title' => '_MI_MAXCHAR',
-    'description' => '_MI_MAXCHAR_DESC',
+    'title' => '_MI_RSSFIT_MAXCHAR',
+    'description' => '_MI_RSSFIT_MAXCHAR_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'int',
     'default' => 0,
@@ -171,8 +171,8 @@ $modversion['config'][] = [
 // $helper->getConfig('strip_html')
 $modversion['config'][] = [
     'name' => 'strip_html',
-    'title' => '_MI_STRIPHTML',
-    'description' => '_MI_STRIPHTML_DESC',
+    'title' => '_MI_RSSFIT_STRIPHTML',
+    'description' => '_MI_RSSFIT_STRIPHTML_DESC',
     'formtype' => 'yesno',
     'valuetype' => 'int',
     'default' => 0,
@@ -181,8 +181,8 @@ $modversion['config'][] = [
 // $helper->getConfig('utf8')
 $modversion['config'][] = [
     'name' => 'utf8',
-    'title' => '_MI_ENCODE_UTF8',
-    'description' => '_MI_ENCODE_UTF8_DESC',
+    'title' => '_MI_RSSFIT_ENCODE_UTF8',
+    'description' => '_MI_RSSFIT_ENCODE_UTF8_DESC',
     'formtype' => 'yesno',
     'valuetype' => 'int',
     'default' => 0,
@@ -191,12 +191,12 @@ $modversion['config'][] = [
 // $helper->getConfig('mime')
 $modversion['config'][] = [
     'name' => 'mime',
-    'title' => '_MI_OUTOUT_MIME',
+    'title' => '_MI_RSSFIT_OUTOUT_MIME',
     'description' => '',
     'formtype' => 'select',
     'valuetype' => 'int',
     'default' => 1,
-    'options' => [_MI_OUTOUT_MIME_XML => 1, _MI_OUTOUT_MIME_HTML => 2, _MI_OUTOUT_MIME_PHP => 3],
+    'options' => [_MI_RSSFIT_OUTOUT_MIME_XML => 1, _MI_RSSFIT_OUTOUT_MIME_HTML => 2, _MI_RSSFIT_OUTOUT_MIME_PHP => 3],
 ];
 
 /**
