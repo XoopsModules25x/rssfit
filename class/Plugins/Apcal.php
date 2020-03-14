@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -61,19 +63,19 @@ class Apcal
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
-        $i      = 0;
-        $sql    = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ' . $xoopsDB->prefix('apcal_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
+        $myts = \MyTextSanitizer::getInstance();
+        $ret = false;
+        $i = 0;
+        $sql = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ' . $xoopsDB->prefix('apcal_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $ret[$i]['title']       = $row['summary'];
-            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/index.php?event_id=' . $row['id'];
-            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp']   = $row['dtstamp'];
+            $ret[$i]['title'] = $row['summary'];
+            $link = XOOPS_URL . '/modules/' . $this->dirname . '/index.php?event_id=' . $row['id'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['dtstamp'];
             $ret[$i]['description'] = $myts->displayTarea($row['description']);
-            $ret[$i]['category']    = $this->modname;
-            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+            $ret[$i]['category'] = $this->modname;
+            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
 

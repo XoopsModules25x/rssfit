@@ -16,10 +16,6 @@
  * @since
  * @author       XOOPS Development Team
  */
-
-use Xmf\Request;
-use XoopsModules\Rssfit\Common;
-
 require_once __DIR__ . '/admin_header.php';
 
 $do = isset($_GET['do']) ? trim($_GET['do']) : '';
@@ -35,9 +31,9 @@ $op = isset($_POST['op']) ? trim($_POST['op']) : $op;
 
 if (file_exists(RSSFIT_ROOT_PATH . 'admin/do_' . $do . '.php')) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $hidden_do     = new \XoopsFormHidden('do', $do);
-    $button_save   = new \XoopsFormButton('', 'submit', _AM_SAVE, 'submit');
-    $button_go     = new \XoopsFormButton('', 'submit', _GO, 'submit');
+    $hidden_do = new \XoopsFormHidden('do', $do);
+    $button_save = new \XoopsFormButton('', 'submit', _AM_SAVE, 'submit');
+    $button_go = new \XoopsFormButton('', 'submit', _GO, 'submit');
     $button_cancel = new \XoopsFormButton('', 'cancel', _CANCEL);
     $button_cancel->setExtra('onclick="javascript:history.go(-1)"');
     $tray_save_cancel = new \XoopsFormElementTray('', '');

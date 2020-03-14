@@ -19,7 +19,6 @@ namespace XoopsModules\Rssfit;
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -33,9 +32,9 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     public $db;
     public $db_table;
     public $obj_class = Plugin::class;
-    public $obj_key   = 'rssf_conf_id';
-    public $sortby    = 'rssf_order';
-    public $order     = 'ASC';
+    public $obj_key = 'rssf_conf_id';
+    public $sortby = 'rssf_order';
+    public $order = 'ASC';
 
     /**
      * @var \XoopsModules\Rssfit\Helper
@@ -51,7 +50,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         if (null === $helper) {
             $helper = \XoopsModules\Rssfit\Helper::getInstance();
         }
-            $this->helper = $helper;
+        $this->helper = $helper;
 
         if (null === $db) {
             $db = \XoopsDatabaseFactory::getDatabaseConnection();
@@ -63,7 +62,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsDatabase|null $db
      * @return \XoopsModules\Rssfit\PluginHandler
      */
     public function getInstance(\XoopsDatabase $db = null)
@@ -100,9 +98,9 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function get($id = null, $fields = null)
     {
-        $ret      = false;
+        $ret = false;
         $criteria = new \Criteria($this->obj_key, (int)$id);
-        $objs     = $this->getObjects2($criteria);// && 1 === count($objs);
+        $objs = $this->getObjects2($criteria); // && 1 === count($objs);
         if ($objs) {
             $ret = &$objs[0];
         }
@@ -111,7 +109,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
      * @param bool         $force
      * @return array|bool|int|mixed|null
      */
@@ -139,7 +136,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         }
         if ($obj->isNew() || empty($cleanvars[$this->obj_key])) {
             $cleanvars[$this->obj_key] = $this->db->genId($this->db_table . '_' . $this->obj_key . '_seq');
-            $sql                       = 'INSERT INTO ' . $this->db_table . ' (' . implode(',', array_keys($cleanvars)) . ') VALUES (' . implode(',', array_values($cleanvars)) . ')';
+            $sql = 'INSERT INTO ' . $this->db_table . ' (' . implode(',', array_keys($cleanvars)) . ') VALUES (' . implode(',', array_values($cleanvars)) . ')';
         } else {
             unset($cleanvars[$this->obj_key]);
             $sql = 'UPDATE ' . $this->db_table . ' SET';
@@ -167,7 +164,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $category
      * @param bool         $force
      * @return bool
      */
@@ -198,7 +194,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function getObjects2($criteria = null, $fields = '*', $key = '')
     {
-        $ret   = false;
+        $ret = false;
         $limit = $start = 0;
         switch ($fields) {
             case 'p_activated':
@@ -305,7 +301,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     public function forceDeactivate($obj, $type = 'rssf_activated')
     {
         $criteria = new \Criteria($this->obj_key, $obj->getVar($this->obj_key));
-        $fields   = ['rssf_activated' => 0, 'subfeed' => 0];
+        $fields = ['rssf_activated' => 0, 'subfeed' => 0];
         $this->modifyObjects($criteria, $fields, true);
 
         return true;
@@ -338,10 +334,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         $file = RSSFIT_ROOT_PATH . 'plugins/' . $obj->getVar('rssf_filename');
         $file2 = RSSFIT_ROOT_PATH . 'class/Plugins/' . $obj->getVar('rssf_filename');
         if (file_exists($file2)) {
-//mb            $require_once = require $file;
-            $name         = explode('.', $obj->getVar('rssf_filename'));
-            $class        = 'Rssfit' . ucfirst($name[0]);
-            $class2        = __NAMESPACE__ . '\Plugins\\' . ucfirst($name[0]);
+            //mb            $require_once = require $file;
+            $name = explode('.', $obj->getVar('rssf_filename'));
+            $class = 'Rssfit' . ucfirst($name[0]);
+            $class2 = __NAMESPACE__ . '\Plugins\\' . ucfirst($name[0]);
             if (class_exists($class2)) {
                 $handler = new $class2();
                 if (!method_exists($handler, 'loadmodule') || !method_exists($handler, 'grabentries')) {

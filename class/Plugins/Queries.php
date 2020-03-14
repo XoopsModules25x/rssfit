@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -52,7 +54,7 @@ class Queries
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
+        $this->module = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
@@ -65,12 +67,12 @@ class Queries
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
+        $ret = false;
 
-        $i        = -1;
+        $i = -1;
         $lasttime = false;
         $lastuser = false;
-        $limit    = 10 * $this->grab;
+        $limit = 10 * $this->grab;
 
         $sql = 'SELECT id, title, posted, querytext FROM ' . $xoopsDB->prefix('queries_query');
         $sql .= ' WHERE approved=1 ORDER BY posted DESC ';
@@ -83,12 +85,12 @@ class Queries
                 if (mb_strlen($desc) > 200) {
                     $desc = mb_substr($desc, 0, 200) . '...';
                 }
-                $link                   = XOOPS_URL . '/modules/queries/view.php?id=' . $row['id'];
-                $ret[$i]['title']       = $this->modname . ': ' . $row['title'];
-                $ret[$i]['link']        = $link;
-                $ret[$i]['timestamp']   = $row['posted'];
-                $ret[$i]['guid']        = $link;
-                $ret[$i]['category']    = $this->modname;
+                $link = XOOPS_URL . '/modules/queries/view.php?id=' . $row['id'];
+                $ret[$i]['title'] = $this->modname . ': ' . $row['title'];
+                $ret[$i]['link'] = $link;
+                $ret[$i]['timestamp'] = $row['posted'];
+                $ret[$i]['guid'] = $link;
+                $ret[$i]['category'] = $this->modname;
                 $ret[$i]['description'] = $desc;
             }
             if ($i > $this->grab) {

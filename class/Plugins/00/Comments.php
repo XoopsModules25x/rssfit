@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -65,11 +67,11 @@ class Comments
         $ret = false;
         require_once XOOPS_ROOT_PATH . '/include/comment_constants.php';
         $commentHandler = xoops_getHandler('comment');
-        $criteria       = new \CriteriaCompo(new \Criteria('com_status', XOOPS_COMMENT_ACTIVE));
+        $criteria = new \CriteriaCompo(new \Criteria('com_status', XOOPS_COMMENT_ACTIVE));
         $criteria->setLimit($this->grab);
         $criteria->setSort('com_created');
         $criteria->setOrder('DESC');
-        $comments       = $commentHandler->getObjects($criteria, true);
+        $comments = $commentHandler->getObjects($criteria, true);
         $comment_config = [];
         if (count($comments) > 0) {
             $modules = $GLOBALS['module_handler']->getObjects(new \Criteria('hascomments', 1), true);
@@ -78,8 +80,8 @@ class Comments
                 if (!isset($comment_config[$mid])) {
                     $comment_config[$mid] = $modules[$mid]->getInfo('comments');
                 }
-                $ret[$i]['title']       = 'Comments: ' . $comments[$i]->getVar('com_title', 'n');
-                $link                   = XOOPS_URL
+                $ret[$i]['title'] = 'Comments: ' . $comments[$i]->getVar('com_title', 'n');
+                $link = XOOPS_URL
                                           . '/modules/'
                                           . $modules[$mid]->getVar('dirname')
                                           . '/'
@@ -96,11 +98,11 @@ class Comments
                                           . $comments[$i]->getVar('com_exparams')
                                           . '#comment'
                                           . $i;
-                $ret[$i]['link']        = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp']   = $comments[$i]->getVar('com_created');
+                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp'] = $comments[$i]->getVar('com_created');
                 $ret[$i]['description'] = $comments[$i]->getVar('com_text');
-                $ret[$i]['category']    = $modules[$mid]->getVar('name', 'n');
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $modules[$mid]->getVar('dirname') . '/';
+                $ret[$i]['category'] = $modules[$mid]->getVar('name', 'n');
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $modules[$mid]->getVar('dirname') . '/';
             }
         }
 

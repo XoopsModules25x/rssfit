@@ -17,7 +17,6 @@
  * @since
  * @author        XOOPS Development Team
  */
-
 use XoopsModules\Rssfit;
 
 /**
@@ -29,9 +28,9 @@ use XoopsModules\Rssfit;
 function xoops_module_pre_install_rssfit(\XoopsModule $module)
 {
     require_once dirname(__DIR__) . '/preloads/autoloader.php';
-    $utility      = new \XoopsModules\Rssfit\Utility();
+    $utility = new \XoopsModules\Rssfit\Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
-    $phpSuccess   = $utility::checkVerPhp($module);
+    $phpSuccess = $utility::checkVerPhp($module);
 
     if (false !== $xoopsSuccess && false !== $phpSuccess) {
         $moduleTables = &$module->getInfo('tables');
@@ -56,7 +55,7 @@ function xoops_module_install_rssfit(\XoopsModule $module)
 
     $moduleDirName = basename(dirname(__DIR__));
 
-    $helper       = Rssfit\Helper::getInstance();
+    $helper = Rssfit\Helper::getInstance();
     $configurator = new Rssfit\Common\Configurator();
     $utility = new Rssfit\Utility();
 
@@ -66,7 +65,7 @@ function xoops_module_install_rssfit(\XoopsModule $module)
 
     // default Permission Settings ----------------------
     global $xoopsModule;
-    $moduleId         = $xoopsModule->getVar('mid');
+    $moduleId = $xoopsModule->getVar('mid');
     // $moduleId2        = $helper->getModule()->mid();
     $grouppermiscHandler = xoops_getHandler('groupperm');
     // access rights ------------------------------------------

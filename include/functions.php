@@ -19,7 +19,6 @@
  * @param $b
  * @return int
  */
-
 function sortTimestamp($a, $b)
 {
     if ($a['timestamp'] == $b['timestamp']) {

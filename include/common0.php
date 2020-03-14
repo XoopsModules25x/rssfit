@@ -16,8 +16,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
-use Xmf\Request;
 use XoopsModules\Rssfit;
 
 if (!defined('RSSFIT_CONSTANTS_DEFINED')) {
@@ -35,7 +33,7 @@ $version = number_format($xoopsModule->getVar('version') / 100, 2);
 $version = !mb_substr($version, -1, 1) ? mb_substr($version, 0, 3) : $version;
 define('RSSFIT_VERSION', 'RSSFit ' . $version);
 
-$rss            = new Rssfit\FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
-$myts           = $rss->myts;
+$rss = new Rssfit\FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
+$myts = $rss->myts;
 $pluginsHandler = $rss->pluginHandler;
-$miscHandler    = $rss->miscHandler;
+$miscHandler = $rss->miscHandler;

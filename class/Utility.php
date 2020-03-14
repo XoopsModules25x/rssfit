@@ -27,10 +27,6 @@ namespace XoopsModules\Rssfit;
 
 //require_once  dirname(__DIR__) . '/include/common.php';
 
-use XoopsModules\Rssfit;
-use XoopsModules\Rssfit\Common;
-use XoopsModules\Rssfit\Constants;
-
 /**
  * Class Utility
  */
@@ -38,22 +34,23 @@ class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
 
-    public static function rssfitAdminHeader(){
+    public static function rssfitAdminHeader()
+    {
         global $xoopsModule, $xoopsConfig;
-        $langf = RSSFIT_ROOT_PATH.'language/'.$xoopsConfig['language'].'/modinfo.php';
-        if( file_exists($langf) ){
+        $langf = RSSFIT_ROOT_PATH . 'language/' . $xoopsConfig['language'] . '/modinfo.php';
+        if (file_exists($langf)) {
             include $langf;
-        }else{
-            include RSSFIT_ROOT_PATH.'language/english/modinfo.php';
+        } else {
+            include RSSFIT_ROOT_PATH . 'language/english/modinfo.php';
         }
         require __DIR__ . '/menu.php';
-        for($i=0, $iMax = count($adminmenu); $i < $iMax; $i++ ){
+        for ($i = 0, $iMax = count($adminmenu); $i < $iMax; $i++) {
             $links[$i] = [0 => RSSFIT_URL . $adminmenu[$i]['link'], 1 => $adminmenu[$i]['title']];
         }
         $links[] = [0 => XOOPS_URL . '/modules/system/admin.php?fct=preferences&op=showmod&mod=' . $xoopsModule->getVar('mid'), 1 => _PREFERENCES];
         $admin_links = '<table class="outer" width="100%" cellspacing="1"><tr>';
-        for($i=0, $iMax = count($links); $i < $iMax; $i++ ){
-            $admin_links .= '<td class="even" style="width: 16%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
+        for ($i = 0, $iMax = count($links); $i < $iMax; $i++) {
+            $admin_links .= '<td class="even" style="width: 16%; text-align: center;"><a href="' . $links[$i][0] . '" accesskey="' . ($i + 1) . '">' . $links[$i][1] . '</a></td>';
         }
         $admin_links .= "</tr></table><br clear=all>\n";
         xoops_cp_header();

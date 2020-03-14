@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -52,7 +54,7 @@ class Surnames
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
+        $this->module = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
@@ -73,13 +75,13 @@ class Surnames
 
         if (!is_object($thisUser)) {
             $memberHandler = xoops_getHandler('member');
-            $thisUser      = $memberHandler->getUser($uid);
+            $thisUser = $memberHandler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
         if ('' == $name) {
             $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
         }
-        $lastUid  = $uid;
+        $lastUid = $uid;
         $lastName = $name;
 
         return $name;
@@ -93,23 +95,23 @@ class Surnames
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
+        $ret = false;
 
-        $i        = -1;
+        $i = -1;
         $lasttime = false;
         $lastuser = false;
-        $limit    = 10 * $this->grab;
+        $limit = 10 * $this->grab;
 
-        $sql    = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM " . $xoopsDB->prefix('surnames');
-        $sql    .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
+        $sql = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM " . $xoopsDB->prefix('surnames');
+        $sql .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
         $result = $xoopsDB->query($sql, $limit, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $changedate = strtotime($row['changedate']);
-            $uid        = $row['uid'];
+            $uid = $row['uid'];
             if ($lasttime == $changedate && $lastuser == $uid) {
-                $link    = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
+                $link = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
                 $surname = $row['surname'];
-                $desc    .= "<a href=\"$link\">$surname</a><br>";
+                $desc .= "<a href=\"$link\">$surname</a><br>";
             } else {
                 if ($i >= 0) {
                     $ret[$i]['description'] = $desc;
@@ -118,18 +120,18 @@ class Surnames
                 $lasttime = $changedate;
                 $lastuser = $uid;
                 if ($i <= $this->grab) {
-                    $desc                 = '';
-                    $name                 = $this->myGetUnameFromId($row['uid']);
-                    $ret[$i]['title']     = $this->modname . ': by ' . $name;
-                    $ret[$i]['link']      = XOOPS_URL . '/modules/surnames/list.php?uid=' . $row['uid'];
+                    $desc = '';
+                    $name = $this->myGetUnameFromId($row['uid']);
+                    $ret[$i]['title'] = $this->modname . ': by ' . $name;
+                    $ret[$i]['link'] = XOOPS_URL . '/modules/surnames/list.php?uid=' . $row['uid'];
                     $ret[$i]['timestamp'] = $changedate;
 
-                    $link                = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
-                    $ret[$i]['guid']     = $link;
+                    $link = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
+                    $ret[$i]['guid'] = $link;
                     $ret[$i]['category'] = $this->modname;
 
                     $surname = $row['surname'];
-                    $desc    .= "<a href=\"$link\">$surname</a><br>";
+                    $desc .= "<a href=\"$link\">$surname</a><br>";
                 }
             }
             if ($i > $this->grab) {

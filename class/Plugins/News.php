@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -54,7 +56,7 @@ class News
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;
+        $this->module = $mod;
 
         return $mod;
     }
@@ -70,20 +72,20 @@ class News
         $myts = \MyTextSanitizer::getInstance();
         if ($this->module->getVar('version') >= 130) {
 //            @require_once XOOPS_ROOT_PATH . '/modules/news/include/functions.php';
-            $news = \XoopsModules\News\NewsStory::getAllPublished($this->grab, 0,  \XoopsModules\News\Utility::getmoduleoption('restrictindex'));
+            $news = \XoopsModules\News\NewsStory::getAllPublished($this->grab, 0, \XoopsModules\News\Utility::getmoduleoption('restrictindex'));
         } else {
             $news = \XoopsModules\News\NewsStory::getAllPublished($this->grab, 0);
         }
         if (count($news) > 0) {
             for ($i = 0, $iMax = count($news); $i < $iMax; $i++) {
-                $ret[$i]['title']       = $this->modname . ': ' . $myts->undoHtmlSpecialChars($news[$i]->title());
-                $ret[$i]['link']        = XOOPS_URL . '/modules/news/article.php?storyid=' . $news[$i]->storyid();
-                $ret[$i]['guid']        = XOOPS_URL . '/modules/news/article.php?storyid=' . $news[$i]->storyid();
-                $ret[$i]['timestamp']   = $news[$i]->published();
-                $desc                   = $news[$i]->hometext();
+                $ret[$i]['title'] = $this->modname . ': ' . $myts->undoHtmlSpecialChars($news[$i]->title());
+                $ret[$i]['link'] = XOOPS_URL . '/modules/news/article.php?storyid=' . $news[$i]->storyid();
+                $ret[$i]['guid'] = XOOPS_URL . '/modules/news/article.php?storyid=' . $news[$i]->storyid();
+                $ret[$i]['timestamp'] = $news[$i]->published();
+                $desc = $news[$i]->hometext();
                 $ret[$i]['description'] = $news[$i]->hometext();
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
 

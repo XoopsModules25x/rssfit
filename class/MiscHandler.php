@@ -19,7 +19,6 @@ namespace XoopsModules\Rssfit;
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -33,7 +32,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public $db;
     public $db_table;
     public $obj_class = Misc::class;
-    public $obj_key   = 'misc_id';
+    public $obj_key = 'misc_id';
 
     /**
      * @var \XoopsModules\Rssfit\Helper
@@ -54,14 +53,13 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         if (null === $db) {
             $db = \XoopsDatabaseFactory::getDatabaseConnection();
         }
-        $this->db       = $db;
+        $this->db = $db;
         $this->db_table = $db->prefix($helper->getDirname() . '_misc');
 
         parent::__construct($db, 'rssfit_misc', Misc::class, 'misc_id', 'misc_title');
     }
 
     /**
-     * @param \XoopsDatabase|null $db
      * @return \XoopsModules\Rssfit\MiscHandler
      */
     public function getInstance(\XoopsDatabase $db = null)
@@ -99,7 +97,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public function get($id = null, $fields = null)
     {
         $criteria = new \Criteria($this->obj_key, (int)$id);
-        $objs     = $this->getObjects2($criteria);
+        $objs = $this->getObjects2($criteria);
         if ($objs) {
             return 1 != count($objs) ? false : $objs[0];
         }
@@ -132,12 +130,11 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      * @return bool
      */
     public function getObjects2($criteria = null, $fields = '*', $key = '')
-//    public function &getObjects(\CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
     {
-        $ret   = false;
+        $ret = false;
         $limit = $start = 0;
         $fields = '*';
-        $sql   = 'SELECT ' . $fields . ' FROM ' . $this->db_table;
+        $sql = 'SELECT ' . $fields . ' FROM ' . $this->db_table;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -174,7 +171,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
      * @param bool         $force
      * @return array|bool|int|mixed|null
      */
@@ -202,7 +198,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         }
         if ($obj->isNew() || empty($cleanvars[$this->obj_key])) {
             $cleanvars[$this->obj_key] = $this->db->genId($this->db_table . '_' . $this->obj_key . '_seq');
-            $sql                       = 'INSERT INTO ' . $this->db_table . ' (' . implode(',', array_keys($cleanvars)) . ') VALUES (' . implode(',', array_values($cleanvars)) . ')';
+            $sql = 'INSERT INTO ' . $this->db_table . ' (' . implode(',', array_keys($cleanvars)) . ') VALUES (' . implode(',', array_values($cleanvars)) . ')';
         } else {
             unset($cleanvars[$this->obj_key]);
             $sql = 'UPDATE ' . $this->db_table . ' SET';
@@ -264,7 +260,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $category
      * @param bool         $force
      * @return bool
      */

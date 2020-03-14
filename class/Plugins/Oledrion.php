@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -56,15 +58,15 @@ class Oledrion
     {
         $ret = false;
         require_once XOOPS_ROOT_PATH . '/modules/oledrion/include/common.php';
-        $helper               = \XoopsModules\Oledrion\Helper::getInstance();
+        $helper = \XoopsModules\Oledrion\Helper::getInstance();
         $productsHandler = $helper->getHandler('Products');
         $items = $productsHandler->getRecentProducts(new Oledrion\Parameters(['start' => 0, 'limit' => $this->grab]));
-        $i     = 0;
+        $i = 0;
 
         if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
-                $ret[$i]['link']      = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title']     = $item->getVar('product_title', 'n');
+                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title'] = $item->getVar('product_title', 'n');
                 $ret[$i]['timestamp'] = $item->getVar('product_submitted');
                 if ('' != xoops_trim($item->getVar('product_summary'))) {
                     $description = $item->getVar('product_summary');
@@ -72,8 +74,8 @@ class Oledrion
                     $description = $item->getVar('product_description');
                 }
                 $ret[$i]['description'] = $description;
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

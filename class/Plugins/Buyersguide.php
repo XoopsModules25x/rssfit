@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -64,12 +66,12 @@ class Buyersguide
         $ret = false;
         require_once XOOPS_ROOT_PATH . '/modules/buyersguide/include/common.php';
         $items = $hBgProduct->getRecentProducts(0, 0, $this->grab);
-        $i     = 0;
+        $i = 0;
 
         if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
-                $ret[$i]['link']      = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title']     = $item->getVar('prod_title', 'n');
+                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title'] = $item->getVar('prod_title', 'n');
                 $ret[$i]['timestamp'] = $item->getVar('prod_submited_date');
                 if ('' != xoops_trim($item->getVar('prod_summary'))) {
                     $description = $item->getVar('prod_summary');
@@ -77,8 +79,8 @@ class Buyersguide
                     $description = $item->getVar('prod_description');
                 }
                 $ret[$i]['description'] = $description;
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

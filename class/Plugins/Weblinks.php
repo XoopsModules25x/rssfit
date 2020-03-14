@@ -1,4 +1,7 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
+
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -70,13 +73,13 @@ class Weblinks
 
         if (!is_object($thisUser)) {
             $memberHandler = xoops_getHandler('member');
-            $thisUser      = $memberHandler->getUser($uid);
+            $thisUser = $memberHandler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
         if ('' == $name) {
             $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
         }
-        $lastUid  = $uid;
+        $lastUid = $uid;
         $lastName = $name;
 
         return $name;
@@ -89,25 +92,25 @@ class Weblinks
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
-        $i      = 0;
-        $sql    = 'SELECT lid, title, time_update, description, url, uid FROM ' . $xoopsDB->prefix('weblinks_link') . '  ORDER BY time_update DESC';
+        $myts = \MyTextSanitizer::getInstance();
+        $ret = false;
+        $i = 0;
+        $sql = 'SELECT lid, title, time_update, description, url, uid FROM ' . $xoopsDB->prefix('weblinks_link') . '  ORDER BY time_update DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $title                  = $row['title'];
-            $name                   = $this->myGetUnameFromId($row['uid']);
-            $ret[$i]['title']       = $this->modname . ': ' . $title;
-            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?lid=' . $row['lid'] . '&amp;keywords=';
-            $ret[$i]['link']        = $link;
-            $ret[$i]['timestamp']   = $row['time_update'];
-            $desc                   = '<p><a href="' . $row['url'] . '"><b>' . $title . '</b></a><br> ';
-            $desc                   .= 'Submitted by: <i>' . $name . '</i><br>';
-            $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
+            $title = $row['title'];
+            $name = $this->myGetUnameFromId($row['uid']);
+            $ret[$i]['title'] = $this->modname . ': ' . $title;
+            $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?lid=' . $row['lid'] . '&amp;keywords=';
+            $ret[$i]['link'] = $link;
+            $ret[$i]['timestamp'] = $row['time_update'];
+            $desc = '<p><a href="' . $row['url'] . '"><b>' . $title . '</b></a><br> ';
+            $desc .= 'Submitted by: <i>' . $name . '</i><br>';
+            $desc .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
             $ret[$i]['description'] = $desc;
-            $ret[$i]['guid']        = $link;
-            $ret[$i]['category']    = $this->modname;
-            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+            $ret[$i]['guid'] = $link;
+            $ret[$i]['category'] = $this->modname;
+            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
 

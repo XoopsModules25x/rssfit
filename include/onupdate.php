@@ -16,7 +16,6 @@
  * @since
  * @author       XOOPS Development Team
  */
-
 use XoopsModules\Rssfit;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
@@ -38,7 +37,6 @@ function tableExists($tablename)
 
 /**
  * Prepares system prior to attempting to install module
- * @param \XoopsModule $xoopsModule
  * @param null         $previousVersion
  * @return bool true if ready to install, false if not
  */
@@ -47,11 +45,11 @@ function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVers
     $moduleDirName = basename(dirname(__DIR__));
     /** @var Rssfit\Helper $helper */
     /** @var Rssfit\Utility $utility */
-    $helper  = Rssfit\Helper::getInstance();
+    $helper = Rssfit\Helper::getInstance();
     $utility = new Rssfit\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
-    $phpSuccess   = $utility::checkVerPhp($module);
+    $phpSuccess = $utility::checkVerPhp($module);
 
     return $xoopsSuccess && $phpSuccess;
 }
@@ -65,14 +63,14 @@ function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVers
  */
 function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = null)
 {
-    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirName = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     /** @var Rssfit\Helper $helper */
     /** @var Rssfit\Utility $utility */
     /** @var Rssfit\Common\Configurator $configurator */
-    $helper       = Rssfit\Helper::getInstance();
-    $utility      = new Rssfit\Utility();
+    $helper = Rssfit\Helper::getInstance();
+    $utility = new Rssfit\Utility();
     $configurator = new Rssfit\Common\Configurator();
 
     if ($previousVersion < 240) {

@@ -16,7 +16,6 @@
  * @since
  * @author       XOOPS Development Team
  */
-
 use XoopsModules\Rssfit;
 
 //require_once  dirname(__DIR__) . '/include/common.php';
@@ -28,7 +27,6 @@ $helper = \XoopsModules\Rssfit\Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
-
 // get path to icons
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 if (is_object($helper->getModule())) {
@@ -39,42 +37,42 @@ $adminmenu = [];
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_INDEX,
-    'link'  => 'admin/index.php',
-    'icon'  => $pathIcon32 . '/home.png',
+    'link' => 'admin/index.php',
+    'icon' => $pathIcon32 . '/home.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_ADMENU1,
-    'link'  => 'admin/?do=intro',
+    'link' => 'admin/?do=intro',
     //'link' =>  "admin/do_intro.php",
-    'icon'  => $pathIcon32 . '/folder_txt.png',
+    'icon' => $pathIcon32 . '/folder_txt.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_ADMENU2,
-    'link'  => 'admin/?do=plugins',
+    'link' => 'admin/?do=plugins',
     //'link' =>  "admin/do_plugins.php",
-    'icon'  => 'assets/images/icons/32/plugin.png',
+    'icon' => 'assets/images/icons/32/plugin.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_ADMENU3,
-    'link'  => 'admin/?do=channel',
+    'link' => 'admin/?do=channel',
     //'link' =>  "admin/do_channel.php",
-    'icon'  => $pathIcon32 . '/compfile.png',
+    'icon' => $pathIcon32 . '/compfile.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_ADMENU4,
-    'link'  => 'admin/?do=subfeeds',
+    'link' => 'admin/?do=subfeeds',
     //'link' =>  "admin/do_subfeeds.php",
-    'icon'  => $pathIcon32 . '/groupmod.png',
+    'icon' => $pathIcon32 . '/groupmod.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_ADMENU5,
-    'link'  => 'admin/?do=sticky',
-    'icon'  => $pathIcon32 . '/attach.png',
+    'link' => 'admin/?do=sticky',
+    'icon' => $pathIcon32 . '/attach.png',
 ];
 
 if ($helper->getConfig('displayDeveloperTools')) {
@@ -87,6 +85,6 @@ if ($helper->getConfig('displayDeveloperTools')) {
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_ABOUT,
-    'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png',
+    'link' => 'admin/about.php',
+    'icon' => $pathIcon32 . '/about.png',
 ];

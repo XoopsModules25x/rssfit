@@ -19,7 +19,6 @@ namespace XoopsModules\Rssfit;
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 if (!defined('RSSFIT_ROOT_PATH')) {
     exit();
 }

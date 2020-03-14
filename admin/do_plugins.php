@@ -16,7 +16,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 use Xmf\Request;
 use XoopsModules\Rssfit;
 
@@ -31,7 +30,7 @@ switch ($op) {
         $ret = '';
         // activated plugins
         $criteria = new \Criteria('rssf_activated', 1);
-        $plugins  = $pluginsHandler->getObjects2($criteria, 'p_activated');
+        $plugins = $pluginsHandler->getObjects2($criteria, 'p_activated');
         if ($plugins) {
             $ret .= "<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='5'>"
@@ -56,10 +55,10 @@ switch ($op) {
             foreach ($plugins as $p) {
                 $handler = $pluginsHandler->checkPlugin($p);
                 if ($handler) {
-                    $id      = $p->getVar('rssf_conf_id');
+                    $id = $p->getVar('rssf_conf_id');
                     $entries = new \XoopsFormText('', 'rssf_grab[' . $id . ']', 3, 2, $p->getVar('rssf_grab'));
-                    $order   = new \XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
-                    $action  = new \XoopsFormSelect('', 'action[' . $id . ']', '');
+                    $order = new \XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
+                    $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
                     $action->addOption('', _SELECT);
                     $action->addOption('d', _AM_PLUGIN_DEACTIVATE);
                     $action->addOption('u', _AM_PLUGIN_UNINSTALL);
@@ -105,7 +104,7 @@ switch ($op) {
                     . "</td>\n"
                     . "</tr>\n";
             foreach ($plugins as $p) {
-                $id     = $p->getVar('rssf_conf_id');
+                $id = $p->getVar('rssf_conf_id');
                 $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
                 $action->addOption('', _SELECT);
                 $ret .= "<tr>\n" . "<td class='odd' align='center'>" . $p->getVar('rssf_filename') . "</td>\n" . "<td class='even' align='center'>";
@@ -134,8 +133,8 @@ switch ($op) {
         if (!$filelist = &$pluginsHandler->getPluginFileList()) {
             $filelist = [];
         }
-        $list        = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
-        $list2        = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'class\Plugins');
+        $list = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
+        $list2 = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'class\Plugins');
         $installable = [];
         $installable2 = [];
         foreach ($list as $f) {
@@ -167,7 +166,7 @@ switch ($op) {
                 $action = new \XoopsFormCheckbox('', 'install[' . $i . ']');
                 $action->addOption('i', ' ');
                 $ret .= "<tr>\n" . "<td class='odd' align='center'>" . $i . "</td>\n" . "<td class='even' align='center'>";
-                $p   = $pluginsHandler->create();
+                $p = $pluginsHandler->create();
                 $p->setVar('rssf_filename', $i);
                 $handler = $pluginsHandler->checkPlugin($p);
                 if ($handler) {
@@ -191,7 +190,7 @@ switch ($op) {
 
         if (!empty($ret)) {
             $hidden = new \XoopsFormHidden('op', 'save');
-            $ret    = "<form action='"
+            $ret = "<form action='"
                       . RSSFIT_ADMIN_URL
                       . "' method='post'>\n"
                       . $ret
@@ -206,11 +205,11 @@ switch ($op) {
         }
         break;
     case 'save':
-        $rssf_grab  = Request::getArray('rssf_grab', [], 'POST');
+        $rssf_grab = Request::getArray('rssf_grab', [], 'POST');
         $rssf_order = Request::getArray('rssf_order', [], 'POST');
-        $action     = Request::getArray('action', null, 'POST');
-        $install    = Request::getArray('install', [], 'POST');
-        $err        = '';
+        $action = Request::getArray('action', null, 'POST');
+        $install = Request::getArray('install', [], 'POST');
+        $err = '';
         if (isset($action)) {
             $keys = array_keys($action);
             foreach ($keys as $k) {

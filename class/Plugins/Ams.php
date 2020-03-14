@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -17,7 +19,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 
 /*
 * About this RSSFit plug-in
@@ -66,15 +67,15 @@ class Ams
         $ret = false;
 //        @require_once XOOPS_ROOT_PATH . '/modules/AMS/class/class.newsstory.php';
         $myts = \MyTextSanitizer::getInstance();
-        $ams  = \XoopsModules\Ams\Story::getAllPublished($this->grab, 0);
+        $ams = \XoopsModules\Ams\Story::getAllPublished($this->grab, 0);
         if (count($ams) > 0) {
             for ($i = 0, $iMax = count($ams); $i < $iMax; $i++) {
-                $ret[$i]['title']       = $myts->undoHtmlSpecialChars($ams[$i]->title());
-                $ret[$i]['link']        = $ret[$i]['guid'] = XOOPS_URL . "/modules/$this->dirname/article.php?storyid=" . $ams[$i]->storyid();
-                $ret[$i]['timestamp']   = $ams[$i]->published();
+                $ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
+                $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL . "/modules/$this->dirname/article.php?storyid=" . $ams[$i]->storyid();
+                $ret[$i]['timestamp'] = $ams[$i]->published();
                 $ret[$i]['description'] = $ams[$i]->hometext();
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
 

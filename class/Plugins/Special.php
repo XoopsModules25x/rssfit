@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -68,7 +70,7 @@ class Special
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;   // optional, remove this line if there is nothing
+        $this->module = $mod;   // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
@@ -82,17 +84,17 @@ class Special
         global $xoopsDB;
         $ret = [];
         @require XOOPS_ROOT_PATH . '/modules/special/class/stuff.php';
-        $myts  = \MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $items = SpecialStuff::getAllPublished($this->grab, 0);
         foreach ($items as $item) {
             $ret[] = [
-                'title'       => $myts->undoHtmlSpecialChars($item->title()),
-                'link'        => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
-                'guid'        => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
-                'timestamp'   => $item->published(),
+                'title' => $myts->undoHtmlSpecialChars($item->title()),
+                'link' => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
+                'guid' => XOOPS_URL . '/modules/special/article.php?itemid=' . $item->itemid(),
+                'timestamp' => $item->published(),
                 'description' => $item->hometext(),
-                'category'    => $this->modname,
-                'domain'      => XOOPS_URL . '/modules/' . $this->dirname . '/',
+                'category' => $this->modname,
+                'domain' => XOOPS_URL . '/modules/' . $this->dirname . '/',
             ];
         }
 

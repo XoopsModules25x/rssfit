@@ -16,8 +16,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
-use Xmf\Request;
 use XoopsModules\Rssfit;
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
@@ -36,7 +34,7 @@ switch ($op) {
         $title = new \XoopsFormText(_AM_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
         $title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
 
-        $setting      = $intro->getVar('misc_setting');
+        $setting = $intro->getVar('misc_setting');
         $tray_content = new \XoopsFormElementTray(_AM_EDIT_INTRO_TEXT, '<br>');
         $tray_content->setDescription(_AM_EDIT_INTRO_TEXT_DESC . _AM_EDIT_INTRO_TEXT_DESC_SUB);
         $tray_content->addElement(new \XoopsFormDhtmlTextArea('', 'content', $intro->getVar('misc_content', 'e'), 15, 60));
@@ -65,8 +63,8 @@ switch ($op) {
         $intro->setVar('misc_content', $_POST['content']);
         $setting = [
             'dohtml' => isset($_POST['dohtml']) ? 1 : 0,
-            'dobr'   => isset($_POST['dobr']) ? 1 : 0,
-            'sub'    => isset($_POST['sub']) ? trim($_POST['sub']) : '',
+            'dobr' => isset($_POST['dobr']) ? 1 : 0,
+            'sub' => isset($_POST['sub']) ? trim($_POST['sub']) : '',
         ];
         $intro->setVar('misc_setting', $setting);
         if (false === $miscHandler->insert($intro)) {

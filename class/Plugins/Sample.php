@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -70,7 +72,7 @@ class Sample
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
+        $this->module = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
@@ -83,10 +85,10 @@ class Sample
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
-        $i    = 0;
+        $ret = false;
+        $i = 0;
         //  The following example code grabs the latest entries from the module MyLinks
-        $sql    = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC';
+        $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
@@ -108,7 +110,7 @@ class Sample
             $ret[$i]['guid'] = $link;
             //  6. A string + domain that identifies a categorization taxonomy
             $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain']   = XOOPS_URL . '/modules/' . $this->dirname . '/';
+            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             //  7. extra tags examples
             $ret[$i]['extras'] = [];
             //  7a. without attribute

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -70,7 +72,7 @@ class Myalbum
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
+        $this->module = $mod;    // optional, remove this line if there is nothing
         // to do with module info when grabbing entries
         return $mod;
     }
@@ -91,13 +93,13 @@ class Myalbum
 
         if (!is_object($thisUser)) {
             $memberHandler = xoops_getHandler('member');
-            $thisUser      = $memberHandler->getUser($uid);
+            $thisUser = $memberHandler->getUser($uid);
         }
         $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
         if ('' == $name) {
             $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
         }
-        $lastUid  = $uid;
+        $lastUid = $uid;
         $lastName = $name;
 
         return $name;
@@ -111,23 +113,23 @@ class Myalbum
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
-        $i    = 0;
+        $ret = false;
+        $i = 0;
         // For myalbum-p with thumbs enabled
 
-        $sql    = 'SELECT p.lid, p.title, p.ext, p.date, t.description, c.cid, c.title as cat, p.submitter';
-        $sql    .= ' FROM ' . $xoopsDB->prefix('myalbum_photos') . ' p, ';
-        $sql    .= $xoopsDB->prefix('myalbum_text') . ' t, ';
-        $sql    .= $xoopsDB->prefix('myalbum_cat') . ' c ';
-        $sql    .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
-        $sql    .= 'ORDER BY date DESC';
+        $sql = 'SELECT p.lid, p.title, p.ext, p.date, t.description, c.cid, c.title as cat, p.submitter';
+        $sql .= ' FROM ' . $xoopsDB->prefix('myalbum_photos') . ' p, ';
+        $sql .= $xoopsDB->prefix('myalbum_text') . ' t, ';
+        $sql .= $xoopsDB->prefix('myalbum_cat') . ' c ';
+        $sql .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
+        $sql .= 'ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $link    = XOOPS_URL . '/modules/' . $this->dirname . '/photo.php?lid=' . $row['lid'];
-            $thumb   = XOOPS_URL . '/uploads/thumbs/' . $row['lid'] . '.' . $row['ext'];
-            $name    = $this->myGetUnameFromId($row['submitter']);
-            $title   = $myts->displayTarea($row['title']);
-            $cat     = $myts->displayTarea($row['cat']);
+            $link = XOOPS_URL . '/modules/' . $this->dirname . '/photo.php?lid=' . $row['lid'];
+            $thumb = XOOPS_URL . '/uploads/thumbs/' . $row['lid'] . '.' . $row['ext'];
+            $name = $this->myGetUnameFromId($row['submitter']);
+            $title = $myts->displayTarea($row['title']);
+            $cat = $myts->displayTarea($row['cat']);
             $catlink = XOOPS_URL . '/modules/' . $this->dirname . '/viewcat.php?cid=' . $row['cid'];
             /*
             * Required elements of an RSS item
@@ -139,9 +141,9 @@ class Myalbum
             //  3. Item modification date, must be in Unix time format
             $ret[$i]['timestamp'] = $row['date'];
             //  4. The item synopsis, or description, whatever
-            $desc                   = '<p><a href="' . $link . '"><img src="' . $thumb . '" align="left" alt="' . $title . '" border="0"></a> ';
-            $desc                   .= 'By ' . $name . ' in <a href="' . $catlink . '">' . $cat . '</a><br>';
-            $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
+            $desc = '<p><a href="' . $link . '"><img src="' . $thumb . '" align="left" alt="' . $title . '" border="0"></a> ';
+            $desc .= 'By ' . $name . ' in <a href="' . $catlink . '">' . $cat . '</a><br>';
+            $desc .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
             $ret[$i]['description'] = $desc;
             /*
             * Optional elements of an RSS item
@@ -150,7 +152,7 @@ class Myalbum
             $ret[$i]['guid'] = $link;
             //  6. A string + domain that identifies a categorization taxonomy
             $ret[$i]['category'] = $cat;
-            $ret[$i]['domain']   = $catlink;
+            $ret[$i]['domain'] = $catlink;
 
             $i++;
         }

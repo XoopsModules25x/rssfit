@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -67,7 +69,7 @@ class Smartfaq
 
         /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
         $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
-        $faqs       = $faqHandler->getAllPublished($this->grab, 0);
+        $faqs = $faqHandler->getAllPublished($this->grab, 0);
         if (false !== $faqs && count($faqs) > 0) {
             /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
             $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
@@ -75,14 +77,14 @@ class Smartfaq
                 if (!$answer = $answerHandler->getOfficialAnswer($faqs[$i]->faqid())) {
                     continue;
                 }
-                $ret[$i]['link']        = $ret[$i]['guid'] = XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $faqs[$i]->faqid();
-                $q                      = $faqs[$i]->getVar('howdoi', 'n');
-                $q                      = empty($q) ? $faqs[$i]->getVar('question', 'n') : $q;
-                $ret[$i]['title']       = $q;
-                $ret[$i]['timestamp']   = $faqs[$i]->getVar('datesub');
+                $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $faqs[$i]->faqid();
+                $q = $faqs[$i]->getVar('howdoi', 'n');
+                $q = empty($q) ? $faqs[$i]->getVar('question', 'n') : $q;
+                $ret[$i]['title'] = $q;
+                $ret[$i]['timestamp'] = $faqs[$i]->getVar('datesub');
                 $ret[$i]['description'] = $answer->getVar('answer');
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
 

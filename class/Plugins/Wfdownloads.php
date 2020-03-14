@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -53,7 +55,7 @@ class Wfdownloads extends \XoopsObject
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;
+        $this->module = $mod;
 
         return $mod;
     }
@@ -65,21 +67,21 @@ class Wfdownloads extends \XoopsObject
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts        = \MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         $permiscHandler = xoops_getHandler('groupperm');
-        $ret         = false;
-        $i           = 0;
-        $sql         = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
-        $result      = $xoopsDB->query($sql, $this->grab, 0);
+        $ret = false;
+        $i = 0;
+        $sql = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
+        $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if ($permiscHandler->checkRight('WFDownFilePerm', $row['lid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['memberHandler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
-                $ret[$i]['title']       = $row['title'];
-                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
-                $ret[$i]['link']        = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp']   = $row['date'];
+                $ret[$i]['title'] = $row['title'];
+                $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp'] = $row['date'];
                 $ret[$i]['description'] = $myts->displayTarea($row['description']);
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

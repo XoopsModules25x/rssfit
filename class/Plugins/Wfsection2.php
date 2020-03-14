@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -64,20 +66,20 @@ class Wfsection2
      */
     public function &grabEntries(&$obj)
     {
-        $ret      = false;
+        $ret = false;
         $articles = Rssfit\WfsArticle::getAllArticle($this->grab, 0, 'online');
         if (count($articles) > 0) {
             $xoopsModuleConfig['shortartlen'] = 0;
-            $myts                             = \MyTextSanitizer::getInstance();
+            $myts = \MyTextSanitizer::getInstance();
             for ($i = 0, $iMax = count($articles); $i < $iMax; $i++) {
-                $link                   = XOOPS_URL . '/modules/wfsection/article.php?articleid=' . $articles[$i]->articleid();
-                $ret[$i]['title']       = $myts->undoHtmlSpecialChars($articles[$i]->title());
-                $ret[$i]['link']        = $link;
-                $ret[$i]['guid']        = $link;
-                $ret[$i]['timestamp']   = $articles[$i]->published();
+                $link = XOOPS_URL . '/modules/wfsection/article.php?articleid=' . $articles[$i]->articleid();
+                $ret[$i]['title'] = $myts->undoHtmlSpecialChars($articles[$i]->title());
+                $ret[$i]['link'] = $link;
+                $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp'] = $articles[$i]->published();
                 $ret[$i]['description'] = $articles[$i]->summary();
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
 

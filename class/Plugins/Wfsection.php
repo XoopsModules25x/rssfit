@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -68,7 +70,7 @@ class Wfsection
         @require XOOPS_ROOT_PATH . '/modules/wfsection/include/groupaccess.php';
         global $xoopsDB;
         $ret = false;
-        $i   = 0;
+        $i = 0;
         $sql = 'SELECT a.articleid, a.title as atitle, a.published, a.expired, a.counter, a.groupid, a.maintext, a.summary, b.title as btitle FROM '
                . $xoopsDB->prefix('wfs_article')
                . ' a, '
@@ -82,14 +84,14 @@ class Wfsection
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if (checkAccess($row['groupid'])) {
-                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/article.php?articleid=' . $row['articleid'];
-                $ret[$i]['title']       = $row['atitle'];
-                $ret[$i]['link']        = $link;
-                $ret[$i]['guid']        = $link;
-                $ret[$i]['timestamp']   = $row['published'];
+                $link = XOOPS_URL . '/modules/' . $this->dirname . '/article.php?articleid=' . $row['articleid'];
+                $ret[$i]['title'] = $row['atitle'];
+                $ret[$i]['link'] = $link;
+                $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp'] = $row['published'];
                 $ret[$i]['description'] = $myts->displayTarea(!empty($row['summary']) ? $row['summary'] : $row['maintext']);
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

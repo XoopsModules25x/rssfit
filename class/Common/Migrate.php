@@ -32,7 +32,7 @@ class Migrate extends \Xmf\Database\Migrate
      */
     public function __construct()
     {
-                $class = __NAMESPACE__ . '\\' . 'Configurator';
+        $class = __NAMESPACE__ . '\\' . 'Configurator';
         if (!class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }

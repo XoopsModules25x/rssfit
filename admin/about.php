@@ -9,8 +9,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use Xmf\Module\Admin;
-
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -18,7 +16,6 @@ use Xmf\Module\Admin;
  * @since
  * @author       XOOPS Development Team
  */
-
 require_once __DIR__ . '/admin_header.php';
 
 $adminObject->displayNavigation(basename(__FILE__));

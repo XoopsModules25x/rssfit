@@ -17,6 +17,7 @@
  * @author     XOOPS Development Team
  */
 use XoopsModules\Rssfit;
+
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -79,28 +80,13 @@ define('RSSFIT_VERSION', 'RSSFit ' . $version);
 
 //global $xoopsModuleConfig, $xoopsConfig, $xoopsModule;
 
-$feedHandler            = new \XoopsModules\Rssfit\FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
-$myts           = $feedHandler->myts;
+$feedHandler = new \XoopsModules\Rssfit\FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
+$myts = $feedHandler->myts;
 //$pluginsHandler = $feedHandler->pluginHandler;
 //$miscHandler    = $feedHandler->miscHandler;
 
 $pluginsHandler = $helper->getHandler('Plugin');
-$miscHandler    = $helper->getHandler('Misc');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$miscHandler = $helper->getHandler('Misc');
 
 $icons = [
     'edit' => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",

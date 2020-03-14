@@ -16,7 +16,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 use Xmf\Request;
 use XoopsModules\Rssfit;
 
@@ -48,16 +47,16 @@ switch ($op) {
                 $id = $p->getVar('rssf_conf_id');
                 if (!$handler = $pluginsHandler->checkPlugin($p)) {
                     $pluginsHandler->forceDeactivate($p);
-                    $mod      = implode('<br>', $p->getErrors());
+                    $mod = implode('<br>', $p->getErrors());
                     $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
                     $activate->setExtra('disabled="disabled"');
-                    $config  = '&nbsp;';
+                    $config = '&nbsp;';
                     $urlLink = $feedHandler->subFeedUrl($p->getVar('rssf_filename'));
                 } else {
-                    $mod      = $handler->modname;
+                    $mod = $handler->modname;
                     $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
-                    $config   = Rssfit\Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
-                    $urlLink  = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
+                    $config = Rssfit\Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
+                    $urlLink = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
                 }
                 $activate->addOption(1, ' ');
                 $ret .= "<tr>\n"
@@ -77,9 +76,9 @@ switch ($op) {
                         . "</td>\n";
                 $ret .= "</tr>\n";
             }
-            $ret    .= "</table>\n";
+            $ret .= "</table>\n";
             $hidden = new \XoopsFormHidden('op', 'save');
-            $ret    = "<form action='"
+            $ret = "<form action='"
                       . RSSFIT_ADMIN_URL
                       . "' method='post'>\n"
                       . $ret
@@ -102,7 +101,7 @@ switch ($op) {
         if ($plugins) {
             $pluginsHandler->modifyObjects(null, ['subfeed' => 0]);
             if (isset($activate) && is_array($activate) && count($activate) > 0) {
-                $keys     = array_keys($activate);
+                $keys = array_keys($activate);
                 $criteria = new \Criteria('rssf_conf_id', '(' . implode(',', $keys) . ')', 'IN');
                 $pluginsHandler->modifyObjects($criteria, ['subfeed' => 1]);
             }
@@ -154,14 +153,14 @@ switch ($op) {
             redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
         }
 
-        $subfeed     = Request::getBool('subfeed', false, 'POST');
+        $subfeed = Request::getBool('subfeed', false, 'POST');
         $sub_entries = Request::getInt('sub_entries', 5, 'POST');
-        $sub_title   = Request::getString('sub_title', '', 'POST');
-        $sub_link    = Request::getUrl('sub_link', '', 'POST');
-        $sub_desc    = Request::getString('sub_desc', '', 'POST');
-        $img_url     = Request::getUrl('img_url', '', 'POST');
-        $img_link    = Request::getUrl('img_link', '', 'POST');
-        $img_title   = Request::getString('img_title', '', 'POST');
+        $sub_title = Request::getString('sub_title', '', 'POST');
+        $sub_link = Request::getUrl('sub_link', '', 'POST');
+        $sub_desc = Request::getString('sub_desc', '', 'POST');
+        $img_url = Request::getUrl('img_url', '', 'POST');
+        $img_link = Request::getUrl('img_link', '', 'POST');
+        $img_title = Request::getString('img_title', '', 'POST');
 
         $sub->setVar('subfeed', (int)$subfeed);
         $sub->setVar('sub_entries', $sub_entries);

@@ -16,7 +16,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 use Xmf\Request;
 use XoopsModules\Rssfit;
 
@@ -24,12 +23,10 @@ if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
     header('Location: index.php');
 }
 
-
-
 switch ($op) {
     default:
         $elements = $feedHandler->miscHandler->getObjects2(new \Criteria('misc_category', 'channel'), '*', 'title');
-        $img      = $feedHandler->miscHandler->getObjects2(new \Criteria('misc_category', 'channelimg'), '*', 'title');
+        $img = $feedHandler->miscHandler->getObjects2(new \Criteria('misc_category', 'channelimg'), '*', 'title');
         if (!empty($elements) && !empty($img)) {
             $form = new \XoopsThemeForm(_AM_EDIT_CHANNEL, 'editchannel', RSSFIT_ADMIN_URL);
             $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . Rssfit\Utility::genSpecMoreInfo('req', $feedHandler)));
@@ -59,13 +56,13 @@ switch ($op) {
         }
         break;
     case 'save':
-        $ele    = Request::getArray('ele', null, 'POST');
-        $ids    = array_keys($ele);
+        $ele = Request::getArray('ele', null, 'POST');
+        $ids = array_keys($ele);
         $errors = [];
         foreach ($ids as $i) {
             $criteria = new \Criteria('misc_id', $i);
-            $fields   = ['misc_content' => trim($ele[$i])];
-            $err      = $feedHandler->miscHandler->modifyObjects($criteria, $fields);
+            $fields = ['misc_content' => trim($ele[$i])];
+            $err = $feedHandler->miscHandler->modifyObjects($criteria, $fields);
             if ($err) {
                 $errors[] = $err;
             }

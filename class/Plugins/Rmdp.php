@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -51,7 +53,7 @@ class Rmdp extends \XoopsObject
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->module  = $mod;
+        $this->module = $mod;
 
         return $mod;
     }
@@ -63,18 +65,18 @@ class Rmdp extends \XoopsObject
     public function grabEntries(&$obj)
     {
         global $xoopsDB, $grouppermiscHandler;
-        $ret    = [];
-        $i      = 0;
-        $sql    = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
+        $ret = [];
+        $i = 0;
+        $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $ret[$i]['title']       = $row['nombre'];
-            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/down.php?id=' . $row['id_soft'];
-            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp']   = $row['fecha'];
+            $ret[$i]['title'] = $row['nombre'];
+            $link = XOOPS_URL . '/modules/' . $this->dirname . '/down.php?id=' . $row['id_soft'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['fecha'];
             $ret[$i]['description'] = $row['longdesc'];
-            $ret[$i]['category']    = $this->modname;
-            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+            $ret[$i]['category'] = $this->modname;
+            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
 

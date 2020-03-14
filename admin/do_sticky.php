@@ -16,8 +16,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
-use Xmf\Request;
 use XoopsModules\Rssfit;
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
@@ -34,7 +32,7 @@ if ($intr) {
 switch ($op) {
     default:
         $setting = $sticky->getVar('misc_setting');
-        $title   = new \XoopsFormText(_AM_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
+        $title = new \XoopsFormText(_AM_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
         $title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
 
         $tray_content = new \XoopsFormElementTray(_AM_STICKY_CONTENT, '<br>');
@@ -73,9 +71,9 @@ switch ($op) {
         }
         $setting = [
             'dohtml' => isset($_POST['dohtml']) ? 1 : 0,
-            'dobr'   => isset($_POST['dobr']) ? 1 : 0,
-            'feeds'  => $feeds,
-            'link'   => isset($_POST['link']) ? trim($_POST['link']) : '',
+            'dobr' => isset($_POST['dobr']) ? 1 : 0,
+            'feeds' => $feeds,
+            'link' => isset($_POST['link']) ? trim($_POST['link']) : '',
         ];
         $sticky->setVar('misc_setting', $setting, true);
         if (false === $miscHandler->insert($sticky)) {

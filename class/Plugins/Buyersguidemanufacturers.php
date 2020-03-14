@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -17,7 +19,6 @@
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-
 
 /**
  * About this RSSFit plug-in
@@ -65,16 +66,16 @@ class Buyersguidemanufacturers
         $ret = false;
         require_once XOOPS_ROOT_PATH . '/modules/buyersguide/include/common.php';
         $items = $hBgManufacturer->getListofActivteManufacturers(0, $this->grab, 'manu_date_added', 'DESC');
-        $i     = 0;
+        $i = 0;
 
         if (false !== $items && count($items) > 0) {
             foreach ($items as $item) {
-                $ret[$i]['link']        = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title']       = $item->getVar('manu_name', 'n');
-                $ret[$i]['timestamp']   = $item->getVar('manu_date_added');
+                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title'] = $item->getVar('manu_name', 'n');
+                $ret[$i]['timestamp'] = $item->getVar('manu_date_added');
                 $ret[$i]['description'] = $item->getVar('manu_description');
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

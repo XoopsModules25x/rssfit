@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -66,17 +68,17 @@ class Publisher
     {
         $ret = [];
         require_once XOOPS_ROOT_PATH . '/modules/publisher/include/common.php';
-        $helper               = \XoopsModules\Publisher\Helper::getInstance();
+        $helper = \XoopsModules\Publisher\Helper::getInstance();
         $publisherItemHandler = $helper->getHandler('Item');
-        $items                = $publisherItemHandler->getAllPublished($this->grab, 0);
+        $items = $publisherItemHandler->getAllPublished($this->grab, 0);
         if (false !== $items && count($items) > 0) {
             for ($i = 0, $iMax = count($items); $i < $iMax; $i++) {
-                $ret[$i]['link']        = $ret[$i]['guid'] = $items[$i]->getItemUrl();
-                $ret[$i]['title']       = $items[$i]->getVar('title', 'n');
-                $ret[$i]['timestamp']   = $items[$i]->getVar('datesub');
+                $ret[$i]['link'] = $ret[$i]['guid'] = $items[$i]->getItemUrl();
+                $ret[$i]['title'] = $items[$i]->getVar('title', 'n');
+                $ret[$i]['timestamp'] = $items[$i]->getVar('datesub');
                 $ret[$i]['description'] = $items[$i]->getVar('summary');
-                $ret[$i]['category']    = $this->modname;
-                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category'] = $this->modname;
+                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
 

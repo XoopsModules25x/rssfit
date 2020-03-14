@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -62,19 +64,19 @@ class Mydownloads extends \XoopsObject
     public function &grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
-        $i      = 0;
-        $sql    = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mydownloads_downloads') . ' l, ' . $xoopsDB->prefix('mydownloads_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
+        $myts = \MyTextSanitizer::getInstance();
+        $ret = false;
+        $i = 0;
+        $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mydownloads_downloads') . ' l, ' . $xoopsDB->prefix('mydownloads_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $ret[$i]['title']       = $row['title'];
-            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
-            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp']   = $row['date'];
+            $ret[$i]['title'] = $row['title'];
+            $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['date'];
             $ret[$i]['description'] = $myts->displayTarea($row['description']);
-            $ret[$i]['category']    = $this->modname;
-            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+            $ret[$i]['category'] = $this->modname;
+            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
 

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Rssfit\Plugins;
+<?php
+
+namespace XoopsModules\Rssfit\Plugins;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -68,9 +70,9 @@ class Newbb
         global $xoopsDB;
         require_once XOOPS_ROOT_PATH . '/modules/' . $this->dirname . '/class/class.forumposts.php';
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
-        $i    = 0;
-        $sql  = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.nohtml, p.nosmiley, f.forum_name, t.post_text FROM '
+        $ret = false;
+        $i = 0;
+        $sql = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.nohtml, p.nosmiley, f.forum_name, t.post_text FROM '
                 . $xoopsDB->prefix('bb_posts')
                 . ' p, '
                 . $xoopsDB->prefix('bb_forums')
@@ -81,13 +83,13 @@ class Newbb
             return $ret;
         }
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/viewtopic.php?topic_id=' . $row['topic_id'] . '&amp;forum=' . $row['forum_id'] . '&amp;post_id=' . $row['post_id'] . '#forumpost' . $row['post_id'];
-            $ret[$i]['title']       = $row['subject'];
-            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp']   = $row['post_time'];
+            $link = XOOPS_URL . '/modules/' . $this->dirname . '/viewtopic.php?topic_id=' . $row['topic_id'] . '&amp;forum=' . $row['forum_id'] . '&amp;post_id=' . $row['post_id'] . '#forumpost' . $row['post_id'];
+            $ret[$i]['title'] = $row['subject'];
+            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp'] = $row['post_time'];
             $ret[$i]['description'] = $myts->displayTarea($row['post_text'], $row['nohtml'] ? 0 : 1, $row['nosmiley'] ? 0 : 1);
-            $ret[$i]['category']    = $row['forum_name'];
-            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/viewforum.php?forum=' . $row['forum_id'];
+            $ret[$i]['category'] = $row['forum_name'];
+            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/viewforum.php?forum=' . $row['forum_id'];
             $i++;
         }
 
