@@ -28,7 +28,7 @@ if ($intr) {
     $title = str_replace('{SITENAME}', $xoopsConfig['sitename'], $intro->getVar('misc_title'));
     $content = str_replace('{SITENAME}', $xoopsConfig['sitename'], $intro->getVar('misc_content'));
     $content = str_replace('{SITEURL}', XOOPS_URL . '/', $content);
-    if (false !== mb_strpos($content, '{SUB}') && $plugins = $pluginsHandler->getObjects2(new \Criteria('subfeed', 1))) {
+    if (false !== mb_strpos($content, '{SUB}') && $plugins = $pluginHandler->getObjects2(new \Criteria('subfeed', 1))) {
         $sublist = '';
         foreach ($plugins as $p) {
             $sub = $myts->stripSlashesGPC($setting['sub']);

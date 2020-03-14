@@ -82,10 +82,8 @@ define('RSSFIT_VERSION', 'RSSFit ' . $version);
 
 $feedHandler = new \XoopsModules\Rssfit\FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
 $myts = $feedHandler->myts;
-//$pluginsHandler = $feedHandler->pluginHandler;
-//$miscHandler    = $feedHandler->miscHandler;
 
-$pluginsHandler = $helper->getHandler('Plugin');
+$pluginHandler = $helper->getHandler('Plugin');
 $miscHandler = $helper->getHandler('Misc');
 
 $icons = [

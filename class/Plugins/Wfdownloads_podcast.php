@@ -61,7 +61,7 @@ class Wfdownloads_podcast extends \XoopsObject
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return bool
      */
     public function &grabEntries(&$obj)

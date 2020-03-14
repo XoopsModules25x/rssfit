@@ -58,7 +58,7 @@ class Buyersguidenews
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return bool
      */
     public function &grabEntries(&$obj)

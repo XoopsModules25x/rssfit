@@ -61,7 +61,7 @@ class Cbb
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return mixed
      */
     public function &grabEntries(&$obj)

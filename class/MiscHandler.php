@@ -91,8 +91,8 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 //    public function get($id = null, $fields = '*')
 
     /**
-     * @param null $id
-     * @param null $fields
+     * @param null|int $id
+     * @param null|array $fields
      * @return bool|mixed|\XoopsObject|null
      */
     public function get($id = null, $fields = null)
@@ -107,7 +107,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null $criteria
+     * @param null|\CriteriaElement $criteria
      * @return bool|int
      */
     public function getCount($criteria = null)
@@ -125,7 +125,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null   $criteria
+     * @param null|\CriteriaElement   $criteria
      * @param string $fields
      * @param string $key
      * @return bool
@@ -228,7 +228,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null  $criteria
+     * @param null|\CriteriaElement  $criteria
      * @param array $fields
      * @param bool  $force
      * @return bool|string
@@ -262,11 +262,11 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $category
+     * @param \XoopsObject $obj
      * @param bool         $force
      * @return bool
      */
-    public function delete(\XoopsObject $category, $force = false)
+    public function delete(\XoopsObject $obj, $force = false)
     {
 //        $force = false;
         if (mb_strtolower(get_class($obj)) != mb_strtolower($this->obj_class)) {

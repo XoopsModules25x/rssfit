@@ -10,7 +10,7 @@
         <image>
             <title><{$feed.image.title}></title>
             <url><{$feed.image.url}></url>
-            <link><{$feed.image.link}></link>
+            <link><{$feed.image.link}>
         </image>
 <{/if}>
 <{if $feed.sticky != ''}>
@@ -18,7 +18,7 @@
             <title><{$feed.sticky.title}></title>
             <description><{$feed.sticky.description}></description>
             <pubDate><{$feed.sticky.pubdate}></pubDate>
-            <link><{$feed.sticky.link}></link>
+            <link><{$feed.sticky.link}>
         </item>
 <{/if}>
 <{if $feed.items != ''}><{foreach item=item from=$feed.items}>
@@ -26,7 +26,7 @@
             <title><{$item.title}></title>
             <description><{$item.description}></description>
             <pubDate><{$item.pubdate}></pubDate>
-            <link><{$item.link}></link>
+            <link><{$item.link}>
                 <{if $item.category != ""}>
                             <category<{if $item.domain != ""}> domain="<{$item.domain}>"<{/if}>><{$item.category}></category>
                 <{/if}>

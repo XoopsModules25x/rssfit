@@ -59,7 +59,7 @@ class Rmdp extends \XoopsObject
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return array
      */
     public function grabEntries(&$obj)

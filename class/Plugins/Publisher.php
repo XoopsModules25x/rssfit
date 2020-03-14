@@ -61,7 +61,7 @@ class Publisher
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return array
      */
     public function &grabEntries($obj)

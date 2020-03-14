@@ -59,8 +59,8 @@ class Ams
     }
 
     /**
-     * @param $obj
-     * @return bool
+     * @param \XoopsObject $obj
+     * @return bool|array
      */
     public function &grabEntries(&$obj)
     {
@@ -69,6 +69,7 @@ class Ams
         $myts = \MyTextSanitizer::getInstance();
         $ams = \XoopsModules\Ams\Story::getAllPublished($this->grab, 0);
         if (count($ams) > 0) {
+            $ret = [];
             for ($i = 0, $iMax = count($ams); $i < $iMax; $i++) {
                 $ret[$i]['title'] = $myts->undoHtmlSpecialChars($ams[$i]->title());
                 $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL . "/modules/$this->dirname/article.php?storyid=" . $ams[$i]->storyid();

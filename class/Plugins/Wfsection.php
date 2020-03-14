@@ -62,7 +62,7 @@ class Wfsection
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return bool
      */
     public function &grabEntries(&$obj)

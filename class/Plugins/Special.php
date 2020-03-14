@@ -76,7 +76,7 @@ class Special
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return array
      */
     public function &grabEntries(&$obj)

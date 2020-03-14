@@ -51,7 +51,7 @@ class Oledrion
     }
 
     /**
-     * @param $obj
+     * @param \XoopsObject $obj
      * @return bool
      */
     public function &grabEntries(&$obj)
@@ -60,7 +60,7 @@ class Oledrion
         require_once XOOPS_ROOT_PATH . '/modules/oledrion/include/common.php';
         $helper = \XoopsModules\Oledrion\Helper::getInstance();
         $productsHandler = $helper->getHandler('Products');
-        $items = $productsHandler->getRecentProducts(new Oledrion\Parameters(['start' => 0, 'limit' => $this->grab]));
+        $items = $productsHandler->getRecentProducts(new \XoopsModules\Oledrion\Parameters(['start' => 0, 'limit' => $this->grab]));
         $i = 0;
 
         if (false !== $items && count($items) > 0) {
