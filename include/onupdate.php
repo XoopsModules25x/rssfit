@@ -37,6 +37,7 @@ function tableExists($tablename)
 
 /**
  * Prepares system prior to attempting to install module
+ * @param \XoopsModule $xoopsModule
  * @param null         $previousVersion
  * @return bool true if ready to install, false if not
  */

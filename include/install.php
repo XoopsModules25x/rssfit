@@ -22,6 +22,7 @@ require_once dirname(__DIR__) . '/preloads/autoloader.php';
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 /**
+ * @param \XoopsModule $xoopsMod
  * @return bool
  */
 function xoops_module_install_rssfit(\XoopsModule $xoopsMod)
@@ -60,7 +61,8 @@ function xoops_module_install_rssfit(\XoopsModule $xoopsMod)
 }
 
 /**
- * @param int         $oldversion version number of prevviously installed version
+ * @param \XoopsModule $xoopsMod
+ * @param int          $oldversion version number of prevviously installed version
  *
  * @return bool
  */

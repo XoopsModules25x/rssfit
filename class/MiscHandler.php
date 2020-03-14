@@ -60,6 +60,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param \XoopsDatabase|null $db
      * @return \XoopsModules\Rssfit\MiscHandler
      */
     public function getInstance(\XoopsDatabase $db = null)
@@ -171,6 +172,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param \XoopsObject $obj
      * @param bool         $force
      * @return array|bool|int|mixed|null
      */
@@ -260,6 +262,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param \XoopsObject $category
      * @param bool         $force
      * @return bool
      */

@@ -62,6 +62,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param \XoopsDatabase|null $db
      * @return \XoopsModules\Rssfit\PluginHandler
      */
     public function getInstance(\XoopsDatabase $db = null)
@@ -109,6 +110,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param \XoopsObject $obj
      * @param bool         $force
      * @return array|bool|int|mixed|null
      */
@@ -164,6 +166,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param \XoopsObject $category
      * @param bool         $force
      * @return bool
      */

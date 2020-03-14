@@ -112,8 +112,7 @@ switch ($op) {
                 if ($handler) {
                     $ret .= $handler->modname;
                     $action->addOption('a', _AM_PLUGIN_ACTIVATE);
-                } else {
-                    if (count($p->getErrors()) > 0) {
+                } elseif (count($p->getErrors()) > 0) {
                         $ret .= '<b>' . _ERRORS . "</b>\n";
                         foreach ($p->getErrors() as $e) {
                             $ret .= '<br>' . $e;
@@ -121,7 +120,6 @@ switch ($op) {
                     } else {
                         $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . '</b>';
                     }
-                }
                 $ret .= "</td>\n";
                 $action->addOption('u', _AM_PLUGIN_UNINSTALL);
                 $ret .= "<td class='odd' align='center'>" . $action->render() . "</td>\n";
