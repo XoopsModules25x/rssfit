@@ -107,7 +107,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null|\CriteriaElement $criteria
+     * @param null|\Criteria|\CriteriaCompo $criteria
      * @return bool|int
      */
     public function getCount($criteria = null)

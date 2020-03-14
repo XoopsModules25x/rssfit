@@ -190,7 +190,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null|\CriteriaElement   $criteria
+     * @param null|\Criteria|\CriteriaCompo $criteria
      * @param string $fields
      * @param string $key
      * @return bool
@@ -278,7 +278,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null|\CriteriaElement $criteria
+     * @param null|\Criteria|\CriteriaCompo $criteria
      * @return bool|int
      */
     public function getCount($criteria = null)

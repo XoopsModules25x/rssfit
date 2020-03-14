@@ -15,6 +15,8 @@ namespace XoopsModules\Rssfit\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use XoopsModules\Rssfit\Helper;
+
 /**
  * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2000-2020 &copy; XOOPS Project
@@ -152,6 +154,9 @@ class SysUtility
             $options['height'] = '400px';
         }
 
+        if (null === $helper) {
+         $helper = Helper::getInstance();
+        }
         $isAdmin = $helper->isUserAdmin();
 
         if (class_exists('XoopsFormEditor')) {
