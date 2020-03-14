@@ -31,24 +31,24 @@ if ($intr) {
 }
 switch ($op) {
     default:
-        $title = new \XoopsFormText(_AM_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
-        $title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
+        $title = new \XoopsFormText(_AM_RSSFIT_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
+        $title->setDescription(_AM_RSSFIT_EDIT_INTRO_TITLE_DESC);
 
         $setting = $intro->getVar('misc_setting');
-        $tray_content = new \XoopsFormElementTray(_AM_EDIT_INTRO_TEXT, '<br>');
-        $tray_content->setDescription(_AM_EDIT_INTRO_TEXT_DESC . _AM_EDIT_INTRO_TEXT_DESC_SUB);
+        $tray_content = new \XoopsFormElementTray(_AM_RSSFIT_EDIT_INTRO_TEXT, '<br>');
+        $tray_content->setDescription(_AM_RSSFIT_EDIT_INTRO_TEXT_DESC . _AM_RSSFIT_EDIT_INTRO_TEXT_DESC_SUB);
         $tray_content->addElement(new \XoopsFormDhtmlTextArea('', 'content', $intro->getVar('misc_content', 'e'), 15, 60));
         $dohtml = new \XoopsFormCheckbox('', 'dohtml', $setting['dohtml']);
-        $dohtml->addOption(1, _AM_DO_HTML);
+        $dohtml->addOption(1, _AM_RSSFIT_DO_HTML);
         $tray_content->addElement($dohtml);
         $dobr = new \XoopsFormCheckbox('', 'dobr', $setting['dobr']);
-        $dobr->addOption(1, _AM_DO_BR);
+        $dobr->addOption(1, _AM_RSSFIT_DO_BR);
         $tray_content->addElement($dobr);
 
-        $sub = new \XoopsFormTextArea(_AM_EDIT_INTRO_SUB, 'sub', $myts->htmlSpecialChars($myts->stripSlashesGPC($setting['sub'])));
-        $sub->setDescription(_AM_EDIT_INTRO_SUB_DESC);
+        $sub = new \XoopsFormTextArea(_AM_RSSFIT_EDIT_INTRO_SUB, 'sub', $myts->htmlSpecialChars($myts->stripSlashesGPC($setting['sub'])));
+        $sub->setDescription(_AM_RSSFIT_EDIT_INTRO_SUB_DESC);
 
-        $form = new \XoopsThemeForm(_AM_EDIT_INTRO, 'editintro', RSSFIT_ADMIN_URL);
+        $form = new \XoopsThemeForm(_AM_RSSFIT_EDIT_INTRO, 'editintro', RSSFIT_ADMIN_URL);
         $form->addElement($title);
         $form->addElement($tray_content);
         $form->addElement($sub);

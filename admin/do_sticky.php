@@ -32,25 +32,25 @@ if ($intr) {
 switch ($op) {
     default:
         $setting = $sticky->getVar('misc_setting');
-        $title = new \XoopsFormText(_AM_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
-        $title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
+        $title = new \XoopsFormText(_AM_RSSFIT_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
+        $title->setDescription(_AM_RSSFIT_EDIT_INTRO_TITLE_DESC);
 
-        $tray_content = new \XoopsFormElementTray(_AM_STICKY_CONTENT, '<br>');
-        $tray_content->setDescription(_AM_EDIT_INTRO_TEXT_DESC);
+        $tray_content = new \XoopsFormElementTray(_AM_RSSFIT_STICKY_CONTENT, '<br>');
+        $tray_content->setDescription(_AM_RSSFIT_EDIT_INTRO_TEXT_DESC);
         $content = new \XoopsFormTextArea('', 'content', $sticky->getVar('misc_content', 'e'), 10);
         $tray_content->addElement($content);
         $dohtml = new \XoopsFormCheckbox('', 'dohtml', $setting['dohtml']);
-        $dohtml->addOption(1, _AM_DO_HTML);
+        $dohtml->addOption(1, _AM_RSSFIT_DO_HTML);
         $tray_content->addElement($dohtml);
         $dobr = new \XoopsFormCheckbox('', 'dobr', $setting['dobr']);
-        $dobr->addOption(1, _AM_DO_BR);
+        $dobr->addOption(1, _AM_RSSFIT_DO_BR);
         $tray_content->addElement($dobr);
 
-        $link = new \XoopsFormText(_AM_STICKY_LINK, 'link', 50, 255, $myts->htmlSpecialChars($myts->stripSlashesGPC($setting['link'])));
+        $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255, $myts->htmlSpecialChars($myts->stripSlashesGPC($setting['link'])));
 
-        $applyto = $feedHandler->feedSelectBox(_AM_STICKY_APPLYTO, $setting['feeds'], 10);
+        $applyto = $feedHandler->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds'], 10);
 
-        $form = new \XoopsThemeForm(_AM_STICKY_EDIT, 'editsticky', RSSFIT_ADMIN_URL);
+        $form = new \XoopsThemeForm(_AM_RSSFIT_STICKY_EDIT, 'editsticky', RSSFIT_ADMIN_URL);
         $form->addElement($title);
         $form->addElement($tray_content);
         $form->addElement($link);

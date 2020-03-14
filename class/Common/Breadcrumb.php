@@ -1,4 +1,6 @@
-<?php namespace Xoopsmodules\rssfit\common;
+<?php
+
+namespace XoopsModules\Rssfit\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -12,34 +14,31 @@
 /**
  * Breadcrumb Class
  *
- * @copyright   The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      lucio <lucio.rota@gmail.com>
- * @package     rss
+ * @package     rssfit
  *
  * Example:
- * $breadcrumb = new Breadcrumb();
+ * $breadcrumb = new PedigreeBreadcrumb();
  * $breadcrumb->addLink( 'bread 1', 'index1.php' );
  * $breadcrumb->addLink( 'bread 2', '' );
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-defined('XOOPS_ROOT_PATH') || exit('XOOPS Root Path not defined');
+defined('XOOPS_ROOT_PATH') || die('XOOPS Root Path not defined');
 
 /**
- * Class PedigreeBreadcrumb
+ * Class Breadcrumb
  */
 class Breadcrumb
 {
     public $dirname;
     private $bread = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
-        $this->dirname = basename(dirname(__DIR__));
+        $this->dirname = basename(dirname(dirname(__DIR__)));
     }
 
     /**
@@ -51,14 +50,13 @@ class Breadcrumb
     public function addLink($title = '', $link = '')
     {
         $this->bread[] = [
-            'link'  => $link,
-            'title' => $title
+            'link' => $link,
+            'title' => $title,
         ];
     }
 
     /**
      * Render Pedigree BreadCrumb
-     *
      */
     public function render()
     {

@@ -78,7 +78,7 @@ class Utility extends Common\SysUtility
      */
     public static function genSpecMoreInfo($spec, $feedHandler)
     {
-        return static::rssfGenAnchor($feedHandler->specUrl($spec), _AM_EDIT_CHANNEL_QMARK, 'spec', _AM_EDIT_CHANNEL_MOREINFO);
+        return static::rssfGenAnchor($feedHandler->specUrl($spec), _AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', _AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
     }
 
     /**

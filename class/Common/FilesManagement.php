@@ -1,4 +1,6 @@
-<?php namespace Xoopsmodules\rssfit\common;
+<?php
+
+namespace XoopsModules\Rssfit\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -21,14 +23,12 @@ trait FilesManagement
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
      * @param string $folder The full path of the directory to check
-     *
-     * @return void
      */
     public static function createFolder($folder)
     {
         try {
             if (!file_exists($folder)) {
-                if (!mkdir($folder) && !is_dir($folder)) {
+                if (!is_dir($folder) && !mkdir($folder) && !is_dir($folder)) {
                     throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
                 }
 
@@ -57,14 +57,15 @@ trait FilesManagement
     {
         $dir = opendir($src);
         //        @mkdir($dst);
-        if (!mkdir($dst) && !is_dir($dst)) {
-            while (false !== ($file = readdir($dir))) {
-                if (('.' !== $file) && ('..' !== $file)) {
-                    if (is_dir($src . '/' . $file)) {
-                        self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
-                    } else {
-                        copy($src . '/' . $file, $dst . '/' . $file);
-                    }
+        if (!@mkdir($dst) && !is_dir($dst)) {
+            throw new \RuntimeException('The directory ' . $dst . ' could not be created.');
+        }
+        while (false !== ($file = readdir($dir))) {
+            if (('.' !== $file) && ('..' !== $file)) {
+                if (is_dir($src . '/' . $file)) {
+                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                } else {
+                    copy($src . '/' . $file, $dst . '/' . $file);
                 }
             }
         }
@@ -72,7 +73,6 @@ trait FilesManagement
     }
 
     /**
-     *
      * Remove files and (sub)directories
      *
      * @param string $src source directory to delete
@@ -102,13 +102,11 @@ trait FilesManagement
                     if (!$success = self::deleteDirectory($fileInfo->getRealPath())) {
                         break;
                     }
-                } else {
-                    // delete the file
-                    if (!($success = unlink($fileInfo->getRealPath()))) {
+                } elseif (!($success = unlink($fileInfo->getRealPath()))) {
                         break;
                     }
                 }
-            }
+
             // now delete this (sub)directory if all the files are gone
             if ($success) {
                 $success = rmdir($dirInfo->getRealPath());
@@ -117,11 +115,11 @@ trait FilesManagement
             // input is not a valid directory
             $success = false;
         }
+
         return $success;
     }
 
     /**
-     *
      * Recursively remove directory
      *
      * @todo currently won't remove directories with hidden files, should it?
@@ -149,7 +147,7 @@ trait FilesManagement
         foreach ($iterator as $fObj) {
             if ($fObj->isFile()) {
                 $filename = $fObj->getPathname();
-                $fObj     = null; // clear this iterator object to close the file
+                $fObj = null; // clear this iterator object to close the file
                 if (!unlink($filename)) {
                     return false; // couldn't delete the file
                 }
@@ -183,7 +181,7 @@ trait FilesManagement
         }
 
         // If the destination directory does not exist and could not be created stop processing
-        if (!is_dir($dest) && !mkdir($dest, 0755)) {
+        if (!is_dir($dest) && !mkdir($dest) && !is_dir($dest)) {
             return false;
         }
 
@@ -226,7 +224,7 @@ trait FilesManagement
         }
 
         // If the destination directory does not exist and could not be created stop processing
-        if (!is_dir($dest) && !mkdir($dest, 0755)) {
+        if (!is_dir($dest) && !mkdir($dest) && !is_dir($dest)) {
             return false;
         }
 
@@ -239,6 +237,7 @@ trait FilesManagement
                 self::rcopy($fObj->getPathname(), "{$dest}/" . $fObj->getFilename());
             }
         }
+
         return true;
     }
 }

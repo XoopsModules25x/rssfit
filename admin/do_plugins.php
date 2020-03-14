@@ -34,19 +34,19 @@ switch ($op) {
         if ($plugins) {
             $ret .= "<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='5'>"
-                    . _AM_PLUGIN_ACTIVATED
+                    . _AM_RSSFIT_PLUGIN_ACTIVATED
                     . "</th></tr>\n"
                     . "<tr>\n<td class='head' align='center' width='30%'>"
-                    . _AM_PLUGIN_FILENAME
+                    . _AM_RSSFIT_PLUGIN_FILENAME
                     . "</td>\n"
                     . "<td class='head' align='center'>"
-                    . _AM_PLUGIN_MODNAME
+                    . _AM_RSSFIT_PLUGIN_MODNAME
                     . "</td>\n"
                     . "<td class='head' align='center'>"
-                    . _AM_PLUGIN_SHOWXENTRIES
+                    . _AM_RSSFIT_PLUGIN_SHOWXENTRIES
                     . "</td>\n"
                     . "<td class='head' align='center'>"
-                    . _AM_PLUGIN_ORDER
+                    . _AM_RSSFIT_PLUGIN_ORDER
                     . "</td>\n"
                     . "<td class='head' align='center' width='20%'>"
                     . _AM_ACTION
@@ -60,8 +60,8 @@ switch ($op) {
                     $order = new \XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
                     $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
                     $action->addOption('', _SELECT);
-                    $action->addOption('d', _AM_PLUGIN_DEACTIVATE);
-                    $action->addOption('u', _AM_PLUGIN_UNINSTALL);
+                    $action->addOption('d', _AM_RSSFIT_PLUGIN_DEACTIVATE);
+                    $action->addOption('u', _AM_RSSFIT_PLUGIN_UNINSTALL);
                     $ret .= "<tr>\n"
                             . "<td class='odd' align='center'>"
                             . $p->getVar('rssf_filename')
@@ -91,13 +91,13 @@ switch ($op) {
         if ($plugins) {
             $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='3'>"
-                    . _AM_PLUGIN_INACTIVE
+                    . _AM_RSSFIT_PLUGIN_INACTIVE
                     . "</th></tr>\n"
                     . "<tr>\n<td class='head' align='center' width='30%'>"
-                    . _AM_PLUGIN_FILENAME
+                    . _AM_RSSFIT_PLUGIN_FILENAME
                     . "</td>\n"
                     . "<td class='head' align='center'>"
-                    . _AM_PLUGIN_MODNAME
+                    . _AM_RSSFIT_PLUGIN_MODNAME
                     . "</td>\n"
                     . "<td class='head' align='center' width='20%'>"
                     . _AM_ACTION
@@ -111,17 +111,17 @@ switch ($op) {
                 $handler = $pluginsHandler->checkPlugin($p);
                 if ($handler) {
                     $ret .= $handler->modname;
-                    $action->addOption('a', _AM_PLUGIN_ACTIVATE);
+                    $action->addOption('a', _AM_RSSFIT_PLUGIN_ACTIVATE);
                 } elseif (count($p->getErrors()) > 0) {
                         $ret .= '<b>' . _ERRORS . "</b>\n";
                         foreach ($p->getErrors() as $e) {
                             $ret .= '<br>' . $e;
                         }
                     } else {
-                        $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . '</b>';
+                        $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
                     }
                 $ret .= "</td>\n";
-                $action->addOption('u', _AM_PLUGIN_UNINSTALL);
+                $action->addOption('u', _AM_RSSFIT_PLUGIN_UNINSTALL);
                 $ret .= "<td class='odd' align='center'>" . $action->render() . "</td>\n";
             }
             $ret .= "</table>\n";
@@ -147,16 +147,16 @@ switch ($op) {
         if (count($installable) > 0) {
             $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='3'>"
-                    . _AM_PLUGIN_NONINSTALLED
+                    . _AM_RSSFIT_PLUGIN_NONINSTALLED
                     . "</th></tr>\n"
                     . "<tr>\n<td class='head' align='center' width='30%'>"
-                    . _AM_PLUGIN_FILENAME
+                    . _AM_RSSFIT_PLUGIN_FILENAME
                     . "</td>\n"
                     . "<td class='head' align='center'>"
-                    . _AM_PLUGIN_MODNAME
+                    . _AM_RSSFIT_PLUGIN_MODNAME
                     . "</td>\n"
                     . "<td class='head' align='center' width='20%'>"
-                    . _AM_PLUGIN_INSTALL
+                    . _AM_RSSFIT_PLUGIN_INSTALL
                     . "</td>\n"
                     . "</tr>\n";
             foreach ($installable as $i) {
@@ -175,7 +175,7 @@ switch ($op) {
                             $ret .= '<br>' . $e;
                         }
                     } else {
-                        $ret .= '<b>' . _AM_PLUGIN_UNKNOWNERROR . '</b>';
+                        $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
                     }
                     $action->setExtra('disabled="disabled"');
                 }

@@ -344,24 +344,24 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             if (class_exists($class)) {
                 $handler = new $class();
                 if (!method_exists($handler, 'loadmodule') || !method_exists($handler, 'grabentries')) {
-                    $obj->setErrors(_AM_PLUGIN_FUNCNOTFOUND);
+                    $obj->setErrors(_AM_RSSFIT_PLUGIN_FUNCNOTFOUND);
                 } else {
                     $dirname = $handler->dirname;
                     if (!empty($dirname) && is_dir(XOOPS_ROOT_PATH . '/modules/' . $dirname)) {
                         if (!$handler->loadModule()) {
-                            $obj->setErrors(_AM_PLUGIN_MODNOTFOUND);
+                            $obj->setErrors(_AM_RSSFIT_PLUGIN_MODNOTFOUND);
                         } else {
                             $ret = $handler;
                         }
                     } else {
-                        $obj->setErrors(_AM_PLUGIN_MODNOTFOUND);
+                        $obj->setErrors(_AM_RSSFIT_PLUGIN_MODNOTFOUND);
                     }
                 }
             } else {
-                $obj->setErrors(_AM_PLUGIN_CLASSNOTFOUND . ' ' . $class);
+                $obj->setErrors(_AM_RSSFIT_PLUGIN_CLASSNOTFOUND . ' ' . $class);
             }
         } else {
-            $obj->setErrors(_AM_PLUGIN_FILENOTFOUND);
+            $obj->setErrors(_AM_RSSFIT_PLUGIN_FILENOTFOUND);
         }
 
         return $ret;

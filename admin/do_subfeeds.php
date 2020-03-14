@@ -30,16 +30,16 @@ switch ($op) {
         if ($plugins) {
             $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='4'>"
-                    . _AM_SUB_LIST
+                    . _AM_RSSFIT_SUB_LIST
                     . "</th></tr>\n"
                     . "<tr>\n<td class='head' align='center'>"
-                    . _AM_SUB_FILENAME_URL
+                    . _AM_RSSFIT_SUB_FILENAME_URL
                     . "</td>\n"
                     . "<td class='head' align='center'>"
-                    . _AM_PLUGIN_MODNAME
+                    . _AM_RSSFIT_PLUGIN_MODNAME
                     . "</td>\n"
                     . "<td class='head' align='center'>"
-                    . _AM_SUB_ACTIVATE
+                    . _AM_RSSFIT_SUB_ACTIVATE
                     . "</td>\n"
                     . "<td class='head' align='center'>&nbsp;</td>\n"
                     . "</tr>\n";
@@ -55,7 +55,7 @@ switch ($op) {
                 } else {
                     $mod = $handler->modname;
                     $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
-                    $config = Rssfit\Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
+                    $config = Rssfit\Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_RSSFIT_SUB_CONFIGURE);
                     $urlLink = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
                 }
                 $activate->addOption(1, ' ');
@@ -91,7 +91,7 @@ switch ($op) {
                       . "\n</td></tr></table></form>";
             echo $ret;
         } else {
-            echo '<p><b>' . _AM_PLUGIN_NONE . '</b></p>';
+            echo '<p><b>' . _AM_RSSFIT_PLUGIN_NONE . '</b></p>';
         }
         break;
     case 'save':
@@ -107,7 +107,7 @@ switch ($op) {
             }
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
         } else {
-            redirect_header(RSSFIT_ADMIN_URL, 0, _AM_PLUGIN_NONE);
+            redirect_header(RSSFIT_ADMIN_URL, 0, _AM_RSSFIT_PLUGIN_NONE);
         }
         break;
     case 'edit':
@@ -119,18 +119,18 @@ switch ($op) {
             }
         }
         if (empty($id) || !$sub) {
-            redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
+            redirect_header(RSSFIT_ADMIN_URL, 0, _AM_RSSFIT_SUB_PLUGIN_NONE);
         }
-        $form = new \XoopsThemeForm(sprintf(_AM_SUB_EDIT, $handler->modname), 'editsub', RSSFIT_ADMIN_URL);
-        $form->addElement(new \XoopsFormRadioYN(_AM_SUB_ACTIVATE, 'subfeed', $sub->getVar('subfeed')));
-        $form->addElement(new \XoopsFormText(_AM_PLUGIN_SHOWXENTRIES, 'sub_entries', 3, 2, $sub->getVar('sub_entries')), true);
+        $form = new \XoopsThemeForm(sprintf(_AM_RSSFIT_SUB_EDIT, $handler->modname), 'editsub', RSSFIT_ADMIN_URL);
+        $form->addElement(new \XoopsFormRadioYN(_AM_RSSFIT_SUB_ACTIVATE, 'subfeed', $sub->getVar('subfeed')));
+        $form->addElement(new \XoopsFormText(_AM_RSSFIT_PLUGIN_SHOWXENTRIES, 'sub_entries', 3, 2, $sub->getVar('sub_entries')), true);
 
-        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . Rssfit\Utility::genSpecMoreInfo('req', $feedHandler)));
+        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_RSSFIT_EDIT_CHANNEL_REQUIRED . '</b> ' . Rssfit\Utility::genSpecMoreInfo('req', $feedHandler)));
         $form->addElement(new \XoopsFormText('title', 'sub_title', 50, 255, $sub->getVar('sub_title', 'e')), true);
         $form->addElement(new \XoopsFormText('link', 'sub_link', 50, 255, $sub->getVar('sub_link', 'e')), true);
         $form->addElement(new \XoopsFormTextArea('description', 'sub_desc', $sub->getVar('sub_desc', 'e')), true);
 
-        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_IMAGE . '</b> ' . Rssfit\Utility::genSpecMoreInfo('img', $feedHandler)));
+        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_RSSFIT_EDIT_CHANNEL_IMAGE . '</b> ' . Rssfit\Utility::genSpecMoreInfo('img', $feedHandler)));
         $form->addElement(new \XoopsFormText('url', 'img_url', 50, 255, $sub->getVar('img_url', 'e')));
         $form->addElement(new \XoopsFormText('link', 'img_link', 50, 255, $sub->getVar('img_link', 'e')));
         $form->addElement(new \XoopsFormText('title', 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
@@ -150,7 +150,7 @@ switch ($op) {
             }
         }
         if (empty($id) || !$sub || !$handler) {
-            redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
+            redirect_header(RSSFIT_ADMIN_URL, 0, _AM_RSSFIT_SUB_PLUGIN_NONE);
         }
 
         $subfeed = Request::getBool('subfeed', false, 'POST');
