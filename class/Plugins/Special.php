@@ -14,7 +14,7 @@
  * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
- * @author       NS Tai (aka tuff) <http://www.brandycoke.com/>
+ * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
 
@@ -36,9 +36,9 @@
  *         "About this RSSFit plug-in" section located below.
  *
  * About this RSSFit plug-in
- * Author: John Doe <http://www.your.site/>
+ * Author: John Doe <http://www.your.site>
  * Requirements (or Tested with):
- *  Module: Blah <http://www.where.to.find.it/>
+ *  Module: Blah <http://www.where.to.find.it>
  *  Version: 1.0
  *  RSSFit verision: 1.2 / 1.5
  *  XOOPS version: 2.0.13.2 / 2.2.3

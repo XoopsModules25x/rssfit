@@ -5,7 +5,7 @@
 <{foreach from=$feed.channel key='ch_key' item='ch_var'}>
         <<{$ch_key}>><{$ch_var}></<{$ch_key}>>
 <{/foreach}>
-<atom:link href="<{$xoops_url}><{$smarty.server.REQUEST_URI}>" rel="self" type="application/rss+xml" />
+<atom:link href="<{$xoops_url}><{$smarty.server.REQUEST_URI}>" rel="self" type="application/rss+xml">
 <{if $feed.image != ''}>
         <image>
             <title><{$feed.image.title}></title>
@@ -44,7 +44,7 @@
                         <{if $exv.content != ''}>
                                     ><{$exv.content}></<{$exk}>>
                         <{else}>
-                                    />
+                                   >
                         <{/if}>
                     <{/foreach}>
                 <{/if}>

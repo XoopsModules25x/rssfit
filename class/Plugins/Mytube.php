@@ -14,13 +14,13 @@
  * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
- * @author       NS Tai (aka tuff) <http://www.brandycoke.com/>
+ * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
 
 /**
  * About this RSSFit plug-in
- * Author: jayjay <http://www.sint-niklaas.be/>
+ * Author: jayjay <http://www.sint-niklaas.be>
  * Requirements (Tested with):
  *  Module: MyTube
  *  Version: 1.0

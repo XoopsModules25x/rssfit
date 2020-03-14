@@ -46,7 +46,7 @@ class Utility extends Common\SysUtility
         }else{
             include RSSFIT_ROOT_PATH.'language/english/modinfo.php';
         }
-        include 'menu.php';
+        require __DIR__ . '/menu.php';
         for($i=0, $iMax = count($adminmenu); $i < $iMax; $i++ ){
             $links[$i] = [0 => RSSFIT_URL . $adminmenu[$i]['link'], 1 => $adminmenu[$i]['title']];
         }
@@ -55,7 +55,7 @@ class Utility extends Common\SysUtility
         for($i=0, $iMax = count($links); $i < $iMax; $i++ ){
             $admin_links .= '<td class="even" style="width: 16%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
         }
-        $admin_links .= "</tr></table><br clear=all />\n";
+        $admin_links .= "</tr></table><br clear=all>\n";
         xoops_cp_header();
         echo $admin_links;
     }

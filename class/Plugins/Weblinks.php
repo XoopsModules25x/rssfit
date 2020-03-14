@@ -13,14 +13,14 @@
  * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
- * @author       NS Tai (aka tuff) <http://www.brandycoke.com/>
+ * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
 /*
 * About this RSSFit plug-in
-* Author: tuff <http://www.brandycoke.com/>
+* Author: tuff <http://www.brandycoke.com>
 * Requirements (Tested with):
-*  Module: MyLinks <https://xoops.org/>
+*  Module: MyLinks <https://xoops.org>
 *  Version: 1.1
 *  RSSFit verision: 1.2 / 1.5
 *  XOOPS version: 2.0.13.2 / 2.2.3
@@ -103,7 +103,7 @@ class Weblinks
             $ret[$i]['timestamp']   = $row['time_update'];
             $desc                   = '<p><a href="' . $row['url'] . '"><b>' . $title . '</b></a><br> ';
             $desc                   .= 'Submitted by: <i>' . $name . '</i><br>';
-            $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all"/>';
+            $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
             $ret[$i]['description'] = $desc;
             $ret[$i]['guid']        = $link;
             $ret[$i]['category']    = $this->modname;
