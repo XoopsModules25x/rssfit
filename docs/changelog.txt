@@ -1,4 +1,9 @@
-<h5>1.31 Beta 2  [NOT RELEASED]</h5>
+<h5>1.32.0 Beta 1  [NOT RELEASED]</h5>
+<hr>
+- namespaces (mamba)
+- autoloading (mamba)
+
+<h5>1.31.0 Beta 2  [NOT RELEASED]</h5>
 <hr>
 - move files up
 - Unnecessary double quotes (mamba)
@@ -18,9 +23,11 @@
 - added URL links for active plugins in sub-feeds (mamba)
 - added Publisher plugin (mamba)
 
-<h5>1.31 Beta 1     [2017-10-24]</h5>
+
+<h5>1.31.0 Beta 1     [2017-10-24]</h5>
 <hr>
 - Converted to XOOPS 2.5.9/Xmf Admin GUI, PHP 7 compliance (geekwright)
+
 
 <h5>1.30 Beta 1     2014-03-03]</h5>
 <hr>

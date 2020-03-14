@@ -8,38 +8,35 @@
  * @link            https://xoops.org XOOPS
  */
 
-use XoopsModules\Rss;
+use XoopsModules\Rssfit;
 
 /**
  * Prepares system prior to attempting to uninstall module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to uninstall, false if not
  */
-
-function xoops_module_pre_uninstall_rss(\XoopsModule $module)
+function xoops_module_pre_uninstall_rssfit(\XoopsModule $module)
 {
     // Do some synchronization
     return true;
 }
 
 /**
- *
  * Performs tasks required during uninstallation of the module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_rss(\XoopsModule $module)
+function xoops_module_uninstall_rssfit(\XoopsModule $module)
 {
     //    return true;
 
     $moduleDirName      = basename(dirname(__DIR__));
-    $moduleDirNameUpper = strtoupper($moduleDirName);
-    $helper             = Rss\Helper::getInstance();
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $helper = Rssfit\Helper::getInstance();
 
-    /** @var Rss\Utility $utility */
-    $utility = new Rss\Utility();
+    $utility = new Rssfit\Utility();
 
     $success = true;
     $helper->loadLanguage('admin');

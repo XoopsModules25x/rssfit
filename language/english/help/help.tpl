@@ -14,19 +14,19 @@
         extract the module folder into the ../modules directory. Install the
         module through Admin -> System Module -> Modules.<br> <br>
         Detailed instructions on installing modules are available in the
-        <a href="https://www.gitbook.com/book/xoops/xoops-operations-guide/" target="_blank">Chapter 2.12 of our XOOPS Operations Manual</a></p>
+        <a href="https://xoops.gitbook.io/xoops-operations-guide/" target="_blank">Chapter 2.12 of our XOOPS Operations Manual</a></p>
 
     <p class="even">Some modules may come with a plugin that needs to be installed before use. You install a plugin,
-        a file name rssfit.<em>module</em>.php by copying it to the module/rss/plugins directory. You will
+        a file name rssfit.<em>module</em>.php by copying it to the module/rssfit/plugins directory. You will
         need to activate the new plugin in the <em>Plug-ins</em> administration panel.</p>
 
     <h4 class="odd">OPERATING INSTRUCTIONS</h4><br>
 
     <p class="even">Configure the rss feed in the administration area, activating the plugins
         applicable to your system and needs. You can test your feed on the user side by visting
-        the <em>rss</em> module.</p>
+        the <em>rssfit</em> module.</p>
 
-    <p class="even">You can access the feed directly <a href="<{$xoops_url}>/modules/rss/rss.php" rel="external"><em>your-site-URL</em>/modules/rss/rss.php</a></p>
+    <p class="even">You can access the feed directly <a href="<{$xoops_url}>/modules/rssfit/rss.php" rel="external"><em>your-site-URL</em>/modules/rssfit/rss.php</a></p>
 
     <h4 class="odd">Creating Plugins</h4>
 
@@ -38,14 +38,14 @@
     <p class="even">
         This module and its operations are very simple.<br> <br>
         Detailed instructions on configuring the access rights for user groups are available in the
-        <a href="https://www.gitbook.com/book/xoops/xoops-operations-guide/" target="_blank">Chapter 2.8 of our XOOPS Operations Manual</a><br> <br></p>
+        <a href="https://xoops.gitbook.io/xoops-operations-guide/" target="_blank">Chapter 2.8 of our XOOPS Operations Manual</a><br> <br></p>
 
     <h4 class="odd">TUTORIAL</h4> <br>
 
     <p class="even">
-        Tutorial has been started, but we might need your help! Please check out the status of the tutorial <a href="https://www.gitbook.com/book/xoops/ZZZZZZZZ-tutorial/" target="_blank">here </a>.
+        Tutorial has been started, but we might need your help! Please check out the status of the tutorial <a href="https://xoops.gitbook.io/ZZZZZZZZ-tutorial/" target="_blank">here </a>.
         <br><br>To contribute to this Tutorial, <a href="https://github.com/XoopsDocs/ZZZZZZZZ-tutorial/" target="_blank">please fork it on GitHub</a>.
-        <br> This document describes our <a href="https://www.gitbook.com/book/xoops/xoops-documentation-process/details/" target="_blank">Documentation Process</a> and it will help you to understand how to contribute.
+        <br> This document describes our <a href="https://xoops.gitbook.io/xoops-documentation-process/details/" target="_blank">Documentation Process</a> and it will help you to understand how to contribute.
         <br><br>
         There are more XOOPS Tutorials, so check them out in our <a href="https://www.gitbook.com/@xoops/" target="_blank">XOOPS Tutorial Repository on GitBook</a>.
     </p>

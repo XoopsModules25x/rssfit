@@ -1,84 +1,95 @@
 <?php
-###############################################################################
-##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
-##                       <http://www.brandycoke.com/>                        ##
-###############################################################################
-##                    XOOPS - PHP Content Management System                  ##
-##                       Copyright (c) 2000 XOOPS.org                        ##
-##                          <http://www.xoops.org/>                          ##
-###############################################################################
-##  This program is free software; you can redistribute it and/or modify     ##
-##  it under the terms of the GNU General Public License as published by     ##
-##  the Free Software Foundation; either version 2 of the License, or        ##
-##  (at your option) any later version.                                      ##
-##                                                                           ##
-##  You may not change or alter any portion of this comment or credits       ##
-##  of supporting developers from this source code or any supporting         ##
-##  source code which is considered copyrighted (c) material of the          ##
-##  original comment or credit authors.                                      ##
-##                                                                           ##
-##  This program is distributed in the hope that it will be useful,          ##
-##  but WITHOUT ANY WARRANTY; without even the implied warranty of           ##
-##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            ##
-##  GNU General Public License for more details.                             ##
-##                                                                           ##
-##  You should have received a copy of the GNU General Public License        ##
-##  along with this program; if not, write to the Free Software              ##
-##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
-###############################################################################
-##  Author of this file: NS Tai (aka tuff)                                   ##
-##  URL: http://www.brandycoke.com/                                          ##
-##  Project: RSSFit                                                          ##
-###############################################################################
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright    XOOPS Project https://xoops.org/
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @package      RSSFit - Extendable XML news feed generator
+ * @author       NS Tai (aka tuff) <http://www.brandycoke.com/>
+ * @author       XOOPS Development Team
+ */
 
 use Xmf\Request;
-use XoopsModules\Rss;
+use XoopsModules\Rssfit;
 
-if (!preg_match('#/rss/admin/#', $_SERVER['PHP_SELF'])) {
+if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
     header('Location: index.php');
 }
 
 switch ($op) {
     default:
         $ret = '';
-        if ($plugins = $pluginsHandler->getObjects(null, 'sublist')) {
+        $plugins = $pluginsHandler->getObjects2(null, 'sublist');
+        if ($plugins) {
             $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
-                . "<tr><th colspan='4'>" . _AM_SUB_LIST . "</th></tr>\n"
-                . "<tr>\n<td class='head' align='center'>" . _AM_SUB_FILENAME_URL . "</td>\n"
-                . "<td class='head' align='center'>" . _AM_PLUGIN_MODNAME . "</td>\n"
-                . "<td class='head' align='center'>" . _AM_SUB_ACTIVATE . "</td>\n"
-                . "<td class='head' align='center'>&nbsp;</td>\n"
-                . "</tr>\n";
+                    . "<tr><th colspan='4'>"
+                    . _AM_SUB_LIST
+                    . "</th></tr>\n"
+                    . "<tr>\n<td class='head' align='center'>"
+                    . _AM_SUB_FILENAME_URL
+                    . "</td>\n"
+                    . "<td class='head' align='center'>"
+                    . _AM_PLUGIN_MODNAME
+                    . "</td>\n"
+                    . "<td class='head' align='center'>"
+                    . _AM_SUB_ACTIVATE
+                    . "</td>\n"
+                    . "<td class='head' align='center'>&nbsp;</td>\n"
+                    . "</tr>\n";
             foreach ($plugins as $p) {
                 $id = $p->getVar('rssf_conf_id');
                 if (!$handler = $pluginsHandler->checkPlugin($p)) {
                     $pluginsHandler->forceDeactivate($p);
-                    $mod = implode('<br>', $p->getErrors());
+                    $mod      = implode('<br>', $p->getErrors());
                     $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
                     $activate->setExtra('disabled="disabled"');
-                    $config = '&nbsp;';
-                    $urlLink = $rss->subFeedUrl($p->getVar('rssf_filename'));
+                    $config  = '&nbsp;';
+                    $urlLink = $feedHandler->subFeedUrl($p->getVar('rssf_filename'));
                 } else {
-                    $mod = $handler->modname;
+                    $mod      = $handler->modname;
                     $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
-                    $config = rss\Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
-                    $urlLink = '<a href="' . $rss->subFeedUrl($p->getVar('rssf_filename'))  . '">' . $rss->subFeedUrl($p->getVar('rssf_filename'))  .'</a>';
+                    $config   = Rssfit\Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_SUB_CONFIGURE);
+                    $urlLink  = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
                 }
                 $activate->addOption(1, ' ');
                 $ret .= "<tr>\n"
-                    . "<td class='even'>" . $p->getVar('rssf_filename') . '<br>' . $urlLink . "</td>\n"
-                    . "<td class='even' align='center'>" . $mod . "</td>\n"
-                    . "<td class='odd' align='center'>" . $activate->render() . "</td>\n"
-                    . "<td class='even' align='center'>" . $config . "</td>\n";
+                        . "<td class='even'>"
+                        . $p->getVar('rssf_filename')
+                        . '<br>'
+                        . $urlLink
+                        . "</td>\n"
+                        . "<td class='even' align='center'>"
+                        . $mod
+                        . "</td>\n"
+                        . "<td class='odd' align='center'>"
+                        . $activate->render()
+                        . "</td>\n"
+                        . "<td class='even' align='center'>"
+                        . $config
+                        . "</td>\n";
                 $ret .= "</tr>\n";
             }
-            $ret .= "</table>\n";
+            $ret    .= "</table>\n";
             $hidden = new \XoopsFormHidden('op', 'save');
-            $ret = "<form action='" . RSSFIT_ADMIN_URL . "' method='post'>\n" . $ret
-                . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
-                . $tray_save_cancel->render() . "\n" . $hidden->render() . "\n"
-                . $hidden_do->render() . "\n</td></tr></table></form>";
+            $ret    = "<form action='"
+                      . RSSFIT_ADMIN_URL
+                      . "' method='post'>\n"
+                      . $ret
+                      . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
+                      . $tray_save_cancel->render()
+                      . "\n"
+                      . $hidden->render()
+                      . "\n"
+                      . $hidden_do->render()
+                      . "\n</td></tr></table></form>";
             echo $ret;
         } else {
             echo '<p><b>' . _AM_PLUGIN_NONE . '</b></p>';
@@ -87,10 +98,11 @@ switch ($op) {
     case 'save':
         $activate = Request::getArray('activate', null, 'POST');
 
-        if ($plugins = $pluginsHandler->getObjects(null, 'sublist')) {
+        $plugins = $pluginsHandler->getObjects2(null, 'sublist');
+        if ($plugins) {
             $pluginsHandler->modifyObjects(null, ['subfeed' => 0]);
             if (isset($activate) && is_array($activate) && count($activate) > 0) {
-                $keys = array_keys($activate);
+                $keys     = array_keys($activate);
                 $criteria = new \Criteria('rssf_conf_id', '(' . implode(',', $keys) . ')', 'IN');
                 $pluginsHandler->modifyObjects($criteria, ['subfeed' => 1]);
             }
@@ -114,12 +126,12 @@ switch ($op) {
         $form->addElement(new \XoopsFormRadioYN(_AM_SUB_ACTIVATE, 'subfeed', $sub->getVar('subfeed')));
         $form->addElement(new \XoopsFormText(_AM_PLUGIN_SHOWXENTRIES, 'sub_entries', 3, 2, $sub->getVar('sub_entries')), true);
 
-        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . rss\Utility::genSpecMoreInfo('req', $rss)));
+        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_REQUIRED . '</b> ' . Rssfit\Utility::genSpecMoreInfo('req', $feedHandler)));
         $form->addElement(new \XoopsFormText('title', 'sub_title', 50, 255, $sub->getVar('sub_title', 'e')), true);
         $form->addElement(new \XoopsFormText('link', 'sub_link', 50, 255, $sub->getVar('sub_link', 'e')), true);
         $form->addElement(new \XoopsFormTextArea('description', 'sub_desc', $sub->getVar('sub_desc', 'e')), true);
 
-        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_IMAGE . '</b> ' . rss\Utility::genSpecMoreInfo('img', $rss)));
+        $form->addElement(new \XoopsFormLabel('', '<b>' . _AM_EDIT_CHANNEL_IMAGE . '</b> ' . Rssfit\Utility::genSpecMoreInfo('img', $feedHandler)));
         $form->addElement(new \XoopsFormText('url', 'img_url', 50, 255, $sub->getVar('img_url', 'e')));
         $form->addElement(new \XoopsFormText('link', 'img_link', 50, 255, $sub->getVar('img_link', 'e')));
         $form->addElement(new \XoopsFormText('title', 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
@@ -142,16 +154,16 @@ switch ($op) {
             redirect_header(RSSFIT_ADMIN_URL, 0, _AM_SUB_PLUGIN_NONE);
         }
 
-        $subfeed = Request::getBool('subfeed', false, 'POST');
+        $subfeed     = Request::getBool('subfeed', false, 'POST');
         $sub_entries = Request::getInt('sub_entries', 5, 'POST');
-        $sub_title = Request::getString('sub_title', '', 'POST');
-        $sub_link = Request::getUrl('sub_link', '', 'POST');
-        $sub_desc = Request::getString('sub_desc', '', 'POST');
-        $img_url = Request::getUrl('img_url', '', 'POST');
-        $img_link = Request::getUrl('img_link', '', 'POST');
-        $img_title = Request::getString('img_title', '', 'POST');
+        $sub_title   = Request::getString('sub_title', '', 'POST');
+        $sub_link    = Request::getUrl('sub_link', '', 'POST');
+        $sub_desc    = Request::getString('sub_desc', '', 'POST');
+        $img_url     = Request::getUrl('img_url', '', 'POST');
+        $img_link    = Request::getUrl('img_link', '', 'POST');
+        $img_title   = Request::getString('img_title', '', 'POST');
 
-        $sub->setVar('subfeed', (int) $subfeed);
+        $sub->setVar('subfeed', (int)$subfeed);
         $sub->setVar('sub_entries', $sub_entries);
         $sub->setVar('sub_title', $sub_title);
         $sub->setVar('sub_link', $sub_link);

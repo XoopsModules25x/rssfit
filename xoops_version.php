@@ -1,44 +1,34 @@
 <?php
-###############################################################################
-##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
-##                       <http://www.brandycoke.com/>                        ##
-###############################################################################
-##                    XOOPS - PHP Content Management System                  ##
-##                       Copyright (c) 2000 XOOPS.org                        ##
-##                          <http://www.xoops.org/>                          ##
-###############################################################################
-##  This program is free software; you can redistribute it and/or modify     ##
-##  it under the terms of the GNU General Public License as published by     ##
-##  the Free Software Foundation; either version 2 of the License, or        ##
-##  (at your option) any later version.                                      ##
-##                                                                           ##
-##  You may not change or alter any portion of this comment or credits       ##
-##  of supporting developers from this source code or any supporting         ##
-##  source code which is considered copyrighted (c) material of the          ##
-##  original comment or credit authors.                                      ##
-##                                                                           ##
-##  This program is distributed in the hope that it will be useful,          ##
-##  but WITHOUT ANY WARRANTY; without even the implied warranty of           ##
-##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            ##
-##  GNU General Public License for more details.                             ##
-##                                                                           ##
-##  You should have received a copy of the GNU General Public License        ##
-##  along with this program; if not, write to the Free Software              ##
-##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
-###############################################################################
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright    XOOPS Project https://xoops.org/
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @package      RSSFit - Extendable XML news feed generator
+ * @author       NS Tai (aka tuff) <http://www.brandycoke.com/>
+ * @author       XOOPS Development Team
+ */
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 // ------------------- Informations ------------------- //
 $modversion = [
-    'version'             => 1.31,
+    'version'             => '1.31.0',
     'module_status'       => 'Beta 2',
-    'release_date'        => '2017/12/20',
+    'release_date'        => '2019/07/06',
     'name'                => _MI_RSSFIT_NAME,
     'description'         => _MI_RSSFIT_DESC,
     'official'            => 0,
@@ -54,7 +44,7 @@ $modversion = [
     // ------------------- Folders & Files -------------------
     'release_info'        => 'Changelog',
     'release_file'        => XOOPS_URL . "/modules/$moduleDirName/docs/changelog.txt",
-    //
+
     'manual'              => 'link to manual file',
     'manual_file'         => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
     // images
@@ -74,8 +64,8 @@ $modversion = [
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '5.5',
-    'min_xoops'           => '2.5.9',
+    'min_php'             => '5.6',
+    'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
     // ------------------- Admin Menu -------------------
@@ -91,17 +81,19 @@ $modversion = [
     //  'onUninstall'         => 'include/onuninstall.php',
     // -------------------  PayPal ---------------------------
     'paypal'              => [
-        'business'      => 'foundation@xoops.org',
+        'business'      => 'xoopsfoundation@gmail.com',
         'item_name'     => 'Donation : ' . _MI_RSSFIT_NAME,
         'amount'        => 0,
-        'currency_code' => 'USD'
+        'currency_code' => 'USD',
     ],
     // ------------------- Mysql -----------------------------
     'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
     // ------------------- Tables ----------------------------
-    'tables'              => [
+    'tables' => [
                 $moduleDirName . '_' . 'plugins',
                 $moduleDirName . '_' . 'misc',
+//        'rss' . '_' . 'plugins',
+//        'rss' . '_' . 'misc',
     ],
 ];
 
@@ -124,7 +116,7 @@ $modversion['templates'][] = [
     'description' => _MI_TMPL_RSS,
 ];
 
-//	Module Configs
+//  Module Configs
 // $helper->getConfig('overall_entries')
 
 $modversion['config'][] = [
@@ -206,4 +198,28 @@ $modversion['config'][] = [
     'valuetype'   => 'int',
     'default'     => 1,
     'options'     => [_MI_OUTOUT_MIME_XML => 1, _MI_OUTOUT_MIME_HTML => 2, _MI_OUTOUT_MIME_PHP => 3],
+];
+
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name' => 'displayDeveloperTools',
+    'title' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
+    'default' => 0,
 ];

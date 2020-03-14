@@ -13,18 +13,16 @@ use Xmf\Module\Admin;
 
 /**
  * @copyright    XOOPS Project (https://xoops.org)
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 
 require_once __DIR__ . '/admin_header.php';
 
-$moduleAdmin = Admin::getInstance();
-
-$moduleAdmin->displayNavigation(basename(__FILE__));
-Admin::setPaypal('xoopsfoundation@gmail.com');
-$moduleAdmin->displayAbout(false);
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject::setPaypal('xoopsfoundation@gmail.com');
+$adminObject->displayAbout(false);
 
 require_once __DIR__ . '/admin_footer.php';

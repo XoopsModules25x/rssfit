@@ -2,7 +2,7 @@
 // Module Info
 
 // The name of this module
-define('_MI_RSSFIT_NAME', 'XML (RSS feed)');
+define('_MI_RSSFIT_NAME', 'RSS feed');
 
 // A brief description of this module
 define('_MI_RSSFIT_DESC', 'Extendable XML news feed generator');
@@ -16,8 +16,7 @@ define('_MI_RSSFIT_ADMENU5', 'Sticky text');
 define('_MI_RSSFIT_INDEX', 'Home');
 define('_MI_RSSFIT_ABOUT', 'About');
 
-
-//	Module Configs
+//  Module Configs
 define('_MI_OVERALL_ENTRIES', 'Total entries to show');
 define('_MI_OVERALL_ENTRIES_DESC', 'Number of entries to show in the RSS feed');
 define('_MI_PLUGIN_ENTRIES', 'Default entry number for plug-ins');
@@ -48,7 +47,7 @@ define('_MI_OUTOUT_MIME_PHP', 'HTML with php-debug');
 //1.30
 //Help
 define('_MI_RSSFIT_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_RSSFIT_HELP_HEADER', __DIR__.'/help/helpheader.tpl');
+define('_MI_RSSFIT_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_RSSFIT_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_RSSFIT_OVERVIEW', 'Overview');
 

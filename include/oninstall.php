@@ -12,31 +12,29 @@
 
 /**
  * @copyright     {@link https://xoops.org/ XOOPS Project}
- * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
- * @author       XOOPS Development Team
+ * @author        XOOPS Development Team
  */
 
-use XoopsModules\Rss;
+use XoopsModules\Rssfit;
 
 /**
- *
  * Prepares system prior to attempting to install module
  * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_install_rss(\XoopsModule $module)
+function xoops_module_pre_install_rssfit(\XoopsModule $module)
 {
-    include  dirname(__DIR__) . '/preloads/autoloader.php';
-    /** @var rss\Utility $utility */
-    $utility = new \XoopsModules\Rss\Utility();
+    require_once dirname(__DIR__) . '/preloads/autoloader.php';
+    $utility      = new \XoopsModules\Rssfit\Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
 
-    if (false !== $xoopsSuccess && false !==  $phpSuccess) {
-        $moduleTables =& $module->getInfo('tables');
+    if (false !== $xoopsSuccess && false !== $phpSuccess) {
+        $moduleTables = &$module->getInfo('tables');
         foreach ($moduleTables as $table) {
             $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
         }
@@ -46,24 +44,21 @@ function xoops_module_pre_install_rss(\XoopsModule $module)
 }
 
 /**
- *
  * Performs tasks required during installation of the module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_rss(\XoopsModule $module)
+function xoops_module_install_rssfit(\XoopsModule $module)
 {
-    include  dirname(__DIR__) . '/preloads/autoloader.php';
-    require_once   dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-    require_once   dirname(__DIR__) . '/include/config.php';
+    require_once dirname(__DIR__) . '/preloads/autoloader.php';
+    require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
     $moduleDirName = basename(dirname(__DIR__));
 
-    $helper       = rss\Helper::getInstance();
-    $configurator = new Rss\Common\Configurator();
-    /** @var rss\Utility $utility */
-    $utility = new Rss\Utility();
+    $helper       = Rssfit\Helper::getInstance();
+    $configurator = new Rssfit\Common\Configurator();
+    $utility = new Rssfit\Utility();
 
     // Load language files
     $helper->loadLanguage('admin');
@@ -71,15 +66,15 @@ function xoops_module_install_rss(\XoopsModule $module)
 
     // default Permission Settings ----------------------
     global $xoopsModule;
-    $moduleId     = $xoopsModule->getVar('mid');
-    $moduleId2    = $helper->getModule()->mid();
-    $grouppermHandler = xoops_getHandler('groupperm');
+    $moduleId         = $xoopsModule->getVar('mid');
+    // $moduleId2        = $helper->getModule()->mid();
+    $grouppermiscHandler = xoops_getHandler('groupperm');
     // access rights ------------------------------------------
-    $grouppermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $grouppermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
-    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
+    $grouppermiscHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermiscHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermiscHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermiscHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
+    $grouppermiscHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {
@@ -91,15 +86,15 @@ function xoops_module_install_rss(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator->copyBlankFiles) > 0) {
-        $file =  dirname(__DIR__) . '/assets/images/blank.png';
+        $file = dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);
         }
     }
     //delete .html entries from the tpl table
-    $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $xoopsModule->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
-    $xoopsDB->queryF($sql);
+    $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $xoopsModule->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+    $GLOBALS['xoopsDB']->queryF($sql);
 
     return true;
 }

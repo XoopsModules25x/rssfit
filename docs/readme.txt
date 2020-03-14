@@ -26,7 +26,7 @@ Using RSSFit
 ----------------------
 To install, go install it just like installing any module of XOOPS. You know you are smart enough to make it right.
 For more information of installing a module of XOOPS, please refer to:
-http://www.xoops.org/modules/smartfaq/faq.php?faqid=90
+https://xoops.org/modules/smartfaq/faq.php?faqid=90
 
 For detailed documentation please the RSSFit home page:
 http://www.brandycoke.com/products/rssfit/
