@@ -137,10 +137,10 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
         $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . '\' AND `tpl_file` LIKE \'%.html%\'';
         $GLOBALS['xoopsDB']->queryF($sql);
 
-        /** @var \XoopsGroupPermiscHandler $grouppermiscHandler */
-        $grouppermiscHandler = xoops_getHandler('groupperm');
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
 
-        return $grouppermiscHandler->deleteByModule($module->getVar('mid'), 'item_read');
+        return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
 
     return true;

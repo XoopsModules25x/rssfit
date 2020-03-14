@@ -134,7 +134,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     {
         $ret = false;
         $limit = $start = 0;
-        $fields = '*';
+//        $fields = '*';
         $sql = 'SELECT ' . $fields . ' FROM ' . $this->db_table;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
@@ -178,7 +178,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $obj, $force = false)
     {
-        $force = false;
+//        $force = false;
         if (mb_strtolower(get_class($obj)) != mb_strtolower($this->obj_class)) {
             return false;
         }
@@ -268,7 +268,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $category, $force = false)
     {
-        $force = false;
+//        $force = false;
         if (mb_strtolower(get_class($obj)) != mb_strtolower($this->obj_class)) {
             return false;
         }

@@ -116,7 +116,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $obj, $force = false)
     {
-        $force = false;
+//        $force = false;
         if (mb_strtolower(get_class($obj)) != mb_strtolower($this->obj_class)) {
             return false;
         }
@@ -172,7 +172,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $category, $force = false)
     {
-        $force = false;
+//        $force = false;
         if (mb_strtolower(get_class($obj)) != mb_strtolower($this->obj_class)) {
             return false;
         }
@@ -334,15 +334,15 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     {
         $ret = false;
         global $moduleHandler;
-        $file = RSSFIT_ROOT_PATH . 'plugins/' . $obj->getVar('rssf_filename');
-        $file2 = RSSFIT_ROOT_PATH . 'class/Plugins/' . $obj->getVar('rssf_filename');
-        if (file_exists($file2)) {
+//        $file = RSSFIT_ROOT_PATH . 'plugins/' . $obj->getVar('rssf_filename');
+        $file = RSSFIT_ROOT_PATH . 'class/Plugins/' . $obj->getVar('rssf_filename');
+        if (file_exists($file)) {
             //mb            $require_once = require $file;
             $name = explode('.', $obj->getVar('rssf_filename'));
-            $class = 'Rssfit' . ucfirst($name[0]);
-            $class2 = __NAMESPACE__ . '\Plugins\\' . ucfirst($name[0]);
-            if (class_exists($class2)) {
-                $handler = new $class2();
+//            $class = 'Rssfit' . ucfirst($name[0]);
+            $class = __NAMESPACE__ . '\Plugins\\' . ucfirst($name[0]);
+            if (class_exists($class)) {
+                $handler = new $class();
                 if (!method_exists($handler, 'loadmodule') || !method_exists($handler, 'grabentries')) {
                     $obj->setErrors(_AM_PLUGIN_FUNCNOTFOUND);
                 } else {
@@ -358,7 +358,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
                     }
                 }
             } else {
-                $obj->setErrors(_AM_PLUGIN_CLASSNOTFOUND . ' ' . $class2);
+                $obj->setErrors(_AM_PLUGIN_CLASSNOTFOUND . ' ' . $class);
             }
         } else {
             $obj->setErrors(_AM_PLUGIN_FILENOTFOUND);

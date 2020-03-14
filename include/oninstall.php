@@ -67,13 +67,13 @@ function xoops_module_install_rssfit(\XoopsModule $module)
     global $xoopsModule;
     $moduleId = $xoopsModule->getVar('mid');
     // $moduleId2        = $helper->getModule()->mid();
-    $grouppermiscHandler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
     // access rights ------------------------------------------
-    $grouppermiscHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $grouppermiscHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $grouppermiscHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $grouppermiscHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
-    $grouppermiscHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {

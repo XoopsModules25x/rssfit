@@ -131,21 +131,20 @@ switch ($op) {
         if (!$filelist = &$pluginsHandler->getPluginFileList()) {
             $filelist = [];
         }
-        $list = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
-        $list2 = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'class\Plugins');
+//        $list = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
+        $list = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'class\Plugins');
         $installable = [];
-        $installable2 = [];
+//        foreach ($list as $f) {
+//            if (preg_match('/rssfit\.+[a-zA-Z0-9_]+\.php/$', $f) && !in_array($f, $filelist)) {
+//                $installable[] = $f;
+//            }
+//        }
         foreach ($list as $f) {
-            if (preg_match('/rssfit\.+[a-zA-Z0-9_]+\.php/$', $f) && !in_array($f, $filelist)) {
-                $installable[] = $f;
+            if (preg_match('/[a-zA-Z0-9_]+\.php/', ucfirst($f)) && !in_array($f, $filelist)) {
+                $installable[] = ucfirst($f);
             }
         }
-        foreach ($list2 as $f) {
-            if (preg_match('/[a-zA-Z0-9_]+\.php/$', ucfirst($f)) && !in_array($f, $filelist)) {
-                $installable2[] = ucfirst($f);
-            }
-        }
-        if (count($installable2) > 0) {
+        if (count($installable) > 0) {
             $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='3'>"
                     . _AM_PLUGIN_NONINSTALLED
@@ -160,7 +159,7 @@ switch ($op) {
                     . _AM_PLUGIN_INSTALL
                     . "</td>\n"
                     . "</tr>\n";
-            foreach ($installable2 as $i) {
+            foreach ($installable as $i) {
                 $action = new \XoopsFormCheckbox('', 'install[' . $i . ']');
                 $action->addOption('i', ' ');
                 $ret .= "<tr>\n" . "<td class='odd' align='center'>" . $i . "</td>\n" . "<td class='even' align='center'>";
