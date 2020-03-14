@@ -298,7 +298,7 @@ class FeedHandler
     public function strrposDetect($text, $find)
     {
         if (function_exists('mb_strrpos')) {
-            return mb_strrpos($text, $find, _CHARSET);
+            return mb_strrpos($text, $find, 0, _CHARSET);
         }
 
         return mb_strrpos($text, $find);
