@@ -32,6 +32,7 @@ namespace XoopsModules\Rssfit\Plugins;
 */
 
 use XoopsModules\Smartpartner\{
+    Constants,
     Helper as SmartpartnerHelper
 };
 

@@ -100,7 +100,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     {
         $criteria = new \Criteria($this->obj_key, (int)$id);
         $objs     = $this->getObjects2($criteria);
-        if ($objs) {
+        if (\is_array($objs) && \count($objs) > 0) {
             return 1 != \count($objs) ? false : $objs[0];
         }
 
