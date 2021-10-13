@@ -32,7 +32,6 @@ namespace XoopsModules\Rssfit\Plugins;
 */
 
 use XoopsModules\Smartpartner\{
-    Constants,
     Helper as SmartpartnerHelper
 };
 
@@ -77,6 +76,7 @@ class Smartpartner
         $partnerHandler = SmartpartnerHelper::getInstance()->getHandler('Partner');
         $partners       = $partnerHandler->getPartners($this->grab, 0, Constants::SPARTNER_STATUS_ACTIVE, 'weight', 'DESC');
         if (false !== $partners && \count($partners) > 0) {
+            $ret = [];
             for ($i = 0, $iMax = \count($partners); $i < $iMax; ++$i) {
                 $ret[$i]['link'] = $ret[$i]['guid'] = SMARTPARTNER_URL . 'partner.php?id=' . $partners[$i]->getVar('id');
                 $ret[$i]['title'] = $partners[$i]->getVar('title', 'n');

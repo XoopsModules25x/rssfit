@@ -23,8 +23,12 @@ namespace XoopsModules\Rssfit\Common;
  * @author       Mamba <mambax7@gmail.com>
  */
 
-use XoopsModules\Rssfit;
-use XoopsModules\Rssfit\Helper;
+use Xmf\Request;
+use XoopsFormEditor;
+use XoopsModules\Rssfit\{
+    Helper
+};
+
 
 /**
  * Class SysUtility

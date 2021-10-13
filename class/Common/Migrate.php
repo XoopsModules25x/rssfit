@@ -12,9 +12,6 @@ namespace XoopsModules\Rssfit\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use \XoopsModules\Rssfit\{
-    Common\Configurator
-};
 
 /**
  * Class Migrate synchronize existing tables with target schema

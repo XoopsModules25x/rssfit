@@ -40,7 +40,7 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @param bool $debug
      *
-     * @return \XoopsModules\xxxxx\Helper
+     * @return \XoopsModules\Rssfit\Helper
      */
     public static function getInstance(bool $debug = false): Helper
     {

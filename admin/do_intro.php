@@ -36,8 +36,8 @@ if ($intr) {
 }
 switch ($op) {
     default:
-        $title = new \XoopsFormText(_AM_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
-        $title->setDescription(_AM_EDIT_INTRO_TITLE_DESC);
+        $title = new \XoopsFormText(_AM_RSSFIT_EDIT_INTRO_TITLE, 'title', 50, 255, $intro->getVar('misc_title', 'e'));
+        $title->setDescription(_AM_RSSFIT_EDIT_INTRO_TITLE_DESC);
 
         $setting     = $intro->getVar('misc_setting');
         $contentTray = new \XoopsFormElementTray(_AM_RSSFIT_EDIT_INTRO_TEXT, '<br>');

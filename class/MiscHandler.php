@@ -130,7 +130,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      * @param null|\CriteriaElement   $criteria
      * @param string $fields
      * @param string $key
-     * @return false
+     * @return false|array
      */
     public function getObjects2($criteria = null, $fields = '*', $key = '')
     {

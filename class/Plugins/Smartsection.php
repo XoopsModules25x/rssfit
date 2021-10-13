@@ -70,7 +70,7 @@ class Smartsection
     {
         $ret = false;
         require_once XOOPS_ROOT_PATH . '/modules/smartsection/include/common.php';
-        $helper      = SmartsectionHandler::getInstance();
+        $helper      = SmartsectionHelper::getInstance();
         $itemHandler = $helper->getHandler('Item');
         $items       = $itemHandler->getAllPublished($this->grab, 0);
         if (false !== $items && \count($items) > 0) {

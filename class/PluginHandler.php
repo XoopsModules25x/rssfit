@@ -195,7 +195,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      * @param null|\Criteria|\CriteriaCompo $criteria
      * @param string $fields
      * @param string $key
-     * @return bool
+     * @return bool|array
      */
     public function getObjects2($criteria = null, $fields = '*', $key = '')
     {

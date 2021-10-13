@@ -363,13 +363,14 @@ class FeedHandler
     /**
      * @param string $fields
      * @param string $type
-     * @return false
+     * @return bool|array
      */
     public function &getActivatedSubfeeds($fields = '', $type = '')
     {
         $ret  = false;
         $subs = $this->pluginHandler->getObjects2(new \Criteria('subfeed', 1), $fields);
         if ($subs) {
+            $ret  = [];
             switch ($type) {
                 default:
                     $ret = &$subs;
