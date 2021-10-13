@@ -185,7 +185,7 @@ class SysUtility
         $newId = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
-        $sql       = "SELECT * FROM $table WHERE $idField='" . (int)$id . "' ";
+        $sql       = "SELECT * FROM $table WHERE $idField='" . $id . "' ";
         $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), \MYSQLI_ASSOC);
         if (!$tempTable) {
             exit($GLOBALS['xoopsDB']->error());
