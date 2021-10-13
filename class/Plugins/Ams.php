@@ -71,6 +71,7 @@ class Ams
         $myts = \MyTextSanitizer::getInstance();
         $ams  = Story::getAllPublished($this->grab, 0);
         if (\count($ams) > 0) {
+            $ret = [];
             for ($i = 0, $iMax = \count($ams); $i < $iMax; ++$i) {
                 $ret[$i]['title']       = $myts->undoHtmlSpecialChars($ams[$i]->title());
                 $ret[$i]['link']        = $ret[$i]['guid'] = XOOPS_URL . "/modules/$this->dirname/article.php?storyid=" . $ams[$i]->storyid();

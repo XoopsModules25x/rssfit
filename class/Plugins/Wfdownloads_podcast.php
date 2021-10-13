@@ -73,31 +73,33 @@ class Wfdownloads_podcast extends \XoopsObject
         $i = 0;
         $sql            = 'SELECT lid, cid, title, date, description, filetype, size FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 AND (expired > ' . \time() . ' OR expired = 0) AND published <= ' . \time() . ' ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        /** @var \XoopsMemberHandler $memberHandler */
-        $memberHandler = xoops_getHandler('member');
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']])
-                || $grouppermHandler->checkRight('WFDownCatPerm', $row['cid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
-                $perms[$row['cid']] = true;
-                $ret[$i]['title'] = $row['title'];
-                $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
-                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $row['date'];
-                $ret[$i]['description'] = $myts->displayTarea($row['description']);
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
-                //  enclosure tag, a.k.a podcast
-                $ret[$i]['extras']['enclosure']['attributes'] = [
-                    'url' => XOOPS_URL . '/modules/' . $this->dirname . '/visit.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'],
-                    'length' => $row['size'],
-                    'type' => $row['filetype'],
-                ];
-                $i++;
-            } else {
-                $perms[$row['cid']] = false;
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            /** @var \XoopsMemberHandler $memberHandler */
+            $memberHandler = xoops_getHandler('member');
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']])
+                    || $grouppermHandler->checkRight('WFDownCatPerm', $row['cid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+                    $perms[$row['cid']]     = true;
+                    $ret[$i]['title']       = $row['title'];
+                    $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+                    $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+                    $ret[$i]['timestamp']   = $row['date'];
+                    $ret[$i]['description'] = $myts->displayTarea($row['description']);
+                    $ret[$i]['category']    = $this->modname;
+                    $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                    //  enclosure tag, a.k.a podcast
+                    $ret[$i]['extras']['enclosure']['attributes'] = [
+                        'url'    => XOOPS_URL . '/modules/' . $this->dirname . '/visit.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'],
+                        'length' => $row['size'],
+                        'type'   => $row['filetype'],
+                    ];
+                    $i++;
+                } else {
+                    $perms[$row['cid']] = false;
+                }
             }
         }
-
         return $ret;
     }
 }

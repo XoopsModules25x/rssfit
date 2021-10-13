@@ -79,6 +79,7 @@ class Comments
         $comment_config = [];
         if (\count($comments) > 0) {
             $modules = $GLOBALS['module_handler']->getObjects(new Criteria('hascomments', 1), true);
+            $ret = [];
             foreach (\array_keys($comments) as $i) {
                 $mid = $comments[$i]->getVar('com_modid');
                 if (!isset($comment_config[$mid])) {

@@ -74,21 +74,23 @@ class Wfdownloads extends \XoopsObject
         $i                = 0;
         $sql              = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
         $result           = $xoopsDB->query($sql, $this->grab, 0);
-        /** @var \XoopsMemberHandler $memberHandler */
-        $memberHandler = xoops_getHandler('member');
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            if ($grouppermHandler->checkRight('WFDownFilePerm', $row['lid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
-                $ret[$i]['title'] = $row['title'];
-                $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
-                $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $row['date'];
-                $ret[$i]['description'] = $myts->displayTarea($row['description']);
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
-                $i++;
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            /** @var \XoopsMemberHandler $memberHandler */
+            $memberHandler = xoops_getHandler('member');
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                if ($grouppermHandler->checkRight('WFDownFilePerm', $row['lid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+                    $ret[$i]['title']       = $row['title'];
+                    $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+                    $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+                    $ret[$i]['timestamp']   = $row['date'];
+                    $ret[$i]['description'] = $myts->displayTarea($row['description']);
+                    $ret[$i]['category']    = $this->modname;
+                    $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                    $i++;
+                }
             }
         }
-
         return $ret;
     }
 }

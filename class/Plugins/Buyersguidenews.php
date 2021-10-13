@@ -69,6 +69,7 @@ class Buyersguidenews
         $i     = 0;
 
         if (false !== $items && \count($items) > 0) {
+            $ret = [];
             foreach ($items as $item) {
                 $ret[$i]['link']        = $ret[$i]['guid'] = $item->getLink();
                 $ret[$i]['title']       = $item->getVar('news_title', 'n');

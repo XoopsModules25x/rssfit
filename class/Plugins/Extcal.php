@@ -103,9 +103,9 @@ class Extcal
         $events = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
 
         if (\is_array($events)) {
+            $ret = [];
             foreach ($events as $event) {
                 ++$i;
-
                 $cat = $catHandler->getCat($event->getVar('cat_id'), 0);
                 $category = $cat->getVar('cat_name');
                 $link = XOOPS_URL . '/modules/extcal/event.php?event=' . $event->getVar('event_id');

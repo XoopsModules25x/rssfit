@@ -82,20 +82,22 @@ class Wfsection
                . ') AND a.noshowart = 0 AND a.offline = 0 AND a.categoryid = b.id ORDER BY published DESC';
 
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            if (checkAccess($row['groupid'])) {
-                $link = XOOPS_URL . '/modules/' . $this->dirname . '/article.php?articleid=' . $row['articleid'];
-                $ret[$i]['title'] = $row['atitle'];
-                $ret[$i]['link'] = $link;
-                $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp'] = $row['published'];
-                $ret[$i]['description'] = $myts->displayTarea(!empty($row['summary']) ? $row['summary'] : $row['maintext']);
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
-                $i++;
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                if (checkAccess($row['groupid'])) {
+                    $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/article.php?articleid=' . $row['articleid'];
+                    $ret[$i]['title']       = $row['atitle'];
+                    $ret[$i]['link']        = $link;
+                    $ret[$i]['guid']        = $link;
+                    $ret[$i]['timestamp']   = $row['published'];
+                    $ret[$i]['description'] = $myts->displayTarea(!empty($row['summary']) ? $row['summary'] : $row['maintext']);
+                    $ret[$i]['category']    = $this->modname;
+                    $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                    $i++;
+                }
             }
         }
-
         return $ret;
     }
 }

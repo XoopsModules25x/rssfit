@@ -70,17 +70,19 @@ class Mylinks
         $i = 0;
         $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $ret[$i]['title'] = $row['title'];
-            $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
-            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp'] = $row['date'];
-            $ret[$i]['description'] = $myts->displayTarea($row['description']);
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
-            $i++;
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                $ret[$i]['title']       = $row['title'];
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+                $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp']   = $row['date'];
+                $ret[$i]['description'] = $myts->displayTarea($row['description']);
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $i++;
+            }
         }
-
         return $ret;
     }
 }

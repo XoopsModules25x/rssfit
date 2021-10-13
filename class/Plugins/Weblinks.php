@@ -97,23 +97,25 @@ class Weblinks
         $i = 0;
         $sql = 'SELECT lid, title, time_update, description, url, uid FROM ' . $xoopsDB->prefix('weblinks_link') . '  ORDER BY time_update DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $title = $row['title'];
-            $name = $this->myGetUnameFromId($row['uid']);
-            $ret[$i]['title'] = $this->modname . ': ' . $title;
-            $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?lid=' . $row['lid'] . '&amp;keywords=';
-            $ret[$i]['link'] = $link;
-            $ret[$i]['timestamp'] = $row['time_update'];
-            $desc = '<p><a href="' . $row['url'] . '"><b>' . $title . '</b></a><br> ';
-            $desc .= 'Submitted by: <i>' . $name . '</i><br>';
-            $desc .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
-            $ret[$i]['description'] = $desc;
-            $ret[$i]['guid'] = $link;
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
-            $i++;
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                $title                  = $row['title'];
+                $name                   = $this->myGetUnameFromId($row['uid']);
+                $ret[$i]['title']       = $this->modname . ': ' . $title;
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlelink.php?lid=' . $row['lid'] . '&amp;keywords=';
+                $ret[$i]['link']        = $link;
+                $ret[$i]['timestamp']   = $row['time_update'];
+                $desc                   = '<p><a href="' . $row['url'] . '"><b>' . $title . '</b></a><br> ';
+                $desc                   .= 'Submitted by: <i>' . $name . '</i><br>';
+                $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
+                $ret[$i]['description'] = $desc;
+                $ret[$i]['guid']        = $link;
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $i++;
+            }
         }
-
         return $ret;
     }
 }

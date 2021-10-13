@@ -105,43 +105,45 @@ class Surnames
         $sql = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM " . $xoopsDB->prefix('surnames');
         $sql .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
         $result = $xoopsDB->query($sql, $limit, 0);
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $changedate = \strtotime($row['changedate']);
-            $uid = $row['uid'];
-            if ($lasttime == $changedate && $lastuser == $uid) {
-                $link = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
-                $surname = $row['surname'];
-                $desc .= "<a href=\"$link\">$surname</a><br>";
-            } else {
-                if ($i >= 0) {
-                    $ret[$i]['description'] = $desc;
-                }
-                ++$i;
-                $lasttime = $changedate;
-                $lastuser = $uid;
-                if ($i <= $this->grab) {
-                    $desc = '';
-                    $name = $this->myGetUnameFromId($row['uid']);
-                    $ret[$i]['title'] = $this->modname . ': by ' . $name;
-                    $ret[$i]['link'] = XOOPS_URL . '/modules/surnames/list.php?uid=' . $row['uid'];
-                    $ret[$i]['timestamp'] = $changedate;
-
-                    $link = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
-                    $ret[$i]['guid'] = $link;
-                    $ret[$i]['category'] = $this->modname;
-
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                $changedate = \strtotime($row['changedate']);
+                $uid        = $row['uid'];
+                if ($lasttime == $changedate && $lastuser == $uid) {
+                    $link    = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
                     $surname = $row['surname'];
-                    $desc .= "<a href=\"$link\">$surname</a><br>";
+                    $desc    .= "<a href=\"$link\">$surname</a><br>";
+                } else {
+                    if ($i >= 0) {
+                        $ret[$i]['description'] = $desc;
+                    }
+                    ++$i;
+                    $lasttime = $changedate;
+                    $lastuser = $uid;
+                    if ($i <= $this->grab) {
+                        $desc                 = '';
+                        $name                 = $this->myGetUnameFromId($row['uid']);
+                        $ret[$i]['title']     = $this->modname . ': by ' . $name;
+                        $ret[$i]['link']      = XOOPS_URL . '/modules/surnames/list.php?uid=' . $row['uid'];
+                        $ret[$i]['timestamp'] = $changedate;
+
+                        $link                = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];
+                        $ret[$i]['guid']     = $link;
+                        $ret[$i]['category'] = $this->modname;
+
+                        $surname = $row['surname'];
+                        $desc    .= "<a href=\"$link\">$surname</a><br>";
+                    }
+                }
+                if ($i > $this->grab) {
+                    break;
                 }
             }
-            if ($i > $this->grab) {
-                break;
+            if ($i < $this->grab) {
+                $ret[$i]['description'] = $desc;
             }
         }
-        if ($i < $this->grab) {
-            $ret[$i]['description'] = $desc;
-        }
-
         return $ret;
     }
 }

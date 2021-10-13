@@ -68,17 +68,19 @@ class Rmdp extends \XoopsObject
         $i = 0;
         $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $ret[$i]['title'] = $row['nombre'];
-            $link = XOOPS_URL . '/modules/' . $this->dirname . '/down.php?id=' . $row['id_soft'];
-            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp'] = $row['fecha'];
-            $ret[$i]['description'] = $row['longdesc'];
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
-            $i++;
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                $ret[$i]['title']       = $row['nombre'];
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/down.php?id=' . $row['id_soft'];
+                $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp']   = $row['fecha'];
+                $ret[$i]['description'] = $row['longdesc'];
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $i++;
+            }
         }
-
         return $ret;
     }
 }

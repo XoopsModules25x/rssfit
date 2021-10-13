@@ -69,6 +69,7 @@ class Wfsection2
         $ret = false;
         $articles = Rssfit\WfsArticle::getAllArticle($this->grab, 0, 'online');
         if (\count($articles) > 0) {
+            $ret = [];
             $xoopsModuleConfig['shortartlen'] = 0;
             $myts = \MyTextSanitizer::getInstance();
             for ($i = 0, $iMax = \count($articles); $i < $iMax; ++$i) {

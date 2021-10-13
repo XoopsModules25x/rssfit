@@ -78,26 +78,28 @@ class Queries
         $sql .= ' WHERE approved=1 ORDER BY posted DESC ';
 
         $result = $xoopsDB->query($sql, $limit, 0);
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            ++$i;
-            if ($i <= $this->grab) {
-                $desc = $row['querytext'];
-                if (mb_strlen($desc) > 200) {
-                    $desc = mb_substr($desc, 0, 200) . '...';
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                ++$i;
+                if ($i <= $this->grab) {
+                    $desc = $row['querytext'];
+                    if (mb_strlen($desc) > 200) {
+                        $desc = mb_substr($desc, 0, 200) . '...';
+                    }
+                    $link                   = XOOPS_URL . '/modules/queries/view.php?id=' . $row['id'];
+                    $ret[$i]['title']       = $this->modname . ': ' . $row['title'];
+                    $ret[$i]['link']        = $link;
+                    $ret[$i]['timestamp']   = $row['posted'];
+                    $ret[$i]['guid']        = $link;
+                    $ret[$i]['category']    = $this->modname;
+                    $ret[$i]['description'] = $desc;
                 }
-                $link = XOOPS_URL . '/modules/queries/view.php?id=' . $row['id'];
-                $ret[$i]['title'] = $this->modname . ': ' . $row['title'];
-                $ret[$i]['link'] = $link;
-                $ret[$i]['timestamp'] = $row['posted'];
-                $ret[$i]['guid'] = $link;
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['description'] = $desc;
-            }
-            if ($i > $this->grab) {
-                break;
+                if ($i > $this->grab) {
+                    break;
+                }
             }
         }
-
         return $ret;
     }
 }

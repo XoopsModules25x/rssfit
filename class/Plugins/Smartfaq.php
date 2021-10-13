@@ -32,7 +32,6 @@ namespace XoopsModules\Rssfit\Plugins;
 
 use XoopsModules\Smartfaq\Helper as SmartfaqHelper;
 
-
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -68,26 +67,27 @@ class Smartfaq
     public function grabEntries(&$obj)
     {
         $ret = false;
-//        @require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+        //        @require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
         $faqHandler = SmartfaqHelper::getInstance()->getHandler('Faq');
-        $faqs = $faqHandler->getAllPublished($this->grab, 0);
+        $faqs       = $faqHandler->getAllPublished($this->grab, 0);
         if (false !== $faqs && \count($faqs) > 0) {
+            $ret = [];
             /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
             $answerHandler = SmartfaqHelper::getInstance()->getHandler('Answer');
             for ($i = 0, $iMax = \count($faqs); $i < $iMax; ++$i) {
                 if (!$answer = $answerHandler->getOfficialAnswer($faqs[$i]->faqid())) {
                     continue;
                 }
-                $ret[$i]['link'] = $ret[$i]['guid'] = XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $faqs[$i]->faqid();
-                $q = $faqs[$i]->getVar('howdoi', 'n');
-                $q = empty($q) ? $faqs[$i]->getVar('question', 'n') : $q;
-                $ret[$i]['title'] = $q;
-                $ret[$i]['timestamp'] = $faqs[$i]->getVar('datesub');
+                $ret[$i]['link']        = $ret[$i]['guid'] = XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $faqs[$i]->faqid();
+                $q                      = $faqs[$i]->getVar('howdoi', 'n');
+                $q                      = empty($q) ? $faqs[$i]->getVar('question', 'n') : $q;
+                $ret[$i]['title']       = $q;
+                $ret[$i]['timestamp']   = $faqs[$i]->getVar('datesub');
                 $ret[$i]['description'] = $answer->getVar('answer');
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
 

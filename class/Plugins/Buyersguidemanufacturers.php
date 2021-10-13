@@ -69,6 +69,7 @@ class Buyersguidemanufacturers
         $i     = 0;
 
         if (false !== $items && \count($items) > 0) {
+            $ret = [];
             foreach ($items as $item) {
                 $ret[$i]['link']        = $ret[$i]['guid'] = $item->getLink();
                 $ret[$i]['title']       = $item->getVar('manu_name', 'n');

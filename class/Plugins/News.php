@@ -30,10 +30,8 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-
 use XoopsModules\News\NewsStory;
 use XoopsModules\News\Utility;
-
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -81,6 +79,7 @@ class News
             $news = NewsStory::getAllPublished($this->grab, 0);
         }
         if (\count($news) > 0) {
+            $ret = [];
             for ($i = 0, $iMax = \count($news); $i < $iMax; ++$i) {
                 $ret[$i]['title']       = $this->modname . ': ' . $myts->undoHtmlSpecialChars($news[$i]->title());
                 $ret[$i]['link']        = XOOPS_URL . '/modules/news/article.php?storyid=' . $news[$i]->storyid();

@@ -74,6 +74,7 @@ class Smartsection
         $itemHandler = $helper->getHandler('Item');
         $items       = $itemHandler->getAllPublished($this->grab, 0);
         if (false !== $items && \count($items) > 0) {
+            $ret = [];
             for ($i = 0, $iMax = \count($items); $i < $iMax; ++$i) {
                 $ret[$i]['link']        = $ret[$i]['guid'] = $items[$i]->getItemUrl();
                 $ret[$i]['title']       = $items[$i]->getVar('title', 'n');

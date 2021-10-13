@@ -125,37 +125,40 @@ class Myalbum
         $sql    .= 'WHERE p.status > 0 AND p.cid = c.cid AND p.lid = t.lid ';
         $sql    .= 'ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $link    = XOOPS_URL . '/modules/' . $this->dirname . '/photo.php?lid=' . $row['lid'];
-            $thumb   = XOOPS_URL . '/uploads/thumbs/' . $row['lid'] . '.' . $row['ext'];
-            $name    = $this->myGetUnameFromId($row['submitter']);
-            $title   = $myts->displayTarea($row['title']);
-            $cat     = $myts->displayTarea($row['cat']);
-            $catlink = XOOPS_URL . '/modules/' . $this->dirname . '/viewcat.php?cid=' . $row['cid'];
-            /*
-            * Required elements of an RSS item
-            */
-            //  1. Title of an item
-            $ret[$i]['title'] = $this->modname . ': ' . $title;
-            //  2. URL of an item
-            $ret[$i]['link'] = $link;
-            //  3. Item modification date, must be in Unix time format
-            $ret[$i]['timestamp'] = $row['date'];
-            //  4. The item synopsis, or description, whatever
-            $desc                   = '<p><a href="' . $link . '"><img src="' . $thumb . '" align="left" alt="' . $title . '" border="0"></a> ';
-            $desc                   .= 'By ' . $name . ' in <a href="' . $catlink . '">' . $cat . '</a><br>';
-            $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
-            $ret[$i]['description'] = $desc;
-            /*
-            * Optional elements of an RSS item
-            */
-            //  5. The item synopsis, or description, whatever
-            $ret[$i]['guid'] = $link;
-            //  6. A string + domain that identifies a categorization taxonomy
-            $ret[$i]['category'] = $cat;
-            $ret[$i]['domain']   = $catlink;
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                $link    = XOOPS_URL . '/modules/' . $this->dirname . '/photo.php?lid=' . $row['lid'];
+                $thumb   = XOOPS_URL . '/uploads/thumbs/' . $row['lid'] . '.' . $row['ext'];
+                $name    = $this->myGetUnameFromId($row['submitter']);
+                $title   = $myts->displayTarea($row['title']);
+                $cat     = $myts->displayTarea($row['cat']);
+                $catlink = XOOPS_URL . '/modules/' . $this->dirname . '/viewcat.php?cid=' . $row['cid'];
+                /*
+                * Required elements of an RSS item
+                */
+                //  1. Title of an item
+                $ret[$i]['title'] = $this->modname . ': ' . $title;
+                //  2. URL of an item
+                $ret[$i]['link'] = $link;
+                //  3. Item modification date, must be in Unix time format
+                $ret[$i]['timestamp'] = $row['date'];
+                //  4. The item synopsis, or description, whatever
+                $desc                   = '<p><a href="' . $link . '"><img src="' . $thumb . '" align="left" alt="' . $title . '" border="0"></a> ';
+                $desc                   .= 'By ' . $name . ' in <a href="' . $catlink . '">' . $cat . '</a><br>';
+                $desc                   .= $myts->displayTarea($row['description']) . '</p><br clear="all">';
+                $ret[$i]['description'] = $desc;
+                /*
+                * Optional elements of an RSS item
+                */
+                //  5. The item synopsis, or description, whatever
+                $ret[$i]['guid'] = $link;
+                //  6. A string + domain that identifies a categorization taxonomy
+                $ret[$i]['category'] = $cat;
+                $ret[$i]['domain']   = $catlink;
 
-            $i++;
+                $i++;
+            }
         }
 
         return $ret;

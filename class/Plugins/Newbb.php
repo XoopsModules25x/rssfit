@@ -69,30 +69,30 @@ class Newbb
     {
         global $xoopsDB;
         require_once XOOPS_ROOT_PATH . '/modules/' . $this->dirname . '/class/class.forumposts.php';
-        $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.nohtml, p.nosmiley, f.forum_name, t.post_text FROM '
-                . $xoopsDB->prefix('bb_posts')
-                . ' p, '
-                . $xoopsDB->prefix('bb_forums')
-                . ' f, '
-                . $xoopsDB->prefix('bb_posts_text')
-                . ' t WHERE f.forum_id = p.forum_id AND p.post_id = t.post_id AND f.forum_type != 1 ORDER BY p.post_time DESC';
-        if (!$result = $xoopsDB->query($sql, $this->grab, 0)) {
-            return $ret;
+        $myts   = \MyTextSanitizer::getInstance();
+        $ret    = false;
+        $i      = 0;
+        $sql    = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.nohtml, p.nosmiley, f.forum_name, t.post_text FROM '
+                  . $xoopsDB->prefix('bb_posts')
+                  . ' p, '
+                  . $xoopsDB->prefix('bb_forums')
+                  . ' f, '
+                  . $xoopsDB->prefix('bb_posts_text')
+                  . ' t WHERE f.forum_id = p.forum_id AND p.post_id = t.post_id AND f.forum_type != 1 ORDER BY p.post_time DESC';
+        $result = $xoopsDB->query($sql, $this->grab, 0);
+        if ($result instanceof \mysqli_result) {
+            $ret = [];
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/viewtopic.php?topic_id=' . $row['topic_id'] . '&amp;forum=' . $row['forum_id'] . '&amp;post_id=' . $row['post_id'] . '#forumpost' . $row['post_id'];
+                $ret[$i]['title']       = $row['subject'];
+                $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+                $ret[$i]['timestamp']   = $row['post_time'];
+                $ret[$i]['description'] = $myts->displayTarea($row['post_text'], $row['nohtml'] ? 0 : 1, $row['nosmiley'] ? 0 : 1);
+                $ret[$i]['category']    = $row['forum_name'];
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/viewforum.php?forum=' . $row['forum_id'];
+                $i++;
+            }
         }
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $link = XOOPS_URL . '/modules/' . $this->dirname . '/viewtopic.php?topic_id=' . $row['topic_id'] . '&amp;forum=' . $row['forum_id'] . '&amp;post_id=' . $row['post_id'] . '#forumpost' . $row['post_id'];
-            $ret[$i]['title'] = $row['subject'];
-            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp'] = $row['post_time'];
-            $ret[$i]['description'] = $myts->displayTarea($row['post_text'], $row['nohtml'] ? 0 : 1, $row['nosmiley'] ? 0 : 1);
-            $ret[$i]['category'] = $row['forum_name'];
-            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/viewforum.php?forum=' . $row['forum_id'];
-            $i++;
-        }
-
         return $ret;
     }
 }
