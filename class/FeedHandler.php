@@ -113,7 +113,7 @@ class FeedHandler
     {
         $channel  = [];
         $elements = $this->miscHandler->getObjects2(new \Criteria('misc_category', 'channel'));
-        if (\is_array($elements) && \count($elements) > 0) {
+        if (\is_array($elements) && !empty($elements)) {
             foreach ($elements as $e) {
                 if ('' != $e->getVar('misc_content')) {
                     $channel[$e->getVar('misc_title')] = $e->getVar('misc_content', 'n');
@@ -369,7 +369,7 @@ class FeedHandler
     {
         $ret  = false;
         $subs = $this->pluginHandler->getObjects2(new \Criteria('subfeed', 1), $fields);
-        if (\is_array($subs) && \count($subs) > 0) {
+        if (\is_array($subs) && !empty($subs)) {
             $ret  = [];
             switch ($type) {
                 default:

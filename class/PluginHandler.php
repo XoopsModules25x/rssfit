@@ -319,7 +319,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     {
         $ret  = false;
         $objs = $this->getObjects2(null, 'rssf_filename');
-        if (\is_array($objs) && \count($objs) > 0) {
+        if (\is_array($objs) && !empty($objs)) {
             $ret   = [];
             foreach ($objs as $o) {
                 $ret[] = $o->getVar('rssf_filename');
