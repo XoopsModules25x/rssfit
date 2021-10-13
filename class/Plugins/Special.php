@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -45,7 +45,7 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit verision: 1.2 / 1.5
  *  XOOPS version: 2.0.13.2 / 2.2.3
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -61,7 +61,7 @@ class Special
     public $module;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -77,13 +77,13 @@ class Special
 
     /**
      * @param \XoopsObject $obj
-     * @return array
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries($obj)
     {
         global $xoopsDB;
         $ret = [];
-        @require XOOPS_ROOT_PATH . '/modules/special/class/stuff.php';
+        @require_once XOOPS_ROOT_PATH . '/modules/special/class/stuff.php';
         $myts = \MyTextSanitizer::getInstance();
         $items = SpecialStuff::getAllPublished($this->grab, 0);
         foreach ($items as $item) {

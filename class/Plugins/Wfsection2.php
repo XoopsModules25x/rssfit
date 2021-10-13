@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -32,7 +32,7 @@ namespace XoopsModules\Rssfit\Plugins;
 
 use XoopsModules\Rssfit;
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -47,7 +47,7 @@ class Wfsection2
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -62,16 +62,16 @@ class Wfsection2
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         $ret = false;
         $articles = Rssfit\WfsArticle::getAllArticle($this->grab, 0, 'online');
-        if (count($articles) > 0) {
+        if (\count($articles) > 0) {
             $xoopsModuleConfig['shortartlen'] = 0;
             $myts = \MyTextSanitizer::getInstance();
-            for ($i = 0, $iMax = count($articles); $i < $iMax; $i++) {
+            for ($i = 0, $iMax = \count($articles); $i < $iMax; ++$i) {
                 $link = XOOPS_URL . '/modules/wfsection/article.php?articleid=' . $articles[$i]->articleid();
                 $ret[$i]['title'] = $myts->undoHtmlSpecialChars($articles[$i]->title());
                 $ret[$i]['link'] = $link;

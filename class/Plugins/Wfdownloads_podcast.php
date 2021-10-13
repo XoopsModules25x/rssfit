@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -30,7 +30,7 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.14
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -46,7 +46,7 @@ class Wfdownloads_podcast extends \XoopsObject
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -62,20 +62,22 @@ class Wfdownloads_podcast extends \XoopsObject
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $permiscHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;
-        $sql = 'SELECT lid, cid, title, date, description, filetype, size FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 AND (expired > ' . time() . ' OR expired = 0) AND published <= ' . time() . ' ORDER BY date DESC';
+        $sql            = 'SELECT lid, cid, title, date, description, filetype, size FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 AND (expired > ' . \time() . ' OR expired = 0) AND published <= ' . \time() . ' ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
+        /** @var \XoopsMemberHandler $memberHandler */
+        $memberHandler = xoops_getHandler('member');
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']])
-                || $permiscHandler->checkRight('WFDownCatPerm', $row['cid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['memberHandler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+                || $grouppermHandler->checkRight('WFDownCatPerm', $row['cid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                 $perms[$row['cid']] = true;
                 $ret[$i]['title'] = $row['title'];
                 $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];

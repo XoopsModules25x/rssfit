@@ -10,27 +10,30 @@
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-use XoopsModules\Rssfit;
+
+use XoopsModules\Rssfit\{
+    Helper
+};
 
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
-require __DIR__ . '/header.php';
-$helper = Rssfit\Helper::getInstance();
+require_once __DIR__ . '/header.php';
+$helper = Helper::getInstance();
 
-$charset = $helper->getConfig('utf8') ? 'UTF-8' : _CHARSET;
-$docache = $helper->getConfig('cache') ? true : false;
+$charset  = $helper->getConfig('utf8') ? 'UTF-8' : _CHARSET;
+$docache  = $helper->getConfig('cache') ? true : false;
 $template = 'db:rssfit_rss.tpl';
 if (3 == $helper->getConfig('mime')) {
     $xoopsLogger->enableRendering();
     $xoopsLogger->usePopup = (2 == $xoopsConfig['debug_mode']);
-    $docache = false;
+    $docache               = false;
 } else {
     error_reporting(0);
     $xoopsLogger->activated = false;
@@ -45,7 +48,7 @@ if (!$docache) {
     $xoopsTpl->xoops_setCacheTime($helper->getConfig('cache') * 60);
 }
 
-$feed = [];
+$feed           = [];
 $feed['plugin'] = isset($_GET[$feedHandler->feedkey]) ? trim($_GET[$feedHandler->feedkey]) : '';
 $feedHandler->checkSubFeed($feed);
 if (!$xoopsTpl->is_cached($template, $feedHandler->cached) || !$docache) {

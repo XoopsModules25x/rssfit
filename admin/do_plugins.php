@@ -10,20 +10,26 @@
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
+
 use Xmf\Request;
-use XoopsModules\Rssfit;
+use XoopsModules\Rssfit\{
+    Helper,
+    PluginHandler
+};
+/** @var PluginHandler $pluginHandler */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
     header('Location: index.php');
 }
 
-$helper = Rssfit\Helper::getInstance();
+/** @varHelper $helper */
+$helper = Helper::getInstance();
 
 switch ($op) {
     default:
@@ -55,10 +61,10 @@ switch ($op) {
             foreach ($plugins as $p) {
                 $handler = $pluginHandler->checkPlugin($p);
                 if ($handler) {
-                    $id = $p->getVar('rssf_conf_id');
+                    $id      = $p->getVar('rssf_conf_id');
                     $entries = new \XoopsFormText('', 'rssf_grab[' . $id . ']', 3, 2, $p->getVar('rssf_grab'));
-                    $order = new \XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
-                    $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
+                    $order   = new \XoopsFormText('', 'rssf_order[' . $id . ']', 3, 2, $p->getVar('rssf_order'));
+                    $action  = new \XoopsFormSelect('', 'action[' . $id . ']', '');
                     $action->addOption('', _SELECT);
                     $action->addOption('d', _AM_RSSFIT_PLUGIN_DEACTIVATE);
                     $action->addOption('u', _AM_RSSFIT_PLUGIN_UNINSTALL);
@@ -104,22 +110,23 @@ switch ($op) {
                     . "</td>\n"
                     . "</tr>\n";
             foreach ($plugins as $p) {
-                $id = $p->getVar('rssf_conf_id');
+                $id     = $p->getVar('rssf_conf_id');
                 $action = new \XoopsFormSelect('', 'action[' . $id . ']', '');
                 $action->addOption('', _SELECT);
-                $ret .= "<tr>\n" . "<td class='odd' align='center'>" . $p->getVar('rssf_filename') . "</td>\n" . "<td class='even' align='center'>";
+                $ret     .= "<tr>\n" . "<td class='odd' align='center'>" . $p->getVar('rssf_filename') . "</td>\n" . "<td class='even' align='center'>";
                 $handler = $pluginHandler->checkPlugin($p);
                 if ($handler) {
                     $ret .= $handler->modname;
                     $action->addOption('a', _AM_RSSFIT_PLUGIN_ACTIVATE);
                 } elseif (count($p->getErrors()) > 0) {
-                        $ret .= '<b>' . _ERRORS . "</b>\n";
-                        foreach ($p->getErrors() as $e) {
-                            $ret .= '<br>' . $e;
-                        }
-                    } else {
-                        $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
+                    $ret .= '<b>' . _ERRORS . "</b>\n";
+                    foreach ($p->getErrors() as $e) {
+                        $ret .= '<br>' . $e;
                     }
+                } else {
+                        $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
+                }
+
                 $ret .= "</td>\n";
                 $action->addOption('u', _AM_RSSFIT_PLUGIN_UNINSTALL);
                 $ret .= "<td class='odd' align='center'>" . $action->render() . "</td>\n";
@@ -131,17 +138,11 @@ switch ($op) {
         if (!$filelist = &$pluginHandler->getPluginFileList()) {
             $filelist = [];
         }
-//        $list = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'plugins');
-        $list = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'class\Plugins');
+        $list        = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'class/Plugins');
         $installable = [];
-//        foreach ($list as $f) {
-//            if (preg_match('/rssfit\.+[a-zA-Z0-9_]+\.php$/', $f) && !in_array($f, $filelist)) {
-//                $installable[] = $f;
-//            }
-//        }
         foreach ($list as $f) {
-            if (preg_match('/[a-zA-Z0-9_]+\.php$/', ucfirst($f)) && !in_array($f, $filelist)) {
-                $installable[] = ucfirst($f);
+            if (preg_match('/[a-zA-Z0-9_]+\.php/', $f) && !in_array($f, $filelist)) {
+                $installable[] = $f;
             }
         }
         if (count($installable) > 0) {
@@ -163,7 +164,7 @@ switch ($op) {
                 $action = new \XoopsFormCheckbox('', 'install[' . $i . ']');
                 $action->addOption('i', ' ');
                 $ret .= "<tr>\n" . "<td class='odd' align='center'>" . $i . "</td>\n" . "<td class='even' align='center'>";
-                $p = $pluginHandler->create();
+                $p   = $pluginHandler->create();
                 $p->setVar('rssf_filename', $i);
                 $handler = $pluginHandler->checkPlugin($p);
                 if ($handler) {
@@ -187,50 +188,50 @@ switch ($op) {
 
         if (!empty($ret)) {
             $hidden = new \XoopsFormHidden('op', 'save');
-            $ret = "<form action='"
+            $ret    = "<form action='"
                       . RSSFIT_ADMIN_URL
                       . "' method='post'>\n"
                       . $ret
                       . "<br><table cellspacing='1' class='outer' width='100%'><tr><td class='foot' align='center'>\n"
-                      . $tray_save_cancel->render()
+                      . $saveCancelTray->render()
                       . "\n"
                       . $hidden->render()
                       . "\n"
-                      . $hidden_do->render()
+                      . $hiddenDo->render()
                       . "\n</td></tr></table></form>";
             echo $ret;
         }
         break;
     case 'save':
-        $rssf_grab = Request::getArray('rssf_grab', [], 'POST');
+        $rssf_grab  = Request::getArray('rssf_grab', [], 'POST');
         $rssf_order = Request::getArray('rssf_order', [], 'POST');
-        $action = Request::getArray('action', null, 'POST');
-        $install = Request::getArray('install', [], 'POST');
-        $err = '';
+        $action     = Request::getArray('action', null, 'POST');
+        $install    = Request::getArray('install', [], 'POST');
+        $err        = '';
         if (isset($action)) {
             $keys = array_keys($action);
             foreach ($keys as $k) {
                 $plugin = $pluginHandler->get($k);
                 if ($plugin) {
-                    if (isset($rssf_grab[$k])) {
-                        $plugin->setVar('rssf_grab', $rssf_grab[$k]);
-                        $plugin->setVar('rssf_order', $rssf_order[$k]);
-                    }
-                    switch ($action[$k]) {
-                        default:
-                            $result = $pluginHandler->insert($plugin);
-                            break;
-                        case 'u':    // uninstall
-                            $result = $pluginHandler->delete($plugin);
-                            break;
-                        case 'd':    // deactivate
-                            $plugin->setVar('rssf_activated', 0);
-                            $result = $pluginHandler->insert($plugin);
-                            break;
-                        case 'a':    // activate
-                            $plugin->setVar('rssf_activated', 1);
-                            $result = $pluginHandler->insert($plugin);
-                            break;
+                if (isset($rssf_grab[$k])) {
+                    $plugin->setVar('rssf_grab', $rssf_grab[$k]);
+                    $plugin->setVar('rssf_order', $rssf_order[$k]);
+                }
+                switch ($action[$k]) {
+                    default:
+                        $result = $pluginHandler->insert($plugin);
+                        break;
+                    case 'u':    // uninstall
+                        $result = $pluginHandler->delete($plugin);
+                        break;
+                    case 'd':    // deactivate
+                        $plugin->setVar('rssf_activated', 0);
+                        $result = $pluginHandler->insert($plugin);
+                        break;
+                    case 'a':    // activate
+                        $plugin->setVar('rssf_activated', 1);
+                        $result = $pluginHandler->insert($plugin);
+                        break;
                     }
                 }
                 if (!$result) {
@@ -260,7 +261,7 @@ switch ($op) {
         if (!empty($err)) {
             echo $err;
         } else {
-            redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
+            redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_RSSFIT_DBUPDATED);
         }
         break;
 }

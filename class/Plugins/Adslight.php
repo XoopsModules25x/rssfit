@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -27,7 +27,7 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit version: 1.2 / 1.5
  *  XOOPS version: 2.0.13.2 / 2.2.3 / 2.3.2b / 2.4.3
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -42,7 +42,7 @@ class Adslight
     public $module;    // optional, see line 74
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -58,9 +58,9 @@ class Adslight
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
@@ -69,7 +69,7 @@ class Adslight
         $sql = 'SELECT lid, title, status, desctext, date from ' . $xoopsDB->prefix('adslight_listing') . " WHERE valid = 'Yes' ORDER BY date DESC";
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $link = XOOPS_URL . '/modules/' . $this->dirname . '/viewads.php?lid=' . $row['lid'];
+            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/viewads.php?lid=' . $row['lid'] ?? '';
             $ret[$i]['title'] = $row['title'];
             $ret[$i]['link'] = $link;
             $ret[$i]['timestamp'] = $row['date'];

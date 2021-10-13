@@ -17,8 +17,6 @@ namespace XoopsModules\Rssfit\Common;
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
- * @package     Publisher
- * @since       1.05
  */
 
 /**
@@ -27,32 +25,42 @@ namespace XoopsModules\Rssfit\Common;
 class Configurator
 {
     public $name;
-    public $paths = [];
-    public $uploadFolders = [];
-    public $copyBlankFiles = [];
+    public $paths           = [];
+    public $uploadFolders   = [];
+    public $copyBlankFiles  = [];
     public $copyTestFolders = [];
     public $templateFolders = [];
-    public $oldFiles = [];
-    public $oldFolders = [];
-    public $renameTables = [];
+    public $oldFiles        = [];
+    public $oldFolders      = [];
+    public $renameTables    = [];
+    public $renameColumns   = [];
+    public $moduleStats     = [];
     public $modCopyright;
+    public $icons;
 
     /**
      * Configurator constructor.
      */
     public function __construct()
     {
-        $config = include dirname(dirname(__DIR__)) . '/config/config.php';
 
-        $this->name = $config->name;
-        $this->paths = $config->paths;
-        $this->uploadFolders = $config->uploadFolders;
-        $this->copyBlankFiles = $config->copyBlankFiles;
+        $config = require \dirname(__DIR__, 2) . '/config/config.php';
+
+        $this->name            = $config->name;
+        $this->paths           = $config->paths;
+        $this->uploadFolders   = $config->uploadFolders;
+        $this->copyBlankFiles  = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
         $this->templateFolders = $config->templateFolders;
-        $this->oldFiles = $config->oldFiles;
-        $this->oldFolders = $config->oldFolders;
-        $this->renameTables = $config->renameTables;
-        $this->modCopyright = $config->modCopyright;
+        $this->oldFiles        = $config->oldFiles;
+        $this->oldFolders      = $config->oldFolders;
+        $this->renameTables    = $config->renameTables;
+        $this->renameColumns   = $config->renameColumns;
+        $this->moduleStats     = $config->moduleStats;
+        $this->modCopyright    = $config->modCopyright;
+
+        $this->icons = require \dirname(__DIR__, 2) . '/config/icons.php';
+        $this->paths = require \dirname(__DIR__, 2) . '/config/paths.php';
+
     }
 }

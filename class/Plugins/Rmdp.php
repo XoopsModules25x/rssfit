@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -28,7 +28,7 @@ namespace XoopsModules\Rssfit\Plugins;
  *  Version: 1.0
  *  RSSFit version: 1.1
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -43,12 +43,11 @@ class Rmdp extends \XoopsObject
     public $grab;
 
     /**
-     * @return bool|FALSE|\XoopsModule
+     * @return false|\XoopsModule
      */
     public function loadModule()
     {
-        global $moduleHandler;
-        $mod = $moduleHandler->getByDirname($this->dirname);
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }

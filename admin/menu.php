@@ -16,21 +16,27 @@
  * @since
  * @author       XOOPS Development Team
  */
-use XoopsModules\Rssfit;
 
-//require_once  dirname(__DIR__) . '/include/common.php';
+use Xmf\Module\Admin;
+use XoopsModules\Rssfit\{
+    Helper
+};
 
-$moduleDirName = basename(dirname(__DIR__));
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-$helper = \XoopsModules\Rssfit\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
 // get path to icons
-$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-if (is_object($helper->getModule())) {
-    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+$pathIcon32 = Admin::menuIconPath('');
+$pathModIcon32 = XOOPS_URL .   '/modules/' . $moduleDirName . '/assets/images/icons/32/';
+if (is_object($helper->getModule()) && false !== $helper->getModule()->getInfo('modicons32')) {
+    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
 $adminmenu = [];
@@ -75,7 +81,7 @@ $adminmenu[] = [
     'icon' => $pathIcon32 . '/attach.png',
 ];
 
-if ($helper->getConfig('displayDeveloperTools')) {
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
         'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
         'link' => 'admin/migrate.php',
@@ -85,6 +91,6 @@ if ($helper->getConfig('displayDeveloperTools')) {
 
 $adminmenu[] = [
     'title' => _MI_RSSFIT_ABOUT,
-    'link' => 'admin/about.php',
+    'link'  => 'admin/?do=about',
     'icon' => $pathIcon32 . '/about.png',
 ];

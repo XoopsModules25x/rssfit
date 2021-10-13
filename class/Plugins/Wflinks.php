@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -34,7 +34,7 @@ namespace XoopsModules\Rssfit\Plugins;
 *   Version : 1.03
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -49,37 +49,36 @@ class Wflinks
     public $grab;
 
     /**
-     * @return bool|FALSE|\XoopsModule
+     * @return false|\XoopsModule
      */
     public function loadModule()
     {
-        global $moduleHandler;
-        $mod = $moduleHandler->getByDirname($this->dirname);
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
         $this->modname = $mod->getVar('name');
-        $this->mid = $mod->getVar('mid');
 
         return $mod;
     }
 
     /**
      * @param \XoopsObject $obj
-     * @return array
+     * @return bool|array
      */
     public function grabEntries(&$obj)
     {
         global $xoopsDB, $xoopsUser;
 
-        $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $groups              = \is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         $myts = \MyTextSanitizer::getInstance();
         $ret = [];
         $i = 0;
         $sql = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wflinks_links') . ' WHERE status>0 ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
+        if ($result instanceof \mysqli_result) {
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if ($grouppermHandler->checkRight('WFLinkCatPerm', $row['cid'], $groups, $this->mid)) {
                 //  required
@@ -91,6 +90,7 @@ class Wflinks
                 $ret[$i]['category'] = $this->modname;
                 $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
+                }
             }
         }
 

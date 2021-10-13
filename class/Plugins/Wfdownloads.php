@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -30,7 +30,7 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -46,7 +46,7 @@ class Wfdownloads extends \XoopsObject
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -62,19 +62,21 @@ class Wfdownloads extends \XoopsObject
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $permiscHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
         $ret = false;
         $i = 0;
         $sql = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
+        /** @var \XoopsMemberHandler $memberHandler */
+        $memberHandler = xoops_getHandler('member');
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            if ($permiscHandler->checkRight('WFDownFilePerm', $row['lid'], is_object($GLOBALS['xoopsUser']) ? $GLOBALS['memberHandler']->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
+            if ($grouppermHandler->checkRight('WFDownFilePerm', $row['lid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                 $ret[$i]['title'] = $row['title'];
                 $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
                 $ret[$i]['link'] = $ret[$i]['guid'] = $link;

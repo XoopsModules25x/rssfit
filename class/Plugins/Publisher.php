@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -30,9 +30,9 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-//use XoopsModules\Publisher;
+use XoopsModules\Publisher\Helper as PublisherHelper;
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -47,11 +47,15 @@ class Publisher
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        //        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+
+        $helper = PublisherHelper::getInstance();
+        $mod    = $helper->getModule();
+
         if (!$mod || !$mod->getVar('isactive')) {
             return false;
         }
@@ -62,17 +66,18 @@ class Publisher
 
     /**
      * @param \XoopsObject $obj
-     * @return array
+     * @return bool|array
      */
-    public function &grabEntries($obj)
+    public function grabEntries(&$obj)
     {
-        $ret = [];
+        $ret = false;
         require_once XOOPS_ROOT_PATH . '/modules/publisher/include/common.php';
-        $helper = \XoopsModules\Publisher\Helper::getInstance();
-        $publisherItemHandler = $helper->getHandler('Item');
-        $items = $publisherItemHandler->getAllPublished($this->grab, 0);
-        if (false !== $items && count($items) > 0) {
-            for ($i = 0, $iMax = count($items); $i < $iMax; $i++) {
+        $helper                  = PublisherHelper::getInstance();
+        $publisherItemiscHandler = $helper->getHandler('Item');
+        $items                   = $publisherItemiscHandler->getAllPublished($this->grab, 0);
+        if (false !== $items && \count($items) > 0) {
+        $ret = [];
+            for ($i = 0, $iMax = \count($items); $i < $iMax; ++$i) {
                 $ret[$i]['link'] = $ret[$i]['guid'] = $items[$i]->getItemUrl();
                 $ret[$i]['title'] = $items[$i]->getVar('title', 'n');
                 $ret[$i]['timestamp'] = $items[$i]->getVar('datesub');

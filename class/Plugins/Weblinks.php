@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -29,7 +29,7 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -44,7 +44,7 @@ class Weblinks
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -71,13 +71,13 @@ class Weblinks
             return $lastName;
         }
 
-        if (!is_object($thisUser)) {
-            $memberHandler = xoops_getHandler('member');
+        if (!\is_object($thisUser)) {
+            $memberHandler = \xoops_getHandler('member');
             $thisUser = $memberHandler->getUser($uid);
         }
-        $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
+        $name = \htmlspecialchars($thisUser->getVar('name'), \ENT_QUOTES | \ENT_HTML5);
         if ('' == $name) {
-            $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
+            $name = \htmlspecialchars($thisUser->getVar('uname'), \ENT_QUOTES | \ENT_HTML5);
         }
         $lastUid = $uid;
         $lastName = $name;
@@ -87,9 +87,9 @@ class Weblinks
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();

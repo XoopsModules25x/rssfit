@@ -10,12 +10,14 @@
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
+
+use Xmf\Request;
 use XoopsModules\Rssfit;
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
@@ -35,28 +37,28 @@ switch ($op) {
         $title = new \XoopsFormText(_AM_RSSFIT_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
         $title->setDescription(_AM_RSSFIT_EDIT_INTRO_TITLE_DESC);
 
-        $tray_content = new \XoopsFormElementTray(_AM_RSSFIT_STICKY_CONTENT, '<br>');
-        $tray_content->setDescription(_AM_RSSFIT_EDIT_INTRO_TEXT_DESC);
+        $contentTray = new \XoopsFormElementTray(_AM_RSSFIT_STICKY_CONTENT, '<br>');
+        $contentTray->setDescription(_AM_RSSFIT_EDIT_INTRO_TEXT_DESC);
         $content = new \XoopsFormTextArea('', 'content', $sticky->getVar('misc_content', 'e'), 10);
-        $tray_content->addElement($content);
+        $contentTray->addElement($content);
         $dohtml = new \XoopsFormCheckbox('', 'dohtml', $setting['dohtml']);
         $dohtml->addOption(1, _AM_RSSFIT_DO_HTML);
-        $tray_content->addElement($dohtml);
+        $contentTray->addElement($dohtml);
         $dobr = new \XoopsFormCheckbox('', 'dobr', $setting['dobr']);
         $dobr->addOption(1, _AM_RSSFIT_DO_BR);
-        $tray_content->addElement($dobr);
+        $contentTray->addElement($dobr);
 
-        $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255, $myts->htmlSpecialChars($myts->stripSlashesGPC($setting['link'])));
+        $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255,  htmlspecialchars($setting['link']??'', ENT_QUOTES | ENT_HTML5));
 
-        $applyto = $feedHandler->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds'], 10);
+        $applyto = $feedHandler->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds']??'', 10);
 
         $form = new \XoopsThemeForm(_AM_RSSFIT_STICKY_EDIT, 'editsticky', RSSFIT_ADMIN_URL);
         $form->addElement($title);
-        $form->addElement($tray_content);
+        $form->addElement($contentTray);
         $form->addElement($link);
         $form->addElement($applyto);
-        $form->addElement($tray_save_cancel);
-        $form->addElement($hidden_do);
+        $form->addElement($saveCancelTray);
+        $form->addElement($hiddenDo);
         $form->addElement(new \XoopsFormHidden('op', 'save'));
         $form->display();
         break;
@@ -71,15 +73,15 @@ switch ($op) {
         }
         $setting = [
             'dohtml' => isset($_POST['dohtml']) ? 1 : 0,
-            'dobr' => isset($_POST['dobr']) ? 1 : 0,
-            'feeds' => $feeds,
-            'link' => isset($_POST['link']) ? trim($_POST['link']) : '',
+            'dobr'   => isset($_POST['dobr']) ? 1 : 0,
+            'feeds'  => $feeds,
+            'link'   => isset($_POST['link']) ? trim($_POST['link']) : '',
         ];
         $sticky->setVar('misc_setting', $setting, true);
         if (false === $miscHandler->insert($sticky)) {
             echo $sticky->getHtmlErrors();
         } else {
-            redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_DBUPDATED);
+            redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_RSSFIT_DBUPDATED);
         }
         break;
 }

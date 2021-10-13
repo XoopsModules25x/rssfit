@@ -12,23 +12,27 @@
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
  * @author       XOOPS Development Team
  */
-include dirname(__DIR__) . '/preloads/autoloader.php';
 
-require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-require dirname(__DIR__) . '/include/common.php';
+use Xmf\Module\Admin;
+use XoopsModules\Rssfit\{
+    Helper
+};
 
-$moduleDirName = basename(dirname(__DIR__));
+/** @var Helper $helper */
+/** @var Admin $adminObject */
 
-$helper = \XoopsModules\Rssfit\Helper::getInstance();
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-/** @var \Xmf\Module\Admin $adminObject */
-$adminObject = \Xmf\Module\Admin::getInstance();
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__) . '/include/common.php';
 
-//$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+$helper      = Helper::getInstance();
+$adminObject = Admin::getInstance();
+
+$moduleDirName      = $helper->getDirname();
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 // Load language files
 $helper->loadLanguage('admin');

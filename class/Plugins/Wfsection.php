@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -30,7 +30,7 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -45,7 +45,7 @@ class Wfsection
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -63,11 +63,11 @@ class Wfsection
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
-        @require XOOPS_ROOT_PATH . '/modules/wfsection/include/groupaccess.php';
+        @require_once XOOPS_ROOT_PATH . '/modules/wfsection/include/groupaccess.php';
         global $xoopsDB;
         $ret = false;
         $i = 0;
@@ -76,9 +76,9 @@ class Wfsection
                . ' a, '
                . $xoopsDB->prefix('wfs_category')
                . ' b WHERE a.published < '
-               . time()
+               . \time()
                . ' AND a.published > 0 AND (a.expired = 0 OR a.expired > '
-               . time()
+               . \time()
                . ') AND a.noshowart = 0 AND a.offline = 0 AND a.categoryid = b.id ORDER BY published DESC';
 
         $result = $xoopsDB->query($sql, $this->grab, 0);

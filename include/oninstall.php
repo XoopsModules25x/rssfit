@@ -13,11 +13,10 @@
 /**
  * @copyright     {@link https://xoops.org/ XOOPS Project}
  * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
  * @author        XOOPS Development Team
  */
 use XoopsModules\Rssfit;
+use XoopsModules\Rssfit\Utility;
 
 /**
  * Prepares system prior to attempting to install module
@@ -27,12 +26,12 @@ use XoopsModules\Rssfit;
  */
 function xoops_module_pre_install_rssfit(\XoopsModule $module)
 {
-    require_once dirname(__DIR__) . '/preloads/autoloader.php';
-    $utility = new \XoopsModules\Rssfit\Utility();
+    require_once \dirname(__DIR__) . '/preloads/autoloader.php';
+    $utility      = new Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess = $utility::checkVerPhp($module);
 
-    if (false !== $xoopsSuccess && false !== $phpSuccess) {
+    if ($xoopsSuccess && $phpSuccess) {
         $moduleTables = &$module->getInfo('tables');
         foreach ($moduleTables as $table) {
             $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
@@ -50,14 +49,14 @@ function xoops_module_pre_install_rssfit(\XoopsModule $module)
  */
 function xoops_module_install_rssfit(\XoopsModule $module)
 {
-    require_once dirname(__DIR__) . '/preloads/autoloader.php';
-    require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+    require_once \dirname(__DIR__) . '/preloads/autoloader.php';
+    require_once \dirname(__DIR__, 3) . '/mainfile.php';
 
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName = \basename(\dirname(__DIR__));
 
     $helper = Rssfit\Helper::getInstance();
     $configurator = new Rssfit\Common\Configurator();
-    $utility = new Rssfit\Utility();
+    $utility = new Utility();
 
     // Load language files
     $helper->loadLanguage('admin');
@@ -85,7 +84,7 @@ function xoops_module_install_rssfit(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator->copyBlankFiles) > 0) {
-        $file = dirname(__DIR__) . '/assets/images/blank.png';
+        $file = \dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);

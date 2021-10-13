@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -30,7 +30,7 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit verision: 1.22
  *  XOOPS version: 2.0.18.1
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -44,7 +44,7 @@ class Buyersguidemanufacturers
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -59,23 +59,23 @@ class Buyersguidemanufacturers
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         $ret = false;
         require_once XOOPS_ROOT_PATH . '/modules/buyersguide/include/common.php';
         $items = $hBgManufacturer->getListofActivteManufacturers(0, $this->grab, 'manu_date_added', 'DESC');
-        $i = 0;
+        $i     = 0;
 
-        if (false !== $items && count($items) > 0) {
+        if (false !== $items && \count($items) > 0) {
             foreach ($items as $item) {
-                $ret[$i]['link'] = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title'] = $item->getVar('manu_name', 'n');
-                $ret[$i]['timestamp'] = $item->getVar('manu_date_added');
+                $ret[$i]['link']        = $ret[$i]['guid'] = $item->getLink();
+                $ret[$i]['title']       = $item->getVar('manu_name', 'n');
+                $ret[$i]['timestamp']   = $item->getVar('manu_date_added');
                 $ret[$i]['description'] = $item->getVar('manu_description');
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }

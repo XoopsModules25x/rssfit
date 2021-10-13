@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -29,7 +29,7 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit verision: 1.3
  *  XOOPS version: 2.5.9
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -45,7 +45,7 @@ class Surnames
     public $module;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -73,13 +73,13 @@ class Surnames
             return $lastName;
         }
 
-        if (!is_object($thisUser)) {
-            $memberHandler = xoops_getHandler('member');
+        if (!\is_object($thisUser)) {
+            $memberHandler = \xoops_getHandler('member');
             $thisUser = $memberHandler->getUser($uid);
         }
-        $name = htmlspecialchars($thisUser->getVar('name'), ENT_QUOTES | ENT_HTML5);
+        $name = \htmlspecialchars($thisUser->getVar('name'), \ENT_QUOTES | ENT_HTML5);
         if ('' == $name) {
-            $name = htmlspecialchars($thisUser->getVar('uname'), ENT_QUOTES | ENT_HTML5);
+            $name = \htmlspecialchars($thisUser->getVar('uname'), \ENT_QUOTES | ENT_HTML5);
         }
         $lastUid = $uid;
         $lastName = $name;
@@ -89,9 +89,9 @@ class Surnames
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
@@ -106,7 +106,7 @@ class Surnames
         $sql .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
         $result = $xoopsDB->query($sql, $limit, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $changedate = strtotime($row['changedate']);
+            $changedate = \strtotime($row['changedate']);
             $uid = $row['uid'];
             if ($lasttime == $changedate && $lastuser == $uid) {
                 $link = XOOPS_URL . '/modules/surnames/view.php?id=' . $row['id'];

@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -29,7 +29,7 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit verision: 1.2 / 1.5
  *  XOOPS version: 2.0.13.2 / 2.2.3
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -44,7 +44,7 @@ class Mydownloads extends \XoopsObject
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -59,24 +59,24 @@ class Mydownloads extends \XoopsObject
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mydownloads_downloads') . ' l, ' . $xoopsDB->prefix('mydownloads_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
+        $myts   = \MyTextSanitizer::getInstance();
+        $ret    = false;
+        $i      = 0;
+        $sql    = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mydownloads_downloads') . ' l, ' . $xoopsDB->prefix('mydownloads_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $ret[$i]['title'] = $row['title'];
-            $link = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
-            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp'] = $row['date'];
+            $ret[$i]['title']       = $row['title'];
+            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp']   = $row['date'];
             $ret[$i]['description'] = $myts->displayTarea($row['description']);
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
+            $ret[$i]['category']    = $this->modname;
+            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
 

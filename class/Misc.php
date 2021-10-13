@@ -13,13 +13,14 @@ namespace XoopsModules\Rssfit;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -33,11 +34,11 @@ class Misc extends \XoopsObject
     {
         parent::__construct();
         //  key, data_type, value, req, max, opt
-        $this->initVar('misc_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('misc_category', XOBJ_DTYPE_TXTBOX, '', true, 15);
-        $this->initVar('misc_title', XOBJ_DTYPE_TXTBOX, '', false, 255);
-        $this->initVar('misc_content', XOBJ_DTYPE_TXTAREA, '', false);
-        $this->initVar('misc_setting', XOBJ_DTYPE_ARRAY, '');
+        $this->initVar('misc_id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('misc_category', \XOBJ_DTYPE_TXTBOX, '', true, 15);
+        $this->initVar('misc_title', \XOBJ_DTYPE_TXTBOX, '', false, 255);
+        $this->initVar('misc_content', \XOBJ_DTYPE_TXTAREA, '', false);
+        $this->initVar('misc_setting', \XOBJ_DTYPE_ARRAY, '');
     }
 
     /**

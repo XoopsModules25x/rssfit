@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -30,7 +30,10 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+use XoopsModules\Smartfaq\Helper as SmartfaqHelper;
+
+
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -45,7 +48,7 @@ class Smartfaq
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -60,20 +63,20 @@ class Smartfaq
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         $ret = false;
-        @require XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        @require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-        $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+        $faqHandler = SmartfaqHelper::getInstance()->getHandler('Faq');
         $faqs = $faqHandler->getAllPublished($this->grab, 0);
-        if (false !== $faqs && count($faqs) > 0) {
+        if (false !== $faqs && \count($faqs) > 0) {
             /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-            $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
-            for ($i = 0, $iMax = count($faqs); $i < $iMax; $i++) {
+            $answerHandler = SmartfaqHelper::getInstance()->getHandler('Answer');
+            for ($i = 0, $iMax = \count($faqs); $i < $iMax; ++$i) {
                 if (!$answer = $answerHandler->getOfficialAnswer($faqs[$i]->faqid())) {
                     continue;
                 }

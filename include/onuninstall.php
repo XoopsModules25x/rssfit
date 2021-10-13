@@ -7,6 +7,7 @@
  * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @link            https://xoops.org XOOPS
  */
+
 use XoopsModules\Rssfit;
 
 /**
@@ -31,7 +32,7 @@ function xoops_module_uninstall_rssfit(\XoopsModule $module)
 {
     //    return true;
 
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
     $helper = Rssfit\Helper::getInstance();
 

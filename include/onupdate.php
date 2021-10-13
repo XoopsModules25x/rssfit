@@ -12,28 +12,16 @@
 /**
  * @copyright    {@link https://xoops.org/ XOOPS Project}
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
  * @author       XOOPS Development Team
  */
 use XoopsModules\Rssfit;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !$GLOBALS['xoopsUser']->IsAdmin()) {
+    || !$GLOBALS['xoopsUser']->isAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
 
-/**
- * @param string $tablename
- *
- * @return bool
- */
-function tableExists($tablename)
-{
-    $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) ? true : false;
-}
 
 /**
  * Prepares system prior to attempting to install module
@@ -43,7 +31,7 @@ function tableExists($tablename)
  */
 function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVersion = null)
 {
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName = \basename(\dirname(__DIR__));
     /** @var Rssfit\Helper $helper */
     /** @var Rssfit\Utility $utility */
     $helper = Rssfit\Helper::getInstance();
@@ -64,7 +52,7 @@ function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVers
  */
 function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = null)
 {
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     /** @var Rssfit\Helper $helper */
@@ -84,7 +72,7 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
                     foreach ($templateList as $k => $v) {
                         $fileInfo = new \SplFileInfo($templateFolder . $v);
                         if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
-                            if (file_exists($templateFolder . $v)) {
+                            if (is_file($templateFolder . $v)) {
                                 unlink($templateFolder . $v);
                             }
                         }
@@ -126,7 +114,7 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
 
         //  ---  COPY blank.png FILES ---------------
         if (count($configurator->copyBlankFiles) > 0) {
-            $file = dirname(__DIR__) . '/assets/images/blank.png';
+            $file = \dirname(__DIR__) . '/assets/images/blank.png';
             foreach (array_keys($configurator->copyBlankFiles) as $i) {
                 $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
                 $utility::copyFile($file, $dest);

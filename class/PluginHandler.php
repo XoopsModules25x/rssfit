@@ -13,13 +13,14 @@ namespace XoopsModules\Rssfit;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -32,17 +33,16 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     public $db;
     public $db_table;
     public $obj_class = Plugin::class;
-    public $obj_key = 'rssf_conf_id';
-    public $sortby = 'rssf_order';
-    public $order = 'ASC';
-
+    public $obj_key   = 'rssf_conf_id';
+    public $sortby    = 'rssf_order';
+    public $order     = 'ASC';
     /**
      * @var \XoopsModules\Rssfit\Helper
      */
     public $helper;
 
     /**
-     * @param \XoopsDatabase                     $db
+     * @param \XoopsDatabase|null              $db
      * @param null|\XoopsModules\Rssfit\Helper $helper
      */
     public function __construct(\XoopsDatabase $db = null, $helper = null)
@@ -56,20 +56,23 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             $db = \XoopsDatabaseFactory::getDatabaseConnection();
         }
         $this->db = $db;
-        $this->db_table = $db->prefix($helper->getDirname() . '_plugins');
+        //        $this->db_table = $db->prefix($helper->getDirname() . '_plugins');
 
-        parent::__construct($db, 'rssfit_plugins', Plugin::class, 'rssf_conf_id', 'rssf_filename');
+        $table          = $db->prefix($helper->getDirname() . '_plugins');
+        $this->db_table = $table;
+
+        parent::__construct($db, $table, Plugin::class, 'rssf_conf_id', 'rssf_filename');
     }
 
     /**
      * @param \XoopsDatabase|null $db
      * @return \XoopsModules\Rssfit\PluginHandler
      */
-    public function getInstance(\XoopsDatabase $db = null)
+    public function getInstance(\XoopsDatabase $db = null): PluginHandler
     {
         static $instance;
         if (null === $instance) {
-            $instance = new self($db);
+            $instance = new static($db);
         }
 
         return $instance;
@@ -90,7 +93,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         return $obj;
     }
 
-//    public function get($id, $fields = '*')
+    //    public function get($id, $fields = '*')
 
     /**
      * @param null|int $id
@@ -99,10 +102,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function get($id = null, $fields = null)
     {
-        $ret = false;
+        $ret      = false;
         $criteria = new \Criteria($this->obj_key, (int)$id);
-        $objs = $this->getObjects2($criteria); // && 1 === count($objs);
-        if ($objs) {
+        $objs     = $this->getObjects2($criteria);
+        if ($objs && 1 === \count($objs)) {
             $ret = &$objs[0];
         }
 
@@ -116,8 +119,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $obj, $force = false)
     {
-//        $force = false;
-        if (mb_strtolower(get_class($obj)) != mb_strtolower($this->obj_class)) {
+        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->obj_class)) {
             return false;
         }
         if (!$obj->isDirty()) {
@@ -127,18 +129,18 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         foreach ($obj->cleanVars as $k => $v) {
-            if (XOBJ_DTYPE_INT == $obj->vars[$k]['data_type']) {
+            if (\XOBJ_DTYPE_INT == $obj->vars[$k]['data_type']) {
                 $cleanvars[$k] = (int)$v;
             } else {
                 $cleanvars[$k] = $this->db->quoteString($v);
             }
         }
-        if (count($obj->getErrors()) > 0) {
+        if (\count($obj->getErrors()) > 0) {
             return false;
         }
         if ($obj->isNew() || empty($cleanvars[$this->obj_key])) {
             $cleanvars[$this->obj_key] = $this->db->genId($this->db_table . '_' . $this->obj_key . '_seq');
-            $sql = 'INSERT INTO ' . $this->db_table . ' (' . implode(',', array_keys($cleanvars)) . ') VALUES (' . implode(',', array_values($cleanvars)) . ')';
+            $sql                       = 'INSERT INTO ' . $this->db_table . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
         } else {
             unset($cleanvars[$this->obj_key]);
             $sql = 'UPDATE ' . $this->db_table . ' SET';
@@ -158,7 +160,8 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
             return false;
         }
-        if (false === $obj->getVar($this->obj_key)) {
+//        if (false === $obj->getVar($this->obj_key)) {
+        if (null === $obj->getVar($this->obj_key)) {
             $obj->assignVar($this->obj_key, $this->db->getInsertId());
         }
 
@@ -172,8 +175,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $obj, $force = false)
     {
-//        $force = false;
-        if (mb_strtolower(get_class($obj)) != mb_strtolower($this->obj_class)) {
+        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->obj_class)) {
             return false;
         }
         $sql = 'DELETE FROM ' . $this->db_table . ' WHERE ' . $this->obj_key . '=' . $obj->getVar($this->obj_key);
@@ -197,7 +199,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function getObjects2($criteria = null, $fields = '*', $key = '')
     {
-        $ret = false;
+        $ret   = false;
         $limit = $start = 0;
         switch ($fields) {
             case 'p_activated':
@@ -211,7 +213,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
                 break;
         }
         $sql = 'SELECT ' . $fields . ' FROM ' . $this->db_table;
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -219,27 +221,26 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        if (!preg_match('/ORDER\ BY/', $sql)) {
+        if (!\preg_match('/ORDER\ BY/', $sql)) {
             $sql .= ' ORDER BY ' . $this->sortby . ' ' . $this->order;
         }
         $result = $this->db->query($sql, $limit, $start);
-        if (!$result) {
-            return false;
-        }
-        while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $obj = new $this->obj_class();
-            $obj->assignVars($myrow);
-            switch ($key) {
-                default:
-                    $ret[] = &$obj;
-                    break;
-                case 'id':
-                    $ret[$myrow[$this->obj_key]] = &$obj;
-                    break;
+        if ($result instanceof \mysqli_result) {
+            $ret   = [];
+            while (false !== ($myrow = $this->db->fetchArray($result))) {
+                $obj = new $this->obj_class();
+                $obj->assignVars($myrow);
+                switch ($key) {
+                    default:
+                        $ret[] = &$obj;
+                        break;
+                    case 'id':
+                        $ret[$myrow[$this->obj_key]] = &$obj;
+                        break;
+                }
+                unset($obj);
             }
-            unset($obj);
         }
-
         return $ret;
     }
 
@@ -251,7 +252,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function modifyObjects($criteria = null, $fields = [], $force = false)
     {
-        if ($fields && is_array($fields)) {
+        if ($fields && \is_array($fields)) {
             $obj = new $this->obj_class();
             $sql = '';
             foreach ($fields as $k => $v) {
@@ -261,7 +262,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             }
             $sql = mb_substr($sql, 0, -2);
             $sql = 'UPDATE ' . $this->db_table . ' SET ' . $sql;
-            if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+            if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
                 $sql .= ' ' . $criteria->renderWhere();
             }
             if (false !== $force) {
@@ -278,20 +279,21 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * count objects matching a condition
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @return bool|int
+     * @return false|int count of objects
      */
     public function getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db_table;
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
         if (!$result) {
             return false;
         }
-        list($count) = $this->db->fetchRow($result);
+        [$count] = $this->db->fetchRow($result);
 
         return $count;
     }
@@ -304,20 +306,21 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     public function forceDeactivate($obj, $type = 'rssf_activated')
     {
         $criteria = new \Criteria($this->obj_key, $obj->getVar($this->obj_key));
-        $fields = ['rssf_activated' => 0, 'subfeed' => 0];
+        $fields   = ['rssf_activated' => 0, 'subfeed' => 0];
         $this->modifyObjects($criteria, $fields, true);
 
         return true;
     }
 
     /**
-     * @return bool
+     * @return false|array
      */
     public function &getPluginFileList()
     {
-        $ret = false;
+        $ret  = false;
         $objs = $this->getObjects2(null, 'rssf_filename');
         if ($objs) {
+            $ret   = [];
             foreach ($objs as $o) {
                 $ret[] = $o->getVar('rssf_filename');
             }
@@ -328,40 +331,39 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param \XoopsObject $obj
-     * @return bool|mixed
+     * @return false|mixed
      */
     public function checkPlugin($obj)
     {
         $ret = false;
         global $moduleHandler;
-//        $file = RSSFIT_ROOT_PATH . 'plugins/' . $obj->getVar('rssf_filename');
-        $file = RSSFIT_ROOT_PATH . 'class/Plugins/' . $obj->getVar('rssf_filename');
-        if (file_exists($file)) {
+        $file = \RSSFIT_ROOT_PATH . 'class/Plugins/' . $obj->getVar('rssf_filename');
+        if (\is_file($file)) {
+            $ret   = [];
             //mb            $require_once = require $file;
-            $name = explode('.', $obj->getVar('rssf_filename'));
-//            $class = 'Rssfit' . ucfirst($name[0]);
-            $class = __NAMESPACE__ . '\Plugins\\' . ucfirst($name[0]);
-            if (class_exists($class)) {
+            $name         = \explode('.', $obj->getVar('rssf_filename'));
+            $class        = __NAMESPACE__ . '\Plugins\\' . \ucfirst($name[0]);
+            if (\class_exists($class)) {
                 $handler = new $class();
-                if (!method_exists($handler, 'loadmodule') || !method_exists($handler, 'grabentries')) {
-                    $obj->setErrors(_AM_RSSFIT_PLUGIN_FUNCNOTFOUND);
+                if (!\method_exists($handler, 'loadmodule') || !\method_exists($handler, 'grabentries')) {
+                    $obj->setErrors(\_AM_RSSFIT_PLUGIN_FUNCNOTFOUND);
                 } else {
                     $dirname = $handler->dirname;
-                    if (!empty($dirname) && is_dir(XOOPS_ROOT_PATH . '/modules/' . $dirname)) {
+                    if (!empty($dirname) && \is_dir(XOOPS_ROOT_PATH . '/modules/' . $dirname)) {
                         if (!$handler->loadModule()) {
-                            $obj->setErrors(_AM_RSSFIT_PLUGIN_MODNOTFOUND);
+                            $obj->setErrors(\_AM_RSSFIT_PLUGIN_MODNOTFOUND);
                         } else {
                             $ret = $handler;
                         }
                     } else {
-                        $obj->setErrors(_AM_RSSFIT_PLUGIN_MODNOTFOUND);
+                        $obj->setErrors(\_AM_RSSFIT_PLUGIN_MODNOTFOUND);
                     }
                 }
             } else {
-                $obj->setErrors(_AM_RSSFIT_PLUGIN_CLASSNOTFOUND . ' ' . $class);
+                $obj->setErrors(\_AM_RSSFIT_PLUGIN_CLASSNOTFOUND . ' ' . $class);
             }
         } else {
-            $obj->setErrors(_AM_RSSFIT_PLUGIN_FILENOTFOUND);
+            $obj->setErrors(\_AM_RSSFIT_PLUGIN_FILENOTFOUND);
         }
 
         return $ret;

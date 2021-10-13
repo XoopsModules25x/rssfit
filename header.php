@@ -10,11 +10,12 @@
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-require dirname(dirname(__DIR__)) . '/mainfile.php';
-require __DIR__ . '/include/common.php';
+
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
+require_once __DIR__ . '/include/common.php';

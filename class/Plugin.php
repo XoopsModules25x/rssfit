@@ -13,13 +13,13 @@ namespace XoopsModules\Rssfit;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
  * @author       XOOPS Development Team
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -33,18 +33,18 @@ class Plugin extends \XoopsObject
     {
         parent::__construct();
         //  key, data_type, value, req, max, opt
-        $this->initVar('rssf_conf_id', XOBJ_DTYPE_INT, null);
-        $this->initVar('rssf_filename', XOBJ_DTYPE_TXTBOX, '');
-        $this->initVar('rssf_activated', XOBJ_DTYPE_INT, 0);
-        $this->initVar('rssf_grab', XOBJ_DTYPE_INT, 0, true);
-        $this->initVar('rssf_order', XOBJ_DTYPE_INT, 0);
-        $this->initVar('subfeed', XOBJ_DTYPE_INT, 0);
-        $this->initVar('sub_entries', XOBJ_DTYPE_INT, 0);
-        $this->initVar('sub_link', XOBJ_DTYPE_TXTBOX, '');
-        $this->initVar('sub_title', XOBJ_DTYPE_TXTBOX, '');
-        $this->initVar('sub_desc', XOBJ_DTYPE_TXTBOX, '');
-        $this->initVar('img_url', XOBJ_DTYPE_TXTBOX, '');
-        $this->initVar('img_link', XOBJ_DTYPE_TXTBOX, '');
-        $this->initVar('img_title', XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('rssf_conf_id', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('rssf_filename', \XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('rssf_activated', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('rssf_grab', \XOBJ_DTYPE_INT, 0, true);
+        $this->initVar('rssf_order', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('subfeed', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('sub_entries', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('sub_link', \XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('sub_title', \XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('sub_desc', \XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('img_url', \XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('img_link', \XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('img_title', \XOBJ_DTYPE_TXTBOX, '');
     }
 }

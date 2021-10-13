@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -47,7 +47,9 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-if (!defined('RSSFIT_ROOT_PATH')) {
+use XoopsModules\Extcal\Helper as ExtcalHelper;
+
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -58,13 +60,12 @@ if (!defined('RSSFIT_ROOT_PATH')) {
 class Extcal
 {
     public $dirname = 'extcal';
-    public $classname = 'extcal'; //mb
     public $modname;
     public $grab;
     public $module;    // optional, see line 74
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -80,9 +81,9 @@ class Extcal
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
@@ -92,24 +93,26 @@ class Extcal
 
         // read confgs to get timestamp format
         $extcal = $this->module;
-        $configHandler = xoops_getHandler('config');
+        $configHandler = \xoops_getHandler('config');
         $extcalConfig = $configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
         $long_form = $extcalConfig['date_long'];
 
-        $eventHandler = \XoopsModules\Extcal\Helper::getInstance()->getHandler('Event');
-        $catHandler = \XoopsModules\Extcal\Helper::getInstance()->getHandler('Cat');
+        $eventHandler = ExtcalHelper::getInstance()->getHandler('Event');
+        $catHandler   = ExtcalHelper::getInstance()->getHandler('Category');
         $events = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
 
-        if (is_array($events)) {
+        if (\is_array($events)) {
             foreach ($events as $event) {
                 ++$i;
 
                 $cat = $catHandler->getCat($event->getVar('cat_id'), 0);
                 $category = $cat->getVar('cat_name');
                 $link = XOOPS_URL . '/modules/extcal/event.php?event=' . $event->getVar('event_id');
-                $event_start = formatTimestamp($event->getVar('event_start'), $long_form);
-                $title = xoops_utf8_encode(htmlspecialchars($event->getVar('event_title'), ENT_QUOTES));
-                $description = xoops_utf8_encode(htmlspecialchars($event->getVar('event_desc'), ENT_QUOTES));
+                $event_start = \formatTimestamp($event->getVar('event_start'), $long_form);
+                $temp        = \htmlspecialchars($event->getVar('event_title'), \ENT_QUOTES);
+                $title       = \xoops_utf8_encode($temp);
+                $temp        = \htmlspecialchars($event->getVar('event_desc'), \ENT_QUOTES);
+                $description = \xoops_utf8_encode($temp);
                 $address = $event->getVar('event_address');
 
                 $desc_link = $event->getVar('event_url');

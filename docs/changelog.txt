@@ -2,6 +2,8 @@
 <hr>
 - namespaces (mamba)
 - autoloading (mamba)
+- updates/cosmetics (mamba)
+- index.html to index.php (mamba)
 
 <h5>1.31.0 Beta 2  [NOT RELEASED]</h5>
 <hr>
@@ -24,8 +26,7 @@
 - added Publisher plugin (mamba)
 - PHPDoc updates (mamba)
 - standardization of language variables (mamba)
-- namespaces (mamba)
--
+
 
 
 <h5>1.31.0 Beta 1     [2017-10-24]</h5>

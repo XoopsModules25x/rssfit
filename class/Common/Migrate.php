@@ -12,6 +12,10 @@ namespace XoopsModules\Rssfit\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use \XoopsModules\Rssfit\{
+    Common\Configurator
+};
+
 /**
  * Class Migrate synchronize existing tables with target schema
  *
@@ -23,6 +27,8 @@ namespace XoopsModules\Rssfit\Common;
  */
 class Migrate extends \Xmf\Database\Migrate
 {
+    private $moduleDirName;
+    private $renameColumns;
     private $renameTables;
 
     /**
@@ -33,14 +39,15 @@ class Migrate extends \Xmf\Database\Migrate
     public function __construct()
     {
         $class = __NAMESPACE__ . '\\' . 'Configurator';
-        if (!class_exists($class)) {
+        if (!\class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }
         $configurator = new $class();
         $this->renameTables = $configurator->renameTables;
+        $this->renameColumns = $configurator->renameColumns;
 
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
-        parent::__construct($moduleDirName);
+        $this->moduleDirName = \basename(\dirname(__DIR__, 2));
+        parent::__construct($this->moduleDirName);
     }
 
     /**
@@ -48,11 +55,11 @@ class Migrate extends \Xmf\Database\Migrate
      */
     private function changePrefix()
     {
-        foreach ($this->renameTables as $oldName => $newName) {
-            if ($this->tableHandler->useTable($oldName) && !$this->tableHandler->useTable($newName)) {
-                $this->tableHandler->renameTable($oldName, $newName);
-            }
-        }
+//        foreach ($this->renameTables as $oldName => $newName) {
+//            if ($this->tableHandler->useTable($oldName) && !$this->tableHandler->useTable($newName)) {
+//                $this->tableHandler->renameTable($oldName, $newName);
+//            }
+//        }
     }
 
     /**
@@ -63,35 +70,65 @@ class Migrate extends \Xmf\Database\Migrate
      */
     private function convertIPAddresses($tableName, $columnName)
     {
-        if ($this->tableHandler->useTable($tableName)) {
-            $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
-            if (false !== mb_strpos($attributes, ' int(')) {
-                if (false === mb_strpos($attributes, 'unsigned')) {
-                    $this->tableHandler->alterColumn($tableName, $columnName, " bigint(16) NOT NULL  DEFAULT '0' ");
-                    $this->tableHandler->update($tableName, [$columnName => "4294967296 + $columnName"], "WHERE $columnName < 0", false);
+//        if ($this->tableHandler->useTable($tableName)) {
+//            $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
+//            if (false !== \mb_strpos($attributes, ' int(')) {
+//                if (false === \mb_strpos($attributes, 'unsigned')) {
+//                    $this->tableHandler->alterColumn($tableName, $columnName, " bigint(16) NOT NULL  DEFAULT '0' ");
+//                    $this->tableHandler->update($tableName, [$columnName => "4294967296 + $columnName"], "WHERE $columnName < 0", false);
+//                }
+//                $this->tableHandler->alterColumn($tableName, $columnName, " varchar(45)  NOT NULL  DEFAULT '' ");
+//                $this->tableHandler->update($tableName, [$columnName => "INET_NTOA($columnName)"], '', false);
+//            }
+//        }
+    }
+
+    /**
+     * @deprecated (just as an example here)
+     * Move do* columns from newbb_posts to newbb_posts_text table
+     */
+    private function moveDoColumns()
+    {
+//        $tableName    = 'newbb_posts_text';
+//        $srcTableName = 'newbb_posts';
+//        if ($this->tableHandler->useTable($tableName)
+//            && $this->tableHandler->useTable($srcTableName)) {
+//            $attributes = $this->tableHandler->getColumnAttributes($tableName, 'dohtml');
+//            if (false === $attributes) {
+//                $this->synchronizeTable($tableName);
+//                $updateTable = $GLOBALS['xoopsDB']->prefix($tableName);
+//                $joinTable   = $GLOBALS['xoopsDB']->prefix($srcTableName);
+//                $sql         = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
+//                $this->tableHandler->addToQueue($sql);
+//            }
+//        }
                 }
-                $this->tableHandler->alterColumn($tableName, $columnName, " varchar(45)  NOT NULL  DEFAULT '' ");
-                $this->tableHandler->update($tableName, [$columnName => "INET_NTOA($columnName)"], '', false);
+
+    /**
+     * rename table if needed
+     */
+    private function renameTable()
+    {
+        foreach ($this->renameTables as $oldName => $newName) {
+            if ($this->tableHandler->useTable($oldName) && !$this->tableHandler->useTable($newName)) {
+                $this->tableHandler->renameTable($oldName, $newName);
             }
         }
     }
 
     /**
-     * Move do* columns from newbb_posts to newbb_posts_text table
+     * rename columns if needed
      */
-    private function moveDoColumns()
+    private function renameColumns()
     {
-        $tableName = 'newbb_posts_text';
-        $srcTableName = 'newbb_posts';
-        if ($this->tableHandler->useTable($tableName)
-            && $this->tableHandler->useTable($srcTableName)) {
-            $attributes = $this->tableHandler->getColumnAttributes($tableName, 'dohtml');
-            if (false === $attributes) {
-                $this->synchronizeTable($tableName);
-                $updateTable = $GLOBALS['xoopsDB']->prefix($tableName);
-                $joinTable = $GLOBALS['xoopsDB']->prefix($srcTableName);
-                $sql = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
-                $this->tableHandler->addToQueue($sql);
+        foreach ($this->renameColumns as $tableName) {
+            if ($this->tableHandler->useTable($tableName)) {
+                $oldName = $tableName['from'];
+                $newName = $tableName['to'];
+                $attributes = $this->tableHandler->getColumnAttributes($tableName, $oldName);
+                if (false !== \strpos($attributes, ' int(')) {
+                    $this->tableHandler->alterColumn($tableName, $oldName, $attributes, $newName);
+                }
             }
         }
     }
@@ -105,14 +142,21 @@ class Migrate extends \Xmf\Database\Migrate
      */
     protected function preSyncActions()
     {
-        /*
         // change 'bb' table prefix to 'newbb'
         $this->changePrefix();
         // columns dohtml, dosmiley, doxcode, doimage and dobr moved between tables as some point
         $this->moveDoColumns();
         // Convert IP address columns from int to readable varchar(45) for IPv6
-        $this->convertIPAddresses('newbb_posts', 'poster_ip');
-        $this->convertIPAddresses('newbb_report', 'reporter_ip');
-        */
+//        $this->convertIPAddresses('newbb_posts', 'poster_ip');
+//        $this->convertIPAddresses('newbb_report', 'reporter_ip');
+
+        // rename table
+        if ($this->renameTables && \is_array($this->renameTables)) {
+            $this->renameTable();
+        }
+        // rename column
+        if ($this->renameColumns && \is_array($this->renameColumns)) {
+            $this->renameColumns();
+        }
     }
 }

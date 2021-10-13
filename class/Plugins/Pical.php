@@ -13,7 +13,7 @@ namespace XoopsModules\Rssfit\Plugins;
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package      RSSFit - Extendable XML news feed generator
  * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
@@ -29,7 +29,7 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit version: 1.21
  *  XOOPS version: 2.0.18.1
  */
-if (!defined('RSSFIT_ROOT_PATH')) {
+if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
@@ -43,7 +43,7 @@ class Pical
     public $grab;
 
     /**
-     * @return bool
+     * @return false|string
      */
     public function loadModule()
     {
@@ -58,24 +58,24 @@ class Pical
 
     /**
      * @param \XoopsObject $obj
-     * @return bool
+     * @return bool|array
      */
-    public function &grabEntries(&$obj)
+    public function grabEntries(&$obj)
     {
         global $xoopsDB;
-        $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ' . $xoopsDB->prefix('pical_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
+        $myts   = \MyTextSanitizer::getInstance();
+        $ret    = false;
+        $i      = 0;
+        $sql    = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ' . $xoopsDB->prefix('pical_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $ret[$i]['title'] = $row['summary'];
-            $link = XOOPS_URL . '/modules/' . $this->dirname . '/index.php?event_id=' . $row['id'];
-            $ret[$i]['link'] = $ret[$i]['guid'] = $link;
-            $ret[$i]['timestamp'] = $row['dtstamp'];
+            $ret[$i]['title']       = $row['summary'];
+            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/index.php?event_id=' . $row['id'];
+            $ret[$i]['link']        = $ret[$i]['guid'] = $link;
+            $ret[$i]['timestamp']   = $row['dtstamp'];
             $ret[$i]['description'] = $myts->displayTarea($row['description']);
-            $ret[$i]['category'] = $this->modname;
-            $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
+            $ret[$i]['category']    = $this->modname;
+            $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             $i++;
         }
 
