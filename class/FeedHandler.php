@@ -185,7 +185,7 @@ class FeedHandler
             $feed['sticky']['description'] = $sticky->getVar('misc_content');
             $this->cleanupChars($feed['sticky']['title']);
             $this->cleanupChars($feed['sticky']['link']);
-            $this->cleanupChars($feed['sticky']['description'], $setting['dohtml'] ? 0 : 1, false);
+            $this->cleanupChars($feed['sticky']['description'], $setting['dohtml'] ? false : true, false);
             $this->wrapCdata($feed['sticky']['description']);
             $feed['sticky']['pubdate'] = $this->rssTimeStamp(\time());
         }
@@ -225,7 +225,7 @@ class FeedHandler
         if (count($entries) > 0) {
             for ($i = 0, $iMax = count($entries); $i < $iMax; $i++) {
                 $this->cleanupChars($entries[$i]['title']);
-                $strip = $this->modConfig['strip_html'] ? 1 : 0;
+                $strip = $this->modConfig['strip_html'] ? true : false;
                 $this->cleanupChars($entries[$i]['description'], $strip, 0, 1);
                 $this->wrapCdata($entries[$i]['description']);
                 $entries[$i]['category'] = $this->myts->undoHtmlSpecialChars($entries[$i]['category']);

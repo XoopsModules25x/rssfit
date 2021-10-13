@@ -71,6 +71,7 @@ class Wflinks
         global $xoopsDB, $xoopsUser;
 
         $groups              = \is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
 
         $myts = \MyTextSanitizer::getInstance();

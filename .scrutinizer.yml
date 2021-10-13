@@ -18,3 +18,7 @@ filter:
   dependency_paths:
   - XoopsCore25/*
   - tag/*
+  - publisher/*
+  - smartfaq/*
+  - smartpartner/*
+  - smartsection/*

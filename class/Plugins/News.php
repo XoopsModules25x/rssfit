@@ -48,6 +48,7 @@ class News
     public $dirname = 'news';
     public $modname;
     public $grab;
+    public $module;
 
     /**
      * @return false|string

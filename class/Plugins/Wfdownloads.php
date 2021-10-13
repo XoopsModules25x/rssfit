@@ -68,11 +68,12 @@ class Wfdownloads extends \XoopsObject
     {
         global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
-        $ret = false;
-        $i = 0;
-        $sql = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
-        $result = $xoopsDB->query($sql, $this->grab, 0);
+        $ret              = false;
+        $i                = 0;
+        $sql              = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
+        $result           = $xoopsDB->query($sql, $this->grab, 0);
         /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = xoops_getHandler('member');
         while (false !== ($row = $xoopsDB->fetchArray($result))) {

@@ -93,9 +93,10 @@ class Extcal
 
         // read confgs to get timestamp format
         $extcal = $this->module;
+        /** @var \XoopsConfigHandler $configHandler */
         $configHandler = \xoops_getHandler('config');
-        $extcalConfig = $configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
-        $long_form = $extcalConfig['date_long'];
+        $extcalConfig  = $configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
+        $long_form     = $extcalConfig['date_long'];
 
         $eventHandler = ExtcalHelper::getInstance()->getHandler('Event');
         $catHandler   = ExtcalHelper::getInstance()->getHandler('Category');

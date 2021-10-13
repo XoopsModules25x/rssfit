@@ -69,6 +69,7 @@ class Comments
     {
         $ret = false;
         require XOOPS_ROOT_PATH . '/include/comment_constants.php';
+        /** @var \XoopsCommentHandler $commentHandler */
         $commentHandler = \xoops_getHandler('comment');
         $criteria       = new CriteriaCompo(new Criteria('com_status', \XOOPS_COMMENT_ACTIVE));
         $criteria->setLimit($this->grab);

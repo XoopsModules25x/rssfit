@@ -80,7 +80,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param bool $isNew
-     * @return \XoopsObject
+     * @return \XoopsModules\Rssfit\PluginHandler
      */
     public function create($isNew = true)
     {
@@ -245,7 +245,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null|\CriteriaElement  $criteria
+     * @param null|\Criteria|\CriteriaCompo $criteria
      * @param array $fields
      * @param bool  $force
      * @return bool|string

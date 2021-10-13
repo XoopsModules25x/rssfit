@@ -92,6 +92,7 @@ class Myalbum
         }
 
         if (!\is_object($thisUser)) {
+            /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = \xoops_getHandler('member');
             $thisUser      = $memberHandler->getUser($uid);
         }

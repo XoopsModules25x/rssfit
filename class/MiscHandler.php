@@ -46,7 +46,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
         if (null === $helper) {
-            $helper = \XoopsModules\Rssfit\Helper::getInstance();
+            $helper = Helper::getInstance();
         }
         $this->helper = $helper;
 
@@ -76,7 +76,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param bool $isNew
-     * @return \XoopsObject
+     * @return \XoopsModules\Rssfit\MiscHandler
      */
     public function create($isNew = true)
     {
@@ -127,7 +127,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null|\CriteriaElement   $criteria
+     * @param null|\Criteria|\CriteriaCompo $criteria
      * @param string $fields
      * @param string $key
      * @return false|array
@@ -229,7 +229,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null|\CriteriaElement  $criteria
+     * @param null|\Criteria|\CriteriaCompo $criteria
      * @param array $fields
      * @param bool $force
      * @return false|string
