@@ -213,29 +213,29 @@ switch ($op) {
             foreach ($keys as $k) {
                 $plugin = $pluginHandler->get($k);
                 if ($plugin) {
-                if (isset($rssf_grab[$k])) {
-                    $plugin->setVar('rssf_grab', $rssf_grab[$k]);
-                    $plugin->setVar('rssf_order', $rssf_order[$k]);
-                }
-                switch ($action[$k]) {
-                    default:
-                        $result = $pluginHandler->insert($plugin);
-                        break;
-                    case 'u':    // uninstall
-                        $result = $pluginHandler->delete($plugin);
-                        break;
-                    case 'd':    // deactivate
-                        $plugin->setVar('rssf_activated', 0);
-                        $result = $pluginHandler->insert($plugin);
-                        break;
-                    case 'a':    // activate
-                        $plugin->setVar('rssf_activated', 1);
-                        $result = $pluginHandler->insert($plugin);
-                        break;
+                    if (isset($rssf_grab[$k])) {
+                        $plugin->setVar('rssf_grab', $rssf_grab[$k]);
+                        $plugin->setVar('rssf_order', $rssf_order[$k]);
                     }
-                }
-                if (!$result) {
-                    $err .= $plugin->getHtmlErrors();
+                    switch ($action[$k]) {
+                        default:
+                            $result = $pluginHandler->insert($plugin);
+                            break;
+                        case 'u':    // uninstall
+                            $result = $pluginHandler->delete($plugin);
+                            break;
+                        case 'd':    // deactivate
+                            $plugin->setVar('rssf_activated', 0);
+                            $result = $pluginHandler->insert($plugin);
+                            break;
+                        case 'a':    // activate
+                            $plugin->setVar('rssf_activated', 1);
+                            $result = $pluginHandler->insert($plugin);
+                            break;
+                    }
+                    if (!$result) {
+                        $err .= $plugin->getHtmlErrors();
+                    }
                 }
             }
         }
