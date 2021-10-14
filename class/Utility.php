@@ -107,6 +107,14 @@ class Utility extends Common\SysUtility
             $rss->load($cache_file);
         } else {
             $rss->load($feed_url);
+            /*
+            // if load() doesn't work, you might try this
+            $ch = curl_init($feed_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $content = curl_exec($ch);
+            curl_close($ch);
+            $rss->loadXML($content);
+            */
             if ($cache_timeout > 0) {
                 $rss->save($cache_file);
             }
