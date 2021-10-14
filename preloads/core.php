@@ -18,7 +18,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class RssCorePreload
  */
-class RssCorePreload extends \XoopsPreloadItem
+class RssfitCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
 
