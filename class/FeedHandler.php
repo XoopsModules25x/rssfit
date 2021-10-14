@@ -236,7 +236,7 @@ class FeedHandler
                 $entries[$i]['pubdate'] = $this->rssTimeStamp($entries[$i]['timestamp']);
             }
             if (empty($feed['plugin']) && 'd' === $this->modConfig['sort']) {
-                uasort($entries, 'sortTimestamp');
+                uasort($entries, [$this, 'sortTimestamp']);
             }
             if (count($entries) > $this->modConfig['overall_entries'] && empty($feed['plugin'])) {
                 $entries = array_slice($entries, 0, $this->modConfig['overall_entries']);
