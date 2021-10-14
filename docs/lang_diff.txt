@@ -10,13 +10,9 @@ Legend :
 x renamed
 
 ---------------------------------------
-2.33 Beta 1  2012-07-23
+1.32 Beta 1  2021-10-14
 ---------------------------------------
 
-_ _admin.php__
-+ _AM_OLEDRION_ADD_ATTRIBUTE
-+ _AM_OLEDRION_EDIT_ATTRIBUTE
-
-
-New file to translate :
-    /xoops/modules/admin/gateways/paypal/language/mylanguage/main.php
+modinfo.php
++ _MI_RSSFIT_TMPL_READER
++ _MI_RSSFIT_TMPL_READER_INTRO

@@ -37,6 +37,8 @@ define('_MI_RSSFIT_ENCODE_UTF8_DESC', 'Note: probably not functional and recomme
 // template explanations
 define('_MI_RSSFIT_TMPL_INTRO', 'Introduction in module home page');
 define('_MI_RSSFIT_TMPL_RSS', 'RSS feed data');
+define('_MI_RSSFIT_TMPL_READER', 'RSS Reader');
+define('_MI_RSSFIT_TMPL_READER_INTRO', 'Here you can see recent additions to our Website for selected modules.  If you would like to syndicate this feed to an external RSS Reader, you can read more about how to do it here: <a href="index.php">RSS Syndication</a><br><br>');
 
 ######### version 1.1 additions #########
 define('_MI_RSSFIT_OUTOUT_MIME', 'MIME type of RSS output');
