@@ -17,7 +17,7 @@
         <a href="https://xoops.gitbook.io/xoops-operations-guide/" target="_blank">Chapter 2.12 of our XOOPS Operations Manual</a></p>
 
     <p class="even">Some modules may come with a plugin that needs to be installed before use. You install a plugin,
-        a file name rssfit.<em>module</em>.php by copying it to the module/rssfit/plugins directory. You will
+        a file name rssfit.<em>module</em>.php by copying it to the modules/rssfit/class/Plugins directory. You will
         need to activate the new plugin in the <em>Plug-ins</em> administration panel.</p>
 
     <h4 class="odd">OPERATING INSTRUCTIONS</h4><br>
@@ -31,7 +31,7 @@
     <h4 class="odd">Creating Plugins</h4>
 
     <p class="even">If you are a module author (or a PHP savy user,) you can create a custom plugin to meet your needs.
-        The file <em>plugins/rssfit.special.php</em> is an example that you can use as a model. It includes extensive
+        The file <em>plugins/rssfit.sample.php</em> is an example that you can use as a model. It includes extensive
         comments to help guide you along the way.
     </p>
 

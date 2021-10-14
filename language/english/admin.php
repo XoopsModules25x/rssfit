@@ -8,9 +8,11 @@ define('_AM_RSSFIT_ID', 'ID');
 
 define('_AM_RSSFIT_EDIT_INTRO', 'Edit introduction');
 define('_AM_RSSFIT_EDIT_INTRO_TITLE', 'Introduction title');
-define('_AM_RSSFIT_EDIT_INTRO_TITLE_DESC', '{SITENAME} will print ' . $xoopsConfig['sitename']);
+define('_AM_RSSFIT_EDIT_INTRO_TITLE_DESC1', '{SITENAME} will print ');
+define('_AM_RSSFIT_EDIT_INTRO_TITLE_DESC', _AM_RSSFIT_EDIT_INTRO_TITLE_DESC1 . $xoopsConfig['sitename']);
 define('_AM_RSSFIT_EDIT_INTRO_TEXT', 'Introduction text');
-define('_AM_RSSFIT_EDIT_INTRO_TEXT_DESC', _AM_RSSFIT_EDIT_INTRO_TITLE_DESC . '<br><br>{SITEURL} will print ' . XOOPS_URL . '/');
+define('_AM_RSSFIT_EDIT_INTRO_TEXT_DESC1', '<br><br>{SITEURL} will print ');
+define('_AM_RSSFIT_EDIT_INTRO_TEXT_DESC', _AM_RSSFIT_EDIT_INTRO_TITLE_DESC . _AM_RSSFIT_EDIT_INTRO_TEXT_DESC1 . XOOPS_URL . '/');
 
 define('_AM_RSSFIT_EDIT_PLUGIN', 'Manage Plug-ins');
 define('_AM_RSSFIT_PLUGIN_ACTIVATED', 'Activated Plug-ins');
