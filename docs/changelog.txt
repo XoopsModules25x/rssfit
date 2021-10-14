@@ -4,6 +4,11 @@
 - autoloading (mamba)
 - updates/cosmetics (mamba)
 - index.html to index.php (mamba)
+- added RSS Reader (mamba)
+- fix callback in FeedHandler (mamba)
+- ranamed to RssfitCorePreload (zyspec)
+- fix plugin assignment (zyspec)
+
 
 <h5>1.31.0 Beta 2  [NOT RELEASED]</h5>
 <hr>
