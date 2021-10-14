@@ -22,3 +22,8 @@ filter:
   - smartfaq/*
   - smartpartner/*
   - smartsection/*
+  - extcal/*
+  - extgallery/*
+  - adslight/*
+  - oledrion/*
+
