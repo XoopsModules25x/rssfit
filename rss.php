@@ -18,8 +18,10 @@
  */
 
 use XoopsModules\Rssfit\{
+    FeedHandler,
     Helper
 };
+/** @var FeedHandler $feedHandler */
 
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
@@ -49,7 +51,8 @@ if (!$docache) {
 }
 
 $feed           = [];
-$feed['plugin'] = isset($_GET[$feedHandler->feedkey]) ? trim($_GET[$feedHandler->feedkey]) : '';
+$feed['plugin'] = isset($_GET['feed']) ? trim($_GET['feed']) : '';
+
 $feedHandler->checkSubFeed($feed);
 if (!$xoopsTpl->is_cached($template, $feedHandler->cached) || !$docache) {
     $xoopsTpl->assign('rss_encoding', $charset);

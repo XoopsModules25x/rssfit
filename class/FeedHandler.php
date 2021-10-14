@@ -44,7 +44,7 @@ class FeedHandler
     public $cached         = '';
     public $charset        = _CHARSET;
     public $feedkey        = 'feed';
-    public $plugin_file    = 'rssfit.%s.php';
+    public $plugin_file    = '%s.php';
     public $substr_remove  = [',', '/', ';', ':', '(', '{', '[', ' '];
     public $substr_add     = ['.', '!', '?', '}', ']', ')', '%'];
     public $substr_endwith = '...';
