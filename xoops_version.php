@@ -33,7 +33,7 @@ $modversion = [
     'description'         => _MI_RSSFIT_DESC,
     'official'            => 0,
     //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
-    'author'              => 'NS Tai (aka tuff)',
+    'author'              => 'NS Tai (aka tuff), Geekwright, Mamba, Zyspec',
     'credits'             => 'XOOPS Development Team, Brandycoke Productions',
     'author_mail'         => 'author-email',
     'author_website_url'  => 'https://xoops.org',
@@ -108,6 +108,7 @@ $modversion['helpsection'] = [
 // ------------------- Templates ------------------- //
 $modversion['templates'] = [
     ['file' => 'rssfit_index.tpl', 'description' => _MI_RSSFIT_TMPL_INTRO,],
+    ['file' => 'rssfit_reader.tpl', 'description' => _MI_RSSFIT_TMPL_READER,],
     ['file' => 'rssfit_rss.tpl', 'description' => _MI_RSSFIT_TMPL_RSS,],
 ];
 
