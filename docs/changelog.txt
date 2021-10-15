@@ -12,7 +12,7 @@
 - fix callback in FeedHandler (mamba)
 - ranamed to RssfitCorePreload (zyspec)
 - fix plugin assignment (zyspec)
-
+- fix shown error after installing plugin (goffy)
 
 <h5>1.31.0 Beta 2  [NOT RELEASED]</h5>
 <hr>

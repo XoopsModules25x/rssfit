@@ -161,7 +161,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             return false;
         }
 //        if (false === $obj->getVar($this->obj_key)) {
-        if (null === $obj->getVar($this->obj_key)) {
+        if (0 === (int)$obj->getVar($this->obj_key)) {
             $obj->assignVar($this->obj_key, $this->db->getInsertId());
         }
 
