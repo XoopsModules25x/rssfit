@@ -226,17 +226,17 @@ class FeedHandler
             }
         }
         if (count($entries) > 0) {
-            for ($i = 0, $iMax = count($entries); $i < $iMax; $i++) {
-                $this->cleanupChars($entries[$i]['title']);
+            foreach ($entries as $i => $iValue) {
+                $this->cleanupChars($iValue['title']);
                 $strip = $this->modConfig['strip_html'] ? true : false;
-                $this->cleanupChars($entries[$i]['description'], $strip, false, true);
-                $this->wrapCdata($entries[$i]['description']);
-                $entries[$i]['category'] = $this->myts->undoHtmlSpecialChars($entries[$i]['category']);
-                $this->cleanupChars($entries[$i]['category']);
-                if (!isset($entries[$i]['timestamp'])) {
+                $this->cleanupChars($iValue['description'], $strip, false, true);
+                $this->wrapCdata($iValue['description']);
+                $entries[$i]['category'] = $this->myts->undoHtmlSpecialChars($iValue['category']);
+                $this->cleanupChars($iValue['category']);
+                if (!isset($iValue['timestamp'])) {
                     $entries[$i]['timestamp'] = $this->rssmod->getVar('last_update');
                 }
-                $entries[$i]['pubdate'] = $this->rssTimeStamp((int)$entries[$i]['timestamp']);
+                $entries[$i]['pubdate'] = $this->rssTimeStamp((int)$iValue['timestamp']);
             }
             if (empty($feed['plugin']) && 'd' === $this->modConfig['sort']) {
                 uasort($entries, [$this, 'sortTimestamp']);
