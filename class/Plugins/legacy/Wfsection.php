@@ -47,13 +47,13 @@ class Wfsection
     public $grab;
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
+    public function loadModule():?\XoopsModule
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+            return null;
         }
         $this->modname = $mod->getVar('name');
         if ($mod->getVar('version') >= 200) {
@@ -64,14 +64,13 @@ class Wfsection
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
         @require_once XOOPS_ROOT_PATH . '/modules/wfsection/include/groupaccess.php';
-        global $xoopsDB;
-        $ret = false;
+        $ret = null;
         $i = 0;
         $sql = 'SELECT a.articleid, a.title as atitle, a.published, a.expired, a.counter, a.groupid, a.maintext, a.summary, b.title as btitle FROM '
                . $xoopsDB->prefix('wfs_article')

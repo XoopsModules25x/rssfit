@@ -32,8 +32,12 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-use XoopsModules\Smartsection\{
-    Helper as SmartsectionHelper
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Publisher\{
+    ItemHandler,
+    Helper as PluginHelper,
 };
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
@@ -41,44 +45,43 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 }
 
 /**
- * Class Smartsection
- * @package XoopsModules\Rssfit\Plugins
+ * Class Publisher
  */
-class Smartsection
+final class Publisher extends AbstractPlugin
 {
-    public $dirname = 'smartsection';
-    public $modname;
-    public $grab;
+    public $dirname = 'publisher';
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
 
         return $mod;
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        $ret = false;
-        require_once XOOPS_ROOT_PATH . '/modules/smartsection/include/common.php';
-        $helper      = SmartsectionHelper::getInstance();
-        $itemHandler = $helper->getHandler('Item');
+        $ret = null;
+        /** @var ItemHandler $itemHandler */
+        $itemHandler = $this->helper->getHandler('Item');
         $items       = $itemHandler->getAllPublished($this->grab, 0);
-        if (false !== $items && \count($items) > 0) {
+        if (\count($items) > 0) {
             $ret = [];
             for ($i = 0, $iMax = \count($items); $i < $iMax; ++$i) {
-                $ret[$i]['link']        = $ret[$i]['guid'] = $items[$i]->getItemUrl();
+                $ret[$i]['guid']        = $items[$i]->getItemUrl();
+                $ret[$i]['link']        = $ret[$i]['guid'];
                 $ret[$i]['title']       = $items[$i]->getVar('title', 'n');
                 $ret[$i]['timestamp']   = $items[$i]->getVar('datesub');
                 $ret[$i]['description'] = $items[$i]->getVar('summary');

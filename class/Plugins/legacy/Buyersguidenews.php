@@ -37,22 +37,22 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 }
 
 /**
- * Class Buyersguidemanufacturers
+ * Class Buyersguidenews
  */
-class Buyersguidemanufacturers
+class Buyersguidenews
 {
     public $dirname = 'buyersguide';
     public $modname;
     public $grab;
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
+    public function loadModule():?\XoopsModule
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+            return null;
         }
         $this->modname = $mod->getVar('name');
 
@@ -60,23 +60,24 @@ class Buyersguidemanufacturers
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $ret = false;
+        $myts = \MyTextSanitizer::getInstance();
+        $ret  = null;
         require_once XOOPS_ROOT_PATH . '/modules/buyersguide/include/common.php';
-        $items = $hBgManufacturer->getListofActivteManufacturers(0, $this->grab, 'manu_date_added', 'DESC');
+        $items = $hBgNews->getRecentNews(0, $this->grab);
         $i     = 0;
 
         if (false !== $items && \count($items) > 0) {
             $ret = [];
             foreach ($items as $item) {
                 $ret[$i]['link']        = $ret[$i]['guid'] = $item->getLink();
-                $ret[$i]['title']       = $item->getVar('manu_name', 'n');
-                $ret[$i]['timestamp']   = $item->getVar('manu_date_added');
-                $ret[$i]['description'] = $item->getVar('manu_description');
+                $ret[$i]['title']       = $item->getVar('news_title', 'n');
+                $ret[$i]['timestamp']   = $item->getVar('news_date');
+                $ret[$i]['description'] = $item->getShortenText();
                 $ret[$i]['category']    = $this->modname;
                 $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;

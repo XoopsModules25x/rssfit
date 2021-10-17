@@ -47,13 +47,13 @@ class Queries
     public $module;
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
+    public function loadModule():?\XoopsModule
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+            return null;
         }
         $this->modname = $mod->getVar('name');
         $this->module = $mod;    // optional, remove this line if there is nothing
@@ -62,14 +62,13 @@ class Queries
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
+        $ret  = null;
 
         $i = -1;
         $lasttime = false;

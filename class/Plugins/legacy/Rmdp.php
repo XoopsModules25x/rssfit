@@ -24,67 +24,64 @@ namespace XoopsModules\Rssfit\Plugins;
 
 /**
  * About this RSSFit plug-in
- * Author: tuff <http://www.brandycoke.com>
- * Requirements (Tested with):
- *  Module: MyDownloads <https://xoops.org>
- *  Version: 1.1
- *  RSSFit verision: 1.2 / 1.5
- *  XOOPS version: 2.0.13.2 / 2.2.3
+ * Author: agamen0n <http://www.tradux.xoopstotal.com.br>
+ * Requirements:
+ *  Module: RMDP <http://www.xoops-mexico.net>
+ *  Version: 1.0
+ *  RSSFit version: 1.1
  */
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
 /**
- * Class Mydownloads
- * @package XoopsModules\Rssfit\Plugins
+ * Class Rmdp
  */
-class Mydownloads extends \XoopsObject
+class Rmdp extends \XoopsObject
 {
-    public $dirname = 'mydownloads';
+    public $dirname = 'rmdp';
     public $modname;
+    public $module;
     public $grab;
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
+    public function loadModule():?\XoopsModule
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+            return null;
         }
         $this->modname = $mod->getVar('name');
+        $this->module = $mod;
 
         return $mod;
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
-        $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
-        $i      = 0;
-        $sql    = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mydownloads_downloads') . ' l, ' . $xoopsDB->prefix('mydownloads_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
+        $ret = null;
+        $i = 0;
+        $sql = 'SELECT id_soft, id_cat, nombre, fecha, longdesc FROM ' . $xoopsDB->prefix('rmdp_software') . ' ORDER BY fecha DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         if ($result instanceof \mysqli_result) {
             $ret = [];
             while (false !== ($row = $xoopsDB->fetchArray($result))) {
-                $ret[$i]['title']       = $row['title'];
-                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
+                $ret[$i]['title']       = $row['nombre'];
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/down.php?id=' . $row['id_soft'];
                 $ret[$i]['link']        = $ret[$i]['guid'] = $link;
-                $ret[$i]['timestamp']   = $row['date'];
-                $ret[$i]['description'] = $myts->displayTarea($row['description']);
+                $ret[$i]['timestamp']   = $row['fecha'];
+                $ret[$i]['description'] = $row['longdesc'];
                 $ret[$i]['category']    = $this->modname;
                 $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
                 $i++;
             }
         }
-
         return $ret;
     }
 }

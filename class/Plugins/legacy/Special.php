@@ -63,13 +63,13 @@ class Special
     public $module;
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
+    public function loadModule():?\XoopsModule
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
         if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+            return null;
         }
         $this->modname = $mod->getVar('name');
         $this->module = $mod;   // optional, remove this line if there is nothing
@@ -78,13 +78,12 @@ class Special
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries($obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
-        $ret = [];
+        $ret = null;
         @require_once XOOPS_ROOT_PATH . '/modules/special/class/stuff.php';
         $myts = \MyTextSanitizer::getInstance();
         $items = SpecialStuff::getAllPublished($this->grab, 0);

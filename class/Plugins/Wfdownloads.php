@@ -26,63 +26,68 @@ namespace XoopsModules\Rssfit\Plugins;
 * About this RSSFit plug-in
 * Author: tuff <http://www.brandycoke.com>
 * Requirements (Tested with):
-*  Module: WF-Downloads <http://smartyfactory.ca>
-*  Version: 3.1
-*  RSSFit verision: 1.21
-*  XOOPS version: 2.0.14
+*  Module: WF-Downloads <http://www.wf-projects.com>
+*  Version: 2.0.5a
+*  RSSFit verision: 1.2 / 1.5
+*  XOOPS version: 2.0.13.2 / 2.2.3
 */
+
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Wfdownloads\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
 
 /**
- * Class Wfdownloads_podcast
+ * Class Wfdownloads
  * @package XoopsModules\Rssfit\Plugins
  */
-class Wfdownloads_podcast extends \XoopsObject
+class Wfdownloads extends AbstractPlugin
 {
     public $dirname = 'wfdownloads';
-    public $modname;
-    public $module;
-    public $grab;
+
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive') || $mod->getVar('version') < 310) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
-        $this->module = $mod;
 
         return $mod;
     }
 
+
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $grouppermHandler = \xoops_getHandler('groupperm');
-        $ret = false;
-        $i = 0;
-        $sql            = 'SELECT lid, cid, title, date, description, filetype, size FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 AND (expired > ' . \time() . ' OR expired = 0) AND published <= ' . \time() . ' ORDER BY date DESC';
-        $result = $xoopsDB->query($sql, $this->grab, 0);
+
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
+        $ret              = null;
+        $i                = 0;
+        $sql              = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
+        $result           = $xoopsDB->query($sql, $this->grab, 0);
         if ($result instanceof \mysqli_result) {
             $ret = [];
             /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = xoops_getHandler('member');
             while (false !== ($row = $xoopsDB->fetchArray($result))) {
-                if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']])
-                    || $grouppermHandler->checkRight('WFDownCatPerm', $row['cid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
-                    $perms[$row['cid']]     = true;
+                if ($grouppermHandler->checkRight('WFDownFilePerm', $row['lid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                     $ret[$i]['title']       = $row['title'];
                     $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/singlefile.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'];
                     $ret[$i]['link']        = $ret[$i]['guid'] = $link;
@@ -90,15 +95,7 @@ class Wfdownloads_podcast extends \XoopsObject
                     $ret[$i]['description'] = $myts->displayTarea($row['description']);
                     $ret[$i]['category']    = $this->modname;
                     $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
-                    //  enclosure tag, a.k.a podcast
-                    $ret[$i]['extras']['enclosure']['attributes'] = [
-                        'url'    => XOOPS_URL . '/modules/' . $this->dirname . '/visit.php?cid=' . $row['cid'] . '&amp;lid=' . $row['lid'],
-                        'length' => $row['size'],
-                        'type'   => $row['filetype'],
-                    ];
                     $i++;
-                } else {
-                    $perms[$row['cid']] = false;
                 }
             }
         }
