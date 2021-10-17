@@ -212,7 +212,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             $sql = mb_substr($sql, 0, -1);
             $sql .= ' WHERE ' . $this->objKey . ' = ' . $object->getVar($this->objKey);
         }
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -250,7 +250,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
                 $sql .= ' ' . $criteria->renderWhere();
             }
-            if (false !== $force) {
+            if ($force) {
                 $result = $this->db->queryF($sql);
             } else {
                 $result = $this->db->query($sql);
@@ -275,7 +275,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         $sql = 'DELETE FROM ' . $this->dbTable . ' WHERE ' . $this->objKey . '=' . $object->getVar($this->objKey);
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
