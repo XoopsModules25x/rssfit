@@ -51,8 +51,6 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 class Comments extends AbstractPlugin
 {
     public $dirname = 'system';
-    public $modname;
-    public $grab;
 
     /**
      * @param \XoopsMySQLDatabase $xoopsDB

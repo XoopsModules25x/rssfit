@@ -32,7 +32,6 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 class MiscHandler extends \XoopsPersistableObjectHandler
 {
-    public $db;
     public $dbTable;
     public $objClass = Misc::class;
     public $objKey   = 'misc_id';

@@ -32,7 +32,6 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 class PluginHandler extends \XoopsPersistableObjectHandler
 {
-    public $db;
     public $dbTable;
     public $objClass = Plugin::class;
     public $objKey   = 'rssf_conf_id';
