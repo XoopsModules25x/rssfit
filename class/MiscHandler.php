@@ -175,33 +175,33 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
+     * @param \XoopsObject $object
      * @param bool         $force
      * @return array|bool|int|mixed|null
      */
-    public function insert(\XoopsObject $obj, $force = false)
+    public function insert(\XoopsObject $object, $force = false)
     {
 //        $force = false;
-        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->objClass)) {
+        if (mb_strtolower(\get_class($object)) != mb_strtolower($this->objClass)) {
             return false;
         }
-        if (!$obj->isDirty()) {
+        if (!$object->isDirty()) {
             return true;
         }
-        if (!$obj->cleanVars()) {
+        if (!$object->cleanVars()) {
             return false;
         }
-        foreach ($obj->cleanVars as $k => $v) {
-            if (\XOBJ_DTYPE_INT == $obj->vars[$k]['data_type']) {
+        foreach ($object->cleanVars as $k => $v) {
+            if (\XOBJ_DTYPE_INT == $object->vars[$k]['data_type']) {
                 $cleanvars[$k] = (int)$v;
             } else {
                 $cleanvars[$k] = $this->db->quoteString($v);
             }
         }
-        if (\count($obj->getErrors()) > 0) {
+        if (\count($object->getErrors()) > 0) {
             return false;
         }
-        if ($obj->isNew() || empty($cleanvars[$this->objKey])) {
+        if ($object->isNew() || empty($cleanvars[$this->objKey])) {
             $cleanvars[$this->objKey] = $this->db->genId($this->dbTable . '_' . $this->objKey . '_seq');
             $sql                       = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
         } else {
@@ -211,7 +211,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
                 $sql .= ' ' . $k . '=' . $v . ',';
             }
             $sql = mb_substr($sql, 0, -1);
-            $sql .= ' WHERE ' . $this->objKey . ' = ' . $obj->getVar($this->objKey);
+            $sql .= ' WHERE ' . $this->objKey . ' = ' . $object->getVar($this->objKey);
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -219,15 +219,15 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             $result = $this->db->query($sql);
         }
         if (!$result) {
-            $obj->setErrors('Could not store data in the database.<br>' . $this->db->error() . ' (' . $this->db->errno() . ')<br>' . $sql);
+            $object->setErrors('Could not store data in the database.<br>' . $this->db->error() . ' (' . $this->db->errno() . ')<br>' . $sql);
 
             return false;
         }
-        if (false === $obj->getVar($this->objKey)) {
-            $obj->assignVar($this->objKey, $this->db->getInsertId());
+        if (false === $object->getVar($this->objKey)) {
+            $object->assignVar($this->objKey, $this->db->getInsertId());
         }
 
-        return $obj->getVar($this->objKey);
+        return $object->getVar($this->objKey);
     }
 
     /**
@@ -265,17 +265,17 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
+     * @param \XoopsObject $object
      * @param bool        $force
      * @return bool
      */
-    public function delete(\XoopsObject $obj, $force = false): bool
+    public function delete(\XoopsObject $object, $force = false): bool
     {
 //        $force = false;
-        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->objClass)) {
+        if (mb_strtolower(\get_class($object)) != mb_strtolower($this->objClass)) {
             return false;
         }
-        $sql = 'DELETE FROM ' . $this->dbTable . ' WHERE ' . $this->objKey . '=' . $obj->getVar($this->objKey);
+        $sql = 'DELETE FROM ' . $this->dbTable . ' WHERE ' . $this->objKey . '=' . $object->getVar($this->objKey);
         if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
