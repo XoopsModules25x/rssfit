@@ -74,10 +74,10 @@ switch ($op) {
             'sub'    => isset($_POST['sub']) ? trim($_POST['sub']) : '',
         ];
         $intro->setVar('misc_setting', $setting);
-        if (false === $miscHandler->insert($intro)) {
-            echo $intro->getHtmlErrors();
-        } else {
+        if (false !== $miscHandler->insert($intro)) {
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_RSSFIT_DBUPDATED);
+        } else {
+            echo $intro->getHtmlErrors();
         }
         break;
 }

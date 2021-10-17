@@ -50,18 +50,18 @@ switch ($op) {
                     . "</tr>\n";
             foreach ($plugins as $p) {
                 $id = $p->getVar('rssf_conf_id');
-                if (!$handler = $pluginHandler->checkPlugin($p)) {
+                if ($handler = $pluginHandler->checkPlugin($p)) {
+                    $mod      = $handler->modname;
+                    $activate = new \XoopsFormCheckBox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
+                    $config = Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_RSSFIT_SUB_CONFIGURE);
+                    $urlLink  = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
+                } else {
                     $pluginHandler->forceDeactivate($p);
                     $mod      = implode('<br>', $p->getErrors());
                     $activate = new \XoopsFormCheckBox('', 'activate[' . $id . ']', 0);
                     $activate->setExtra('disabled="disabled"');
                     $config  = '&nbsp;';
                     $urlLink = $feedHandler->subFeedUrl($p->getVar('rssf_filename'));
-                } else {
-                    $mod      = $handler->modname;
-                    $activate = new \XoopsFormCheckBox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
-                    $config = Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_RSSFIT_SUB_CONFIGURE);
-                    $urlLink  = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
                 }
                 $activate->addOption(1, ' ');
                 $ret .= "<tr>\n"

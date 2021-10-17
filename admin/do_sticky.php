@@ -80,10 +80,10 @@ switch ($op) {
             'link'   => isset($_POST['link']) ? trim($_POST['link']) : '',
         ];
         $sticky->setVar('misc_setting', $setting, true);
-        if (false === $miscHandler->insert($sticky)) {
-            echo $sticky->getHtmlErrors();
-        } else {
+        if (false !== $miscHandler->insert($sticky)) {
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_RSSFIT_DBUPDATED);
+        } else {
+            echo $sticky->getHtmlErrors();
         }
         break;
 }

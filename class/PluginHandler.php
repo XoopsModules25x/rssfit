@@ -351,10 +351,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
                 } else {
                     $dirname = $handler->dirname;
                     if (!empty($dirname) && \is_dir(XOOPS_ROOT_PATH . '/modules/' . $dirname)) {
-                        if (!$handler->loadModule()) {
-                            $object->setErrors(\_AM_RSSFIT_PLUGIN_MODNOTFOUND);
-                        } else {
+                        if ($handler->loadModule()) {
                             $ret = $handler;
+                        } else {
+                            $object->setErrors(\_AM_RSSFIT_PLUGIN_MODNOTFOUND);
                         }
                     } else {
                         $object->setErrors(\_AM_RSSFIT_PLUGIN_MODNOTFOUND);

@@ -45,11 +45,11 @@ if (3 == $helper->getConfig('mime')) {
 
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 $xoopsTpl = new \XoopsTpl();
-if (!$docache) {
-    $xoopsTpl->caching = 0;
-} else {
+if ($docache) {
     $xoopsTpl->caching = 2;
     $xoopsTpl->xoops_setCacheTime($helper->getConfig('cache') * 60);
+} else {
+    $xoopsTpl->caching = 0;
 }
 
 $feed           = [];
