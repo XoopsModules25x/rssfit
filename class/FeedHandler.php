@@ -37,6 +37,7 @@ class FeedHandler
     public $rssmod;
     public $pluginHandler;
     public $miscHandler;
+    public $helper;
     public $channelreq;
     public $subHandler;
     public $pluginObject;
@@ -97,6 +98,7 @@ class FeedHandler
     {
         $this->myts          = \MyTextSanitizer::getInstance();
         $this->rssmod        = $xoopsModule;
+        $this->helper        = Helper::getInstance();
         $this->pluginHandler = Helper::getInstance()->getHandler('Plugin');
         $this->miscHandler   = Helper::getInstance()->getHandler('Misc');
         $this->modConfig     = $modConfig;
@@ -225,18 +227,35 @@ class FeedHandler
             }
         }
         if (\count($entries) > 0) {
-            foreach ($entries as $i => $iValue) {
-                $this->cleanupChars($iValue['title']);
+
+
+//            foreach ($entries as $i => $iValue) {
+//                $this->cleanupChars($iValue['title']);
+//                $strip = $this->modConfig['strip_html'] ? true : false;
+//                $this->cleanupChars($iValue['description'], $strip, false, true);
+//                $this->wrapCdata($iValue['description']);
+//                $entries[$i]['category'] = $this->myts->undoHtmlSpecialChars($iValue['category']);
+//                $this->cleanupChars($iValue['category']);
+//                if (!isset($iValue['timestamp'])) {
+//                    $entries[$i]['timestamp'] = $this->rssmod->getVar('last_update');
+//                }
+//                $entries[$i]['pubdate'] = $this->rssTimeStamp((int)$iValue['timestamp']);
+//            }
+
+
+            for ($i = 0, $iMax = count($entries); $i < $iMax; $i++) {
+                $this->cleanupChars($entries[$i]['title']);
                 $strip = $this->modConfig['strip_html'] ? true : false;
-                $this->cleanupChars($iValue['description'], $strip, false, true);
-                $this->wrapCdata($iValue['description']);
-                $entries[$i]['category'] = $this->myts->undoHtmlSpecialChars($iValue['category']);
-                $this->cleanupChars($iValue['category']);
-                if (!isset($iValue['timestamp'])) {
+                $this->cleanupChars($entries[$i]['description'], $strip, false, true);
+                $this->wrapCdata($entries[$i]['description']);
+                $entries[$i]['category'] = $this->myts->undoHtmlSpecialChars($entries[$i]['category']);
+                $this->cleanupChars($entries[$i]['category']);
+                if (!isset($entries[$i]['timestamp'])) {
                     $entries[$i]['timestamp'] = $this->rssmod->getVar('last_update');
                 }
-                $entries[$i]['pubdate'] = $this->rssTimeStamp((int)$iValue['timestamp']);
+                $entries[$i]['pubdate'] = $this->rssTimeStamp((int)$entries[$i]['timestamp']);
             }
+
             if (empty($feed['plugin']) && 'd' === $this->modConfig['sort']) {
                 \uasort($entries, [$this, 'sortTimestamp']);
             }
@@ -255,15 +274,15 @@ class FeedHandler
     {
         $ret = $text;
         $len = \function_exists('mb_strlen') ? mb_strlen($ret, $this->charset) : mb_strlen($ret);
-        if ($len > $this->modConfig['max_char'] && $this->modConfig['max_char'] > 0) {
-            $ret = $this->substrDetect($ret, 0, $this->modConfig['max_char'] - 1);
+        if ($len > $this->helper->getConfig('max_char') && $this->helper->getConfig('max_char') > 0) {
+            $ret = $this->substrDetect($ret, 0, $this->helper->getConfig('max_char') - 1);
             if (false === $this->strrposDetect($ret, ' ')) {
                 if (false !== $this->strrposDetect($text, ' ')) {
                     $ret = $this->substrDetect($text, 0, mb_strpos($text, ' '));
                 }
             }
-            if (\in_array($this->substrDetect($text, $this->modConfig['max_char'] - 1, 1), $this->substrAdd)) {
-                $ret .= $this->substrDetect($text, $this->modConfig['max_char'] - 1, 1);
+            if (\in_array($this->substrDetect($text, $this->helper->getConfig('max_char') - 1, 1), $this->substrAdd)) {
+                $ret .= $this->substrDetect($text, $this->helper->getConfig('max_char') - 1, 1);
             } else {
                 if (false !== $this->strrposDetect($ret, ' ')) {
                     $ret = $this->substrDetect($ret, 0, $this->strrposDetect($ret, ' '));
@@ -336,7 +355,7 @@ class FeedHandler
     public function cleanupChars(&$text, bool $strip = true, bool $dospec = true, bool $dosub = false): void
     {
         if ($strip) {
-            $text = \strip_tags($text);
+            $text = \strip_tags((string)$text);
         }
         if ($dosub) {
             $text = $this->doSubstr($text);

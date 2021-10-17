@@ -164,7 +164,7 @@ $modversion['config'][] = [
     'description' => '_MI_RSSFIT_MAXCHAR_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 0,
+    'default'     => 200,
 ];
 
 // $helper->getConfig('strip_html')
