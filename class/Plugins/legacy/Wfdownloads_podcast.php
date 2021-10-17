@@ -63,7 +63,6 @@ class Wfdownloads_podcast extends \XoopsObject
     }
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

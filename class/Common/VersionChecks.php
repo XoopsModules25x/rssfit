@@ -91,9 +91,6 @@ trait VersionChecks
      *
      * compares current module version with latest GitHub release
      * @static
-     * @param \Xmf\Module\Helper $helper
-     * @param string|null        $source
-     * @param string|null        $default
      *
      * @return string|array info about the latest module version, if newer
      */

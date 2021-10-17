@@ -59,7 +59,6 @@ class Mytube
     }
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

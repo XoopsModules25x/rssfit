@@ -49,7 +49,6 @@ final class Pical extends AbstractPlugin
     public $dirname = 'piCal';
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

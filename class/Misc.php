@@ -43,17 +43,11 @@ class Misc extends \XoopsObject
         $this->initVar('misc_setting', \XOBJ_DTYPE_ARRAY, '');
     }
 
-    /**
-     * @param bool $do
-     */
     public function setDoHtml(bool $do = true): void
     {
         $this->vars['dohtml']['value'] = $do;
     }
 
-    /**
-     * @param bool $do
-     */
     public function setDoBr(bool $do = true): void
     {
         $this->vars['dobr']['value'] = $do;

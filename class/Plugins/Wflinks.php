@@ -53,7 +53,6 @@ final class Wflinks extends AbstractPlugin
     public $dirname = 'wflinks';
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

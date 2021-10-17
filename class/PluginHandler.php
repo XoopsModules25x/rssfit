@@ -67,7 +67,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param \XoopsDatabase|null $db
-     * @return \XoopsPersistableObjectHandler
      */
     public function getInstance(\XoopsDatabase $db = null): \XoopsPersistableObjectHandler
     {
@@ -172,7 +171,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     /**
      * @param \XoopsObject $object
      * @param bool         $force
-     * @return bool
      */
     public function delete(\XoopsObject $object, $force = false): bool
     {
@@ -194,8 +192,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @param string                        $fields
-     * @param string                        $key
      * @return bool|array
      */
     public function getObjects2($criteria = null, string $fields = '*', string $key = '')
@@ -247,8 +243,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @param array                         $fields
-     * @param bool                          $force
      * @return bool|string
      */
     public function modifyObjects($criteria = null, array $fields = [], bool $force)
@@ -301,8 +295,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param        $object
-     * @param string $type
-     * @return bool
      */
     public function forceDeactivate($object, string $type = 'rssf_activated'): bool
     {

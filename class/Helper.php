@@ -39,11 +39,6 @@ class Helper extends \Xmf\Module\Helper
         parent::__construct($this->dirname);
     }
 
-    /**
-     * @param bool $debug
-     *
-     * @return \XoopsModules\Rssfit\Helper
-     */
     public static function getInstance(bool $debug = false): Helper
     {
         static $instance;
@@ -54,9 +49,6 @@ class Helper extends \Xmf\Module\Helper
         return $instance;
     }
 
-    /**
-     * @return string
-     */
     public function getDirname(): string
     {
         return $this->dirname;

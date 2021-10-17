@@ -39,11 +39,6 @@ class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
 
-    /**
-     * @param array $a
-     * @param array $b
-     * @return int
-     */
     public static function sortTimestamp(array $a, array $b): int
     {
         if ($a['timestamp'] == $b['timestamp']) {
@@ -53,11 +48,6 @@ class Utility extends Common\SysUtility
         return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
     }
 
-    /**
-     * @param int $spec
-     * @param \XoopsModules\Rssfit\FeedHandler $feedHandler
-     * @return string
-     */
     public static function genSpecMoreInfo(int $spec, FeedHandler $feedHandler): string
     {
         return static::rssfGenAnchor($feedHandler->specUrl($spec), \_AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', \_AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
@@ -65,12 +55,6 @@ class Utility extends Common\SysUtility
 
     /**
      * @param null|string $url
-     * @param string $text
-     * @param string $target
-     * @param string $title
-     * @param string $class
-     * @param string $id
-     * @return string
      */
     public static function rssfGenAnchor(string $url = null, string $text = '', string $target = '', string $title = '', string $class = '', string $id = ''): string
     {
@@ -95,16 +79,6 @@ class Utility extends Common\SysUtility
         $tiem_cnt: max number of feed items to be displayed
         $max_words: max number of words (not real words, HTML words)
         if <= 0: no limitation, if > 0 display at most $max_words words
-     */
-    /**
-     * @param string $feed_url
-     * @param int    $maxItemCount
-     * @param bool   $show_date
-     * @param bool   $show_description
-     * @param int    $max_words
-     * @param int    $cache_timeout
-     * @param string $cache_prefix
-     * @return string
      */
     public static function getRssFeedAsHtml(string $feed_url, int $maxItemCount = 10, bool $show_date = true, bool $show_description = true, int $max_words = 0, int $cache_timeout = 7200, string $cache_prefix = XOOPS_VAR_PATH . '/caches/xoops_cache/rss2html-'): string
     {
@@ -198,15 +172,6 @@ class Utility extends Common\SysUtility
         return $result;
     }
 
-    /**
-     * @param string $feed_url
-     * @param int    $maxItemCount
-     * @param bool   $show_date
-     * @param bool   $show_description
-     * @param int    $max_words
-     *
-     * @return void
-     */
     public static function outputRssFeed(string $feed_url, int $maxItemCount = 10, bool $show_date = true, bool $show_description = true, int $max_words = 0): void
     {
         echo self::getRssFeedAsHtml($feed_url, $maxItemCount, $show_date, $show_description, $max_words);

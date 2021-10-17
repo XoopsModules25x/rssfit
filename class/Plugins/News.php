@@ -52,7 +52,6 @@ final class News extends AbstractPlugin
     public $dirname = 'news';
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

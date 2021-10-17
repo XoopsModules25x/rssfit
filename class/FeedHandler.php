@@ -165,7 +165,6 @@ class FeedHandler
 
     /**
      * @param $feed
-     * @return bool
      */
     public function getSticky(&$feed): bool
     {
@@ -251,7 +250,6 @@ class FeedHandler
 
     /**
      * @param $text
-     * @return string
      */
     public function doSubstr($text): string
     {
@@ -321,7 +319,6 @@ class FeedHandler
     /**
      * @param $a
      * @param $b
-     * @return int
      */
     public function sortTimestamp($a, $b): int
     {
@@ -334,8 +331,6 @@ class FeedHandler
 
     /**
      * @param       $text
-     * @param bool  $strip
-     * @param bool  $dospec
      * @param false $dosub
      */
     public function cleanupChars(&$text, bool $strip = true, bool $dospec = true, bool $dosub = false): void
@@ -364,8 +359,6 @@ class FeedHandler
     }
 
     /**
-     * @param string $fields
-     * @param string $type
      * @return array
      */
     public function &getActivatedSubfeeds(string $fields = '', string $type = ''): ?array
@@ -390,15 +383,7 @@ class FeedHandler
     }
 
     /**
-     * @param string $caption
      * @param null|string|array $selected
-     * @param int    $size
-     * @param bool   $multi
-     * @param bool   $none
-     * @param bool   $main
-     * @param string $name
-     * @param string $type
-     * @return \XoopsFormSelect
      */
     public function feedSelectBox(string $caption = '', $selected = null, int $size = 1, bool $multi = true, bool $none = true, bool $main = true, string $name = 'feeds', string $type = 'id'): \XoopsFormSelect
     {
@@ -420,7 +405,6 @@ class FeedHandler
     }
 
     /**
-     * @param int $key
      * @return string
      */
     public function specUrl(int $key = 0): ?string
@@ -433,7 +417,6 @@ class FeedHandler
     }
 
     /**
-     * @param string $filename
      * @return string
      */
     public function subFeedUrl(string $filename = ''): ?string

@@ -66,7 +66,6 @@ abstract class AbstractPlugin implements PluginInterface
     }
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array

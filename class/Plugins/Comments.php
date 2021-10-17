@@ -53,7 +53,6 @@ final class Comments extends AbstractPlugin
     public $dirname = 'system';
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

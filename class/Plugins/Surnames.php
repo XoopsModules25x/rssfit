@@ -51,7 +51,6 @@ final class Surnames extends AbstractPlugin
 
     /**
      * @param $uid
-     * @return string
      */
     public function myGetUnameFromId($uid): string
     {
@@ -78,7 +77,6 @@ final class Surnames extends AbstractPlugin
     }
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

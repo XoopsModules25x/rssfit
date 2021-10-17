@@ -48,8 +48,6 @@ class Breadcrumb
     /**
      * Add link to breadcrumb
      *
-     * @param string $title
-     * @param string $link
      */
     public function addLink(string $title = '', string $link = ''): void
     {

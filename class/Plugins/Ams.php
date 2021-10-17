@@ -51,7 +51,6 @@ final class Ams extends AbstractPlugin
     public $dirname = 'ams';
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

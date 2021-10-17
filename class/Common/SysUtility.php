@@ -47,7 +47,6 @@ class SysUtility
     /**
      * Access the only instance of this class
      *
-     * @return SysUtility
      *
      */
     public static function getInstance(): SysUtility
@@ -63,7 +62,6 @@ class SysUtility
     /**
      * @param $text
      * @param $form_sort
-     * @return string
      */
     public static function selectSorting($text, $form_sort): string
     {
@@ -93,10 +91,6 @@ class SysUtility
     }
 
     /***************Blocks***************/
-    /**
-     * @param array $cats
-     * @return string
-     */
     public static function blockAddCatSelect(array $cats): string
     {
         $cat_sql = '';
@@ -143,8 +137,6 @@ class SysUtility
     }
 
     /**
-     * @param string $tableName
-     * @param string $columnName
      *
      * @return array|false
      */
@@ -320,8 +312,6 @@ class SysUtility
     /**
      * Get correct text editor based on user rights
      *
-     * @param \Xmf\Module\Helper|null $helper
-     * @param array|null              $options
      *
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */

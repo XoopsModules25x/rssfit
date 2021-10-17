@@ -68,7 +68,6 @@ final class Myalbum extends AbstractPlugin
 
     /**
      * @param $uid
-     * @return string
      */
     public function myGetUnameFromId($uid): string
     {
@@ -96,7 +95,6 @@ final class Myalbum extends AbstractPlugin
     }
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

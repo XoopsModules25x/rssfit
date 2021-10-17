@@ -24,7 +24,6 @@ trait ServerStats
     /**
      * serverStats()
      *
-     * @return string
      */
     public static function getServerStats(): string
     {

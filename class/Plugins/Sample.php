@@ -68,7 +68,6 @@ final class Sample extends AbstractPlugin
     public $dirname = 'sample';
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

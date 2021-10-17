@@ -61,7 +61,6 @@ class Weblinks
 
     /**
      * @param $uid
-     * @return string
      */
     public function myGetUnameFromId($uid): string
     {
@@ -88,7 +87,6 @@ class Weblinks
     }
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array

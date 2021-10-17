@@ -23,11 +23,6 @@ use XoopsModules\Rssfit;
 require_once \dirname(__DIR__) . '/preloads/autoloader.php';
 require_once \dirname(__DIR__, 3) . '/mainfile.php';
 
-/**
- * @param \XoopsModule $xoopsMod
- *
- * @return bool
- */
 function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
 {
     global $xoopsDB, $xoopsConfig;
@@ -65,10 +60,8 @@ function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
 }
 
 /**
- * @param \XoopsModule $xoopsMod
  * @param int          $oldversion version number of prevviously installed version
  *
- * @return bool
  */
 function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bool
 {
@@ -115,11 +108,6 @@ function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bo
 //    }
 //}
 
-/**
- * @param \XoopsModule $xoopsMod
- *
- * @return string
- */
 function rssfInsertChannel(\XoopsModule $xoopsMod): string
 {
     global $xoopsDB, $xoopsConfig;

@@ -63,7 +63,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param \XoopsDatabase|null $db
-     * @return \XoopsModules\Rssfit\MiscHandler
      */
     public function getInstance(\XoopsDatabase $db = null): MiscHandler
     {
@@ -129,8 +128,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @param string                        $fields
-     * @param string                        $key
      * @return false|array
      */
     public function getObjects2($criteria = null, string $fields = '*', string $key = '')
@@ -231,8 +228,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @param array                         $fields
-     * @param bool                          $force
      * @return false|string
      */
     public function modifyObjects($criteria = null, array $fields = [], bool $force)
@@ -266,7 +261,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     /**
      * @param \XoopsObject $object
      * @param bool        $force
-     * @return bool
      */
     public function delete(\XoopsObject $object, $force = false): bool
     {

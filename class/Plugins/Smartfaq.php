@@ -69,7 +69,6 @@ final class Smartfaq extends AbstractPlugin
 
 
     /**
-     * @param \XoopsMySQLDatabase $xoopsDB
      * @return array
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
