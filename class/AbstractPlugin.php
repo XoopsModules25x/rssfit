@@ -47,9 +47,6 @@ abstract class AbstractPlugin implements PluginInterface
     public $module;    // optional, see line 67
     public $helper;
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
@@ -57,7 +54,7 @@ abstract class AbstractPlugin implements PluginInterface
             return null;
         }
 
-        if (!$mod || !$mod->getVar('isactive')) {
+        if (!$mod->getVar('isactive')) {
             return null;
         }
         $this->modname = $mod->getVar('name');
@@ -66,9 +63,6 @@ abstract class AbstractPlugin implements PluginInterface
         return $mod;
     }
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
     }

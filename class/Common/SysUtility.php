@@ -59,11 +59,7 @@ class SysUtility
         return $instance;
     }
 
-    /**
-     * @param $text
-     * @param $form_sort
-     */
-    public static function selectSorting($text, $form_sort): string
+    public static function selectSorting(string $text, string $form_sort): string
     {
         global $start, $order, $sort;
 
@@ -106,10 +102,7 @@ class SysUtility
         return $cat_sql;
     }
 
-    /**
-     * @param $content
-     */
-    public static function metaKeywords($content): void
+    public static function metaKeywords(string $content): void
     {
         global $xoopsTpl, $xoTheme;
         $myts    = \MyTextSanitizer::getInstance();
@@ -121,10 +114,8 @@ class SysUtility
         }
     }
 
-    /**
-     * @param $content
-     */
-    public static function metaDescription($content): void
+
+    public static function metaDescription(string $content): void
     {
         global $xoopsTpl, $xoTheme;
         $myts    = \MyTextSanitizer::getInstance();
@@ -136,11 +127,7 @@ class SysUtility
         }
     }
 
-    /**
-     *
-     * @return array|false
-     */
-    public static function enumerate(string $tableName, string $columnName)
+    public static function enumerate(string $tableName, string $columnName): ?array
     {
         $table = $GLOBALS['xoopsDB']->prefix($tableName);
 
@@ -154,7 +141,7 @@ class SysUtility
 //            exit($GLOBALS['xoopsDB']->error());
             $logger     = \XoopsLogger::getInstance();
             $logger->handleError(\E_USER_WARNING, $sql, __FILE__, __LINE__);
-            return false;
+            return null;
         }
 
         $row      = $GLOBALS['xoopsDB']->fetchBoth($result);
@@ -171,12 +158,10 @@ class SysUtility
      * @param string $tableName name of dB table (without prefix)
      * @param string $idField   name of field (column) in dB table
      * @param int    $id        item id to clone
-     *
-     * @return mixed
      */
-    public static function cloneRecord(string $tableName, string $idField, int $id)
+    public static function cloneRecord(string $tableName, string $idField, int $id): ?int
     {
-        $newId = false;
+        $newId = null;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
         $sql       = "SELECT * FROM $table WHERE $idField='" . $id . "' ";
@@ -193,7 +178,8 @@ class SysUtility
             exit($GLOBALS['xoopsDB']->error());
         }
         // Return the new id
-        return $GLOBALS['xoopsDB']->getInsertId();
+        $newId = $GLOBALS['xoopsDB']->getInsertId();
+        return $newId;
     }
 
     /**
@@ -312,11 +298,12 @@ class SysUtility
     /**
      * Get correct text editor based on user rights
      *
-     *
-     * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
+      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
-    public static function getEditor(?\Xmf\Module\Helper $helper = null, ?array $options = null)
+    public static function getEditor(?\Xmf\Module\Helper $helper = null, ?array $options = null): ?\XoopsFormTextArea
     {
+        $descEditor = null;
+
         /** @var Helper $helper */
         if (null === $options) {
             $options = [];
@@ -405,11 +392,9 @@ class SysUtility
     /**
      * Add a field to a mysql table
      *
-     * @param $field
-     * @param $table
      * @return bool|\mysqli_result
      */
-    public static function addField($field, $table)
+    public static function addField(string $field, string $table)
     {
         global $xoopsDB;
         return $xoopsDB->queryF('ALTER TABLE ' . $table . " ADD $field;");

@@ -21,8 +21,12 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Rssfit\{
+    FeedHandler,
+    PluginHandler,
     Utility
 };
+/** @var FeedHandler $feedHandler */
+/** @var PluginHandler $pluginHandler */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
     header('Location: index.php');

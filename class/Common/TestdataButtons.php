@@ -22,6 +22,7 @@ namespace XoopsModules\Rssfit\Common;
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use Xmf\Yaml;
 use XoopsModules\Rssfit\Helper;
@@ -34,10 +35,7 @@ class TestdataButtons
 {
 
     //functions for import buttons
-    /**
-     * @param $adminObject
-     */
-    public static function loadButtonConfig($adminObject): void
+    public static function loadButtonConfig(Admin $adminObject): void
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);

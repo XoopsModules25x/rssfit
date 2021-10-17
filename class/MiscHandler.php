@@ -96,30 +96,30 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      * @param null|array $fields
      * @return bool|mixed|\XoopsObject|null
      */
-    public function get($id = null, $fields = null)
+    public function get($id = null, $fields = null): ?\XoopsObject
     {
         $criteria = new \Criteria($this->objKey, (int)$id);
         $objs     = $this->getObjects2($criteria);
         if (\is_array($objs) && !empty($objs)) {
-            return 1 != \count($objs) ? false : $objs[0];
+            return 1 != \count($objs) ? null : $objs[0];
         }
 
-        return false;
+        return null;
     }
 
     /**
      * count objects matching a condition
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @return false|mixed count of objects
+     * @return null|int count of objects
      */
-    public function getCount($criteria = null)
+    public function getCount($criteria = null): ?int
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->dbTable;
         if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
-            return false;
+            return null;
         }
         [$count] = $this->db->fetchRow($result);
 
@@ -128,11 +128,10 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @return false|array
      */
-    public function getObjects2($criteria = null, string $fields = '*', string $key = '')
+    public function getObjects2($criteria = null, string $fields = '*', string $key = ''): ?array
     {
-        $ret    = false;
+        $ret    = null;
         $limit  = $start = 0;
 //        $fields = '*';
         $sql    = 'SELECT ' . $fields . ' FROM ' . $this->dbTable;
@@ -171,8 +170,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $object
-     * @param bool         $force
      * @return array|bool|int|mixed|null
      */
     public function insert(\XoopsObject $object, $force = false)
@@ -228,9 +225,8 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @return false|string
      */
-    public function modifyObjects($criteria = null, array $fields = [], bool $force)
+    public function modifyObjects(?\Criteria $criteria = null, array $fields = [], bool $force = false): ?string
     {
         if ($fields && \is_array($fields)) {
             $obj = new $this->objClass();
@@ -255,13 +251,9 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             }
         }
 
-        return false;
+        return null;
     }
 
-    /**
-     * @param \XoopsObject $object
-     * @param bool        $force
-     */
     public function delete(\XoopsObject $object, $force = false): bool
     {
 //        $force = false;

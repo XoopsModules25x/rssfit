@@ -100,9 +100,9 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      * @param null|array $fields
      * @return bool|mixed|\XoopsObject|null
      */
-    public function get($id = null, $fields = null)
+    public function get($id = null, $fields = null): ?\XoopsObject
     {
-        $ret      = false;
+        $ret      = null;
         $criteria = new \Criteria($this->objKey, (int)$id);
         $objs     = $this->getObjects2($criteria);
         if (\is_array($objs) && 1 === \count($objs)) {
@@ -113,11 +113,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $object
-     * @param bool         $force
+     * @param  bool        $force  flag to force the query execution despite security settings
      * @return array|bool|int|mixed|null
      */
-    public function insert(\XoopsObject $object, $force = false)
+    public function insert(\XoopsObject $object, $force = true)
     {
         if (mb_strtolower(\get_class($object)) != mb_strtolower($this->objClass)) {
             return false;
@@ -169,7 +168,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $object
      * @param bool         $force
      */
     public function delete(\XoopsObject $object, $force = false): bool
@@ -192,11 +190,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @return bool|array
      */
-    public function getObjects2($criteria = null, string $fields = '*', string $key = '')
+    public function getObjects2($criteria = null, string $fields = '*', string $key = ''): ?array
     {
-        $ret   = false;
+        $ret   = null;
         $limit = $start = 0;
         switch ($fields) {
             case 'p_activated':
@@ -241,10 +238,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         return $ret;
     }
 
-    /**
-     * @return bool|string
-     */
-    public function modifyObjects(\CriteriaElement $criteria = null, array $fields = [], bool $force = true)
+    public function modifyObjects(\CriteriaElement $criteria = null, array $fields = [], bool $force = false): ?string
     {
         if ($fields && \is_array($fields)) {
             $object = new $this->objClass();
@@ -269,15 +263,15 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
      * count objects matching a condition
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @return false|int count of objects
+     * @return null|int count of objects
      */
-    public function getCount($criteria = null)
+    public function getCount($criteria = null): ?int
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->dbTable;
         if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
@@ -285,17 +279,14 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         }
         $result = $this->db->query($sql);
         if (!$result) {
-            return false;
+            return null;
         }
         [$count] = $this->db->fetchRow($result);
 
         return $count;
     }
 
-    /**
-     * @param        $object
-     */
-    public function forceDeactivate($object, string $type = 'rssf_activated'): bool
+    public function forceDeactivate(\XoopsObject $object, string $type = 'rssf_activated'): bool
     {
         $criteria = new \Criteria($this->objKey, $object->getVar($this->objKey));
         $fields   = ['rssf_activated' => 0, 'subfeed' => 0];
@@ -304,12 +295,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         return true;
     }
 
-    /**
-     * @return false|array
-     */
-    public function &getPluginFileList()
+
+    public function &getPluginFileList(): ?array
     {
-        $ret  = false;
+        $ret  = null;
         $objs = $this->getObjects2(null, 'rssf_filename');
         if (\is_array($objs) && !empty($objs)) {
             $ret   = [];
@@ -322,7 +311,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $object
      * @return false|mixed
      */
     public function checkPlugin(\XoopsObject $object)

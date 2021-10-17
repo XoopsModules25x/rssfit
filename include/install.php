@@ -94,10 +94,6 @@ function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bo
     return true;
 }
 
-/**
- * @param $xoopsMod
- * @param $lang
- */
 //function rssfInstallLangFile($xoopsMod, $lang)
 //{
 //    $file = XOOPS_ROOT_PATH . '/modules/' . $xoopsMod->getVar('dirname') . '/language/%s/install.php';

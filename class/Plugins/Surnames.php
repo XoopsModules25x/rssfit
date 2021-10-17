@@ -49,10 +49,7 @@ final class Surnames extends AbstractPlugin
 {
     public $dirname = 'surnames';
 
-    /**
-     * @param $uid
-     */
-    public function myGetUnameFromId($uid): string
+    public function myGetUnameFromId(int $uid): string
     {
         static $thisUser = false;
         static $lastUid = false;
@@ -63,8 +60,9 @@ final class Surnames extends AbstractPlugin
         }
 
         if (!\is_object($thisUser)) {
+            /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = \xoops_getHandler('member');
-            $thisUser = $memberHandler->getUser($uid);
+            $thisUser      = $memberHandler->getUser($uid);
         }
         $name = \htmlspecialchars($thisUser->getVar('name'), \ENT_QUOTES | \ENT_HTML5);
         if ('' == $name) {

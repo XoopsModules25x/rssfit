@@ -66,10 +66,7 @@ final class Myalbum extends AbstractPlugin
 {
     public $dirname = 'myalbum';
 
-    /**
-     * @param $uid
-     */
-    public function myGetUnameFromId($uid): string
+    public function myGetUnameFromId(int $uid): string
     {
         static $thisUser = false;
         static $lastUid = false;

@@ -57,7 +57,7 @@ final class Xoopstube extends AbstractPlugin
     public function loadModule(): ?\XoopsModule{
 
         $mod = null;
-        if (class_exists(PluginHelper::class)) {
+        if (\class_exists(PluginHelper::class)) {
             $this->helper = PluginHelper::getInstance();
             $this->module = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');

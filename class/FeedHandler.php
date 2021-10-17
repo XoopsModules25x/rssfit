@@ -90,11 +90,8 @@ class FeedHandler
 
     /**
      * FeedHandler constructor.
-     * @param $modConfig
-     * @param $xoopsConfig
-     * @param $xoopsModule
      */
-    public function __construct($modConfig, $xoopsConfig, $xoopsModule)
+    public function __construct(array $modConfig, array $xoopsConfig, \XoopsModule $xoopsModule)
     {
         $this->myts          = \MyTextSanitizer::getInstance();
         $this->rssmod        = $xoopsModule;
@@ -110,10 +107,7 @@ class FeedHandler
         ];
     }
 
-    /**
-     * @param $feed
-     */
-    public function getChannel(&$feed): void
+    public function getChannel(array &$feed): void
     {
         $channel  = [];
         $elements = $this->miscHandler->getObjects2(new \Criteria('misc_category', 'channel'));
@@ -165,10 +159,7 @@ class FeedHandler
         $feed['channel'] = &$channel;
     }
 
-    /**
-     * @param $feed
-     */
-    public function getSticky(&$feed): bool
+    public function getSticky(array &$feed): bool
     {
         if (!$intr = $this->miscHandler->getObjects2(new \Criteria('misc_category', 'sticky'))) {
             return false;
@@ -196,10 +187,8 @@ class FeedHandler
         return true;
     }
 
-    /**
-     * @param $feed
-     */
-    public function getItems(&$feed): void
+
+    public function getItems(array &$feed): void
     {
         $entries = [];
         $db      = \XoopsDatabaseFactory::getDatabaseConnection();
@@ -239,11 +228,12 @@ class FeedHandler
                 }
                 $entries[$i]['pubdate'] = $this->rssTimeStamp((int)$iValue['timestamp']);
             }
+            unset($iValue);
 
             if (empty($feed['plugin']) && 'd' === $this->modConfig['sort']) {
                 \uasort($entries, [$this, 'sortTimestamp']);
             }
-            if (empty($feed['plugin']) && count($entries) > $this->modConfig['overall_entries']) {
+            if (empty($feed['plugin']) && \count($entries) > $this->modConfig['overall_entries']) {
                 $entries = \array_slice($entries, 0, $this->modConfig['overall_entries']);
             }
         }
@@ -251,10 +241,8 @@ class FeedHandler
         $feed['items'] = &$entries;
     }
 
-    /**
-     * @param $text
-     */
-    public function doSubstr($text): string
+
+    public function doSubstr(string $text): string
     {
         $ret = $text;
         $len = \function_exists('mb_strlen') ? mb_strlen($ret, $this->charset) : mb_strlen($ret);
@@ -281,13 +269,7 @@ class FeedHandler
         return $ret;
     }
 
-    /**
-     * @param $text
-     * @param $start
-     * @param $len
-     * @return false|mixed|string
-     */
-    public function substrDetect($text, $start, $len)
+    public function substrDetect(string $text, int $start, int $len): string
     {
         if (\function_exists('mb_strcut')) {
             return mb_strcut($text, $start, $len, _CHARSET);
@@ -297,11 +279,9 @@ class FeedHandler
     }
 
     /**
-     * @param $text
-     * @param $find
      * @return false|int
      */
-    public function strrposDetect($text, $find)
+    public function strrposDetect(string $text, string $find)
     {
         if (\function_exists('mb_strrpos')) {
             return mb_strrpos($text, $find, 0, _CHARSET);
@@ -310,20 +290,13 @@ class FeedHandler
         return mb_strrpos($text, $find);
     }
 
-    /**
-     * @param $time
-     * @return string
-     */
-    public function rssTimeStamp($time): ?string
+
+    public function rssTimeStamp(int $time): ?string
     {
         return \date('D, j M Y H:i:s O', $time);
     }
 
-    /**
-     * @param $a
-     * @param $b
-     */
-    public function sortTimestamp($a, $b): int
+    public function sortTimestamp(array $a, array $b): int
     {
         if ($a['timestamp'] == $b['timestamp']) {
             return 0;
@@ -332,10 +305,7 @@ class FeedHandler
         return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
     }
 
-    /**
-     * @param       $text
-     * @param false $dosub
-     */
+
     public function cleanupChars(&$text, bool $strip = true, bool $dospec = true, bool $dosub = false): void
     {
         if ($strip) {
@@ -353,10 +323,7 @@ class FeedHandler
         }
     }
 
-    /**
-     * @param $text
-     */
-    public function wrapCdata(&$text): void
+    public function wrapCdata(string &$text): void
     {
         $text = '<![CDATA[' . \str_replace(['<![CDATA[', ']]>'], ['&lt;![CDATA[', ']]&gt;'], $text) . ']]>';
     }
@@ -433,10 +400,8 @@ class FeedHandler
         return null;
     }
 
-    /**
-     * @param $feed
-     */
-    public function checkSubFeed(&$feed): void
+
+    public function checkSubFeed(array &$feed): void
     {
         if (!empty($feed['plugin'])) {
             $criteria = new \CriteriaCompo();
@@ -457,10 +422,8 @@ class FeedHandler
         }
     }
 
-    /**
-     * @param $feed
-     */
-    public function buildFeed(&$feed): void
+
+    public function buildFeed(array &$feed): void
     {
         $this->getChannel($feed);
         $this->getItems($feed);

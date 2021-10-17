@@ -41,20 +41,13 @@ trait FilesManagement
         }
     }
 
-    /**
-     * @param $file
-     * @param $folder
-     */
-    public static function copyFile($file, $folder): bool
+    public static function copyFile(string $file, string $folder): bool
     {
         return \copy($file, $folder);
     }
 
-    /**
-     * @param $src
-     * @param $dst
-     */
-    public static function recurseCopy($src, $dst): void
+
+    public static function recurseCopy(string $src, string $dst): void
     {
         $dir = \opendir($src);
         //        @mkdir($dst);
