@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit;
 
 /*
@@ -109,7 +111,7 @@ class FeedHandler
     /**
      * @param $feed
      */
-    public function getChannel(&$feed)
+    public function getChannel(&$feed): void
     {
         $channel  = [];
         $elements = $this->miscHandler->getObjects2(new \Criteria('misc_category', 'channel'));
@@ -165,7 +167,7 @@ class FeedHandler
      * @param $feed
      * @return bool
      */
-    public function getSticky(&$feed)
+    public function getSticky(&$feed): bool
     {
         if (!$intr = $this->miscHandler->getObjects2(new \Criteria('misc_category', 'sticky'))) {
             return false;
@@ -196,7 +198,7 @@ class FeedHandler
     /**
      * @param $feed
      */
-    public function getItems(&$feed)
+    public function getItems(&$feed): void
     {
         $entries = [];
         if (!empty($feed['plugin'])) {
@@ -250,7 +252,7 @@ class FeedHandler
      * @param $text
      * @return string
      */
-    public function doSubstr($text)
+    public function doSubstr($text): string
     {
         $ret = $text;
         $len = \function_exists('mb_strlen') ? mb_strlen($ret, $this->charset) : mb_strlen($ret);
@@ -320,7 +322,7 @@ class FeedHandler
      * @param $b
      * @return int
      */
-    public function sortTimestamp($a, $b)
+    public function sortTimestamp($a, $b): int
     {
         if ($a['timestamp'] == $b['timestamp']) {
             return 0;
@@ -335,7 +337,7 @@ class FeedHandler
      * @param bool  $dospec
      * @param false $dosub
      */
-    public function cleanupChars(&$text, $strip = true, $dospec = true, $dosub = false)
+    public function cleanupChars(&$text, $strip = true, $dospec = true, $dosub = false): void
     {
         if ($strip) {
             $text = \strip_tags($text);
@@ -355,7 +357,7 @@ class FeedHandler
     /**
      * @param $text
      */
-    public function wrapCdata(&$text)
+    public function wrapCdata(&$text): void
     {
         $text = '<![CDATA[' . \str_replace(['<![CDATA[', ']]>'], ['&lt;![CDATA[', ']]&gt;'], $text) . ']]>';
     }
@@ -368,7 +370,7 @@ class FeedHandler
     public function &getActivatedSubfeeds($fields = '', $type = '')
     {
         $ret  = false;
-        $subs = $this->pluginHandler->getObjects2(new \Criteria('subfeed', 1), $fields);
+        $subs = $this->pluginHandler->getObjects2(new \Criteria('subfeed', '1'), $fields);
         if (\is_array($subs) && !empty($subs)) {
             $ret  = [];
             switch ($type) {
@@ -397,7 +399,7 @@ class FeedHandler
      * @param string $type
      * @return \XoopsFormSelect
      */
-    public function feedSelectBox($caption = '', $selected = '', $size = 1, $multi = true, $none = true, $main = true, $name = 'feeds', $type = 'id')
+    public function feedSelectBox($caption = '', $selected = '', $size = 1, $multi = true, $none = true, $main = true, $name = 'feeds', $type = 'id'): \XoopsFormSelect
     {
         $select = new \XoopsFormSelect($caption, $name, $selected, $size, $multi);
         if ($none) {
@@ -447,12 +449,12 @@ class FeedHandler
     /**
      * @param $feed
      */
-    public function checkSubFeed(&$feed)
+    public function checkSubFeed(&$feed): void
     {
         if (!empty($feed['plugin'])) {
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria('rssf_filename', \sprintf($this->plugin_file, $feed['plugin'])));
-            $criteria->add(new \Criteria('subfeed', 1));
+            $criteria->add(new \Criteria('subfeed', '1'));
             $sub     = $this->pluginHandler->getObjects2($criteria);
             $handler = false;
             if (isset($sub[0])) {
@@ -471,7 +473,7 @@ class FeedHandler
     /**
      * @param $feed
      */
-    public function buildFeed(&$feed)
+    public function buildFeed(&$feed): void
     {
         $this->getChannel($feed);
         $this->getItems($feed);

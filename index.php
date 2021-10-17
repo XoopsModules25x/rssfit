@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -29,7 +31,7 @@ if ($intr) {
     $intro->setDoBr($setting['dobr'] ? 1 : 0);
     $title           = str_replace('{SITENAME}', $xoopsConfig['sitename'], $intro->getVar('misc_title'));
     $content         = str_replace(['{SITENAME}', '{SITEURL}'], [$xoopsConfig['sitename'], XOOPS_URL . '/'], $intro->getVar('misc_content'));
-    if (false !== mb_strpos($content, '{SUB}') && $plugins = $pluginHandler->getObjects2(new \Criteria('subfeed', 1))) {
+    if (false !== mb_strpos($content, '{SUB}') && $plugins = $pluginHandler->getObjects2(new \Criteria('subfeed', '1'))) {
         $sublist = '';
         foreach ($plugins as $p) {
             $sub     = ($setting['sub']);

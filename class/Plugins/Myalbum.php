@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit\Plugins;
 
 /*
@@ -81,7 +83,7 @@ class Myalbum
      * @param $uid
      * @return string
      */
-    public function myGetUnameFromId($uid)
+    public function myGetUnameFromId($uid): string
     {
         static $thisUser = false;
         static $lastUid = false;

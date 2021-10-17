@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -35,7 +37,7 @@ switch ($op) {
     default:
         $ret = '';
         // activated plugins
-        $criteria = new \Criteria('rssf_activated', 1);
+        $criteria = new \Criteria('rssf_activated', '1');
         $plugins = $pluginHandler->getObjects2($criteria, 'p_activated');
         if ($plugins) {
             $ret .= "<table cellspacing='1' class='outer' width='100%'>\n"
@@ -93,7 +95,7 @@ switch ($op) {
         }
 
         // inactive plugins
-        $plugins = $pluginHandler->getObjects2(new \Criteria('rssf_activated', 0), 'p_inactive');
+        $plugins = $pluginHandler->getObjects2(new \Criteria('rssf_activated', '0'), 'p_inactive');
         if ($plugins) {
             $ret .= "<br>\n<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='3'>"

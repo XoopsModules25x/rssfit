@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit;
 
 /*
@@ -44,7 +46,7 @@ class Misc extends \XoopsObject
     /**
      * @param bool $do
      */
-    public function setDoHtml($do = true)
+    public function setDoHtml($do = true): void
     {
         $this->vars['dohtml']['value'] = $do;
     }
@@ -52,7 +54,7 @@ class Misc extends \XoopsObject
     /**
      * @param bool $do
      */
-    public function setDoBr($do = true)
+    public function setDoBr($do = true): void
     {
         $this->vars['dobr']['value'] = $do;
     }

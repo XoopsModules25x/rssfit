@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit;
 
 /*
@@ -303,7 +305,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      * @param string $type
      * @return bool
      */
-    public function forceDeactivate($obj, $type = 'rssf_activated')
+    public function forceDeactivate($obj, $type = 'rssf_activated'): bool
     {
         $criteria = new \Criteria($this->obj_key, $obj->getVar($this->obj_key));
         $fields   = ['rssf_activated' => 0, 'subfeed' => 0];

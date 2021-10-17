@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit\Common;
 
 /*
@@ -32,7 +34,7 @@ class TestdataButtons
 {
 
     //functions for import buttons
-    public static function loadButtonConfig($adminObject)
+    public static function loadButtonConfig($adminObject): void
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -54,7 +56,7 @@ class TestdataButtons
         }
     }
 
-    public static function hideButtons()
+    public static function hideButtons(): void
     {
         $yamlFile            = \dirname(__DIR__, 2) . '/config/admin.yml';
         $app                        = [];
@@ -63,7 +65,7 @@ class TestdataButtons
         \redirect_header('index.php', 0, '');
     }
 
-    public static function showButtons()
+    public static function showButtons(): void
     {
         $yamlFile            = \dirname(__DIR__, 2) . '/config/admin.yml';
         $app                        = [];

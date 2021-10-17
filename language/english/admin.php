@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 global $xoopsConfig;
 define('_AM_RSSFIT_SAVE', 'Save');
 define('_AM_RSSFIT_OK', 'Okay');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit;
 
 /*
@@ -42,7 +44,7 @@ class Utility extends Common\SysUtility
      * @param $b
      * @return int
      */
-    public static function sortTimestamp($a, $b)
+    public static function sortTimestamp($a, $b): int
     {
         if ($a['timestamp'] == $b['timestamp']) {
             return 0;
@@ -56,7 +58,7 @@ class Utility extends Common\SysUtility
      * @param $feedHandler
      * @return string
      */
-    public static function genSpecMoreInfo($spec, $feedHandler)
+    public static function genSpecMoreInfo($spec, $feedHandler): string
     {
         return static::rssfGenAnchor($feedHandler->specUrl($spec), \_AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', \_AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
     }
@@ -70,7 +72,7 @@ class Utility extends Common\SysUtility
      * @param string $id
      * @return string
      */
-    public static function rssfGenAnchor($url = '', $text = '', $target = '', $title = '', $class = '', $id = '')
+    public static function rssfGenAnchor($url = '', $text = '', $target = '', $title = '', $class = '', $id = ''): string
     {
         if (!empty($url)) {
             $ret = '<a href="' . $url . '"';
@@ -94,7 +96,7 @@ class Utility extends Common\SysUtility
         $max_words: max number of words (not real words, HTML words)
         if <= 0: no limitation, if > 0 display at most $max_words words
      */
-    public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = XOOPS_VAR_PATH . '/caches/xoops_cache/rss2html-')
+    public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = XOOPS_VAR_PATH . '/caches/xoops_cache/rss2html-'): string
     {
         $result = '';
         // get feeds and parse items
@@ -184,7 +186,7 @@ class Utility extends Common\SysUtility
         return $result;
     }
 
-    public static function output_rss_feed($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0)
+    public static function output_rss_feed($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0): void
     {
         echo self::get_rss_feed_as_html($feed_url, $max_item_cnt, $show_date, $show_description, $max_words);
     }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 define('_INTRO_TITLE', 'Syndicates this site');
 define('_INTRO_CONTENT', '<a href="rss.php"><img src="assets/images/rss.gif" alt="RSS feed"></a> <a href="rss.php"> <img src="assets/images/xml.gif" alt="RSS feed"></a>
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit;
 
 /*
@@ -64,7 +66,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      * @param \XoopsDatabase|null $db
      * @return \XoopsModules\Rssfit\MiscHandler
      */
-    public function getInstance(\XoopsDatabase $db = null)
+    public function getInstance(\XoopsDatabase $db = null): MiscHandler
     {
         static $instance;
         if (null === $instance) {

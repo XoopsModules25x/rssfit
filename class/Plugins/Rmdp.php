@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rssfit\Plugins;
 
 /*
@@ -61,7 +63,7 @@ class Rmdp extends \XoopsObject
      * @param \XoopsObject $obj
      * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(&$obj): array
     {
         global $xoopsDB, $grouppermHandler;
         $ret = [];
