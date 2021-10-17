@@ -57,7 +57,7 @@ class Wfsection
         }
         $this->modname = $mod->getVar('name');
         if ($mod->getVar('version') >= 200) {
-            return false;
+            return null;
         }
 
         return $mod;
