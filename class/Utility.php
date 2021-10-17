@@ -48,7 +48,7 @@ class Utility extends Common\SysUtility
         return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
     }
 
-    public static function genSpecMoreInfo(int $spec, FeedHandler $feedHandler): string
+    public static function genSpecMoreInfo(string $spec, FeedHandler $feedHandler): string
     {
         return static::rssfGenAnchor($feedHandler->specUrl($spec), \_AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', \_AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
     }

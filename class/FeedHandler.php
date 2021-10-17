@@ -407,7 +407,7 @@ class FeedHandler
     /**
      * @return string
      */
-    public function specUrl(int $key = 0): ?string
+    public function specUrl(string $key = '0'): ?string
     {
         if (isset($this->specs[$key])) {
             return $this->specUrl . '#' . $this->specs[$key];
