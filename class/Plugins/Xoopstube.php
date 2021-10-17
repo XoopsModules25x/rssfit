@@ -51,13 +51,21 @@ final class Xoopstube extends AbstractPlugin
      */
     public $dirname = 'xoopstube';
 
-    public function initialize(): void
-    {
+    /**
+     * @return \XoopsModule
+     */
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
         if (class_exists(PluginHelper::class)) {
             $this->helper = PluginHelper::getInstance();
             $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
+
+        return $mod;
     }
 
     /**
