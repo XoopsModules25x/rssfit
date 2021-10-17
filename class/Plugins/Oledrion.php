@@ -40,7 +40,6 @@ final class Oledrion extends AbstractPlugin
 {
     public $dirname = 'oledrion';
 
-
     /**
      * @return \XoopsModule
      */

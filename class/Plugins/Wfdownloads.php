@@ -49,7 +49,6 @@ final class Wfdownloads extends AbstractPlugin
 {
     public $dirname = 'wfdownloads';
 
-
     /**
      * @return \XoopsModule
      */

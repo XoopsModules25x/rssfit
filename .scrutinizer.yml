@@ -18,12 +18,22 @@ filter:
   dependency_paths:
   - XoopsCore25/*
   - tag/*
+  - adslight/*
+  - adslight/*
+  - apcal/*
+  - extcal/*
+  - extgallery/*
+  - lexikon/*
+  - myalbum/*
+  - mylinks/*
+  - newbb/*
+  - news/*
+  - oledrion/*
   - publisher/*
   - smartfaq/*
   - smartpartner/*
   - smartsection/*
-  - extcal/*
-  - extgallery/*
-  - adslight/*
-  - oledrion/*
+  - wfdownloads/*
+  - wflinks/*
+  - xoopstube/*
 

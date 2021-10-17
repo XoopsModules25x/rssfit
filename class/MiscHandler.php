@@ -41,10 +41,10 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public $helper;
 
     /**
-     * @param \XoopsDatabase|null              $db
+     * @param \XoopsMySQLDatabase|null              $db
      * @param null|\XoopsModules\Rssfit\Helper $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(\XoopsMySQLDatabase $db = null, $helper = null)
     {
         if (null === $helper) {
             $helper = Helper::getInstance();
@@ -62,9 +62,9 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsDatabase|null $db
+     * @param \XoopsMySQLDatabase|null $db
      */
-    public function getInstance(\XoopsDatabase $db = null): MiscHandler
+    public function getInstance(\XoopsMySQLDatabase $db = null): MiscHandler
     {
         static $instance;
         if (null === $instance) {

@@ -45,6 +45,7 @@ abstract class AbstractPlugin implements PluginInterface
     public $modname;
     public $grab;
     public $module;    // optional, see line 67
+    public $helper;
 
     /**
      * @return \XoopsModule

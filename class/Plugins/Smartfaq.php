@@ -49,7 +49,6 @@ final class Smartfaq extends AbstractPlugin
 {
     public $dirname = 'smartfaq';
 
-
     /**
      * @return \XoopsModule
      */

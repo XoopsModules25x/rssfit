@@ -36,7 +36,7 @@ use XoopsModules\Rssfit\{
     AbstractPlugin
 };
 use XoopsModules\Ams\Story;
-use XoopsModules\Ams\Helper as PluginHelper;
+//use XoopsModules\Ams\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
