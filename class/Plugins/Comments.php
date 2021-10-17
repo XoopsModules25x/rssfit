@@ -38,7 +38,7 @@ use CriteriaCompo;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\System\Helper as PluginHelper;
+//use XoopsModules\System\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();

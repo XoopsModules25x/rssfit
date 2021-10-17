@@ -35,7 +35,7 @@ namespace XoopsModules\Rssfit\Plugins;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\Surnames\Helper as PluginHelper;
+//use XoopsModules\Surnames\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
