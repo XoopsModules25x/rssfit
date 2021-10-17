@@ -56,7 +56,7 @@ $feed           = [];
 $feed['plugin'] = isset($_GET['feed']) ? trim($_GET['feed']) : '';
 
 $feedHandler->checkSubFeed($feed);
-if (!$xoopsTpl->is_cached($template, $feedHandler->cached) || !$docache) {
+if (!$docache || !$xoopsTpl->is_cached($template, $feedHandler->cached)) {
     $xoopsTpl->assign('rss_encoding', $charset);
     $feedHandler->buildFeed($feed);
     $xoopsTpl->assign('feed', $feed);

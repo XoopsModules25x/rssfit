@@ -241,7 +241,7 @@ class FeedHandler
             if (empty($feed['plugin']) && 'd' === $this->modConfig['sort']) {
                 uasort($entries, [$this, 'sortTimestamp']);
             }
-            if (count($entries) > $this->modConfig['overall_entries'] && empty($feed['plugin'])) {
+            if (empty($feed['plugin']) && count($entries) > $this->modConfig['overall_entries']) {
                 $entries = array_slice($entries, 0, $this->modConfig['overall_entries']);
             }
         }
@@ -350,7 +350,7 @@ class FeedHandler
             $text = \htmlspecialchars($text, \ENT_QUOTES, $this->charset);
             $text = \preg_replace('/&amp;(#\d+);/i', '&$1;', $text);
         }
-        if (!\preg_match('/utf-8/i', $this->charset) || XOOPS_USE_MULTIBYTES != 1) {
+        if (XOOPS_USE_MULTIBYTES != 1 || !\preg_match('/utf-8/i', $this->charset)) {
             $text = \str_replace(\array_map('\chr', \array_keys($this->escaped)), $this->escaped, $text);
         }
     }
