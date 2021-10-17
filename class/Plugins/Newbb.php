@@ -45,7 +45,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Newbb
  * @package XoopsModules\Rssfit\Plugins
  */
-class Newbb extends AbstractPlugin
+final class Newbb extends AbstractPlugin
 {
     public $dirname = 'newbb';
 

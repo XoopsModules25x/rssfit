@@ -44,7 +44,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Xoopstube
  */
-class Xoopstube extends AbstractPlugin
+final class Xoopstube extends AbstractPlugin
 {
     /**
      * @var string

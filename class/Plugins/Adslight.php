@@ -42,7 +42,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Adslight
  */
-class Adslight extends AbstractPlugin
+final class Adslight extends AbstractPlugin
 {
     public $dirname = 'adslight';
 

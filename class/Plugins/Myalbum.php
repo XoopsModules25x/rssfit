@@ -62,7 +62,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Myalbum
  * @package XoopsModules\Rssfit\Plugins
  */
-class Myalbum extends AbstractPlugin
+final class Myalbum extends AbstractPlugin
 {
     public $dirname = 'myalbum';
 

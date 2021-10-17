@@ -45,7 +45,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Wfdownloads
  * @package XoopsModules\Rssfit\Plugins
  */
-class Wfdownloads extends AbstractPlugin
+final class Wfdownloads extends AbstractPlugin
 {
     public $dirname = 'wfdownloads';
 

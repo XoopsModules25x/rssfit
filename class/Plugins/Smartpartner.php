@@ -50,7 +50,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Smartpartner
  * @package XoopsModules\Rssfit\Plugins
  */
-class Smartpartner extends AbstractPlugin
+final class Smartpartner extends AbstractPlugin
 {
     public $dirname = 'smartpartner';
 

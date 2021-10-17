@@ -45,7 +45,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Smartfaq
  * @package XoopsModules\Rssfit\Plugins
  */
-class Smartfaq extends AbstractPlugin
+final class Smartfaq extends AbstractPlugin
 {
     public $dirname = 'smartfaq';
 

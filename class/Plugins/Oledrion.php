@@ -36,7 +36,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Oledrion
  * @package XoopsModules\Rssfit\Plugins
  */
-class Oledrion extends AbstractPlugin
+final class Oledrion extends AbstractPlugin
 {
     public $dirname = 'oledrion';
 

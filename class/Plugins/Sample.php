@@ -63,7 +63,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Sample
  * @package XoopsModules\Rssfit\Plugins
  */
-class Sample extends AbstractPlugin
+final class Sample extends AbstractPlugin
 {
     public $dirname = 'sample';
 

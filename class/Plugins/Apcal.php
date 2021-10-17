@@ -44,7 +44,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Apcal
  */
-class Apcal extends AbstractPlugin
+final class Apcal extends AbstractPlugin
 {
     public $dirname = 'apcal';
 

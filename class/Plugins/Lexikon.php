@@ -43,7 +43,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class lexikon
  */
-class Lexikon extends AbstractPlugin
+final class Lexikon extends AbstractPlugin
 {
     public $dirname = 'lexikon';
 

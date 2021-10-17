@@ -44,7 +44,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Pical
  */
-class Pical extends AbstractPlugin
+final class Pical extends AbstractPlugin
 {
     public $dirname = 'piCal';
 

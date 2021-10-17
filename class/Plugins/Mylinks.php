@@ -45,7 +45,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Mylinks
  * @package XoopsModules\Rssfit\Plugins
  */
-class Mylinks extends AbstractPlugin
+final class Mylinks extends AbstractPlugin
 {
     public $dirname = 'mylinks';
 

@@ -62,7 +62,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Extcal
  * @package XoopsModules\Rssfit\Plugins
  */
-class Extcal extends AbstractPlugin
+final class Extcal extends AbstractPlugin
 {
     public $dirname = 'extcal';
 

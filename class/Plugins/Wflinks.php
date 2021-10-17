@@ -48,7 +48,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Wflinks
  */
-class Wflinks extends AbstractPlugin
+final class Wflinks extends AbstractPlugin
 {
     public $dirname = 'wflinks';
 

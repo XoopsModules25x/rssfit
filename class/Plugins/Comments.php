@@ -48,7 +48,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Comments
  * @package XoopsModules\Rssfit\Plugins
  */
-class Comments extends AbstractPlugin
+final class Comments extends AbstractPlugin
 {
     public $dirname = 'system';
 
