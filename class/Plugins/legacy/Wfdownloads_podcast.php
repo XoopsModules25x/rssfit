@@ -77,7 +77,7 @@ class Wfdownloads_podcast extends \XoopsObject
         if ($result instanceof \mysqli_result) {
             $ret = [];
             /** @var \XoopsMemberHandler $memberHandler */
-            $memberHandler = xoops_getHandler('member');
+            $memberHandler = \xoops_getHandler('member');
             while (false !== ($row = $xoopsDB->fetchArray($result))) {
                 if ((isset($perms[$row['cid']]) && true === $perms[$row['cid']])
                     || $grouppermHandler->checkRight('WFDownCatPerm', $row['cid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {

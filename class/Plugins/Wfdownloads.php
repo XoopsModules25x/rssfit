@@ -56,7 +56,7 @@ final class Wfdownloads extends AbstractPlugin
     public function loadModule(): ?\XoopsModule{
 
         $mod = null;
-        if (class_exists(PluginHelper::class)) {
+        if (\class_exists(PluginHelper::class)) {
             $this->helper = PluginHelper::getInstance();
             $this->module = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
@@ -77,7 +77,7 @@ final class Wfdownloads extends AbstractPlugin
         $myts = \MyTextSanitizer::getInstance();
 
         /** @var \XoopsGroupPermHandler $grouppermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
         $ret              = null;
         $i                = 0;
         $sql              = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wfdownloads_downloads') . ' WHERE status > 0 AND offline = 0 ORDER BY date DESC';
@@ -85,7 +85,7 @@ final class Wfdownloads extends AbstractPlugin
         if ($result instanceof \mysqli_result) {
             $ret = [];
             /** @var \XoopsMemberHandler $memberHandler */
-            $memberHandler = xoops_getHandler('member');
+            $memberHandler = \xoops_getHandler('member');
             while (false !== ($row = $xoopsDB->fetchArray($result))) {
                 if ($grouppermHandler->checkRight('WFDownFilePerm', $row['lid'], \is_object($GLOBALS['xoopsUser']) ? $memberHandler->getGroupsByUser($GLOBALS['xoopsUser']->getVar('uid')) : XOOPS_GROUP_ANONYMOUS, $this->module->getVar('mid'))) {
                     $ret[$i]['title']       = $row['title'];

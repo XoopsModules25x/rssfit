@@ -225,7 +225,7 @@ class FeedHandler
                 }
             }
         }
-        if (count($entries) > 0) {
+        if (\count($entries) > 0) {
             foreach ($entries as $i => $iValue) {
                 $this->cleanupChars($iValue['title']);
                 $strip = $this->modConfig['strip_html'] ? true : false;
@@ -239,10 +239,10 @@ class FeedHandler
                 $entries[$i]['pubdate'] = $this->rssTimeStamp((int)$iValue['timestamp']);
             }
             if (empty($feed['plugin']) && 'd' === $this->modConfig['sort']) {
-                uasort($entries, [$this, 'sortTimestamp']);
+                \uasort($entries, [$this, 'sortTimestamp']);
             }
             if (empty($feed['plugin']) && count($entries) > $this->modConfig['overall_entries']) {
-                $entries = array_slice($entries, 0, $this->modConfig['overall_entries']);
+                $entries = \array_slice($entries, 0, $this->modConfig['overall_entries']);
             }
         }
 
