@@ -33,9 +33,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 class MiscHandler extends \XoopsPersistableObjectHandler
 {
     public $db;
-    public $db_table;
-    public $obj_class = Misc::class;
-    public $obj_key   = 'misc_id';
+    public $dbTable;
+    public $objClass = Misc::class;
+    public $objKey   = 'misc_id';
     /**
      * @var \XoopsModules\Rssfit\Helper
      */
@@ -57,7 +57,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         }
         $this->db       = $db;
         $table = $db->prefix($helper->getDirname() . '_misc');
-        $this->db_table = $table;
+        $this->dbTable = $table;
 
         parent::__construct($db, $table, Misc::class, 'misc_id', 'misc_title');
     }
@@ -78,9 +78,9 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param bool $isNew
-     * @return \XoopsModules\Rssfit\MiscHandler
+     * @return \XoopsObject
      */
-    public function create($isNew = true)
+    public function create($isNew = true): ?\XoopsObject
     {
         $obj = parent::create($isNew);
         //        if ($isNew) {
@@ -100,7 +100,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function get($id = null, $fields = null)
     {
-        $criteria = new \Criteria($this->obj_key, (int)$id);
+        $criteria = new \Criteria($this->objKey, (int)$id);
         $objs     = $this->getObjects2($criteria);
         if (\is_array($objs) && !empty($objs)) {
             return 1 != \count($objs) ? false : $objs[0];
@@ -116,7 +116,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function getCount($criteria = null)
     {
-        $sql = 'SELECT COUNT(*) FROM ' . $this->db_table;
+        $sql = 'SELECT COUNT(*) FROM ' . $this->dbTable;
         if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -130,16 +130,16 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @param string $fields
-     * @param string $key
+     * @param string                        $fields
+     * @param string                        $key
      * @return false|array
      */
-    public function getObjects2($criteria = null, $fields = '*', $key = '')
+    public function getObjects2($criteria = null, string $fields = '*', string $key = '')
     {
         $ret    = false;
         $limit  = $start = 0;
 //        $fields = '*';
-        $sql    = 'SELECT ' . $fields . ' FROM ' . $this->db_table;
+        $sql    = 'SELECT ' . $fields . ' FROM ' . $this->dbTable;
         if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -149,13 +149,13 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             $start = $criteria->getStart();
         }
         if (!\preg_match('/ORDER\ BY/', $sql)) {
-            $sql .= ' ORDER BY ' . $this->obj_key . ' ASC';
+            $sql .= ' ORDER BY ' . $this->objKey . ' ASC';
         }
         $result = $this->db->query($sql, $limit, $start);
         if ($result instanceof \mysqli_result) {
             $ret = [];
             while (false !== ($myrow = $this->db->fetchArray($result))) {
-                $obj = new $this->obj_class();
+                $obj = new $this->objClass();
                 $obj->assignVars($myrow);
                 switch ($key) {
                     default:
@@ -165,7 +165,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
                         $ret[$myrow['misc_title']] = $obj;
                         break;
                     case 'id':
-                        $ret[$myrow[$this->obj_key]] = $obj;
+                        $ret[$myrow[$this->objKey]] = $obj;
                         break;
                 }
                 unset($obj);
@@ -182,7 +182,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public function insert(\XoopsObject $obj, $force = false)
     {
 //        $force = false;
-        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->obj_class)) {
+        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->objClass)) {
             return false;
         }
         if (!$obj->isDirty()) {
@@ -201,17 +201,17 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         if (\count($obj->getErrors()) > 0) {
             return false;
         }
-        if ($obj->isNew() || empty($cleanvars[$this->obj_key])) {
-            $cleanvars[$this->obj_key] = $this->db->genId($this->db_table . '_' . $this->obj_key . '_seq');
-            $sql                       = 'INSERT INTO ' . $this->db_table . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
+        if ($obj->isNew() || empty($cleanvars[$this->objKey])) {
+            $cleanvars[$this->objKey] = $this->db->genId($this->dbTable . '_' . $this->objKey . '_seq');
+            $sql                       = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
         } else {
-            unset($cleanvars[$this->obj_key]);
-            $sql = 'UPDATE ' . $this->db_table . ' SET';
+            unset($cleanvars[$this->objKey]);
+            $sql = 'UPDATE ' . $this->dbTable . ' SET';
             foreach ($cleanvars as $k => $v) {
                 $sql .= ' ' . $k . '=' . $v . ',';
             }
             $sql = mb_substr($sql, 0, -1);
-            $sql .= ' WHERE ' . $this->obj_key . ' = ' . $obj->getVar($this->obj_key);
+            $sql .= ' WHERE ' . $this->objKey . ' = ' . $obj->getVar($this->objKey);
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -223,23 +223,23 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
             return false;
         }
-        if (false === $obj->getVar($this->obj_key)) {
-            $obj->assignVar($this->obj_key, $this->db->getInsertId());
+        if (false === $obj->getVar($this->objKey)) {
+            $obj->assignVar($this->objKey, $this->db->getInsertId());
         }
 
-        return $obj->getVar($this->obj_key);
+        return $obj->getVar($this->objKey);
     }
 
     /**
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @param array $fields
-     * @param bool $force
+     * @param array                         $fields
+     * @param bool                          $force
      * @return false|string
      */
-    public function modifyObjects($criteria = null, $fields = [], $force = false)
+    public function modifyObjects($criteria = null, array $fields = [], bool $force)
     {
         if ($fields && \is_array($fields)) {
-            $obj = new $this->obj_class();
+            $obj = new $this->objClass();
             $sql = '';
             foreach ($fields as $k => $v) {
                 $sql .= $k . ' = ';
@@ -247,7 +247,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
                 $sql .= ', ';
             }
             $sql = mb_substr($sql, 0, -2);
-            $sql = 'UPDATE ' . $this->db_table . ' SET ' . $sql;
+            $sql = 'UPDATE ' . $this->dbTable . ' SET ' . $sql;
             if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
                 $sql .= ' ' . $criteria->renderWhere();
             }
@@ -269,13 +269,13 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      * @param bool        $force
      * @return bool
      */
-    public function delete(\XoopsObject $obj, $force = false)
+    public function delete(\XoopsObject $obj, $force = false): bool
     {
 //        $force = false;
-        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->obj_class)) {
+        if (mb_strtolower(\get_class($obj)) != mb_strtolower($this->objClass)) {
             return false;
         }
-        $sql = 'DELETE FROM ' . $this->db_table . ' WHERE ' . $this->obj_key . '=' . $obj->getVar($this->obj_key);
+        $sql = 'DELETE FROM ' . $this->dbTable . ' WHERE ' . $this->objKey . '=' . $obj->getVar($this->objKey);
         if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {

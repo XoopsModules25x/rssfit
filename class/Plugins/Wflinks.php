@@ -36,6 +36,11 @@ namespace XoopsModules\Rssfit\Plugins;
 *   Version : 1.03
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Wflinks\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -43,41 +48,23 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Wflinks
  */
-class Wflinks
+class Wflinks extends AbstractPlugin
 {
     public $dirname = 'wflinks';
-    public $modname;
-    public $mid;
-    public $grab;
 
     /**
-     * @return false|\XoopsModule
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function loadModule()
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-
-        return $mod;
-    }
-
-    /**
-     * @param \XoopsObject $obj
-     * @return bool|array
-     */
-    public function grabEntries(&$obj)
-    {
-        global $xoopsDB, $xoopsUser;
+        global $xoopsUser;
 
         $groups = \is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
 
-        $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
+        $ret    = null;
         $i      = 0;
         $sql    = 'SELECT lid, cid, title, date, description FROM ' . $xoopsDB->prefix('wflinks_links') . ' WHERE status>0 ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);

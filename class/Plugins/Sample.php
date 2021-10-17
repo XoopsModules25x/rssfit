@@ -49,6 +49,12 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+
+use XoopsModules\Sample\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -57,37 +63,18 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Sample
  * @package XoopsModules\Rssfit\Plugins
  */
-class Sample
+class Sample extends AbstractPlugin
 {
     public $dirname = 'sample';
-    public $modname;
-    public $grab;
-    public $module;    // optional, see line 71
 
     /**
-     * @return false|string
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function loadModule()
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
-        // to do with module info when grabbing entries
-        return $mod;
-    }
-
-    /**
-     * @param \XoopsObject $obj
-     * @return bool|array
-     */
-    public function grabEntries(&$obj)
-    {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
+        $ret  = null;
         $i    = 0;
         //  The following example code grabs the latest entries from the module MyLinks
         $sql    = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status > 0 AND l.lid = t.lid ORDER BY date DESC';

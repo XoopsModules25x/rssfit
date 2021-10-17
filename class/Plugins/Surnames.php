@@ -31,6 +31,12 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit verision: 1.3
  *  XOOPS version: 2.5.9
  */
+
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Surnames\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -39,27 +45,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Surnames
  * @package XoopsModules\Rssfit\Plugins
  */
-class Surnames
+class Surnames extends AbstractPlugin
 {
     public $dirname = 'surnames';
-    public $modname;
-    public $grab;
-    public $module;
-
-    /**
-     * @return false|string
-     */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-        $this->module = $mod;    // optional, remove this line if there is nothing
-        // to do with module info when grabbing entries
-        return $mod;
-    }
 
     /**
      * @param $uid
@@ -90,14 +78,13 @@ class Surnames
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
+        $ret  = null;
 
         $i = -1;
         $lasttime = false;

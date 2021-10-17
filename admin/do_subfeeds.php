@@ -53,13 +53,13 @@ switch ($op) {
                 if (!$handler = $pluginHandler->checkPlugin($p)) {
                     $pluginHandler->forceDeactivate($p);
                     $mod      = implode('<br>', $p->getErrors());
-                    $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', 0);
+                    $activate = new \XoopsFormCheckBox('', 'activate[' . $id . ']', 0);
                     $activate->setExtra('disabled="disabled"');
                     $config  = '&nbsp;';
                     $urlLink = $feedHandler->subFeedUrl($p->getVar('rssf_filename'));
                 } else {
                     $mod      = $handler->modname;
-                    $activate = new \XoopsFormCheckbox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
+                    $activate = new \XoopsFormCheckBox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
                     $config = Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_RSSFIT_SUB_CONFIGURE);
                     $urlLink  = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
                 }
@@ -104,11 +104,11 @@ switch ($op) {
 
         $plugins = $pluginHandler->getObjects2(null, 'sublist');
         if ($plugins) {
-            $pluginHandler->modifyObjects(null, ['subfeed' => 0]);
+            $pluginHandler->modifyObjects(null, ['subfeed' => 0], false);
             if (isset($activate) && is_array($activate) && count($activate) > 0) {
                 $keys     = array_keys($activate);
                 $criteria = new \Criteria('rssf_conf_id', '(' . implode(',', $keys) . ')', 'IN');
-                $pluginHandler->modifyObjects($criteria, ['subfeed' => 1]);
+                $pluginHandler->modifyObjects($criteria, ['subfeed' => 1], false);
             }
             redirect_header(RSSFIT_ADMIN_URL . '?do=' . $do, 0, _AM_RSSFIT_DBUPDATED);
         } else {

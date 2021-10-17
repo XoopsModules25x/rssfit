@@ -32,7 +32,10 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-use XoopsModules\Smartfaq\Helper as SmartfaqHelper;
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Smartfaq\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -42,42 +45,46 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Smartfaq
  * @package XoopsModules\Rssfit\Plugins
  */
-class Smartfaq
+class Smartfaq extends AbstractPlugin
 {
     public $dirname = 'smartfaq';
-    public $modname;
-    public $grab;
+
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
 
         return $mod;
     }
 
+
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $ret = false;
+        $myts = \MyTextSanitizer::getInstance();
+        $ret  = null;
         //        @require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-        $faqHandler = SmartfaqHelper::getInstance()->getHandler('Faq');
+        $faqHandler = PluginHelper::getInstance()->getHandler('Faq');
         $faqs       = $faqHandler->getAllPublished($this->grab, 0);
         if (false !== $faqs && \count($faqs) > 0) {
             $ret = [];
             /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-            $answerHandler = SmartfaqHelper::getInstance()->getHandler('Answer');
+            $answerHandler = PluginHelper::getInstance()->getHandler('Answer');
             for ($i = 0, $iMax = \count($faqs); $i < $iMax; ++$i) {
                 if (!$answer = $answerHandler->getOfficialAnswer($faqs[$i]->faqid())) {
                     continue;

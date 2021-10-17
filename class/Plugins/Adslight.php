@@ -29,6 +29,12 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit version: 1.2 / 1.5
  *  XOOPS version: 2.0.13.2 / 2.2.3 / 2.3.2b / 2.4.3
  */
+
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Adslight\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -36,37 +42,34 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Adslight
  */
-class Adslight
+class Adslight extends AbstractPlugin
 {
     public $dirname = 'adslight';
-    public $modname;
-    public $grab;
-    public $module;    // optional, see line 74
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
-        //$this->module = $mod;   // optional, remove this line if there is nothing
-        // to do with module info when grabbing entries
+
         return $mod;
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
-        $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
+        $ret    = null;
         $i      = 0;
         $sql    = 'SELECT lid, title, status, desctext, date from ' . $xoopsDB->prefix('adslight_listing') . " WHERE valid = 'Yes' ORDER BY date DESC";
         $result = $xoopsDB->query($sql, $this->grab, 0);

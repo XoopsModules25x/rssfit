@@ -28,7 +28,7 @@ require_once \dirname(__DIR__, 3) . '/mainfile.php';
  *
  * @return bool
  */
-function xoops_module_install_rssfit(\XoopsModule $xoopsMod)
+function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
 {
     global $xoopsDB, $xoopsConfig;
 
@@ -70,7 +70,7 @@ function xoops_module_install_rssfit(\XoopsModule $xoopsMod)
  *
  * @return bool
  */
-function xoops_module_update_rssfit(\XoopsModule $xoopsMod, $oldversion)
+function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bool
 {
     global $xoopsDB, $xoopsConfig;
     $helper = Rssfit\Helper::getInstance();
@@ -116,11 +116,11 @@ function xoops_module_update_rssfit(\XoopsModule $xoopsMod, $oldversion)
 //}
 
 /**
- * @param $xoopsMod
+ * @param \XoopsModule $xoopsMod
  *
  * @return string
  */
-function rssfInsertChannel($xoopsMod)
+function rssfInsertChannel(\XoopsModule $xoopsMod): string
 {
     global $xoopsDB, $xoopsConfig;
     $helper = Rssfit\Helper::getInstance();

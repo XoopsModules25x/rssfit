@@ -26,7 +26,7 @@ use XoopsModules\Rssfit\Utility;
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_install_rssfit(\XoopsModule $module)
+function xoops_module_pre_install_rssfit(\XoopsModule $module): bool
 {
     require_once \dirname(__DIR__) . '/preloads/autoloader.php';
     $utility      = new Utility();
@@ -49,7 +49,7 @@ function xoops_module_pre_install_rssfit(\XoopsModule $module)
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_rssfit(\XoopsModule $module)
+function xoops_module_install_rssfit(\XoopsModule $module): bool
 {
     require_once \dirname(__DIR__) . '/preloads/autoloader.php';
     require_once \dirname(__DIR__, 3) . '/mainfile.php';

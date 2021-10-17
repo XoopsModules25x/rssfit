@@ -33,11 +33,14 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-use XoopsModules\Smartpartner\{
-    Constants,
-    Helper as SmartpartnerHelper
+use XoopsModules\Rssfit\{
+    AbstractPlugin
 };
-
+use XoopsModules\Smartpartner\{
+    PartnerHandler,
+    Constants,
+    Helper as PluginHelper
+};
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -47,36 +50,40 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Smartpartner
  * @package XoopsModules\Rssfit\Plugins
  */
-class Smartpartner
+class Smartpartner extends AbstractPlugin
 {
     public $dirname = 'smartpartner';
-    public $modname;
-    public $grab;
+
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
 
         return $mod;
     }
 
+
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $ret = false;
+        $myts = \MyTextSanitizer::getInstance();
+        $ret  = null;
         require_once XOOPS_ROOT_PATH . '/modules/smartpartner/include/common.php';
-        /** @var \XoopsModules\Smartpartner\PartnerHandler $partnerHandler */
-        $partnerHandler = SmartpartnerHelper::getInstance()->getHandler('Partner');
+        /** @var PartnerHandler $partnerHandler */
+        $partnerHandler = PluginHelper::getInstance()->getHandler('Partner');
         $partners       = $partnerHandler->getPartners($this->grab, 0, Constants::SPARTNER_STATUS_ACTIVE, 'weight', 'DESC');
         if (false !== $partners && \count($partners) > 0) {
             $ret = [];

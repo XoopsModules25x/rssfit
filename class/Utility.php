@@ -40,11 +40,11 @@ class Utility extends Common\SysUtility
     //--------------- Custom module methods -----------------------------
 
     /**
-     * @param $a
-     * @param $b
+     * @param array $a
+     * @param array $b
      * @return int
      */
-    public static function sortTimestamp($a, $b): int
+    public static function sortTimestamp(array $a, array $b): int
     {
         if ($a['timestamp'] == $b['timestamp']) {
             return 0;
@@ -54,17 +54,17 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param $spec
-     * @param $feedHandler
+     * @param int $spec
+     * @param \XoopsModules\Rssfit\FeedHandler $feedHandler
      * @return string
      */
-    public static function genSpecMoreInfo($spec, $feedHandler): string
+    public static function genSpecMoreInfo(int $spec, FeedHandler $feedHandler): string
     {
         return static::rssfGenAnchor($feedHandler->specUrl($spec), \_AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', \_AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
     }
 
     /**
-     * @param string $url
+     * @param null|string $url
      * @param string $text
      * @param string $target
      * @param string $title
@@ -72,9 +72,9 @@ class Utility extends Common\SysUtility
      * @param string $id
      * @return string
      */
-    public static function rssfGenAnchor($url = '', $text = '', $target = '', $title = '', $class = '', $id = ''): string
+    public static function rssfGenAnchor(string $url = null, string $text = '', string $target = '', string $title = '', string $class = '', string $id = ''): string
     {
-        if (!empty($url)) {
+        if (null !== $url) {
             $ret = '<a href="' . $url . '"';
             $ret .= !empty($target) ? ' target="' . $target . '"' : '';
             $ret .= !empty($class) ? ' class="' . $class . '"' : '';
@@ -96,17 +96,27 @@ class Utility extends Common\SysUtility
         $max_words: max number of words (not real words, HTML words)
         if <= 0: no limitation, if > 0 display at most $max_words words
      */
-    public static function get_rss_feed_as_html($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0, $cache_timeout = 7200, $cache_prefix = XOOPS_VAR_PATH . '/caches/xoops_cache/rss2html-'): string
+    /**
+     * @param string $feed_url
+     * @param int    $maxItemCount
+     * @param bool   $show_date
+     * @param bool   $show_description
+     * @param int    $max_words
+     * @param int    $cache_timeout
+     * @param string $cache_prefix
+     * @return string
+     */
+    public static function getRssFeedAsHtml(string $feed_url, int $maxItemCount = 10, bool $show_date = true, bool $show_description = true, int $max_words = 0, int $cache_timeout = 7200, string $cache_prefix = XOOPS_VAR_PATH . '/caches/xoops_cache/rss2html-'): string
     {
         $result = '';
         // get feeds and parse items
         $rss        = new \DOMDocument();
-        $cache_file = $cache_prefix . \md5($feed_url);
+        $cacheFile = $cache_prefix . \md5($feed_url);
         // load from file or load content
         if ($cache_timeout > 0
-            && \is_file($cache_file)
-            && (\filemtime($cache_file) + $cache_timeout > \time())) {
-            $rss->load($cache_file);
+            && \is_file($cacheFile)
+            && (\filemtime($cacheFile) + $cache_timeout > \time())) {
+            $rss->load($cacheFile);
         } else {
             $rss->load($feed_url);
             /*
@@ -118,55 +128,57 @@ class Utility extends Common\SysUtility
             $rss->loadXML($content);
             */
             if ($cache_timeout > 0) {
-                $rss->save($cache_file);
+                $rss->save($cacheFile);
             }
         }
         $feed = [];
         foreach ($rss->getElementsByTagName('item') as $node) {
-            $item    = [
-                'title'   => $node->getElementsByTagName('title')->item(0)->nodeValue,
-                'desc'    => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                'content' => $node->getElementsByTagName('description')->item(0)->nodeValue,
-                'link'    => $node->getElementsByTagName('link')->item(0)->nodeValue,
-                'date'    => $node->getElementsByTagName('pubDate')->item(0)->nodeValue,
-            ];
-            $content = $node->getElementsByTagName('encoded'); // <content:encoded>
-            if ($content->length > 0) {
-                $item['content'] = $content->item(0)->nodeValue;
+            if (null !== $node) {
+                $item    = [
+                    'title'   => $node->getElementsByTagName('title')->item(0)->nodeValue,
+                    'desc'    => $node->getElementsByTagName('description')->item(0)->nodeValue,
+                    'content' => $node->getElementsByTagName('description')->item(0)->nodeValue,
+                    'link'    => $node->getElementsByTagName('link')->item(0)->nodeValue,
+                    'date'    => $node->getElementsByTagName('pubDate')->item(0)->nodeValue,
+                ];
+                $content = $node->getElementsByTagName('encoded'); // <content:encoded>
+                if ($content->length > 0) {
+                    $item['content'] = $content->item(0)->nodeValue;
+                }
+                $feed[] = $item;
             }
-            $feed[] = $item;
         }
         // real good count
-        if ($max_item_cnt > \count($feed)) {
-            $max_item_cnt = \count($feed);
+        if ($maxItemCount > \count($feed)) {
+            $maxItemCount = \count($feed);
         }
         $result .= '<ul class="feed-lists">';
-        for ($x = 0; $x < $max_item_cnt; $x++) {
+        for ($x = 0; $x < $maxItemCount; $x++) {
             $title  = \str_replace(' & ', ' &amp; ', $feed[$x]['title']);
             $link   = $feed[$x]['link'];
             $result .= '<li class="feed-item">';
             $result .= '<div class="feed-title"><strong><a href="' . $link . '" title="' . $title . '">' . $title . '</a></strong></div>';
             if ($show_date) {
-                $date   = \date('l F d, Y', \strtotime($feed[$x]['date']));
+                $date   = \date('l F d, Y', (int)\strtotime($feed[$x]['date']));
                 $result .= '<small class="feed-date"><em>Posted on ' . $date . '</em></small>';
             }
             if ($show_description) {
                 $description = $feed[$x]['desc'];
                 $content     = $feed[$x]['content'];
                 // find the img
-                $has_image = \preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $content, $image);
+                $hasImage = \preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $content, $image);
                 // no html tags
-                $description = \strip_tags(\preg_replace('/(<(script|style)\b[^>]*>).*?(<\/\2>)/s', '$1$3', $description), '');
+                $description = \strip_tags((string)\preg_replace('/(<(script|style)\b[^>]*>).*?(<\/\2>)/s', '$1$3', $description), '');
                 // whether cut by number of words
                 if ($max_words > 0) {
                     $arr = \explode(' ', $description);
                     if ($max_words < \count($arr)) {
                         $description = '';
-                        $w_cnt       = 0;
+                        $wordsCount       = 0;
                         foreach ($arr as $w) {
                             $description .= $w . ' ';
-                            ++$w_cnt;
-                            if ($w_cnt == $max_words) {
+                            ++$wordsCount;
+                            if ($wordsCount == $max_words) {
                                 break;
                             }
                         }
@@ -174,7 +186,7 @@ class Utility extends Common\SysUtility
                     }
                 }
                 // add img if it exists
-                if (1 == $has_image) {
+                if (1 == $hasImage) {
                     $description = '<img class="feed-item-image" src="' . $image['src'] . '" />' . $description;
                 }
                 $result .= '<div class="feed-description">' . $description;
@@ -186,8 +198,17 @@ class Utility extends Common\SysUtility
         return $result;
     }
 
-    public static function output_rss_feed($feed_url, $max_item_cnt = 10, $show_date = true, $show_description = true, $max_words = 0): void
+    /**
+     * @param string $feed_url
+     * @param int    $maxItemCount
+     * @param bool   $show_date
+     * @param bool   $show_description
+     * @param int    $max_words
+     *
+     * @return void
+     */
+    public static function outputRssFeed(string $feed_url, int $maxItemCount = 10, bool $show_date = true, bool $show_description = true, int $max_words = 0): void
     {
-        echo self::get_rss_feed_as_html($feed_url, $max_item_cnt, $show_date, $show_description, $max_words);
+        echo self::getRssFeedAsHtml($feed_url, $maxItemCount, $show_date, $show_description, $max_words);
     }
 }

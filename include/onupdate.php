@@ -31,7 +31,7 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  * @param null         $previousVersion
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVersion = null)
+function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVersion = null): bool
 {
     $moduleDirName = \basename(\dirname(__DIR__));
     /** @var Rssfit\Helper $helper */
@@ -52,7 +52,7 @@ function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVers
  *
  * @return bool true if update successful, false if not
  */
-function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = null)
+function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = null): bool
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);

@@ -35,6 +35,11 @@ use CriteriaCompo;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\System\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -43,33 +48,20 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Comments
  * @package XoopsModules\Rssfit\Plugins
  */
-class Comments
+class Comments extends AbstractPlugin
 {
     public $dirname = 'system';
     public $modname;
     public $grab;
 
     /**
-     * @return false|string
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function loadModule()
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-
-        return $mod;
-    }
-
-    /**
-     * @param \XoopsObject $obj
-     * @return bool|array
-     */
-    public function grabEntries(&$obj)
-    {
-        $ret = false;
+        $myts = \MyTextSanitizer::getInstance();
+        $ret  = null;
         require XOOPS_ROOT_PATH . '/include/comment_constants.php';
         /** @var \XoopsCommentHandler $commentHandler */
         $commentHandler = \xoops_getHandler('comment');

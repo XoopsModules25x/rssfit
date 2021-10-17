@@ -32,6 +32,11 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Mylinks\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -40,35 +45,35 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Mylinks
  * @package XoopsModules\Rssfit\Plugins
  */
-class Mylinks
+class Mylinks extends AbstractPlugin
 {
     public $dirname = 'mylinks';
-    public $modname;
-    public $grab;
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
 
         return $mod;
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
+        $ret  = null;
         $i = 0;
         $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);

@@ -31,6 +31,12 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit version: 1.21
  *  XOOPS version: 2.0.18.1
  */
+
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Xoopstube\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -38,35 +44,30 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Xoopstube
  */
-class Xoopstube
+class Xoopstube extends AbstractPlugin
 {
-    public $dirname = 'xoopstube';
-    public $modname;
-    public $grab;
-
     /**
-     * @return false|string
+     * @var string
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
+    public $dirname = 'xoopstube';
 
-        return $mod;
+    public function initialize(): void
+    {
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            //        $this->dirname = $this->helper->getDirname();
+        }
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
+        $ret  = null;
         $i    = 0;
         $sql  = 'SELECT l.lid, l.title as ltitle, l.date, l.cid, l.hits, l.description, c.title as ctitle FROM ' . $xoopsDB->prefix('xoopstube_videos') . ' l, ' . $xoopsDB->prefix('xoopstube_cat') . ' c WHERE l.cid=c.cid AND l.status>0 ORDER BY l.date DESC';
 

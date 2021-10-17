@@ -140,7 +140,7 @@ switch ($op) {
         if (!$filelist = &$pluginHandler->getPluginFileList()) {
             $filelist = [];
         }
-        $list        = \XoopsLists::getFileListAsArray(RSSFIT_ROOT_PATH . 'class/Plugins');
+        $list        = \XoopsLists::getFileListAsArray($helper->path('class/Plugins'));
         $installable = [];
         foreach ($list as $f) {
             if (preg_match('/[a-zA-Z0-9_]+\.php/', $f) && !in_array($f, $filelist)) {
@@ -163,7 +163,7 @@ switch ($op) {
                     . "</td>\n"
                     . "</tr>\n";
             foreach ($installable as $i) {
-                $action = new \XoopsFormCheckbox('', 'install[' . $i . ']');
+                $action = new \XoopsFormCheckBox('', 'install[' . $i . ']');
                 $action->addOption('i', ' ');
                 $ret .= "<tr>\n" . "<td class='odd' align='center'>" . $i . "</td>\n" . "<td class='even' align='center'>";
                 $p   = $pluginHandler->create();

@@ -32,6 +32,11 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Newbb\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -40,39 +45,36 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Newbb
  * @package XoopsModules\Rssfit\Plugins
  */
-class Newbb
+class Newbb extends AbstractPlugin
 {
     public $dirname = 'newbb';
-    public $modname;
-    public $grab;
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-        if ($mod->getVar('version') >= 200) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
 
         return $mod;
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         require_once XOOPS_ROOT_PATH . '/modules/' . $this->dirname . '/class/class.forumposts.php';
         $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
+        $ret    = null;
         $i      = 0;
         $sql    = 'SELECT p.post_id, p.subject, p.post_time, p.forum_id, p.topic_id, p.nohtml, p.nosmiley, f.forum_name, t.post_text FROM '
                   . $xoopsDB->prefix('bb_posts')

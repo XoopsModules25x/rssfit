@@ -32,8 +32,12 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
 use XoopsModules\News\NewsStory;
 use XoopsModules\News\Utility;
+use XoopsModules\News\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -43,35 +47,17 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class News
  * @package XoopsModules\Rssfit\Plugins
  */
-class News
+class News extends AbstractPlugin
 {
     public $dirname = 'news';
-    public $modname;
-    public $grab;
-    public $module;
 
     /**
-     * @return false|string
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function loadModule()
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-        $this->module  = $mod;
-
-        return $mod;
-    }
-
-    /**
-     * @param \XoopsObject $obj
-     * @return bool|array
-     */
-    public function grabEntries(&$obj)
-    {
-        $ret = false;
+        $ret = null;
         //        @require_once XOOPS_ROOT_PATH . '/modules/news/class/class.newsstory.php';
         $myts = \MyTextSanitizer::getInstance();
         if ($this->module->getVar('version') >= 130) {

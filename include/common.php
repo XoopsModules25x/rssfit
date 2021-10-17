@@ -31,10 +31,11 @@ use XoopsModules\Rssfit\{
 
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
+global $xoopsModuleConfig, $xoopsConfig, $xoopsModule;
+
 $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-/** @var \XoopsDatabase $db */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
 $debug   = false;
 $helper  = Helper::getInstance($debug);
@@ -87,9 +88,6 @@ $version = number_format($xoopsModule->getVar('version') / 100, 2);
 $version = !mb_substr($version, -1, 1) ? mb_substr($version, 0, 3) : $version;
 define('RSSFIT_VERSION', 'RSSFit ' . $version);
 
-global $xoopsModuleConfig, $xoopsConfig, $xoopsModule;
-
-/** @var FeedHandler $feedHandler */
 $feedHandler = new FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
 $myts        = $feedHandler->myts;
 $pluginHandler = $helper->getHandler('Plugin');

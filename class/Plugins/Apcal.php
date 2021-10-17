@@ -31,6 +31,12 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit version: 1.21
  *  XOOPS version: 2.0.18.1
  */
+
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Apcal\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -38,35 +44,36 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Apcal
  */
-class Apcal
+class Apcal extends AbstractPlugin
 {
     public $dirname = 'apcal';
-    public $modname;
-    public $grab;
+
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
 
         return $mod;
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
+        $ret    = null;
         $i      = 0;
         $sql    = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ' . $xoopsDB->prefix('apcal_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);

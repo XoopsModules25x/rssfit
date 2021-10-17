@@ -43,7 +43,7 @@ $op = Request::getString('op', 'list');
 
 //$adminObject = \Xmf\Module\Admin::getInstance();
 
-if (file_exists(RSSFIT_ROOT_PATH . 'admin/do_' . $do . '.php')) {
+if (file_exists($helper->path('admin/do_' . $do . '.php'))) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $hiddenDo     = new \XoopsFormHidden('do', $do);
     $buttonSave   = new \XoopsFormButton('', 'submit', _AM_RSSFIT_SAVE, 'submit');
@@ -54,7 +54,7 @@ if (file_exists(RSSFIT_ROOT_PATH . 'admin/do_' . $do . '.php')) {
     $saveCancelTray->addElement($buttonSave);
     $saveCancelTray->addElement($buttonCancel);
     $adminObject->displayNavigation('?do=' . $do);
-    require RSSFIT_ROOT_PATH . 'admin/do_' . $do . '.php';
+    require $helper->path('admin/do_' . $do . '.php');
 } else {
     $adminObject->displayNavigation(basename(__FILE__));
     $adminObject->displayIndex();

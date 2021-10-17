@@ -43,16 +43,16 @@ switch ($op) {
         $contentTray->setDescription(_AM_RSSFIT_EDIT_INTRO_TEXT_DESC);
         $content = new \XoopsFormTextArea('', 'content', $sticky->getVar('misc_content', 'e'), 10);
         $contentTray->addElement($content);
-        $dohtml = new \XoopsFormCheckbox('', 'dohtml', $setting['dohtml']);
+        $dohtml = new \XoopsFormCheckBox('', 'dohtml', $setting['dohtml']);
         $dohtml->addOption(1, _AM_RSSFIT_DO_HTML);
         $contentTray->addElement($dohtml);
-        $dobr = new \XoopsFormCheckbox('', 'dobr', $setting['dobr']);
+        $dobr = new \XoopsFormCheckBox('', 'dobr', $setting['dobr']);
         $dobr->addOption(1, _AM_RSSFIT_DO_BR);
         $contentTray->addElement($dobr);
 
         $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255,  htmlspecialchars($setting['link']??'', ENT_QUOTES | ENT_HTML5));
 
-        $applyto = $feedHandler->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds']??'', 10);
+        $applyto = $feedHandler->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds']??null, 10);
 
         $form = new \XoopsThemeForm(_AM_RSSFIT_STICKY_EDIT, 'editsticky', RSSFIT_ADMIN_URL);
         $form->addElement($title);

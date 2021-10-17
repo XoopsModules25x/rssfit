@@ -46,7 +46,7 @@ class Misc extends \XoopsObject
     /**
      * @param bool $do
      */
-    public function setDoHtml($do = true): void
+    public function setDoHtml(bool $do = true): void
     {
         $this->vars['dohtml']['value'] = $do;
     }
@@ -54,7 +54,7 @@ class Misc extends \XoopsObject
     /**
      * @param bool $do
      */
-    public function setDoBr($do = true): void
+    public function setDoBr(bool $do = true): void
     {
         $this->vars['dobr']['value'] = $do;
     }

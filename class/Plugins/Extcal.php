@@ -49,7 +49,10 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-use XoopsModules\Extcal\Helper as ExtcalHelper;
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Extcal\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -59,37 +62,36 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Extcal
  * @package XoopsModules\Rssfit\Plugins
  */
-class Extcal
+class Extcal extends AbstractPlugin
 {
     public $dirname = 'extcal';
-    public $modname;
-    public $grab;
-    public $module;    // optional, see line 74
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
-        $this->module = $mod;    // optional, remove this line if there is nothing
-        // to do with module info when grabbing entries
+
         return $mod;
     }
 
+
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret = false;
+        $ret  = null;
 
         $i = 0;
 
@@ -100,8 +102,8 @@ class Extcal
         $extcalConfig  = $configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
         $long_form     = $extcalConfig['date_long'];
 
-        $eventHandler = ExtcalHelper::getInstance()->getHandler('Event');
-        $catHandler   = ExtcalHelper::getInstance()->getHandler('Category');
+        $eventHandler = PluginHelper::getInstance()->getHandler('Event');
+        $catHandler   = PluginHelper::getInstance()->getHandler('Category');
         $events = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
 
         if (\is_array($events)) {

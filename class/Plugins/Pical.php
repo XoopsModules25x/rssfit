@@ -31,6 +31,12 @@ namespace XoopsModules\Rssfit\Plugins;
  *  RSSFit version: 1.21
  *  XOOPS version: 2.0.18.1
  */
+
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Pical\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -38,35 +44,18 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 /**
  * Class Pical
  */
-class Pical
+class Pical extends AbstractPlugin
 {
     public $dirname = 'piCal';
-    public $modname;
-    public $grab;
 
     /**
-     * @return false|string
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function loadModule()
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-
-        return $mod;
-    }
-
-    /**
-     * @param \XoopsObject $obj
-     * @return bool|array
-     */
-    public function grabEntries(&$obj)
-    {
-        global $xoopsDB;
         $myts   = \MyTextSanitizer::getInstance();
-        $ret    = false;
+        $ret    = null;
         $i      = 0;
         $sql    = 'SELECT id, uid, summary, location, description, categories, start, end, UNIX_TIMESTAMP(dtstamp) as dtstamp FROM ' . $xoopsDB->prefix('pical_event') . ' WHERE admission>0 AND (rrule_pid=0 OR rrule_pid=id) ORDER BY dtstamp DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);

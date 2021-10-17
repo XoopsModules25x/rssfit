@@ -49,6 +49,11 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Myalbum\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -57,27 +62,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Myalbum
  * @package XoopsModules\Rssfit\Plugins
  */
-class Myalbum
+class Myalbum extends AbstractPlugin
 {
     public $dirname = 'myalbum';
-    public $modname;
-    public $grab;
-    public $module;    // optional, see line 74
-
-    /**
-     * @return false|string
-     */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
-        }
-        $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
-        // to do with module info when grabbing entries
-        return $mod;
-    }
 
     /**
      * @param $uid
@@ -109,14 +96,13 @@ class Myalbum
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        global $xoopsDB;
         $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
+        $ret  = null;
         $i    = 0;
         // For myalbum-p with thumbs enabled
 

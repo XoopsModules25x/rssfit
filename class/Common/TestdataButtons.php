@@ -34,6 +34,10 @@ class TestdataButtons
 {
 
     //functions for import buttons
+    /**
+     * @param $adminObject
+     * @return void
+     */
     public static function loadButtonConfig($adminObject): void
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));

@@ -69,7 +69,7 @@ switch ($op) {
         foreach ($ids as $i) {
             $criteria = new \Criteria('misc_id', $i);
             $fields   = ['misc_content' => trim($ele[$i])];
-            $err      = $feedHandler->miscHandler->modifyObjects($criteria, $fields);
+            $err      = $feedHandler->miscHandler->modifyObjects($criteria, $fields, false);
             if ($err) {
                 $errors[] = $err;
             }

@@ -22,8 +22,11 @@ namespace XoopsModules\Rssfit\Plugins;
  * @author       XOOPS Development Team
  */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
 use XoopsModules\Oledrion\Parameters;
-use XoopsModules\Oledrion\Helper as OledrionHelper;
+use XoopsModules\Oledrion\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -33,35 +36,38 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Oledrion
  * @package XoopsModules\Rssfit\Plugins
  */
-class Oledrion
+class Oledrion extends AbstractPlugin
 {
     public $dirname = 'oledrion';
-    public $modname;
-    public $grab;
+
 
     /**
-     * @return false|string
+     * @return \XoopsModule
      */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function loadModule(): ?\XoopsModule{
+
+        $mod = null;
+        if (class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->module = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod = $this->module;
+            //        $this->dirname = $this->helper->getDirname();
         }
-        $this->modname = $mod->getVar('name');
 
         return $mod;
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @return bool|array
+     * @param \XoopsMySQLDatabase $xoopsDB
+     * @return array
      */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
     {
-        $ret = false;
+        $myts = \MyTextSanitizer::getInstance();
+        $ret  = null;
         require_once XOOPS_ROOT_PATH . '/modules/oledrion/include/common.php';
-        $helper          = OledrionHelper::getInstance();
+        $helper          = PluginHelper::getInstance();
         $productsHandler = $helper->getHandler('Products');
         $items           = $productsHandler->getRecentProducts(new Parameters(['start' => 0, 'limit' => $this->grab]));
         $i = 0;
