@@ -242,10 +242,9 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null|\Criteria|\CriteriaCompo $criteria
      * @return bool|string
      */
-    public function modifyObjects($criteria = null, array $fields = [], bool $force)
+    public function modifyObjects(\CriteriaElement $criteria = null, array $fields = [], bool $force = true)
     {
         if ($fields && \is_array($fields)) {
             $object = new $this->objClass();
