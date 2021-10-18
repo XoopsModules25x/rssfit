@@ -29,7 +29,6 @@ namespace XoopsModules\Rssfit;
 
 //require_once  \dirname(__DIR__) . '/include/common.php';
 
-use XoopsModules\Rssfit;
 use XoopsModules\Rssfit\Constants;
 
 /**

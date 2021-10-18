@@ -19,6 +19,8 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Rssfit\{
+    FeedHandler,
+    PluginHandler,
     Common,
     Helper,
     Utility
@@ -27,6 +29,8 @@ use XoopsModules\Rssfit\{
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var \Xmf\Module\Admin $adminObject */
+/** @var FeedHandler $feedHandler */
+/** @var PluginHandler $pluginHandler */
 
 require_once __DIR__ . '/admin_header.php';
 

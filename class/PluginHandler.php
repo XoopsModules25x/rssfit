@@ -253,7 +253,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             }
             $sql = mb_substr($sql, 0, -2);
             $sql = 'UPDATE ' . $this->dbTable . ' SET ' . $sql;
-            if ($criteria instanceof \CriteriaCompo::class) {
+            if ($criteria instanceof \CriteriaCompo) {
                 $sql .= ' ' . $criteria->renderWhere();
             }
             if ($force) {

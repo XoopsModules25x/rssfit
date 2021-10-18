@@ -22,8 +22,6 @@ namespace XoopsModules\Rssfit;
  * @author       XOOPS Development Team
  */
 
-use  XoopsModules\Rssfit;
-
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
