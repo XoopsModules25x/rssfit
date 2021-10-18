@@ -18,7 +18,7 @@ jobs:
           path: /
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
-          tools: cs2pr, phpcs, phpstan, psalm
+          tools: phpstan, psalm
       # run: phpstan analyze src --level=5 --error-format=checkstyle | cs2pr
       # 8- Run Psalm scan
       - name: Run Psalm scan
