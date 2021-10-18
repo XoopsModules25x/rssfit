@@ -49,10 +49,10 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Myalbum\Helper as PluginHelper;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\Myalbum\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -94,7 +94,7 @@ final class Myalbum extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();
         $ret  = null;

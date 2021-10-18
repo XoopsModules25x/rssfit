@@ -63,9 +63,9 @@ class Helper extends \Xmf\Module\Helper
      */
     public function getHandler($name): ?\XoopsPersistableObjectHandler
     {
-        $ret   = null;
+        $ret = null;
 
-        $class =  __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
+        $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
         if (!\class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }

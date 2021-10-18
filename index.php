@@ -32,8 +32,8 @@ if ($intr) {
     $setting = $intro->getVar('misc_setting');
     $intro->setDoHtml($setting['dohtml'] ? true : false);
     $intro->setDoBr($setting['dobr'] ? true : false);
-    $title           = str_replace('{SITENAME}', $xoopsConfig['sitename'], $intro->getVar('misc_title'));
-    $content         = str_replace(['{SITENAME}', '{SITEURL}'], [$xoopsConfig['sitename'], XOOPS_URL . '/'], $intro->getVar('misc_content'));
+    $title   = str_replace('{SITENAME}', $xoopsConfig['sitename'], $intro->getVar('misc_title'));
+    $content = str_replace(['{SITENAME}', '{SITEURL}'], [$xoopsConfig['sitename'], XOOPS_URL . '/'], $intro->getVar('misc_content'));
     /** @var \XoopsModules\Rssfit\PluginHandler $pluginHandler */
     if (false !== mb_strpos($content, '{SUB}') && $plugins = $pluginHandler->getObjects2(new \Criteria('subfeed', '1'))) {
         $sublist = '';

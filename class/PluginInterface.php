@@ -8,7 +8,6 @@ namespace XoopsModules\Rssfit;
  */
 interface PluginInterface
 {
-
     /**
      * @return \XoopsModule
      */

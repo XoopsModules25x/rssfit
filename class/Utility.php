@@ -55,7 +55,7 @@ class Utility extends Common\SysUtility
     /**
      * @param null|string $url
      */
-    public static function rssfGenAnchor(string $url = null, string $text = '', string $target = '', string $title = '', string $class = '', string $id = ''): string
+    public static function rssfGenAnchor(?string $url = null, string $text = '', string $target = '', string $title = '', string $class = '', string $id = ''): string
     {
         if (null !== $url) {
             $ret = '<a href="' . $url . '"';
@@ -83,7 +83,7 @@ class Utility extends Common\SysUtility
     {
         $result = '';
         // get feeds and parse items
-        $rss        = new \DOMDocument();
+        $rss       = new \DOMDocument();
         $cacheFile = $cache_prefix . \md5($feed_url);
         // load from file or load content
         if ($cache_timeout > 0
@@ -147,7 +147,7 @@ class Utility extends Common\SysUtility
                     $arr = \explode(' ', $description);
                     if ($max_words < \count($arr)) {
                         $description = '';
-                        $wordsCount       = 0;
+                        $wordsCount  = 0;
                         foreach ($arr as $w) {
                             $description .= $w . ' ';
                             ++$wordsCount;

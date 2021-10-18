@@ -49,10 +49,10 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Extcal\Helper as PluginHelper;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\Extcal\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -69,25 +69,24 @@ final class Extcal extends AbstractPlugin
     /**
      * @return \XoopsModule
      */
-    public function loadModule(): ?\XoopsModule{
-
+    public function loadModule(): ?\XoopsModule
+    {
         $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper = PluginHelper::getInstance();
-            $this->module = $this->helper->getModule();
+            $this->helper  = PluginHelper::getInstance();
+            $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod = $this->module;
+            $mod           = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
 
         return $mod;
     }
 
-
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();
         $ret  = null;
@@ -103,21 +102,21 @@ final class Extcal extends AbstractPlugin
 
         $eventHandler = PluginHelper::getInstance()->getHandler('Event');
         $catHandler   = PluginHelper::getInstance()->getHandler('Category');
-        $events = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
+        $events       = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
 
         if (\is_array($events)) {
             $ret = [];
             foreach ($events as $event) {
                 ++$i;
-                $cat = $catHandler->getCat($event->getVar('cat_id'), 0);
-                $category = $cat->getVar('cat_name');
-                $link = XOOPS_URL . '/modules/extcal/event.php?event=' . $event->getVar('event_id');
+                $cat         = $catHandler->getCat($event->getVar('cat_id'), 0);
+                $category    = $cat->getVar('cat_name');
+                $link        = XOOPS_URL . '/modules/extcal/event.php?event=' . $event->getVar('event_id');
                 $event_start = \formatTimestamp($event->getVar('event_start'), $long_form);
                 $temp        = \htmlspecialchars($event->getVar('event_title'), \ENT_QUOTES);
                 $title       = \xoops_utf8_encode($temp);
                 $temp        = \htmlspecialchars($event->getVar('event_desc'), \ENT_QUOTES);
                 $description = \xoops_utf8_encode($temp);
-                $address = $event->getVar('event_address');
+                $address     = $event->getVar('event_address');
 
                 $desc_link = $event->getVar('event_url');
                 if ('' == $desc_link) {
@@ -132,12 +131,12 @@ final class Extcal extends AbstractPlugin
                 $desc .= "<tr><td valign='top'>What:</td><td>$description</td></tr>";
                 $desc .= '</table>';
 
-                $ret[$i]['title'] = $category . ': ' . $title;
-                $ret[$i]['link'] = $link;
+                $ret[$i]['title']       = $category . ': ' . $title;
+                $ret[$i]['link']        = $link;
                 $ret[$i]['description'] = $desc;
-                $ret[$i]['timestamp'] = $event->getVar('event_submitdate');
+                $ret[$i]['timestamp']   = $event->getVar('event_submitdate');
                 //              $ret[$i]['timestamp'] = time();
-                $ret[$i]['guid'] = $link;
+                $ret[$i]['guid']     = $link;
                 $ret[$i]['category'] = $category;
             }
         }

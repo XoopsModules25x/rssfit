@@ -36,7 +36,7 @@ if ($intr) {
 switch ($op) {
     default:
         $setting = $sticky->getVar('misc_setting');
-        $title = new \XoopsFormText(_AM_RSSFIT_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
+        $title   = new \XoopsFormText(_AM_RSSFIT_STICKY_TITLE, 'title', 50, 255, $sticky->getVar('misc_title', 'e'));
         $title->setDescription(_AM_RSSFIT_EDIT_INTRO_TITLE_DESC);
 
         $contentTray = new \XoopsFormElementTray(_AM_RSSFIT_STICKY_CONTENT, '<br>');
@@ -50,9 +50,9 @@ switch ($op) {
         $dobr->addOption(1, _AM_RSSFIT_DO_BR);
         $contentTray->addElement($dobr);
 
-        $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255,  htmlspecialchars($setting['link']??'', ENT_QUOTES | ENT_HTML5));
+        $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255, htmlspecialchars($setting['link'] ?? '', ENT_QUOTES | ENT_HTML5));
 
-        $applyto = $feedHandler->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds']??null, 10);
+        $applyto = $feedHandler->feedSelectBox(_AM_RSSFIT_STICKY_APPLYTO, $setting['feeds'] ?? null, 10);
 
         $form = new \XoopsThemeForm(_AM_RSSFIT_STICKY_EDIT, 'editsticky', RSSFIT_ADMIN_URL);
         $form->addElement($title);

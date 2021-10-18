@@ -30,10 +30,10 @@ namespace XoopsModules\Rssfit\Plugins;
  *  XOOPS version: 2.0.13.2 / 2.2.3 / 2.3.2b / 2.4.3
  */
 
+use XoopsModules\Adslight\Helper as PluginHelper;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\Adslight\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -49,14 +49,14 @@ final class Adslight extends AbstractPlugin
     /**
      * @return \XoopsModule
      */
-    public function loadModule(): ?\XoopsModule{
-
+    public function loadModule(): ?\XoopsModule
+    {
         $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper = PluginHelper::getInstance();
-            $this->module = $this->helper->getModule();
+            $this->helper  = PluginHelper::getInstance();
+            $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod = $this->module;
+            $mod           = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
 
@@ -66,7 +66,7 @@ final class Adslight extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret    = null;
         $i      = 0;
@@ -74,16 +74,16 @@ final class Adslight extends AbstractPlugin
         $result = $xoopsDB->query($sql, $this->grab, 0);
         if ($result instanceof \mysqli_result) {
             $ret = [];
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/viewads.php?lid=' . $row['lid'] ?? '';
-            $ret[$i]['title']       = $row['title'];
-            $ret[$i]['link']        = $link;
-            $ret[$i]['timestamp']   = $row['date'];
-            $ret[$i]['description'] = $row['desctext'];  // $myts->displayTarea($row['desctext']);
-            $ret[$i]['extras']      = [];
-            $i++;
+            while (false !== ($row = $xoopsDB->fetchArray($result))) {
+                $link                   = XOOPS_URL . '/modules/' . $this->dirname . '/viewads.php?lid=' . $row['lid'] ?? '';
+                $ret[$i]['title']       = $row['title'];
+                $ret[$i]['link']        = $link;
+                $ret[$i]['timestamp']   = $row['date'];
+                $ret[$i]['description'] = $row['desctext'];  // $myts->displayTarea($row['desctext']);
+                $ret[$i]['extras']      = [];
+                $i++;
+            }
         }
-    }
 
         return $ret;
     }

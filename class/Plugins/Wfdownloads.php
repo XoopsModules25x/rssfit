@@ -52,25 +52,24 @@ final class Wfdownloads extends AbstractPlugin
     /**
      * @return \XoopsModule
      */
-    public function loadModule(): ?\XoopsModule{
-
+    public function loadModule(): ?\XoopsModule
+    {
         $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper = PluginHelper::getInstance();
-            $this->module = $this->helper->getModule();
+            $this->helper  = PluginHelper::getInstance();
+            $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod = $this->module;
+            $mod           = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
 
         return $mod;
     }
 
-
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();
 

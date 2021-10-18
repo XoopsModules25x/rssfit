@@ -32,10 +32,10 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Mylinks\Helper as PluginHelper;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\Mylinks\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -52,14 +52,14 @@ final class Mylinks extends AbstractPlugin
     /**
      * @return \XoopsModule
      */
-    public function loadModule(): ?\XoopsModule{
-
+    public function loadModule(): ?\XoopsModule
+    {
         $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper = PluginHelper::getInstance();
-            $this->module = $this->helper->getModule();
+            $this->helper  = PluginHelper::getInstance();
+            $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod = $this->module;
+            $mod           = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
 
@@ -69,12 +69,12 @@ final class Mylinks extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        $myts = \MyTextSanitizer::getInstance();
-        $ret  = null;
-        $i = 0;
-        $sql = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
+        $myts   = \MyTextSanitizer::getInstance();
+        $ret    = null;
+        $i      = 0;
+        $sql    = 'SELECT l.lid, l.cid, l.title, l.date, t.description FROM ' . $xoopsDB->prefix('mylinks_links') . ' l, ' . $xoopsDB->prefix('mylinks_text') . ' t WHERE l.status>0 AND l.lid=t.lid ORDER BY date DESC';
         $result = $xoopsDB->query($sql, $this->grab, 0);
         if ($result instanceof \mysqli_result) {
             $ret = [];

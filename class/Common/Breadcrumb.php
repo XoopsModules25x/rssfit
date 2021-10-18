@@ -14,8 +14,6 @@ namespace XoopsModules\Rssfit\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-
-
 /**
  * Breadcrumb Class
  *

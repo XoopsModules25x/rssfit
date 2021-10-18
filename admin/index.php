@@ -14,15 +14,15 @@ declare(strict_types=1);
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @author      XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 
 use Xmf\Request;
 use XoopsModules\Rssfit\{
-    FeedHandler,
-    PluginHandler,
     Common,
+    FeedHandler,
     Helper,
+    PluginHandler,
     Utility
 };
 
@@ -34,12 +34,11 @@ use XoopsModules\Rssfit\{
 
 require_once __DIR__ . '/admin_header.php';
 
-$helper = Helper::getInstance();
+$helper  = Helper::getInstance();
 $utility = new Utility();
 
 $do = Request::getString('do', '');
 $op = Request::getString('op', 'list');
-
 
 //$do = \Xmf\Request::getString('do', '');
 //$op = \Xmf\Request::getString('op',  \Xmf\Request::getString('op', 'list', 'GET'), 'POST');

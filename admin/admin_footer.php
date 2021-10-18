@@ -14,7 +14,7 @@ declare(strict_types=1);
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @author      XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 $pathIcon32 = Xmf\Module\Admin::iconUrl('', '32');
 

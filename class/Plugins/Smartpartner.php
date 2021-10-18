@@ -37,9 +37,9 @@ use XoopsModules\Rssfit\{
     AbstractPlugin
 };
 use XoopsModules\Smartpartner\{
-    PartnerHandler,
     Constants,
-    Helper as PluginHelper
+    Helper as PluginHelper,
+    PartnerHandler
 };
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
@@ -54,29 +54,27 @@ final class Smartpartner extends AbstractPlugin
 {
     public $dirname = 'smartpartner';
 
-
     /**
      * @return \XoopsModule
      */
-    public function loadModule(): ?\XoopsModule{
-
+    public function loadModule(): ?\XoopsModule
+    {
         $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper = PluginHelper::getInstance();
-            $this->module = $this->helper->getModule();
+            $this->helper  = PluginHelper::getInstance();
+            $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod = $this->module;
+            $mod           = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
 
         return $mod;
     }
 
-
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();
         $ret  = null;
@@ -87,11 +85,11 @@ final class Smartpartner extends AbstractPlugin
         if (\is_array($partners) && \count($partners) > 0) {
             $ret = [];
             for ($i = 0, $iMax = \count($partners); $i < $iMax; ++$i) {
-                $ret[$i]['link'] = $ret[$i]['guid'] = SMARTPARTNER_URL . 'partner.php?id=' . $partners[$i]->getVar('id');
-                $ret[$i]['title'] = $partners[$i]->getVar('title', 'n');
+                $ret[$i]['link']        = $ret[$i]['guid'] = SMARTPARTNER_URL . 'partner.php?id=' . $partners[$i]->getVar('id');
+                $ret[$i]['title']       = $partners[$i]->getVar('title', 'n');
                 $ret[$i]['description'] = $partners[$i]->getVar('summary');
-                $ret[$i]['category'] = $this->modname;
-                $ret[$i]['domain'] = XOOPS_URL . '/modules/' . $this->dirname . '/';
+                $ret[$i]['category']    = $this->modname;
+                $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';
             }
         }
 

@@ -1,68 +1,50 @@
 rssfit_plugins:
-    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
-    columns:
-        -
-            name: rssf_conf_id
-            attributes: ' int(5) unsigned  NOT NULL auto_increment'
-        -
-            name: rssf_filename
-            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
-        -
-            name: rssf_activated
-            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
-        -
-            name: rssf_grab
-            attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
-        -
-            name: rssf_order
-            attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
-        -
-            name: subfeed
-            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
-        -
-            name: sub_entries
-            attributes: ' char(2)  NOT NULL  DEFAULT '''' '
-        -
-            name: sub_link
-            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
-        -
-            name: sub_title
-            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
-        -
-            name: sub_desc
-            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
-        -
-            name: img_url
-            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
-        -
-            name: img_link
-            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
-        -
-            name: img_title
-            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
-    keys:
-        PRIMARY:
-            columns: rssf_conf_id
-            unique: true
+  options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+  columns:
+    - name: rssf_conf_id
+      attributes: ' int(5) unsigned  NOT NULL auto_increment'
+    - name: rssf_filename
+      attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+    - name: rssf_activated
+      attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+    - name: rssf_grab
+      attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
+    - name: rssf_order
+      attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
+    - name: subfeed
+      attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+    - name: sub_entries
+      attributes: ' char(2)  NOT NULL  DEFAULT '''' '
+    - name: sub_link
+      attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    - name: sub_title
+      attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    - name: sub_desc
+      attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    - name: img_url
+      attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    - name: img_link
+      attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    - name: img_title
+      attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+  keys:
+    PRIMARY:
+      columns: rssf_conf_id
+      unique: true
 rssfit_misc:
-    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
-    columns:
-        -
-            name: misc_id
-            attributes: ' smallint(5) unsigned  NOT NULL auto_increment'
-        -
-            name: misc_category
-            attributes: ' varchar(30)  NOT NULL  DEFAULT '''' '
-        -
-            name: misc_title
-            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
-        -
-            name: misc_content
-            attributes: ' text  NOT NULL '
-        -
-            name: misc_setting
-            attributes: ' text  NOT NULL '
-    keys:
-        PRIMARY:
-            columns: misc_id
-            unique: true
+  options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+  columns:
+    - name: misc_id
+      attributes: ' smallint(5) unsigned  NOT NULL auto_increment'
+    - name: misc_category
+      attributes: ' varchar(30)  NOT NULL  DEFAULT '''' '
+    - name: misc_title
+      attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    - name: misc_content
+      attributes: ' text  NOT NULL '
+    - name: misc_setting
+      attributes: ' text  NOT NULL '
+  keys:
+    PRIMARY:
+      columns: misc_id
+      unique: true

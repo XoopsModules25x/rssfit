@@ -35,6 +35,7 @@ namespace XoopsModules\Rssfit\Plugins;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
+
 //use XoopsModules\Surnames\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
@@ -68,7 +69,7 @@ final class Surnames extends AbstractPlugin
         if ('' == $name) {
             $name = \htmlspecialchars($thisUser->getVar('uname'), \ENT_QUOTES | \ENT_HTML5);
         }
-        $lastUid = $uid;
+        $lastUid  = $uid;
         $lastName = $name;
 
         return $name;
@@ -77,18 +78,18 @@ final class Surnames extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();
         $ret  = null;
 
-        $i = -1;
+        $i        = -1;
         $lasttime = false;
         $lastuser = false;
-        $limit = 10 * $this->grab;
+        $limit    = 10 * $this->grab;
 
-        $sql = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM " . $xoopsDB->prefix('surnames');
-        $sql .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
+        $sql    = "SELECT uid, id, surname, notes, DATE_FORMAT(changed_ts,'%Y-%m-%d') as changedate FROM " . $xoopsDB->prefix('surnames');
+        $sql    .= ' WHERE approved=1 ORDER BY changedate DESC, uid ';
         $result = $xoopsDB->query($sql, $limit, 0);
         if ($result instanceof \mysqli_result) {
             $ret = [];

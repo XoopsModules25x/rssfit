@@ -32,12 +32,12 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\News\Helper as PluginHelper;
+use XoopsModules\News\NewsStory;
+use XoopsModules\News\Utility;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\News\NewsStory;
-use XoopsModules\News\Utility;
-use XoopsModules\News\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -54,7 +54,7 @@ final class News extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret = null;
         //        @require_once XOOPS_ROOT_PATH . '/modules/news/class/class.newsstory.php';

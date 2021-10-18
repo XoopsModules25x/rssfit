@@ -32,10 +32,11 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Ams\Story;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\Ams\Story;
+
 //use XoopsModules\Ams\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
@@ -53,9 +54,9 @@ final class Ams extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        $ret  = null;
+        $ret = null;
         //        @require_once XOOPS_ROOT_PATH . '/modules/AMS/class/class.newsstory.php';
         $myts = \MyTextSanitizer::getInstance();
         $ams  = Story::getAllPublished($this->grab, 0);

@@ -185,7 +185,6 @@ class FeedHandler
         return true;
     }
 
-
     public function getItems(array &$feed): void
     {
         $entries = [];
@@ -239,7 +238,6 @@ class FeedHandler
         $feed['items'] = &$entries;
     }
 
-
     public function doSubstr(string $text): string
     {
         $ret = $text;
@@ -288,7 +286,6 @@ class FeedHandler
         return mb_strrpos($text, $find);
     }
 
-
     public function rssTimeStamp(int $time): ?string
     {
         return \date('D, j M Y H:i:s O', $time);
@@ -302,7 +299,6 @@ class FeedHandler
 
         return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
     }
-
 
     public function cleanupChars(&$text, bool $strip = true, bool $dospec = true, bool $dosub = false): void
     {
@@ -398,7 +394,6 @@ class FeedHandler
         return null;
     }
 
-
     public function checkSubFeed(array &$feed): void
     {
         if (!empty($feed['plugin'])) {
@@ -419,7 +414,6 @@ class FeedHandler
             }
         }
     }
-
 
     public function buildFeed(array &$feed): void
     {

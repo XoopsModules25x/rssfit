@@ -19,10 +19,12 @@ declare(strict_types=1);
 use Xmf\Database\TableLoad;
 use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Rssfit\{Helper,
+use XoopsModules\Rssfit\{
     Common\Configurator,
+    Helper,
     Utility
 };
+
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var Configurator $configurator */
@@ -62,7 +64,7 @@ switch ($op) {
 
 // XMF TableLoad for SAMPLE data
 
-function loadSampleData()
+function loadSampleData(): void
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
@@ -103,7 +105,7 @@ function loadSampleData()
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS'));
 }
 
-function saveSampleData()
+function saveSampleData(): void
 {
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
@@ -133,7 +135,7 @@ function saveSampleData()
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
-function exportSchema()
+function exportSchema(): void
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -203,7 +205,8 @@ function loadTableFromArrayWithReplace(string $table, array $data, string $searc
     return $count;
 }
 
-function clearSampleData(){
+function clearSampleData(): void
+{
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();

@@ -1,5 +1,7 @@
 ![alt XOOPS CMS](https://xoops.org/images/logoXoopsPhp8.png)
+
 ## RSSFit module for  [XOOPS CMS 2.5.10+](https://xoops.org)
+
 [![XOOPS CMS Module](https://img.shields.io/badge/XOOPS%20CMS-Module-blue.svg)](https://xoops.org)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-2.0.html)
 
@@ -11,8 +13,7 @@
 
 **RSSFit** module for [XOOPS CMS](https://xoops.org) is a module for XOOPS generates RSS 2.0 validated XML feed. Web masters can decide what to be displayed in the XML output by activating installed plug-ins.
 
-[![Tutorial Available](https://xoops.org/images/tutorial-available-blue.svg)](https://xoops.gitbook.io/rssfit-tutorial/) Tutorial: see [GitBook](https://xoops.gitbook.io/rssfit-tutorial/).
-To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/rssfit-tutorial)
+[![Tutorial Available](https://xoops.org/images/tutorial-available-blue.svg)](https://xoops.gitbook.io/rssfit-tutorial/) Tutorial: see [GitBook](https://xoops.gitbook.io/rssfit-tutorial/). To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/rssfit-tutorial)
 
 [![Translations on Transifex](https://xoops.org/images/translations-transifex-blue.svg)](https://www.transifex.com/xoops)
 

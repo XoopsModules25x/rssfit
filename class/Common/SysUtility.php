@@ -31,16 +31,23 @@ use XoopsModules\Rssfit\{
     Helper
 };
 
-
 /**
  * Class SysUtility
  */
 class SysUtility
 {
-    use VersionChecks; //checkVerXoops, checkVerPhp Traits
-    use ServerStats; // getServerStats Trait
-    use FilesManagement; // Files Management Trait
-//    use ModuleStats;    // ModuleStats Trait
+    use VersionChecks;
+
+    //checkVerXoops, checkVerPhp Traits
+
+    use ServerStats;
+
+    // getServerStats Trait
+
+    use FilesManagement;
+
+    // Files Management Trait
+    //    use ModuleStats;    // ModuleStats Trait
 
     //--------------- Common module methods -----------------------------
 
@@ -65,7 +72,7 @@ class SysUtility
 
         $select_view   = '';
         $moduleDirName = \basename(\dirname(__DIR__));
-        $helper = Helper::getInstance();
+        $helper        = Helper::getInstance();
 
         //$pathModIcon16 = XOOPS_URL . '/modules/' . $moduleDirName . '/' . $helper->getConfig('modicons16');
         $pathModIcon16 = $helper->url($helper->getModule()->getInfo('modicons16'));
@@ -114,7 +121,6 @@ class SysUtility
         }
     }
 
-
     public static function metaDescription(string $content): void
     {
         global $xoopsTpl, $xoTheme;
@@ -138,17 +144,16 @@ class SysUtility
         $sql    = 'SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "' . $table . '" AND COLUMN_NAME = "' . $columnName . '"';
         $result = $GLOBALS['xoopsDB']->query($sql);
         if (!$result) {
-//            exit($GLOBALS['xoopsDB']->error());
-            $logger     = \XoopsLogger::getInstance();
+            //            exit($GLOBALS['xoopsDB']->error());
+            $logger = \XoopsLogger::getInstance();
             $logger->handleError(\E_USER_WARNING, $sql, __FILE__, __LINE__);
             return null;
         }
 
         $row      = $GLOBALS['xoopsDB']->fetchBoth($result);
-        $enumList = \explode(',', \str_replace("'", '', \mb_substr($row['COLUMN_TYPE'], 5, - 6)));
+        $enumList = \explode(',', \str_replace("'", '', \mb_substr($row['COLUMN_TYPE'], 5, -6)));
         return $enumList;
     }
-
 
     /**
      * Clone a record in a dB
@@ -162,7 +167,7 @@ class SysUtility
     public static function cloneRecord(string $tableName, string $idField, int $id): ?int
     {
         $newId = null;
-        $table  = $GLOBALS['xoopsDB']->prefix($tableName);
+        $table = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
         $sql       = "SELECT * FROM $table WHERE $idField='" . $id . "' ";
         $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), \MYSQLI_ASSOC);
@@ -241,7 +246,7 @@ class SysUtility
                 $content_length = \mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
-                    $left = $length - $total_length;
+                    $left            = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
                     if (\preg_match_all('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
@@ -260,7 +265,7 @@ class SysUtility
                     // maximum length is reached, so get off the loop
                     break;
                 }
-                $truncate .= $line_matchings[2];
+                $truncate     .= $line_matchings[2];
                 $total_length += $content_length;
 
                 // if the maximum length is reached, get off the loop
@@ -298,7 +303,7 @@ class SysUtility
     /**
      * Get correct text editor based on user rights
      *
-      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
+     * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
     public static function getEditor(?\Xmf\Module\Helper $helper = null, ?array $options = null): ?\XoopsFormTextArea
     {
@@ -306,17 +311,17 @@ class SysUtility
 
         /** @var Helper $helper */
         if (null === $options) {
-            $options = [];
-            $options['name'] = 'Editor';
-            $options['value'] = 'Editor';
-            $options['rows'] = 10;
-            $options['cols'] = '100%';
-            $options['width'] = '100%';
+            $options           = [];
+            $options['name']   = 'Editor';
+            $options['value']  = 'Editor';
+            $options['rows']   = 10;
+            $options['cols']   = '100%';
+            $options['width']  = '100%';
             $options['height'] = '400px';
         }
 
         if (null === $helper) {
-         $helper = Helper::getInstance();
+            $helper = Helper::getInstance();
         }
         $isAdmin = $helper->isUserAdmin();
 
@@ -353,7 +358,6 @@ class SysUtility
         return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
     }
 
-
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -386,7 +390,7 @@ class SysUtility
         );
         $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-        return $GLOBALS['xoopsDB']->getRowsNum($result) > 0    ;
+        return $GLOBALS['xoopsDB']->getRowsNum($result) > 0;
     }
 
     /**

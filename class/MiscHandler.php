@@ -41,10 +41,10 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public $helper;
 
     /**
-     * @param \XoopsMySQLDatabase|null              $db
+     * @param \XoopsMySQLDatabase|null         $db
      * @param null|\XoopsModules\Rssfit\Helper $helper
      */
-    public function __construct(\XoopsMySQLDatabase $db = null, $helper = null)
+    public function __construct(?\XoopsMySQLDatabase $db = null, $helper = null)
     {
         if (null === $helper) {
             $helper = Helper::getInstance();
@@ -54,8 +54,8 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         if (null === $db) {
             $db = \XoopsDatabaseFactory::getDatabaseConnection();
         }
-        $this->db       = $db;
-        $table = $db->prefix($helper->getDirname() . '_misc');
+        $this->db      = $db;
+        $table         = $db->prefix($helper->getDirname() . '_misc');
         $this->dbTable = $table;
 
         parent::__construct($db, $table, Misc::class, 'misc_id', 'misc_title');
@@ -64,7 +64,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     /**
      * @param \XoopsMySQLDatabase|null $db
      */
-    public function getInstance(\XoopsMySQLDatabase $db = null): MiscHandler
+    public function getInstance(?\XoopsMySQLDatabase $db = null): MiscHandler
     {
         static $instance;
         if (null === $instance) {
@@ -92,7 +92,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     //    public function get($id = null, $fields = '*')
 
     /**
-     * @param null|int $id
+     * @param null|int   $id
      * @param null|array $fields
      * @return bool|mixed|\XoopsObject|null
      */
@@ -131,10 +131,10 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function getObjects2($criteria = null, string $fields = '*', string $key = ''): ?array
     {
-        $ret    = null;
-        $limit  = $start = 0;
-//        $fields = '*';
-        $sql    = 'SELECT ' . $fields . ' FROM ' . $this->dbTable;
+        $ret   = null;
+        $limit = $start = 0;
+        //        $fields = '*';
+        $sql = 'SELECT ' . $fields . ' FROM ' . $this->dbTable;
         if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -174,7 +174,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $object, $force = false)
     {
-//        $force = false;
+        //        $force = false;
         if (mb_strtolower(\get_class($object)) != mb_strtolower($this->objClass)) {
             return false;
         }
@@ -196,7 +196,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         }
         if ($object->isNew() || empty($cleanvars[$this->objKey])) {
             $cleanvars[$this->objKey] = $this->db->genId($this->dbTable . '_' . $this->objKey . '_seq');
-            $sql                       = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
+            $sql                      = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
         } else {
             unset($cleanvars[$this->objKey]);
             $sql = 'UPDATE ' . $this->dbTable . ' SET';
@@ -256,7 +256,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     public function delete(\XoopsObject $object, $force = false): bool
     {
-//        $force = false;
+        //        $force = false;
         if (mb_strtolower(\get_class($object)) != mb_strtolower($this->objClass)) {
             return false;
         }

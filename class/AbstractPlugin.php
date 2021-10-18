@@ -58,7 +58,7 @@ abstract class AbstractPlugin implements PluginInterface
             return null;
         }
         $this->modname = $mod->getVar('name');
-        $this->module = $mod;   // optional, remove this line if there is nothing to do with module info when grabbing entries
+        $this->module  = $mod;   // optional, remove this line if there is nothing to do with module info when grabbing entries
 
         return $mod;
     }

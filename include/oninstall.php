@@ -17,6 +17,7 @@ declare(strict_types=1);
  * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author        XOOPS Development Team
  */
+
 use XoopsModules\Rssfit;
 use XoopsModules\Rssfit\Utility;
 
@@ -31,7 +32,7 @@ function xoops_module_pre_install_rssfit(\XoopsModule $module): bool
     require_once \dirname(__DIR__) . '/preloads/autoloader.php';
     $utility      = new Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
-    $phpSuccess = $utility::checkVerPhp($module);
+    $phpSuccess   = $utility::checkVerPhp($module);
 
     if ($xoopsSuccess && $phpSuccess) {
         $moduleTables = &$module->getInfo('tables');
@@ -56,9 +57,9 @@ function xoops_module_install_rssfit(\XoopsModule $module): bool
 
     $moduleDirName = \basename(\dirname(__DIR__));
 
-    $helper = Rssfit\Helper::getInstance();
+    $helper       = Rssfit\Helper::getInstance();
     $configurator = new Rssfit\Common\Configurator();
-    $utility = new Utility();
+    $utility      = new Utility();
 
     // Load language files
     $helper->loadLanguage('admin');

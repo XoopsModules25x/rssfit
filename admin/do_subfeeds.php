@@ -25,6 +25,7 @@ use XoopsModules\Rssfit\{
     PluginHandler,
     Utility
 };
+
 /** @var FeedHandler $feedHandler */
 /** @var PluginHandler $pluginHandler */
 
@@ -57,7 +58,7 @@ switch ($op) {
                 if ($handler = $pluginHandler->checkPlugin($p)) {
                     $mod      = $handler->modname;
                     $activate = new \XoopsFormCheckBox('', 'activate[' . $id . ']', $p->getVar('subfeed'));
-                    $config = Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_RSSFIT_SUB_CONFIGURE);
+                    $config   = Utility::rssfGenAnchor(RSSFIT_ADMIN_URL . '?do=' . $do . '&amp;op=edit&amp;feed=' . $id, _AM_RSSFIT_SUB_CONFIGURE);
                     $urlLink  = '<a href="' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '">' . $feedHandler->subFeedUrl($p->getVar('rssf_filename')) . '</a>';
                 } else {
                     $pluginHandler->forceDeactivate($p);

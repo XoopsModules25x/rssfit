@@ -38,6 +38,7 @@ use CriteriaCompo;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
+
 //use XoopsModules\System\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
@@ -55,7 +56,7 @@ final class Comments extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();
         $ret  = null;
@@ -70,7 +71,7 @@ final class Comments extends AbstractPlugin
         $comment_config = [];
         if (\count($comments) > 0) {
             $modules = $GLOBALS['module_handler']->getObjects(new Criteria('hascomments', 1), true);
-            $ret = [];
+            $ret     = [];
             foreach (\array_keys($comments) as $i) {
                 $mid = $comments[$i]->getVar('com_modid');
                 if (!isset($comment_config[$mid])) {

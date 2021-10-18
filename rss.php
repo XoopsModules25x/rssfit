@@ -23,6 +23,7 @@ use XoopsModules\Rssfit\{
     FeedHandler,
     Helper
 };
+
 /** @var FeedHandler $feedHandler */
 
 if (function_exists('mb_http_output')) {

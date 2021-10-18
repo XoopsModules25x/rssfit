@@ -24,6 +24,7 @@ use XoopsModules\Rssfit\{
     Helper,
     PluginHandler
 };
+
 /** @var PluginHandler $pluginHandler */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
@@ -38,7 +39,7 @@ switch ($op) {
         $ret = '';
         // activated plugins
         $criteria = new \Criteria('rssf_activated', '1');
-        $plugins = $pluginHandler->getObjects2($criteria, 'p_activated');
+        $plugins  = $pluginHandler->getObjects2($criteria, 'p_activated');
         if ($plugins) {
             $ret .= "<table cellspacing='1' class='outer' width='100%'>\n"
                     . "<tr><th colspan='5'>"
@@ -126,7 +127,7 @@ switch ($op) {
                         $ret .= '<br>' . $e;
                     }
                 } else {
-                        $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
+                    $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
                 }
 
                 $ret .= "</td>\n";

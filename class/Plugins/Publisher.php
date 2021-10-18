@@ -32,12 +32,12 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Publisher\{
+    Helper as PluginHelper,
+    ItemHandler,
+};
 use XoopsModules\Rssfit\{
     AbstractPlugin
-};
-use XoopsModules\Publisher\{
-    ItemHandler,
-    Helper as PluginHelper,
 };
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
@@ -54,14 +54,14 @@ final class Publisher extends AbstractPlugin
     /**
      * @return \XoopsModule
      */
-    public function loadModule(): ?\XoopsModule{
-
+    public function loadModule(): ?\XoopsModule
+    {
         $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper = PluginHelper::getInstance();
-            $this->module = $this->helper->getModule();
+            $this->helper  = PluginHelper::getInstance();
+            $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod = $this->module;
+            $mod           = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
 

@@ -37,7 +37,7 @@ function xoops_module_uninstall_rssfit(\XoopsModule $module): bool
 
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-    $helper = Rssfit\Helper::getInstance();
+    $helper             = Rssfit\Helper::getInstance();
 
     $utility = new Rssfit\Utility();
 

@@ -32,10 +32,10 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2
 */
 
+use XoopsModules\Newbb\Helper as PluginHelper;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
-use XoopsModules\Newbb\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -52,14 +52,14 @@ final class Newbb extends AbstractPlugin
     /**
      * @return \XoopsModule
      */
-    public function loadModule(): ?\XoopsModule{
-
+    public function loadModule(): ?\XoopsModule
+    {
         $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper = PluginHelper::getInstance();
-            $this->module = $this->helper->getModule();
+            $this->helper  = PluginHelper::getInstance();
+            $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod = $this->module;
+            $mod           = $this->module;
             //        $this->dirname = $this->helper->getDirname();
         }
 
@@ -69,7 +69,7 @@ final class Newbb extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         require_once XOOPS_ROOT_PATH . '/modules/' . $this->dirname . '/class/class.forumposts.php';
         $myts   = \MyTextSanitizer::getInstance();

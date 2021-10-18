@@ -35,8 +35,8 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     public $dbTable;
     public $objClass = Plugin::class;
     public $objKey   = 'rssf_conf_id';
-    public $sortby    = 'rssf_order';
-    public $order     = 'ASC';
+    public $sortby   = 'rssf_order';
+    public $order    = 'ASC';
     /**
      * @var \XoopsModules\Rssfit\Helper
      */
@@ -46,7 +46,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      * @param \XoopsDatabase|null              $db
      * @param null|\XoopsModules\Rssfit\Helper $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(?\XoopsDatabase $db = null, $helper = null)
     {
         if (null === $helper) {
             $helper = \XoopsModules\Rssfit\Helper::getInstance();
@@ -59,7 +59,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         $this->db = $db;
         //        $this->dbTable = $db->prefix($helper->getDirname() . '_plugins');
 
-        $table          = $db->prefix($helper->getDirname() . '_plugins');
+        $table         = $db->prefix($helper->getDirname() . '_plugins');
         $this->dbTable = $table;
 
         parent::__construct($db, $table, Plugin::class, 'rssf_conf_id', 'rssf_filename');
@@ -68,7 +68,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     /**
      * @param \XoopsDatabase|null $db
      */
-    public function getInstance(\XoopsDatabase $db = null): \XoopsPersistableObjectHandler
+    public function getInstance(?\XoopsDatabase $db = null): \XoopsPersistableObjectHandler
     {
         static $instance;
         if (null === $instance) {
@@ -96,7 +96,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     //    public function get($id, $fields = '*')
 
     /**
-     * @param null|int $id
+     * @param null|int   $id
      * @param null|array $fields
      * @return bool|mixed|\XoopsObject|null
      */
@@ -113,7 +113,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param  bool        $force  flag to force the query execution despite security settings
+     * @param bool $force flag to force the query execution despite security settings
      * @return array|bool|int|mixed|null
      */
     public function insert(\XoopsObject $object, $force = true)
@@ -139,7 +139,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         }
         if ($object->isNew() || empty($cleanvars[$this->objKey])) {
             $cleanvars[$this->objKey] = $this->db->genId($this->dbTable . '_' . $this->objKey . '_seq');
-            $sql                       = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
+            $sql                      = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
         } else {
             unset($cleanvars[$this->objKey]);
             $sql = 'UPDATE ' . $this->dbTable . ' SET';
@@ -159,7 +159,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
             return false;
         }
-//        if (false === $object->getVar($this->objKey)) {
+        //        if (false === $object->getVar($this->objKey)) {
         if (0 === (int)$object->getVar($this->objKey)) {
             $object->assignVar($this->objKey, $this->db->getInsertId());
         }
@@ -168,7 +168,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param bool         $force
+     * @param bool $force
      */
     public function delete(\XoopsObject $object, $force = false): bool
     {
@@ -220,7 +220,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         }
         $result = $this->db->query($sql, $limit, $start);
         if ($result instanceof \mysqli_result) {
-            $ret   = [];
+            $ret = [];
             while (false !== ($myrow = $this->db->fetchArray($result))) {
                 $object = new $this->objClass();
                 $object->assignVars($myrow);
@@ -245,7 +245,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     {
         if ($fields && \is_array($fields)) {
             $object = new $this->objClass();
-            $sql = '';
+            $sql    = '';
             foreach ($fields as $k => $v) {
                 $sql .= $k . ' = ';
                 $sql .= 3 == $object->vars[$k]['data_type'] ? (int)$v : $this->db->quoteString($v);
@@ -298,13 +298,12 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         return true;
     }
 
-
     public function &getPluginFileList(): ?array
     {
         $ret  = null;
         $objs = $this->getObjects2(null, 'rssf_filename');
         if (\is_array($objs) && !empty($objs)) {
-            $ret   = [];
+            $ret = [];
             foreach ($objs as $o) {
                 $ret[] = $o->getVar('rssf_filename');
             }
@@ -322,10 +321,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         global $moduleHandler;
         $file = \RSSFIT_ROOT_PATH . 'class/Plugins/' . $object->getVar('rssf_filename');
         if (\is_file($file)) {
-            $ret   = [];
+            $ret = [];
             //mb            $require_once = require $file;
-            $name         = \explode('.', $object->getVar('rssf_filename'));
-            $class        = __NAMESPACE__ . '\Plugins\\' . \ucfirst($name[0]);
+            $name  = \explode('.', $object->getVar('rssf_filename'));
+            $class = __NAMESPACE__ . '\Plugins\\' . \ucfirst($name[0]);
             if (\class_exists($class)) {
                 $handler = new $class();
                 if (!\method_exists($handler, 'loadmodule') || !\method_exists($handler, 'grabentries')) {

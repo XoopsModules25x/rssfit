@@ -14,7 +14,7 @@ declare(strict_types=1);
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @author      XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 
 use Xmf\Module\Admin;
@@ -88,10 +88,10 @@ $version = number_format($xoopsModule->getVar('version') / 100, 2);
 $version = !mb_substr($version, -1, 1) ? mb_substr($version, 0, 3) : $version;
 define('RSSFIT_VERSION', 'RSSFit ' . $version);
 
-$feedHandler = new FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
-$myts        = $feedHandler->myts;
+$feedHandler   = new FeedHandler($xoopsModuleConfig, $xoopsConfig, $xoopsModule);
+$myts          = $feedHandler->myts;
 $pluginHandler = $helper->getHandler('Plugin');
-$miscHandler    = $helper->getHandler('Misc');
+$miscHandler   = $helper->getHandler('Misc');
 
 $icons = [
     'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",

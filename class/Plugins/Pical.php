@@ -35,6 +35,7 @@ namespace XoopsModules\Rssfit\Plugins;
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
+
 //use XoopsModules\Pical\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
@@ -51,7 +52,7 @@ final class Pical extends AbstractPlugin
     /**
      * @return array
      */
-    public function grabEntries(\XoopsMySQLDatabase $xoopsDB):?array
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts   = \MyTextSanitizer::getInstance();
         $ret    = null;
