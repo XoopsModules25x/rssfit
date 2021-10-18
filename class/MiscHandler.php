@@ -40,11 +40,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public $helper;
 
-    /**
-     * @param \XoopsMySQLDatabase|null         $db
-     * @param null|\XoopsModules\Rssfit\Helper $helper
-     */
-    public function __construct(?\XoopsMySQLDatabase $db = null, $helper = null)
+    public function __construct(?\XoopsMySQLDatabase $db = null, ?Helper $helper = null)
     {
         if (null === $helper) {
             $helper = Helper::getInstance();
@@ -61,9 +57,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         parent::__construct($db, $table, Misc::class, 'misc_id', 'misc_title');
     }
 
-    /**
-     * @param \XoopsMySQLDatabase|null $db
-     */
     public function getInstance(?\XoopsMySQLDatabase $db = null): MiscHandler
     {
         static $instance;
@@ -74,11 +67,8 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         return $instance;
     }
 
-    /**
-     * @param bool $isNew
-     * @return \XoopsObject
-     */
-    public function create($isNew = true): ?\XoopsObject
+
+    public function create(bool $isNew = true): ?\XoopsObject
     {
         $obj = parent::create($isNew);
         //        if ($isNew) {
@@ -91,12 +81,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     //    public function get($id = null, $fields = '*')
 
-    /**
-     * @param null|int   $id
-     * @param null|array $fields
-     * @return bool|mixed|\XoopsObject|null
-     */
-    public function get($id = null, $fields = null): ?\XoopsObject
+    public function get(?int $id = null, ?array $fields = null): ?\XoopsObject
     {
         $criteria = new \Criteria($this->objKey, (int)$id);
         $objs     = $this->getObjects2($criteria);
@@ -110,12 +95,11 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     /**
      * count objects matching a condition
      * @param null|\Criteria|\CriteriaCompo $criteria
-     * @return null|int count of objects
      */
     public function getCount($criteria = null): ?int
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->dbTable;
-        if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {
@@ -135,7 +119,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         $limit = $start = 0;
         //        $fields = '*';
         $sql = 'SELECT ' . $fields . ' FROM ' . $this->dbTable;
-        if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -238,7 +222,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             }
             $sql = mb_substr($sql, 0, -2);
             $sql = 'UPDATE ' . $this->dbTable . ' SET ' . $sql;
-            if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
+            if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
                 $sql .= ' ' . $criteria->renderWhere();
             }
             if ($force) {

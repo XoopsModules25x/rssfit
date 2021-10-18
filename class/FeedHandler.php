@@ -323,9 +323,6 @@ class FeedHandler
         $text = '<![CDATA[' . \str_replace(['<![CDATA[', ']]>'], ['&lt;![CDATA[', ']]&gt;'], $text) . ']]>';
     }
 
-    /**
-     * @return array
-     */
     public function &getActivatedSubfeeds(string $fields = '', string $type = ''): ?array
     {
         $ret  = null;

@@ -8,13 +8,7 @@ namespace XoopsModules\Rssfit;
  */
 interface PluginInterface
 {
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule;
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array;
 }
