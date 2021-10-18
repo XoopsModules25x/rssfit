@@ -240,17 +240,18 @@ class FeedHandler
 
     public function doSubstr(string $text): string
     {
-        $ret = $text;
-        $len = \function_exists('mb_strlen') ? mb_strlen($ret, $this->charset) : mb_strlen($ret);
-        if ($len > $this->helper->getConfig('max_char') && $this->helper->getConfig('max_char') > 0) {
-            $ret = $this->substrDetect($ret, 0, $this->helper->getConfig('max_char') - 1);
+        $ret      = $text;
+        $len      = \function_exists('mb_strlen') ? mb_strlen($ret, $this->charset) : mb_strlen($ret);
+        $maxChars = $this->helper->getConfig('max_char');
+        if ($len > $maxChars && $maxChars > 0) {
+            $ret = $this->substrDetect($ret, 0, $maxChars - 1);
             if (false === $this->strrposDetect($ret, ' ')) {
                 if (false !== $this->strrposDetect($text, ' ')) {
                     $ret = $this->substrDetect($text, 0, mb_strpos($text, ' '));
                 }
             }
-            if (\in_array($this->substrDetect($text, $this->helper->getConfig('max_char') - 1, 1), $this->substrAdd)) {
-                $ret .= $this->substrDetect($text, $this->helper->getConfig('max_char') - 1, 1);
+            if (\in_array($this->substrDetect($text, $maxChars - 1, 1), $this->substrAdd)) {
+                $ret .= $this->substrDetect($text, $maxChars - 1, 1);
             } else {
                 if (false !== $this->strrposDetect($ret, ' ')) {
                     $ret = $this->substrDetect($ret, 0, $this->strrposDetect($ret, ' '));
