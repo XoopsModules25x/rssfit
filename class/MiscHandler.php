@@ -67,8 +67,11 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         return $instance;
     }
 
-
-    public function create(bool $isNew = true): ?\XoopsObject
+    /**
+     * @param bool $isNew
+     * @return \XoopsObject
+     */
+    public function create($isNew = true): ?\XoopsObject
     {
         $obj = parent::create($isNew);
         //        if ($isNew) {
@@ -81,7 +84,11 @@ class MiscHandler extends \XoopsPersistableObjectHandler
 
     //    public function get($id = null, $fields = '*')
 
-    public function get(?int $id = null, ?array $fields = null): ?\XoopsObject
+    /**
+     * @param null|int $id
+     * @param null|array $fields
+     */
+    public function get($id = null, $fields = null): ?\XoopsObject
     {
         $criteria = new \Criteria($this->objKey, (int)$id);
         $objs     = $this->getObjects2($criteria);

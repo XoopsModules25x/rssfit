@@ -71,7 +71,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         return $instance;
     }
 
-    public function create(bool $isNew = true): ?\XoopsObject
+    /**
+     * @param bool $isNew
+     */
+    public function create($isNew = true): ?\XoopsObject
     {
         $object = parent::create($isNew);
         //        if ($isNew) {
@@ -84,7 +87,11 @@ class PluginHandler extends \XoopsPersistableObjectHandler
 
     //    public function get($id, $fields = '*')
 
-    public function get(?int $id = null, ?array $fields = null): ?\XoopsObject
+    /**
+     * @param null|int $id
+     * @param null|array $fields
+     */
+    public function get($id = null, $fields = null): ?\XoopsObject
     {
         $ret      = null;
         $criteria = new \Criteria($this->objKey, (int)$id);
@@ -100,7 +107,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      * @param bool $force flag to force the query execution despite security settings
      * @return array|bool|int|mixed|null
      */
-    public function insert(\XoopsObject $object, bool $force = true)
+    public function insert(\XoopsObject $object, $force = true)
     {
         if (mb_strtolower(\get_class($object)) != mb_strtolower($this->objClass)) {
             return false;
@@ -151,8 +158,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         return $object->getVar($this->objKey);
     }
 
-
-    public function delete(\XoopsObject $object, bool $force = false): bool
+    /**
+     * @param bool         $force
+     */
+    public function delete(\XoopsObject $object, $force = false): bool
     {
         if (mb_strtolower(\get_class($object)) != mb_strtolower($this->objClass)) {
             return false;
