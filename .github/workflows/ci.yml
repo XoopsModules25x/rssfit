@@ -18,26 +18,10 @@ jobs:
           path: /
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
-          tools: cs2pr, phpcs, phpstan, psalm, phpunit, composer
+          tools: cs2pr, phpcs, phpstan, psalm
       # run: phpstan analyze src --level=5 --error-format=checkstyle | cs2pr
       # 8- Run Psalm scan
       - name: Run Psalm scan
         run: psalm --threads=8 --shepherd --stats --output-format=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # 9- Run SonarCloud scan
-      - name: Run SonarCloud scan
-        uses: sonarsource/sonarcloud-github-action@master
-        with:
-          args: >
-            -Dsonar.projectKey=MedUnes_noise-php
-            -Dsonar.organization=medunes
-            -Dsonar.sources=src
-            -Dsonar.tests=tests
-            -Dsonar.language=php
-            -Dsonar.sourceEncoding=UTF-8
-            -Dsonar.exclusions=vendor/*
-            -Dsonar.verbose=true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
