@@ -238,7 +238,10 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         return $ret;
     }
 
-    public function modifyObjects(\CriteriaElement $criteria = null, array $fields = [], bool $force = false): ?string
+    /**
+     * @param null|\Criteria|\CriteriaCompo $criteria
+     */
+    public function modifyObjects($criteria = null, array $fields = [], bool $force = false): ?string
     {
         if ($fields && \is_array($fields)) {
             $object = new $this->objClass();
@@ -250,7 +253,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             }
             $sql = mb_substr($sql, 0, -2);
             $sql = 'UPDATE ' . $this->dbTable . ' SET ' . $sql;
-            if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
+            if ($criteria instanceof \CriteriaCompo::class) {
                 $sql .= ' ' . $criteria->renderWhere();
             }
             if ($force) {
