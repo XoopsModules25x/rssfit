@@ -1,5 +1,6 @@
 <h5>1.32.0 Beta 3  [NOT RELEASED]</h5> Dev: XOOPS 2.5.11, PHP 7.4.24, PHP 8.0.11, PHP 8.1.0 Beta 4
 <hr>
+- add plugins for wg-modules (goffy)
 
 <h5>1.32.0 Beta 2  [2021-10-20]</h5>
 <hr>
