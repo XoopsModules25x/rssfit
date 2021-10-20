@@ -134,7 +134,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        if (!\preg_match('/ORDER\ BY/', $sql)) {
+        if (!\preg_match('/ORDER BY/', $sql)) {
             $sql .= ' ORDER BY ' . $this->objKey . ' ASC';
         }
         $result = $this->db->query($sql, $limit, $start);

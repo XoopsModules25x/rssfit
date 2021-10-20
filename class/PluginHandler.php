@@ -206,7 +206,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        if (!\preg_match('/ORDER\ BY/', $sql)) {
+        if (!\preg_match('/ORDER BY/', $sql)) {
             $sql .= ' ORDER BY ' . $this->sortby . ' ' . $this->order;
         }
         $result = $this->db->query($sql, $limit, $start);
