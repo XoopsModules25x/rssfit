@@ -271,7 +271,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
-        if (!$result) {
+        if (!$result instanceof \mysqli_result) {
             return null;
         }
         [$count] = $this->db->fetchRow($result);
@@ -316,14 +316,14 @@ class PluginHandler extends \XoopsPersistableObjectHandler
             $name  = \explode('.', $object->getVar('rssf_filename'));
             $class = __NAMESPACE__ . '\Plugins\\' . \ucfirst($name[0]);
             if (\class_exists($class)) {
-                $handler = new $class();
-                if (!\method_exists($handler, 'loadmodule') || !\method_exists($handler, 'grabentries')) {
+                $plugin = new $class();
+                if (!\method_exists($plugin, 'loadmodule') || !\method_exists($plugin, 'grabentries')) {
                     $object->setErrors(\_AM_RSSFIT_PLUGIN_FUNCNOTFOUND);
                 } else {
-                    $dirname = $handler->dirname;
+                    $dirname = $plugin->dirname;
                     if (!empty($dirname) && \is_dir(XOOPS_ROOT_PATH . '/modules/' . $dirname)) {
-                        if ($handler->loadModule()) {
-                            $ret = $handler;
+                        if ($plugin->loadModule()) {
+                            $ret = $plugin;
                         } else {
                             $object->setErrors(\_AM_RSSFIT_PLUGIN_MODNOTFOUND);
                         }
