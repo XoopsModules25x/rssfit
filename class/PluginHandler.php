@@ -234,7 +234,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function modifyObjects($criteria = null, array $fields = [], bool $force = false): ?string
     {
-        if ($fields && \is_array($fields)) {
+        if (count($fields) > 0) {
             $object = new $this->objClass();
             $sql    = '';
             foreach ($fields as $k => $v) {
