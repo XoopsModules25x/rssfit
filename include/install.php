@@ -53,7 +53,7 @@ function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
 }
 
 /**
- * @param int $oldversion version number of prevviously installed version
+ * @param int $oldversion version number of previously installed version
  *
  */
 function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bool
@@ -64,7 +64,7 @@ function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bo
     $moduleDirName = \basename(\dirname(__DIR__));
     xoops_loadLanguage('install', $moduleDirName);
 
-    $sql = 'SELECT COUNT(*) FROM ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . " WHERE misc_category = 'channel'";
+    $sql = 'SELECT COUNT(*) FROM ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . " WHERE 'misc_category' = 'channel'";
     $result = $xoopsDB->query($sql);
     if ($result instanceof \mysqli_result) {
         [$rows] = $xoopsDB->fetchRow($result);
@@ -109,7 +109,7 @@ function rssfInsertChannel(\XoopsModule $xoopsMod): string
     $url = $xoopsDB->quoteString(XOOPS_URL);
     $sitename = $xoopsDB->quoteString($xoopsConfig['sitename']);
 
-    $sql    = 'SELECT conf_value FROM ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'meta_copyright' AND conf_modid = 1 AND conf_catid = " . XOOPS_CONF_METAFOOTER;
+    $sql    = "SELECT 'conf_value' FROM " . $xoopsDB->prefix('config') . " WHERE 'conf_name' = 'meta_copyright' AND 'conf_modid' = 1 AND 'conf_catid' = " . XOOPS_CONF_METAFOOTER;
     $result = $xoopsDB->query($sql);
     if ($result instanceof \mysqli_result) {
         [$copyright] = $xoopsDB->fetchRow($result);
@@ -137,7 +137,7 @@ function rssfInsertChannel(\XoopsModule $xoopsMod): string
            . ", (0, 'channel', 'generator', "
            . $xoopsDB->quoteString(XOOPS_VERSION . ' / RSSFit ' . $xoopsMod->getInfo('version'))
            . ", ''), (0, 'channel', 'docs', "
-           . $xoopsDB->quoteString('http://blogs.law.harvard.edu/tech/rss')
+           . $xoopsDB->quoteString('https://blogs.law.harvard.edu/tech/rss')
            . ", '')"
            . ", (0, 'channelimg', 'url', "
            . $xoopsDB->quoteString(XOOPS_URL . '/images/logo.gif')
