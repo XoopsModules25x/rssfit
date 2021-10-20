@@ -51,12 +51,12 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 final class Wflinks extends AbstractPlugin
 {
     public function __construct() {
-        $this->dirname = 'wflinks';
+        if (\class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
+        }
     }
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         global $xoopsUser;

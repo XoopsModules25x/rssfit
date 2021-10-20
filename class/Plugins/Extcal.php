@@ -65,26 +65,13 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 final class Extcal extends AbstractPlugin
 {
     public function __construct() {
-        $this->dirname = 'extcal';
-    }
-
-    public function loadModule(): ?\XoopsModule
-    {
-        $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper  = PluginHelper::getInstance();
-            $this->module  = $this->helper->getModule();
-            $this->modname = $this->module->getVar('name');
-            $mod           = $this->module;
-            //        $this->dirname = $this->helper->getDirname();
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
         }
-
-        return $mod;
     }
 
-    /**
-     * @return array
-     */
+
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret  = null;

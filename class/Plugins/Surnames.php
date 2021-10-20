@@ -52,6 +52,22 @@ final class Surnames extends AbstractPlugin
         $this->dirname = 'surnames';
     }
 
+    public function loadModule(): ?\XoopsModule
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return null;
+        }
+
+        if (!$mod->getVar('isactive')) {
+            return null;
+        }
+        $this->modname = $mod->getVar('name');
+        $this->module  = $mod;   // optional, remove this line if there is nothing to do with module info when grabbing entries
+
+        return $mod;
+    }
+
     public function myGetUnameFromId(int $uid): string
     {
         static $thisUser = false;
@@ -77,9 +93,6 @@ final class Surnames extends AbstractPlugin
         return $name;
     }
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret  = null;

@@ -50,12 +50,11 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 final class News extends AbstractPlugin
 {
     public function __construct() {
-        $this->dirname = 'news';
+        if (\class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
+        }
     }
-
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret = null;

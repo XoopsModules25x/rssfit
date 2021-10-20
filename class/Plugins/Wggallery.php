@@ -47,6 +47,11 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Wggallery\Helper as PluginHelper;
+
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -55,37 +60,18 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Sample
  * @package XoopsModules\Rssfit\Plugins
  */
-class Wggallery
+class Wggallery extends AbstractPlugin
 {
-    public $dirname = 'wggallery';
-    public $modname;
-    public $grab;
-    public $module;    // optional, see line 71
-
-    /**
-     * @return false|string
-     */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function __construct() {
+        if (\class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
         }
-        $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
-        // to do with module info when grabbing entries
-        return $mod;
     }
 
-    /**
-     * @param \XoopsObject $obj
-     * @return bool|array
-     */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        global $xoopsDB;
-        $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
+        $ret  = null;
         $i    = 0;
         //  The following example code grabs the latest entries from the module
         $sql  = 'SELECT i.img_date, i.img_id, i.img_title, i.img_desc, i.img_albid, a.alb_name, a.alb_state, i.img_state ';

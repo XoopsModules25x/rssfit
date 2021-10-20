@@ -65,7 +65,10 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 final class Myalbum extends AbstractPlugin
 {
     public function __construct() {
-        $this->dirname = 'myalbum';
+        if (\class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
+        }
     }
 
     public function myGetUnameFromId(int $uid): string
@@ -93,9 +96,6 @@ final class Myalbum extends AbstractPlugin
         return $name;
     }
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();
