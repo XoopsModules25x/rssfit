@@ -26,13 +26,12 @@ require_once \dirname(__DIR__, 3) . '/mainfile.php';
 
 function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
 {
-    global $xoopsDB, $xoopsConfig;
+    global $xoopsDB;
 
     $moduleDirName = \basename(\dirname(__DIR__));
 
     $helper = Rssfit\Helper::getInstance();
 
-    $myts = \MyTextSanitizer::getInstance();
     //    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
     xoops_loadLanguage('install', $moduleDirName);
     $introSetting = ['dohtml' => 1, 'dobr' => 1, 'sub' => stripslashes(_INSTALL_INTRO_SUB)];
@@ -58,12 +57,13 @@ function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
  */
 function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bool
 {
-    global $xoopsDB, $xoopsConfig;
+    global $xoopsDB;
     $helper = Rssfit\Helper::getInstance();
     //    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
     $moduleDirName = \basename(\dirname(__DIR__));
     xoops_loadLanguage('install', $moduleDirName);
 
+    $rows = [];
     $sql = 'SELECT COUNT(*) FROM ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . " WHERE 'misc_category' = 'channel'";
     $result = $xoopsDB->query($sql);
     if ($result instanceof \mysqli_result) {

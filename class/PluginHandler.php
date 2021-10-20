@@ -308,7 +308,6 @@ class PluginHandler extends \XoopsPersistableObjectHandler
     public function checkPlugin(\XoopsObject $object)
     {
         $ret = null;
-        global $moduleHandler;
         $file = \RSSFIT_ROOT_PATH . 'class/Plugins/' . $object->getVar('rssf_filename');
         if (\is_file($file)) {
             $ret = [];

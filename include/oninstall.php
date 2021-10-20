@@ -23,7 +23,6 @@ use XoopsModules\Rssfit\Utility;
 
 /**
  * Prepares system prior to attempting to install module
- * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to install, false if not
  */
@@ -46,7 +45,6 @@ function xoops_module_pre_install_rssfit(\XoopsModule $module): bool
 
 /**
  * Performs tasks required during installation of the module
- * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if installation successful, false if not
  */

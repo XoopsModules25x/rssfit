@@ -82,7 +82,6 @@ final class Surnames extends AbstractPlugin
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        $myts = \MyTextSanitizer::getInstance();
         $ret  = null;
 
         $i        = -1;

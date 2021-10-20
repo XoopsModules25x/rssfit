@@ -31,14 +31,13 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
  */
 function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVersion = null): bool
 {
-    $moduleDirName = \basename(\dirname(__DIR__));
     /** @var Rssfit\Helper $helper */
     /** @var Rssfit\Utility $utility */
     $helper  = Rssfit\Helper::getInstance();
     $utility = new Rssfit\Utility();
 
-    $xoopsSuccess = $utility::checkVerXoops($module);
-    $phpSuccess   = $utility::checkVerPhp($module);
+    $xoopsSuccess = $utility::checkVerXoops($xoopsModule);
+    $phpSuccess   = $utility::checkVerPhp($xoopsModule);
 
     return $xoopsSuccess && $phpSuccess;
 }
@@ -53,7 +52,6 @@ function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVers
 function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = null): bool
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     /** @var Rssfit\Helper $helper */ /** @var Rssfit\Utility $utility */
     /** @var Rssfit\Common\Configurator $configurator */

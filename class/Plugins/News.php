@@ -74,7 +74,6 @@ final class News extends AbstractPlugin
                 $ret[$i]['link']        = XOOPS_URL . '/modules/news/article.php?storyid=' . $news[$i]->storyid();
                 $ret[$i]['guid']        = XOOPS_URL . '/modules/news/article.php?storyid=' . $news[$i]->storyid();
                 $ret[$i]['timestamp']   = $news[$i]->published();
-                $desc                   = $news[$i]->hometext();
                 $ret[$i]['description'] = $news[$i]->hometext();
                 $ret[$i]['category']    = $this->modname;
                 $ret[$i]['domain']      = XOOPS_URL . '/modules/' . $this->dirname . '/';

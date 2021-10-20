@@ -70,7 +70,6 @@ final class Smartfaq extends AbstractPlugin
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        $myts = \MyTextSanitizer::getInstance();
         $ret  = null;
         //        @require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
