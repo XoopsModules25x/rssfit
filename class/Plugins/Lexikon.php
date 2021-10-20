@@ -47,9 +47,6 @@ final class Lexikon extends AbstractPlugin
 {
     public $dirname = 'lexikon';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;

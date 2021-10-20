@@ -46,9 +46,6 @@ final class Adslight extends AbstractPlugin
 {
     public $dirname = 'adslight';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;

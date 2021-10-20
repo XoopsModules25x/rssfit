@@ -51,9 +51,6 @@ final class Publisher extends AbstractPlugin
 {
     public $dirname = 'publisher';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;

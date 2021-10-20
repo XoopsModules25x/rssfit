@@ -66,9 +66,6 @@ final class Extcal extends AbstractPlugin
 {
     public $dirname = 'extcal';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;
@@ -88,9 +85,7 @@ final class Extcal extends AbstractPlugin
      */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        $myts = \MyTextSanitizer::getInstance();
         $ret  = null;
-
         $i = 0;
 
         // read confgs to get timestamp format
@@ -102,7 +97,7 @@ final class Extcal extends AbstractPlugin
 
         $eventHandler = PluginHelper::getInstance()->getHandler('Event');
         $catHandler   = PluginHelper::getInstance()->getHandler('Category');
-        $events       = $eventHandler->getUpcomingEvent(0, $this->grab, 0);
+        $events       = $eventHandler->getUpcomingEvent($this->grab,0, 0);
 
         if (\is_array($events)) {
             $ret = [];

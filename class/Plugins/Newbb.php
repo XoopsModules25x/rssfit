@@ -49,9 +49,6 @@ final class Newbb extends AbstractPlugin
 {
     public $dirname = 'newbb';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;

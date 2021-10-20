@@ -49,9 +49,6 @@ final class Mylinks extends AbstractPlugin
 {
     public $dirname = 'mylinks';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;

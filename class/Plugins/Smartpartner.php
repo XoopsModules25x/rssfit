@@ -54,9 +54,6 @@ final class Smartpartner extends AbstractPlugin
 {
     public $dirname = 'smartpartner';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;

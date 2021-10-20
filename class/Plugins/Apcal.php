@@ -48,9 +48,6 @@ final class Apcal extends AbstractPlugin
 {
     public $dirname = 'apcal';
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;
