@@ -52,9 +52,6 @@ class Utility extends Common\SysUtility
         return static::rssfGenAnchor($feedHandler->specUrl($spec), \_AM_RSSFIT_EDIT_CHANNEL_QMARK, 'spec', \_AM_RSSFIT_EDIT_CHANNEL_MOREINFO);
     }
 
-    /**
-     * @param null|string $url
-     */
     public static function rssfGenAnchor(?string $url = null, string $text = '', string $target = '', string $title = '', string $class = '', string $id = ''): string
     {
         if (null !== $url) {
