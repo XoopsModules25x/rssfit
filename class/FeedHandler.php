@@ -118,7 +118,7 @@ class FeedHandler
             $channel['language']      = _LANGCODE;
             $channel['lastBuildDate'] = $this->rssTimeStamp(\time());
             if ($this->modConfig['cache']) {
-                $channel['ttl'] = $this->modConfig['cache'];
+                $channel['ttl'] = (string)$this->modConfig['cache'];
             }
         }
         if (!empty($feed['plugin'])) {
@@ -146,6 +146,7 @@ class FeedHandler
             $channel = \array_merge($channel, $this->channelreq);
         }
         foreach ($channel as $k => $v) {
+
             $this->cleanupChars($channel[$k]);
         }
         if (!empty($image)) {
