@@ -63,7 +63,12 @@ function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bo
     //    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
     $moduleDirName = \basename(\dirname(__DIR__));
     xoops_loadLanguage('install', $moduleDirName);
-    [$rows] = $xoopsDB->fetchRow($xoopsDB->query('SELECT COUNT(*) FROM ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . " WHERE misc_category = 'channel'"));
+
+    $sql = 'SELECT COUNT(*) FROM ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . " WHERE misc_category = 'channel'";
+    $result = $xoopsDB->query($sql);
+    if ($result instanceof \mysqli_result) {
+        [$rows] = $xoopsDB->fetchRow($result);
+    }
     if (!$rows) {
         //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` ADD `misc_setting` TEXT NOT NULL;';
         //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
@@ -103,7 +108,12 @@ function rssfInsertChannel(\XoopsModule $xoopsMod): string
     $helper = Rssfit\Helper::getInstance();
     $url = $xoopsDB->quoteString(XOOPS_URL);
     $sitename = $xoopsDB->quoteString($xoopsConfig['sitename']);
-    [$copyright] = $xoopsDB->fetchRow($xoopsDB->query('SELECT conf_value FROM ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'meta_copyright' AND conf_modid = 1 AND conf_catid = " . XOOPS_CONF_METAFOOTER));
+
+    $sql    = 'SELECT conf_value FROM ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'meta_copyright' AND conf_modid = 1 AND conf_catid = " . XOOPS_CONF_METAFOOTER;
+    $result = $xoopsDB->query($sql);
+    if ($result instanceof \mysqli_result) {
+        [$copyright] = $xoopsDB->fetchRow($result);
+    }
 
     return 'INSERT INTO '
            . $xoopsDB->prefix($helper->getDirname() . '_misc')

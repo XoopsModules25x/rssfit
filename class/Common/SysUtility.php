@@ -143,7 +143,7 @@ class SysUtility
 
         $sql    = 'SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "' . $table . '" AND COLUMN_NAME = "' . $columnName . '"';
         $result = $GLOBALS['xoopsDB']->query($sql);
-        if (!$result) {
+        if (!$result instanceof \mysqli_result) {
             //            exit($GLOBALS['xoopsDB']->error());
             $logger = \XoopsLogger::getInstance();
             $logger->handleError(\E_USER_WARNING, $sql, __FILE__, __LINE__);
@@ -170,8 +170,13 @@ class SysUtility
         $table = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
         $sql       = "SELECT * FROM $table WHERE $idField='" . $id . "' ";
-        $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), \MYSQLI_ASSOC);
-        if (!$tempTable) {
+        $result = $GLOBALS['xoopsDB']->query($sql);
+
+        if ($result instanceof \mysqli_result) {
+            $tempTable = $GLOBALS['xoopsDB']->fetchArray($result, \MYSQLI_ASSOC);
+        }
+
+         if (!$tempTable) {
             exit($GLOBALS['xoopsDB']->error());
         }
         // set the auto-incremented id's value to blank.
