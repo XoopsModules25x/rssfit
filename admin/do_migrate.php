@@ -98,7 +98,7 @@ switch ($op) {
         $message = constant('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_OK');
         break;
     case 'schema':
-        xoops_confirm(['op' => 'confirmwrite'], 'migrate.php', constant('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_WARNING'), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'));
+        xoops_confirm(['op' => 'confirmwrite'], '?do=migrate', constant('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_WARNING'), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'));
         break;
     case 'confirmwrite':
         if ($GLOBALS['xoopsSecurity']->check()) {
