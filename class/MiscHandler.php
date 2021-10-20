@@ -35,9 +35,6 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public $dbTable;
     public $objClass = Misc::class;
     public $objKey   = 'misc_id';
-    /**
-     * @var \XoopsModules\Rssfit\Helper
-     */
     public $helper;
 
     public function __construct(?\XoopsMySQLDatabase $db = null, ?Helper $helper = null)
