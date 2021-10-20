@@ -304,7 +304,7 @@ class FeedHandler
     public function cleanupChars(string &$text, bool $strip = true, bool $dospec = true, bool $dosub = false): void
     {
         if ($strip) {
-            $text = \strip_tags((string)$text);
+            $text = \strip_tags($text);
         }
         if ($dosub) {
             $text = $this->doSubstr($text);
