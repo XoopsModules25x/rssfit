@@ -161,6 +161,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param bool $force flag to force the query execution despite security settings
      * @return array|bool|int|mixed|null
      */
     public function insert(\XoopsObject $object, $force = false)
@@ -215,6 +216,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
+     * @param bool                          $force flag to force the query execution despite security settings
      * @param null|\Criteria|\CriteriaCompo $criteria
      */
     public function modifyObjects(?\Criteria $criteria = null, array $fields = [], bool $force = false): ?string
@@ -245,6 +247,14 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         return null;
     }
 
+    //TODO this should be deleted?
+    /**
+     * delete an object from the database
+     *
+     * @param  \XoopsObject $object reference to the object to delete
+     * @param  bool        $force
+     * @return bool        FALSE if failed.
+     */
     public function delete(\XoopsObject $object, $force = false): bool
     {
         //        $force = false;
