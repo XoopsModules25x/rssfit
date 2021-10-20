@@ -184,7 +184,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         if (\count($object->getErrors()) > 0) {
             return false;
         }
-        if ($object->isNew() || empty($cleanvars[$this->objKey])) {
+        if (empty($cleanvars[$this->objKey]) || $object->isNew()) {
             $cleanvars[$this->objKey] = $this->db->genId($this->dbTable . '_' . $this->objKey . '_seq');
             $sql                      = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
         } else {
