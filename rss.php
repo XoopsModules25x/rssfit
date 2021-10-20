@@ -33,7 +33,7 @@ require_once __DIR__ . '/header.php';
 $helper = Helper::getInstance();
 
 $charset  = $helper->getConfig('utf8') ? 'UTF-8' : _CHARSET;
-$docache  = $helper->getConfig('cache') ? true : false;
+$docache  = (bool)$helper->getConfig('cache');
 $template = 'db:rssfit_rss.tpl';
 if (3 == $helper->getConfig('mime')) {
     $xoopsLogger->enableRendering();
