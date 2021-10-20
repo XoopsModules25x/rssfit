@@ -200,20 +200,20 @@ class SysUtility
      * @TODO: Refactor to consider HTML5 & void (self-closing) elements
      * @TODO: Consider using https://github.com/jlgrall/truncateHTML/blob/master/truncateHTML.php
      *
-     * @param string      $text         String to truncate.
-     * @param int|null    $length       Length of returned string, including ellipsis.
-     * @param string|null $ending       Ending to be appended to the trimmed string.
-     * @param bool        $exact        If false, $text will not be cut mid-word
-     * @param bool        $considerHtml If true, HTML tags would be handled correctly
+     * @param string   $text         String to truncate.
+     * @param int|null $length       Length of returned string, including ellipsis.
+     * @param string   $ending       Ending to be appended to the trimmed string.
+     * @param bool     $exact        If false, $text will not be cut mid-word
+     * @param bool     $considerHtml If true, HTML tags would be handled correctly
      *
      * @return string Trimmed string.
      */
     public static function truncateHtml(
         string $text,
         ?int $length = 100,
-        ?string $ending = '...',
-        ?bool $exact = false,
-        ?bool $considerHtml = true
+        string $ending = '...',
+        bool $exact = false,
+        bool $considerHtml = true
     ): string {
         $openTags = [];
         if ($considerHtml) {
@@ -337,7 +337,7 @@ class SysUtility
                 $descEditor = new \XoopsFormEditor(\ucfirst($options['name']), $helper->getConfig('editorUser'), $options, false, 'textarea');
             }
         } else {
-            $descEditor = new \XoopsFormDhtmlTextArea(\ucfirst($options['name']), $options['name'], $options['value'], '100%', '100%');
+            $descEditor = new \XoopsFormDhtmlTextArea(\ucfirst($options['name']), $options['name'], $options['value']);
         }
 
         //        $form->addElement($descEditor);

@@ -52,10 +52,10 @@ function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
 }
 
 /**
- * @param int $oldversion version number of previously installed version
+ * @param int $previousVersion version number of previously installed version
  *
  */
-function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bool
+function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $previousVersion): bool
 {
     global $xoopsDB;
     $helper = Rssfit\Helper::getInstance();

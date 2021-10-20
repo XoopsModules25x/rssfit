@@ -41,7 +41,7 @@ trait VersionChecks
         //check for minimum XOOPS version
         $currentVer = mb_substr(\XOOPS_VERSION, 6); // get the numeric part of string
         if (null === $requiredVer) {
-            $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
+            $requiredVer = (string)$module->getInfo('min_xoops'); //making sure it's a string
         }
         $success = true;
 

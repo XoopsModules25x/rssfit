@@ -26,10 +26,9 @@ if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUs
 
 /**
  * Prepares system prior to attempting to install module
- * @param null $previousVersion
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVersion = null): bool
+function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule): bool
 {
     /** @var Rssfit\Helper $helper */
     /** @var Rssfit\Utility $utility */
@@ -44,16 +43,15 @@ function xoops_module_pre_update_rssfit(\XoopsModule $xoopsModule, $previousVers
 
 /**
  * Performs tasks required during update of the module
- * @param \XoopsModule $module {@link XoopsModule}
- * @param null         $previousVersion
  *
  * @return bool true if update successful, false if not
  */
-function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = null): bool
+function xoops_module_update_rssfit(\XoopsModule $module, int $previousVersion): bool
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
 
-    /** @var Rssfit\Helper $helper */ /** @var Rssfit\Utility $utility */
+    /** @var Rssfit\Helper $helper */
+    /** @var Rssfit\Utility $utility */
     /** @var Rssfit\Common\Configurator $configurator */
     $helper       = Rssfit\Helper::getInstance();
     $utility      = new Rssfit\Utility();
@@ -95,7 +93,7 @@ function xoops_module_update_rssfit(\XoopsModule $module, $previousVersion = nul
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->oldFolders) as $i) {
                 $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
-                /* @var XoopsObjectHandler $folderHandler */
+                /* @var \XoopsObjectHandler $folderHandler */
                 $folderHandler = XoopsFile::getHandler('folder', $tempFolder);
                 $folderHandler->delete($tempFolder);
             }
