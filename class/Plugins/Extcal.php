@@ -97,7 +97,7 @@ final class Extcal extends AbstractPlugin
 
         $eventHandler = PluginHelper::getInstance()->getHandler('Event');
         $catHandler   = PluginHelper::getInstance()->getHandler('Category');
-        $events       = $eventHandler->getUpcomingEvent($this->grab,0, 0);
+        $events       = $eventHandler->getUpcomingEvent($this->grab,0);
 
         if (\is_array($events)) {
             $ret = [];
