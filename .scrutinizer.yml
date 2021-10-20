@@ -25,7 +25,6 @@ build:
           - git clone --depth=1 https://github.com/mambax7/publisher
           - git clone --depth=1 https://github.com/mambax7/smartfaq
           - git clone --depth=1 https://github.com/mambax7/smartpartner
-          - git clone --depth=1 https://github.com/mambax7/smartsection
           - git clone --depth=1 https://github.com/mambax7/wfdownloads
           - git clone --depth=1 https://github.com/mambax7/wflinks
           - git clone --depth=1 https://github.com/mambax7/xoopstube
@@ -52,7 +51,6 @@ filter:
     - publisher/*
     - smartfaq/*
     - smartpartner/*
-    - smartsection/*
     - wfdownloads/*
     - wflinks/*
     - xoopstube/*
