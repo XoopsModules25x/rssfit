@@ -120,7 +120,8 @@ class MiscHandler extends \XoopsPersistableObjectHandler
     public function getObjects2($criteria = null, string $fields = '*', string $key = ''): ?array
     {
         $ret   = null;
-        $limit = $start = 0;
+        $start = 0;
+        $limit = $start;
         //        $fields = '*';
         $sql = 'SELECT ' . $fields . ' FROM ' . $this->dbTable;
         if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
