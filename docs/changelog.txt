@@ -1,4 +1,4 @@
-<h5>1.32.0 Beta 2  [NOT RELEASED]</h5>
+<h5>1.32.0 Beta 2  [2021-10-20]</h5>
 <hr>
 - add strict types (mamba)
 - add return type declaration (mamba)

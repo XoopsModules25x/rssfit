@@ -124,7 +124,7 @@ class Migrate extends \Xmf\Database\Migrate
                 $oldName    = $tableName['from'];
                 $newName    = $tableName['to'];
                 $attributes = $this->tableHandler->getColumnAttributes($tableName, $oldName);
-                if (false !== $attributes && false !== \strpos($attributes, ' int(')) {
+                if (is_string($attributes) && false !== \strpos($attributes, ' int(')) {
                     $this->tableHandler->alterColumn($tableName, $oldName, $attributes, $newName);
                 }
             }

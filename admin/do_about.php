@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 use Xmf\Module\Admin;
 
-//use Kint;
-
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
