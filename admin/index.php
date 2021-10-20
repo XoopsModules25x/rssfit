@@ -28,7 +28,7 @@ use XoopsModules\Rssfit\{
 
 /** @var Helper $helper */
 /** @var Utility $utility */
-/** @var \Xmf\Module\Admin $adminObject */
+/** @var Xmf\Module\Admin $adminObject */
 /** @var FeedHandler $feedHandler */
 /** @var PluginHandler $pluginHandler */
 
