@@ -111,7 +111,7 @@ class FeedHandler
         $elements = $this->miscHandler->getObjects2(new \Criteria('misc_category', 'channel'));
         if (\is_array($elements) && !empty($elements)) {
             foreach ($elements as $e) {
-                if ('' != $e->getVar('misc_content')) {
+                if ('' !== $e->getVar('misc_content')) {
                     $channel[$e->getVar('misc_title')] = $e->getVar('misc_content', 'n');
                 }
             }
@@ -165,7 +165,7 @@ class FeedHandler
         $sticky = &$intr[0];
         unset($intr);
         $setting = $sticky->getVar('misc_setting');
-        if (\in_array(0, $setting['feeds']) || '' == $sticky->getVar('misc_title') || '' == $sticky->getVar('misc_content')) {
+        if (\in_array(0, $setting['feeds']) || '' === $sticky->getVar('misc_title') || '' === $sticky->getVar('misc_content')) {
             return false;
         }
         if ((\in_array(-1, $setting['feeds']) && empty($feed['plugin']))
@@ -294,7 +294,7 @@ class FeedHandler
 
     public function sortTimestamp(array $a, array $b): int
     {
-        if ($a['timestamp'] == $b['timestamp']) {
+        if ($a['timestamp'] === $b['timestamp']) {
             return 0;
         }
 
@@ -313,7 +313,7 @@ class FeedHandler
             $text = \htmlspecialchars($text, \ENT_QUOTES, $this->charset);
             $text = \preg_replace('/&amp;(#\d+);/i', '&$1;', $text);
         }
-        if (XOOPS_USE_MULTIBYTES != 1 || !\preg_match('/utf-8/i', $this->charset)) {
+        if (XOOPS_USE_MULTIBYTES !== 1 || !\preg_match('/utf-8/i', $this->charset)) {
             $text = \str_replace(\array_map('\chr', \array_keys($this->escaped)), $this->escaped, $text);
         }
     }
