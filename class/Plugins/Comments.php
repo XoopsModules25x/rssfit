@@ -68,17 +68,17 @@ final class Comments extends AbstractPlugin
         $criteria->setSort('com_created');
         $criteria->setOrder('DESC');
         $comments       = $commentHandler->getObjects($criteria, true);
-        $comment_config = [];
+        $commentConfig = [];
         if (\count($comments) > 0) {
             $modules = $GLOBALS['module_handler']->getObjects(new Criteria('hascomments', 1), true);
             $ret     = [];
             foreach (\array_keys($comments) as $i) {
                 $mid = $comments[$i]->getVar('com_modid');
-                if (!isset($comment_config[$mid])) {
-                    $comment_config[$mid] = $modules[$mid]->getInfo('comments');
+                if (!isset($commentConfig[$mid])) {
+                    $commentConfig[$mid] = $modules[$mid]->getInfo('comments');
                 }
                 $ret[$i]['title']       = 'Comments: ' . $comments[$i]->getVar('com_title', 'n');
-                $link                   = XOOPS_URL . '/modules/' . $modules[$mid]->getVar('dirname') . '/' . $comment_config[$mid]['pageName'] . '?' . $comment_config[$mid]['itemName'] . '=' . $comments[$i]->getVar('com_itemid') . '&amp;com_id=' . $i . '&amp;com_rootid=' . $comments[$i]->getVar(
+                $link                   = XOOPS_URL . '/modules/' . $modules[$mid]->getVar('dirname') . '/' . $commentConfig[$mid]['pageName'] . '?' . $commentConfig[$mid]['itemName'] . '=' . $comments[$i]->getVar('com_itemid') . '&amp;com_id=' . $i . '&amp;com_rootid=' . $comments[$i]->getVar(
                         'com_rootid'
                     ) . '&amp;' . $comments[$i]->getVar('com_exparams') . '#comment' . $i;
                 $ret[$i]['link']        = $ret[$i]['guid'] = $link;

@@ -70,14 +70,14 @@ class SysUtility
     {
         global $start, $order, $sort;
 
-        $select_view   = '';
+        $selectView   = '';
         $moduleDirName = \basename(\dirname(__DIR__));
         $helper        = Helper::getInstance();
 
         //$pathModIcon16 = XOOPS_URL . '/modules/' . $moduleDirName . '/' . $helper->getConfig('modicons16');
         $pathModIcon16 = $helper->url($helper->getModule()->getInfo('modicons16'));
 
-        $select_view = '<form name="form_switch" id="form_switch" action="' . Request::getString('REQUEST_URI', '', 'SERVER') . '" method="post"><span style="font-weight: bold;">' . $text . '</span>';
+        $selectView = '<form name="form_switch" id="form_switch" action="' . Request::getString('REQUEST_URI', '', 'SERVER') . '" method="post"><span style="font-weight: bold;">' . $text . '</span>';
         //$sorts =  $sort ==  'asc' ? 'desc' : 'asc';
         if ($form_sort == $sort) {
             $sel1 = 'asc' === $order ? 'selasc.png' : 'asc.png';
@@ -86,27 +86,27 @@ class SysUtility
             $sel1 = 'asc.png';
             $sel2 = 'desc.png';
         }
-        $select_view .= '  <a href="' . Request::getString('SCRIPT_NAME', '', 'SERVER') . '?start=' . $start . '&sort=' . $form_sort . '&order=asc"><img src="' . $pathModIcon16 . '/' . $sel1 . '" title="ASC" alt="ASC"></a>';
-        $select_view .= '<a href="' . Request::getString('SCRIPT_NAME', '', 'SERVER') . '?start=' . $start . '&sort=' . $form_sort . '&order=desc"><img src="' . $pathModIcon16 . '/' . $sel2 . '" title="DESC" alt="DESC"></a>';
-        $select_view .= '</form>';
+        $selectView .= '  <a href="' . Request::getString('SCRIPT_NAME', '', 'SERVER') . '?start=' . $start . '&sort=' . $form_sort . '&order=asc"><img src="' . $pathModIcon16 . '/' . $sel1 . '" title="ASC" alt="ASC"></a>';
+        $selectView .= '<a href="' . Request::getString('SCRIPT_NAME', '', 'SERVER') . '?start=' . $start . '&sort=' . $form_sort . '&order=desc"><img src="' . $pathModIcon16 . '/' . $sel2 . '" title="DESC" alt="DESC"></a>';
+        $selectView .= '</form>';
 
-        return $select_view;
+        return $selectView;
     }
 
     /***************Blocks***************/
     public static function blockAddCatSelect(array $cats): string
     {
-        $cat_sql = '';
+        $catSql = '';
         if (!empty($cats)) {
-            $cat_sql = '(' . \current($cats);
+            $catSql = '(' . \current($cats);
             \array_shift($cats);
             foreach ($cats as $cat) {
-                $cat_sql .= ',' . $cat;
+                $catSql .= ',' . $cat;
             }
-            $cat_sql .= ')';
+            $catSql .= ')';
         }
 
-        return $cat_sql;
+        return $catSql;
     }
 
     public static function metaKeywords(string $content): void
@@ -223,58 +223,58 @@ class SysUtility
             }
             // splits all html-tags to scanable lines
             \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
-            $total_length = \mb_strlen($ending);
+            $totalLength = \mb_strlen($ending);
             //$openTags    = [];
             $truncate = '';
-            foreach ($lines as $line_matchings) {
+            foreach ($lines as $lineMatchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
-                if (!empty($line_matchings[1])) {
+                if (!empty($lineMatchings[1])) {
                     // if it's an "empty element" with or without xhtml-conform closing slash
-                    if (\preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
+                    if (\preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $lineMatchings[1])) {
                         // do nothing
                         // if tag is a closing tag
-                    } elseif (\preg_match('/^<\s*\/(\S+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
+                    } elseif (\preg_match('/^<\s*\/(\S+?)\s*>$/s', $lineMatchings[1], $tagMatchings)) {
                         // delete tag from $openTags list
-                        $pos = \array_search($tag_matchings[1], $openTags, true);
+                        $pos = \array_search($tagMatchings[1], $openTags, true);
                         if (false !== $pos) {
                             unset($openTags[$pos]);
                         }
                         // if tag is an opening tag
-                    } elseif (\preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
+                    } elseif (\preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $lineMatchings[1], $tagMatchings)) {
                         // add tag to the beginning of $openTags list
-                        \array_unshift($openTags, \mb_strtolower($tag_matchings[1]));
+                        \array_unshift($openTags, \mb_strtolower($tagMatchings[1]));
                     }
                     // add html-tag to $truncate'd text
-                    $truncate .= $line_matchings[1];
+                    $truncate .= $lineMatchings[1];
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = \mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
-                if ($total_length + $content_length > $length) {
+                $contentLength = \mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', ' ', $lineMatchings[2]));
+                if ($totalLength + $contentLength > $length) {
                     // the number of characters which are left
-                    $left            = $length - $total_length;
-                    $entities_length = 0;
+                    $left            = $length - $totalLength;
+                    $entitiesLength = 0;
                     // search for html entities
-                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
+                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', $lineMatchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
-                            if ($left >= $entity[1] + 1 - $entities_length) {
+                            if ($left >= $entity[1] + 1 - $entitiesLength) {
                                 $left--;
-                                $entities_length += \mb_strlen($entity[0]);
+                                $entitiesLength += \mb_strlen($entity[0]);
                             } else {
                                 // no more characters left
                                 break;
                             }
                         }
                     }
-                    $truncate .= \mb_substr($line_matchings[2], 0, $left + $entities_length);
+                    $truncate .= \mb_substr($lineMatchings[2], 0, $left + $entitiesLength);
                     // maximum length is reached, so get off the loop
                     break;
                 }
-                $truncate     .= $line_matchings[2];
-                $total_length += $content_length;
+                $truncate     .= $lineMatchings[2];
+                $totalLength += $contentLength;
 
                 // if the maximum length is reached, get off the loop
-                if ($total_length >= $length) {
+                if ($totalLength >= $length) {
                     break;
                 }
             }
