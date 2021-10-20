@@ -221,7 +221,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function modifyObjects(?\Criteria $criteria = null, array $fields = [], bool $force = false): ?string
     {
-        if ($fields && \is_array($fields)) {
+        if (count($fields) > 0) {
             $obj = new $this->objClass();
             $sql = '';
             foreach ($fields as $k => $v) {
