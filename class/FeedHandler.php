@@ -399,7 +399,7 @@ class FeedHandler
             $criteria->add(new \Criteria('rssf_filename', \sprintf($this->pluginFile, $feed['plugin'])));
             $criteria->add(new \Criteria('subfeed', '1'));
             $sub     = $this->pluginHandler->getObjects2($criteria);
-            $handler = false;
+            $handler = null;
             if (isset($sub[0])) {
                 $handler = $this->pluginHandler->checkPlugin($sub[0]);
             }
