@@ -26,7 +26,7 @@ require_once __DIR__ . '/preloads/autoloader.php';
 $moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-// ------------------- Informations ------------------- //
+// ------------------- Information ------------------- /
 $modversion = [
     'version'             => '1.32',
     'module_status'       => 'Beta 2',
