@@ -69,7 +69,7 @@ EOF;
 
 $configurator = new Configurator();
 
-$migrator = new Migrate($configurator);
+$migrator = new Migrate();
 
 $op        = Request::getCmd('op', 'show');
 $opShow    = Request::getCmd('show', null, 'POST');
