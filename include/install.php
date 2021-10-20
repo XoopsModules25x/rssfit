@@ -70,6 +70,7 @@ function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bo
         [$rows] = $xoopsDB->fetchRow($result);
     }
     if (!$rows) {
+        $sql = [];
         //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` ADD `misc_setting` TEXT NOT NULL;';
         //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
         $intro_setting = ['dohtml' => 1, 'dobr' => 1, 'sub' => _INSTALL_INTRO_SUB];
