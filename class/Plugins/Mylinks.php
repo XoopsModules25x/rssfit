@@ -47,7 +47,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Mylinks extends AbstractPlugin
 {
-    public $dirname = 'mylinks';
+    public function __construct() {
+        $this->dirname = 'mylinks';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

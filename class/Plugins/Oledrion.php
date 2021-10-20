@@ -38,7 +38,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Oledrion extends AbstractPlugin
 {
-    public $dirname = 'oledrion';
+    public function __construct() {
+        $this->dirname = 'oledrion';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

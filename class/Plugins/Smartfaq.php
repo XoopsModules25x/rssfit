@@ -47,7 +47,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Smartfaq extends AbstractPlugin
 {
-    public $dirname = 'smartfaq';
+    public function __construct() {
+        $this->dirname = 'smartfaq';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

@@ -44,7 +44,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Adslight extends AbstractPlugin
 {
-    public $dirname = 'adslight';
+    public function __construct() {
+        $this->dirname = 'adslight';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

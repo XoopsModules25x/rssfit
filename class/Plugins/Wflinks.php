@@ -50,7 +50,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Wflinks extends AbstractPlugin
 {
-    public $dirname = 'wflinks';
+    public function __construct() {
+        $this->dirname = 'wflinks';
+    }
 
     /**
      * @return array

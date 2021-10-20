@@ -45,7 +45,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Lexikon extends AbstractPlugin
 {
-    public $dirname = 'lexikon';
+    public function __construct() {
+        $this->dirname = 'lexikon';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

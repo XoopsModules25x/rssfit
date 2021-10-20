@@ -47,11 +47,10 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Wfdownloads extends AbstractPlugin
 {
-    public $dirname = 'wfdownloads';
+    public function __construct() {
+        $this->dirname = 'wfdownloads';
+    }
 
-    /**
-     * @return \XoopsModule
-     */
     public function loadModule(): ?\XoopsModule
     {
         $mod = null;

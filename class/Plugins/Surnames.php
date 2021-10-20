@@ -48,7 +48,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Surnames extends AbstractPlugin
 {
-    public $dirname = 'surnames';
+    public function __construct() {
+        $this->dirname = 'surnames';
+    }
 
     public function myGetUnameFromId(int $uid): string
     {

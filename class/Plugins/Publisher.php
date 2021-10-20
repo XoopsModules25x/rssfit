@@ -49,7 +49,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Publisher extends AbstractPlugin
 {
-    public $dirname = 'publisher';
+    public function __construct() {
+        $this->dirname = 'publisher';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

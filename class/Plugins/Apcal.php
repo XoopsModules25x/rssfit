@@ -46,7 +46,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Apcal extends AbstractPlugin
 {
-    public $dirname = 'apcal';
+    public function __construct() {
+        $this->dirname = 'apcal';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

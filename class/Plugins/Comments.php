@@ -51,11 +51,10 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Comments extends AbstractPlugin
 {
-    public $dirname = 'system';
+    public function __construct() {
+        $this->dirname = 'system';
+    }
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();

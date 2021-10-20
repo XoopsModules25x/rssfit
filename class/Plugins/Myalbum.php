@@ -64,7 +64,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Myalbum extends AbstractPlugin
 {
-    public $dirname = 'myalbum';
+    public function __construct() {
+        $this->dirname = 'myalbum';
+    }
 
     public function myGetUnameFromId(int $uid): string
     {

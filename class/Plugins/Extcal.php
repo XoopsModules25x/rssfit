@@ -64,7 +64,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Extcal extends AbstractPlugin
 {
-    public $dirname = 'extcal';
+    public function __construct() {
+        $this->dirname = 'extcal';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

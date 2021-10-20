@@ -47,7 +47,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Newbb extends AbstractPlugin
 {
-    public $dirname = 'newbb';
+    public function __construct() {
+        $this->dirname = 'newbb';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

@@ -52,7 +52,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class Smartpartner extends AbstractPlugin
 {
-    public $dirname = 'smartpartner';
+    public function __construct() {
+        $this->dirname = 'smartpartner';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

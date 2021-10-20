@@ -49,7 +49,9 @@ final class Xoopstube extends AbstractPlugin
     /**
      * @var string
      */
-    public $dirname = 'xoopstube';
+    public function __construct() {
+        $this->dirname = 'xoopstube';
+    }
 
     public function loadModule(): ?\XoopsModule
     {

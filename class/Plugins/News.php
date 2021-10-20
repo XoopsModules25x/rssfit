@@ -49,7 +49,9 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 final class News extends AbstractPlugin
 {
-    public $dirname = 'news';
+    public function __construct() {
+        $this->dirname = 'news';
+    }
 
     /**
      * @return array
