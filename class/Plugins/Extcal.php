@@ -93,7 +93,7 @@ final class Extcal extends AbstractPlugin
         /** @var \XoopsConfigHandler $configHandler */
         $configHandler = \xoops_getHandler('config');
         $extcalConfig  = $configHandler->getConfigsByCat(0, $extcal->getVar('mid'));
-        $long_form     = $extcalConfig['date_long'];
+        $dateLongForm     = $extcalConfig['date_long'];
 
         $eventHandler = PluginHelper::getInstance()->getHandler('Event');
         $catHandler   = PluginHelper::getInstance()->getHandler('Category');
@@ -106,20 +106,20 @@ final class Extcal extends AbstractPlugin
                 $cat         = $catHandler->getCat($event->getVar('cat_id'), 0);
                 $category    = $cat->getVar('cat_name');
                 $link        = XOOPS_URL . '/modules/extcal/event.php?event=' . $event->getVar('event_id');
-                $event_start = \formatTimestamp($event->getVar('event_start'), $long_form);
+                $eventStart = \formatTimestamp($event->getVar('event_start'), $dateLongForm);
                 $temp        = \htmlspecialchars($event->getVar('event_title'), \ENT_QUOTES);
                 $title       = \xoops_utf8_encode($temp);
                 $temp        = \htmlspecialchars($event->getVar('event_desc'), \ENT_QUOTES);
                 $description = \xoops_utf8_encode($temp);
                 $address     = $event->getVar('event_address');
 
-                $desc_link = $event->getVar('event_url');
-                if ('' == $desc_link) {
-                    $desc_link = $link;
+                $eventUrl = $event->getVar('event_url');
+                if ('' == $eventUrl) {
+                    $eventUrl = $link;
                 }
-                $desc = "<a href=\"$desc_link\"><b>$title</b></a><br>";
+                $desc = "<a href=\"$eventUrl\"><b>$title</b></a><br>";
                 $desc .= '<table>';
-                $desc .= "<tr><td valign='top'>When:</td><td>$event_start</td></tr>";
+                $desc .= "<tr><td valign='top'>When:</td><td>$eventStart</td></tr>";
                 if ('' != $address) {
                     $desc .= "<tr><td valign='top'>Where:</td><td>$address</td></tr>";
                 }

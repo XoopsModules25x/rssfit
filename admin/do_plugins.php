@@ -206,7 +206,7 @@ switch ($op) {
         }
         break;
     case 'save':
-        $rssf_grab  = Request::getArray('rssf_grab', [], 'POST');
+        $rssfGrab  = Request::getArray('rssf_grab', [], 'POST');
         $rssf_order = Request::getArray('rssf_order', [], 'POST');
         $action     = Request::getArray('action', null, 'POST');
         $install    = Request::getArray('install', [], 'POST');
@@ -216,8 +216,8 @@ switch ($op) {
             foreach ($keys as $k) {
                 $plugin = $pluginHandler->get($k);
                 if ($plugin) {
-                    if (isset($rssf_grab[$k])) {
-                        $plugin->setVar('rssf_grab', $rssf_grab[$k]);
+                    if (isset($rssfGrab[$k])) {
+                        $plugin->setVar('rssf_grab', $rssfGrab[$k]);
                         $plugin->setVar('rssf_order', $rssf_order[$k]);
                     }
                     switch ($action[$k]) {

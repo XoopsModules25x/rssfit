@@ -35,9 +35,9 @@ function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
     $myts = \MyTextSanitizer::getInstance();
     //    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
     xoops_loadLanguage('install', $moduleDirName);
-    $intro_setting = ['dohtml' => 1, 'dobr' => 1, 'sub' => stripslashes(_INSTALL_INTRO_SUB)];
+    $introSetting = ['dohtml' => 1, 'dobr' => 1, 'sub' => stripslashes(_INSTALL_INTRO_SUB)];
     $sql[]         = 'INSERT INTO `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` VALUES (1, ' . $xoopsDB->quoteString('intro') . ', ' . $xoopsDB->quoteString(stripslashes(_INTRO_TITLE)) . ', ' . $xoopsDB->quoteString(stripslashes(_INTRO_CONTENT)) . ', ' . $xoopsDB->quoteString(
-            serialize($intro_setting)
+            serialize($introSetting)
         ) . ')';
     $sql[]         = rssfInsertChannel($xoopsMod);
     $sql[]         = 'INSERT INTO ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . ' VALUES ' . "(null, 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' => 0, 'dobr' => 0, 'feeds' => [0 => '0'], 'link' => XOOPS_URL])) . ')';
@@ -73,8 +73,8 @@ function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $oldversion): bo
         $sql = [];
         //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` ADD `misc_setting` TEXT NOT NULL;';
         //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
-        $intro_setting = ['dohtml' => 1, 'dobr' => 1, 'sub' => _INSTALL_INTRO_SUB];
-        $sql[]         = 'UPDATE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` SET misc_setting = ' . $xoopsDB->quoteString(serialize($intro_setting)) . " WHERE misc_category = 'intro'";
+        $introSetting = ['dohtml' => 1, 'dobr' => 1, 'sub' => _INSTALL_INTRO_SUB];
+        $sql[]         = 'UPDATE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` SET misc_setting = ' . $xoopsDB->quoteString(serialize($introSetting)) . " WHERE misc_category = 'intro'";
         //        $sql[]         = 'ALTER TABLE `'
         //                         . $xoopsDB->prefix($helper->getDirname() . '_plugins')
         //                         . "` ADD `subfeed` TINYINT( 1 ) DEFAULT '0' NOT NULL, ADD `sub_entries` VARCHAR( 2 ) NOT NULL, ADD `sub_link` VARCHAR( 255 ) NOT NULL, ADD `sub_title` VARCHAR( 255 ) NOT NULL, ADD `sub_desc` VARCHAR( 255 ) NOT NULL, ADD `img_url` VARCHAR( 255 ) NOT NULL, ADD `img_link` VARCHAR( 255 ) NOT NULL, ADD `img_title` VARCHAR( 255 ) NOT NULL;";
