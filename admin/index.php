@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -9,40 +11,57 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use Xmf\Module\Admin;
-use Xmf\Request;
-
 /**
- * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
+ * @copyright    XOOPS Project (https://xoops.org)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team
  */
 
+use Xmf\Request;
+use XoopsModules\Rssfit\{
+    Common,
+    FeedHandler,
+    Helper,
+    PluginHandler,
+    Utility
+};
 
-include_once dirname(__FILE__) . '/admin_header.php';
-$moduleAdmin = Admin::getInstance();
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Xmf\Module\Admin $adminObject */
+/** @var FeedHandler $feedHandler */
+/** @var PluginHandler $pluginHandler */
+
+require_once __DIR__ . '/admin_header.php';
+
+$helper  = Helper::getInstance();
+$utility = new Utility();
 
 $do = Request::getString('do', '');
 $op = Request::getString('op', 'list');
-define("RSSFIT_OK", 1);
 
-if (file_exists(RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php')) {
-    include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-    $hidden_do = new XoopsFormHidden('do', $do);
-    $button_save = new XoopsFormButton('', 'submit', _AM_SAVE, 'submit');
-    $button_go = new XoopsFormButton('', 'submit', _GO, 'submit');
-    $button_cancel = new XoopsFormButton('', 'cancel', _CANCEL);
-    $button_cancel->setExtra('onclick="javascript:history.go(-1)"');
-    $tray_save_cancel = new XoopsFormElementTray('', '');
-    $tray_save_cancel->addElement($button_save);
-    $tray_save_cancel->addElement($button_cancel);
-    $moduleAdmin->displayNavigation('?do=' . $do);
-    require RSSFIT_ROOT_PATH.'admin/do_'.$do.'.php';
+//$do = \Xmf\Request::getString('do', '');
+//$op = \Xmf\Request::getString('op',  \Xmf\Request::getString('op', 'list', 'GET'), 'POST');
+//define('RSSFIT_OK', 1);
+
+//$adminObject = \Xmf\Module\Admin::getInstance();
+
+if (file_exists($helper->path('admin/do_' . $do . '.php'))) {
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    $hiddenDo     = new \XoopsFormHidden('do', $do);
+    $buttonSave   = new \XoopsFormButton('', 'submit', _AM_RSSFIT_SAVE, 'submit');
+    $buttonSubmit = new \XoopsFormButton('', 'submit', _GO, 'submit');
+    $buttonCancel = new \XoopsFormButton('', 'cancel', _CANCEL);
+    $buttonCancel->setExtra('onclick="javascript:history.go(-1)"');
+    $saveCancelTray = new \XoopsFormElementTray('', '');
+    $saveCancelTray->addElement($buttonSave);
+    $saveCancelTray->addElement($buttonCancel);
+    $adminObject->displayNavigation('?do=' . $do);
+    require $helper->path('admin/do_' . $do . '.php');
 } else {
-    $moduleAdmin->displayNavigation('index.php');
-    $moduleAdmin->displayIndex();
+    $adminObject->displayNavigation(basename(__FILE__));
+    $adminObject->displayIndex();
+    echo $utility::getServerStats();
 }
 
-include_once 'admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

@@ -1,138 +1,153 @@
 <?php
-###############################################################################
-##                RSSFit - Extendable XML news feed generator                ##
-##                Copyright (c) 2004 - 2006 NS Tai (aka tuff)                ##
-##                       <http://www.brandycoke.com/>                        ##
-###############################################################################
-##                    XOOPS - PHP Content Management System                  ##
-##                       Copyright (c) 2000 XOOPS.org                        ##
-##                          <http://www.xoops.org/>                          ##
-###############################################################################
-##  This program is free software; you can redistribute it and/or modify     ##
-##  it under the terms of the GNU General Public License as published by     ##
-##  the Free Software Foundation; either version 2 of the License, or        ##
-##  (at your option) any later version.                                      ##
-##                                                                           ##
-##  You may not change or alter any portion of this comment or credits       ##
-##  of supporting developers from this source code or any supporting         ##
-##  source code which is considered copyrighted (c) material of the          ##
-##  original comment or credit authors.                                      ##
-##                                                                           ##
-##  This program is distributed in the hope that it will be useful,          ##
-##  but WITHOUT ANY WARRANTY; without even the implied warranty of           ##
-##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            ##
-##  GNU General Public License for more details.                             ##
-##                                                                           ##
-##  You should have received a copy of the GNU General Public License        ##
-##  along with this program; if not, write to the Free Software              ##
-##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
-###############################################################################
-##  Author of this file: NS Tai (aka tuff)                                   ##
-##  URL: http://www.brandycoke.com/                                          ##
-##  Project: RSSFit                                                          ##
-###############################################################################
+
+declare(strict_types=1);
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
- * @param XoopsModule $xoopsMod
- *
- * @return bool
+ * @copyright    XOOPS Project (https://xoops.org)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @package      RSSFit - Extendable XML news feed generator
+ * @author       NS Tai (aka tuff) <http://www.brandycoke.com>
+ * @author       XOOPS Development Team
  */
-function xoops_module_install_rss(XoopsModule $xoopsMod)
+
+use XoopsModules\Rssfit;
+
+require_once \dirname(__DIR__) . '/preloads/autoloader.php';
+require_once \dirname(__DIR__, 3) . '/mainfile.php';
+
+function xoops_module_install_rssfit(\XoopsModule $xoopsMod): bool
 {
-    global $xoopsDB, $xoopsConfig;
-    $myts = MyTextSanitizer::getInstance();
-    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
-    $intro_setting = array('dohtml'=>1, 'dobr'=>1, 'sub'=>stripslashes(_INSTALL_INTRO_SUB));
-    $sql[] = "INSERT INTO `".$xoopsDB->prefix('rssfit_misc')."` VALUES (1, ".$xoopsDB->quoteString('intro').", ".$xoopsDB->quoteString(stripslashes(_INTRO_TITLE)).", ".$xoopsDB->quoteString(stripslashes(_INTRO_CONTENT)).", ".$xoopsDB->quoteString(serialize($intro_setting)).")";
-    $sql[] = rssfInsertChannel($xoopsMod);
-    $sql[] = "INSERT INTO ".$xoopsDB->prefix('rssfit_misc')." VALUES "."('', 'sticky', '', '', ".$xoopsDB->quoteString(serialize(array('dohtml'=>0, 'dobr'=>0, 'feeds'=>array(0=>'0'), 'link'=>XOOPS_URL))).")";
+    global $xoopsDB;
+
+    $moduleDirName = \basename(\dirname(__DIR__));
+
+    $helper = Rssfit\Helper::getInstance();
+
+    //    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
+    xoops_loadLanguage('install', $moduleDirName);
+    $introSetting = ['dohtml' => 1, 'dobr' => 1, 'sub' => stripslashes(_INSTALL_INTRO_SUB)];
+    $sql[]         = 'INSERT INTO `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` VALUES (1, ' . $xoopsDB->quoteString('intro') . ', ' . $xoopsDB->quoteString(stripslashes(_INTRO_TITLE)) . ', ' . $xoopsDB->quoteString(stripslashes(_INTRO_CONTENT)) . ', ' . $xoopsDB->quoteString(
+            serialize($introSetting)
+        ) . ')';
+    $sql[]         = rssfInsertChannel($xoopsMod);
+    $sql[]         = 'INSERT INTO ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . ' VALUES ' . "(null, 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' => 0, 'dobr' => 0, 'feeds' => [0 => '0'], 'link' => XOOPS_URL])) . ')';
     foreach ($sql as $s) {
-        if (false == $xoopsDB->query($s)) {
-            echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';
+        if (false === $xoopsDB->query($s)) {
+            echo '<span style="color: #ff0000;"><b>' . $xoopsDB->error() . '<b></span><br>' . $s . '<br><br>';
+
             return false;
         }
     }
+
     return true;
 }
 
 /**
- * @param XoopsModule $xoopsMod
- * @param int         $oldversion version number of prevviously installed version
+ * @param int $previousVersion version number of previously installed version
  *
- * @return bool
  */
-function xoops_module_update_rss(XoopsModule $xoopsMod, $oldversion)
+function xoops_module_update_rssfit(\XoopsModule $xoopsMod, int $previousVersion): bool
 {
-    global $xoopsDB, $xoopsConfig;
-    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
-    list($rows) = $xoopsDB->fetchRow($xoopsDB->query("SELECT COUNT(*) FROM ".$xoopsDB->prefix('rssfit_misc')." WHERE misc_category = 'channel'"));
+    global $xoopsDB;
+    $helper = Rssfit\Helper::getInstance();
+    //    rssfInstallLangFile($xoopsMod, $xoopsConfig['language']);
+    $moduleDirName = \basename(\dirname(__DIR__));
+    xoops_loadLanguage('install', $moduleDirName);
+
+    $rows = [];
+    $sql = 'SELECT COUNT(*) FROM ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . " WHERE 'misc_category' = 'channel'";
+    $result = $xoopsDB->query($sql);
+    if ($result instanceof \mysqli_result) {
+        [$rows] = $xoopsDB->fetchRow($result);
+    }
     if (!$rows) {
-        $sql[] = 'ALTER TABLE `'.$xoopsDB->prefix('rssfit_misc').'` ADD `misc_setting` TEXT NOT NULL;';
-        $sql[] = 'ALTER TABLE `'.$xoopsDB->prefix('rssfit_misc').'` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
-        $intro_setting = array('dohtml'=>1, 'dobr'=>1, 'sub'=>_INSTALL_INTRO_SUB);
-        $sql[] = "UPDATE `".$xoopsDB->prefix('rssfit_misc')."` SET misc_setting = ".$xoopsDB->quoteString(serialize($intro_setting))." WHERE misc_category = 'intro'";
-        $sql[] = "ALTER TABLE `".$xoopsDB->prefix('rssfit_plugins')."` ADD `subfeed` TINYINT( 1 ) DEFAULT '0' NOT NULL, ADD `sub_entries` VARCHAR( 2 ) NOT NULL, ADD `sub_link` VARCHAR( 255 ) NOT NULL, ADD `sub_title` VARCHAR( 255 ) NOT NULL, ADD `sub_desc` VARCHAR( 255 ) NOT NULL, ADD `img_url` VARCHAR( 255 ) NOT NULL, ADD `img_link` VARCHAR( 255 ) NOT NULL, ADD `img_title` VARCHAR( 255 ) NOT NULL;";
-        $sql[] = "UPDATE `".$xoopsDB->prefix('rssfit_plugins')."` SET sub_entries = 5";
+        $sql = [];
+        //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` ADD `misc_setting` TEXT NOT NULL;';
+        //        $sql[]         = 'ALTER TABLE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` CHANGE `misc_category` `misc_category` VARCHAR( 30 ) NOT NULL;';
+        $introSetting = ['dohtml' => 1, 'dobr' => 1, 'sub' => _INSTALL_INTRO_SUB];
+        $sql[]         = 'UPDATE `' . $xoopsDB->prefix($helper->getDirname() . '_misc') . '` SET misc_setting = ' . $xoopsDB->quoteString(serialize($introSetting)) . " WHERE misc_category = 'intro'";
+        //        $sql[]         = 'ALTER TABLE `'
+        //                         . $xoopsDB->prefix($helper->getDirname() . '_plugins')
+        //                         . "` ADD `subfeed` TINYINT( 1 ) DEFAULT '0' NOT NULL, ADD `sub_entries` VARCHAR( 2 ) NOT NULL, ADD `sub_link` VARCHAR( 255 ) NOT NULL, ADD `sub_title` VARCHAR( 255 ) NOT NULL, ADD `sub_desc` VARCHAR( 255 ) NOT NULL, ADD `img_url` VARCHAR( 255 ) NOT NULL, ADD `img_link` VARCHAR( 255 ) NOT NULL, ADD `img_title` VARCHAR( 255 ) NOT NULL;";
+        $sql[] = 'UPDATE `' . $xoopsDB->prefix($helper->getDirname() . '_plugins') . '` SET sub_entries = 5';
         $sql[] = rssfInsertChannel($xoopsMod);
-        $sql[] = "INSERT INTO ".$xoopsDB->prefix('rssfit_misc')." VALUES "."('', 'sticky', '', '', ".$xoopsDB->quoteString(serialize(array('dohtml'=>0, 'dobr'=>0, 'feeds'=>array(0=>'0'), 'link'=>XOOPS_URL))).")";
+        $sql[] = 'INSERT INTO ' . $xoopsDB->prefix($helper->getDirname() . '_misc') . ' VALUES ' . "('', 'sticky', '', '', " . $xoopsDB->quoteString(serialize(['dohtml' => 0, 'dobr' => 0, 'feeds' => [0 => '0'], 'link' => XOOPS_URL])) . ')';
         foreach ($sql as $s) {
-            if (false == $xoopsDB->query($s)) {
-                echo '<span style="color: #ff0000;"><b>'.$xoopsDB->error().'<b></span><br />'.$s.'<br /><br />';
+            if (false === $xoopsDB->query($s)) {
+                echo '<span style="color: #ff0000;"><b>' . $xoopsDB->error() . '<b></span><br>' . $s . '<br><br>';
+
                 return false;
             }
         }
     }
+
     return true;
 }
 
-/**
- * @param $xoopsMod
- * @param $lang
- */
-function rssfInstallLangFile(&$xoopsMod, $lang)
-{
-    $file = XOOPS_ROOT_PATH.'/modules/'.$xoopsMod->getVar('dirname')
-            .'/language/%s/install.php';
-    if (file_exists(sprintf($file, $lang))) {
-        include(sprintf($file, $lang));
-    } else {
-        include(sprintf($file, 'english'));
-    }
-}
+//function rssfInstallLangFile($xoopsMod, $lang)
+//{
+//    $file = XOOPS_ROOT_PATH . '/modules/' . $xoopsMod->getVar('dirname') . '/language/%s/install.php';
+//    if (is_file(sprintf($file, $lang))) {
+//        include sprintf($file, $lang);
+//    } else {
+//        include sprintf($file, 'english');
+//    }
+//}
 
-/**
- * @param $xoopsMod
- *
- * @return string
- */
-function rssfInsertChannel(&$xoopsMod)
+function rssfInsertChannel(\XoopsModule $xoopsMod): string
 {
     global $xoopsDB, $xoopsConfig;
+    $helper = Rssfit\Helper::getInstance();
     $url = $xoopsDB->quoteString(XOOPS_URL);
     $sitename = $xoopsDB->quoteString($xoopsConfig['sitename']);
-    list($copyright) = $xoopsDB->fetchRow($xoopsDB->query("SELECT conf_value FROM ".$xoopsDB->prefix('config')." WHERE conf_name = 'meta_copyright' AND conf_modid = 1 AND conf_catid = ".XOOPS_CONF_METAFOOTER));
-    return "INSERT INTO ".$xoopsDB->prefix('rssfit_misc')
-            ." VALUES "."('', 'channel', 'title', ".$sitename.", '')"
-            .", ('', 'channel', 'link', ".$url.", '')"
-            .", ('', 'channel', 'description', "
-            .$xoopsDB->quoteString($xoopsConfig['slogan'])
-            .", ''), ('', 'channel', 'copyright', "
-            .$xoopsDB->quoteString($copyright)
-            .", ''), ('', 'channel', 'managingEditor', "
-            .$xoopsDB->quoteString($xoopsConfig['adminmail']
-            .' ('.$xoopsConfig['sitename'].')')
-            .", ''), ('', 'channel', 'webMaster', "
-            .$xoopsDB->quoteString($xoopsConfig['adminmail']
-            .' ('.$xoopsConfig['sitename'].')').", '')"
-            .", ('', 'channel', 'category', '', '')"
-            .", ('', 'channel', 'generator', "
-            .$xoopsDB->quoteString(XOOPS_VERSION
-            .' / RSSFit '.$xoopsMod->getInfo('version'))
-            .", ''), ('', 'channel', 'docs', "
-            .$xoopsDB->quoteString('http://blogs.law.harvard.edu/tech/rss').", '')"
-            .", ('', 'channelimg', 'url', "
-            .$xoopsDB->quoteString(XOOPS_URL.'/images/logo.gif').", '')"
-            .", ('', 'channelimg', 'title', ".$sitename.", '')"
-            .", ('', 'channelimg', 'link', ".$url.", '')"
-            .";";
+
+    $sql    = "SELECT 'conf_value' FROM " . $xoopsDB->prefix('config') . " WHERE 'conf_name' = 'meta_copyright' AND 'conf_modid' = 1 AND 'conf_catid' = " . XOOPS_CONF_METAFOOTER;
+    $result = $xoopsDB->query($sql);
+    if ($result instanceof \mysqli_result) {
+        [$copyright] = $xoopsDB->fetchRow($result);
+    }
+
+    return 'INSERT INTO '
+           . $xoopsDB->prefix($helper->getDirname() . '_misc')
+           . ' VALUES '
+           . "(0, 'channel', 'title', "
+           . $sitename
+           . ", '')"
+           . ", (0, 'channel', 'link', "
+           . $url
+           . ", '')"
+           . ", (0, 'channel', 'description', "
+           . $xoopsDB->quoteString($xoopsConfig['slogan'])
+           . ", ''), (0, 'channel', 'copyright', "
+           . $xoopsDB->quoteString($copyright)
+           . ", ''), (0, 'channel', 'managingEditor', "
+           . $xoopsDB->quoteString($xoopsConfig['adminmail'] . ' (' . $xoopsConfig['sitename'] . ')')
+           . ", ''), (0, 'channel', 'webMaster', "
+           . $xoopsDB->quoteString($xoopsConfig['adminmail'] . ' (' . $xoopsConfig['sitename'] . ')')
+           . ", '')"
+           . ", (0, 'channel', 'category', '', '')"
+           . ", (0, 'channel', 'generator', "
+           . $xoopsDB->quoteString(XOOPS_VERSION . ' / RSSFit ' . $xoopsMod->getInfo('version'))
+           . ", ''), (0, 'channel', 'docs', "
+           . $xoopsDB->quoteString('https://blogs.law.harvard.edu/tech/rss')
+           . ", '')"
+           . ", (0, 'channelimg', 'url', "
+           . $xoopsDB->quoteString(XOOPS_URL . '/images/logo.gif')
+           . ", '')"
+           . ", (0, 'channelimg', 'title', "
+           . $sitename
+           . ", '')"
+           . ", (0, 'channelimg', 'link', "
+           . $url
+           . ", '')"
+           . ';';
 }

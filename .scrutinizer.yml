@@ -1,0 +1,57 @@
+# language: php
+build:
+  environment:
+    php: 8.0.11
+  nodes:
+    tests: true
+    analysis:
+      dependencies:
+        after:
+          # The following installs the most recent XOOPS CMS version, you might want
+          # to install a specific release tag or branch instead.
+          - git clone --depth=1 https://github.com/XOOPS/XoopsCore25
+          - git clone --depth=1 https://github.com/mambax7/tag
+          - git clone --depth=1 https://github.com/mambax7/adslight
+          - git clone --depth=1 https://github.com/mambax7/ams
+          - git clone --depth=1 https://github.com/mambax7/apcal
+          - git clone --depth=1 https://github.com/mambax7/extcal
+          - git clone --depth=1 https://github.com/mambax7/extgallery
+          - git clone --depth=1 https://github.com/mambax7/lexikon
+          - git clone --depth=1 https://github.com/mambax7/myalbum
+          - git clone --depth=1 https://github.com/mambax7/mylinks
+          - git clone --depth=1 https://github.com/mambax7/newbb
+          - git clone --depth=1 https://github.com/mambax7/news
+          - git clone --depth=1 https://github.com/mambax7/oledrion
+          - git clone --depth=1 https://github.com/mambax7/publisher
+          - git clone --depth=1 https://github.com/mambax7/smartfaq
+          - git clone --depth=1 https://github.com/mambax7/smartpartner
+          - git clone --depth=1 https://github.com/mambax7/wfdownloads
+          - git clone --depth=1 https://github.com/mambax7/wflinks
+          - git clone --depth=1 https://github.com/mambax7/xoopstube
+      project_setup:
+        override: true
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+filter:
+  dependency_paths:
+    - XoopsCore25/*
+    - tag/*
+    - adslight/*
+    - ams/*
+    - apcal/*
+    - extcal/*
+    - extgallery/*
+    - lexikon/*
+    - myalbum/*
+    - mylinks/*
+    - newbb/*
+    - news/*
+    - oledrion/*
+    - publisher/*
+    - smartfaq/*
+    - smartpartner/*
+    - wfdownloads/*
+    - wflinks/*
+    - xoopstube/*
+

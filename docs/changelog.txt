@@ -1,31 +1,78 @@
----------------------------------------
-1.30 Beta 2     2017-10-24
----------------------------------------
+<h5>1.32.0 Beta 3  [NOT RELEASED]</h5> Dev: XOOPS 2.5.11, PHP 7.4.24, PHP 8.0.11, PHP 8.1.0 Beta 4
+<hr>
 
+<h5>1.32.0 Beta 2  [2021-10-20]</h5>
+<hr>
+- add strict types (mamba)
+- add return type declaration (mamba)
+- add parameter types (mamba)
+- refactoring: added AbstractPlugin & PluginInterface (mamba)
+- code cosmetics (mamba)
+
+
+<h5>1.32.0 Beta 1  [2021-10-14]</h5>
+<hr>
+- namespaces (mamba)
+- autoloading (mamba)
+- updates/cosmetics (mamba)
+- index.html to index.php (mamba)
+- added RSS Reader (mamba)
+- fix callback in FeedHandler (mamba)
+- ranamed to RssfitCorePreload (zyspec)
+- fix plugin assignment (zyspec)
+- fix shown error after installing plugin (goffy)
+
+<h5>1.31.0 Beta 2  [NOT RELEASED]</h5>
+<hr>
+- move files up
+- Unnecessary double quotes (mamba)
+- Unnecessary parentheses (mamba)
+- 'str(i)str(...)' could be replaced with 'str(i)pos(...)' (mamba)
+- Callable calls in loops termination condition (mamba)
+- UTF-8 fix (mamba)
+- Yoda (mamba)
+- Array short syntax (mamba)
+- Case mismatch in method call or class usage (mamba)
+- Type casting (mamba)
+- __DIR__ (mamba)
+- Callable name case mismatched in a call (mamba)
+- php-cs-fixer (mamba)
+- ENGINE fix (mamba)
+- update README.md (mamba)
+- added URL links for active plugins in sub-feeds (mamba)
+- added Publisher plugin (mamba)
+- PHPDoc updates (mamba)
+- standardization of language variables (mamba)
+
+
+
+<h5>1.31.0 Beta 1     [2017-10-24]</h5>
+<hr>
 - Converted to XOOPS 2.5.9/Xmf Admin GUI, PHP 7 compliance (geekwright)
 
----------------------------------------
-1.30 Beta 1     2014-03-03
----------------------------------------
 
+<h5>1.30 Beta 1     2014-03-03]</h5>
+<hr>
 - Converted to XOOPS 2.5.6 Admin GUI (Mamba)
 
----------------------------------------
-1.22            2008-07-16
----------------------------------------
 
-Changes made by Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
-With some configurations of PHP, it was not possible to access the different parts of the module's administration.
-This version corrects the problem and you should now be able to access all the parts of the administration.
+<h5>1.22            [2008-07-16]</h5>
+<hr>
+
+- Changes made by Hervé Thouzard of Instant Zero (http://www.instant-zero.com)
+- With some configurations of PHP, it was not possible to access the different parts of the module's administration.
+- This version corrects the problem and you should now be able to access all the parts of the administration.
 
 
-----------------------
-Jul 25, 2006: Version 1.21
+
+<h5>1.21        [Jul 25, 2006]</h5>
+<hr>
 - Fixed compatibility problem with XOOPS 2.0.14
 - Modified WF-Downloads plugin for padcasting (requires WF-Downloads version 3.1)
 
-----------------------
-Dec 23, 2005: Version 1.2 / 1.5
+
+<h5>1.2         [Dec 23, 2005]</h5>
+<hr>
 - (Version 1.5) Fixed incompatibility with XOOPS 2.2.3a
 - New editable feed information: copyright
 - PHP-debug messages are now completely hidden when prefernece "MIME type of RSS output" is set as "XML", even php-debug is turned on under system admin
@@ -37,19 +84,20 @@ Dec 23, 2005: Version 1.2 / 1.5
 - Fixed "call by reference" errors appear on PHP 4.4 / 5.1
 - German, Bulgarian, French language pack added (Thanks DocuAnt, Stefan Ilivanov, Machenzy)
 
-----------------------
-Mar 23, 2005: Version 1.1
-Individual sub-feeds based on activated plug-ins
-Editable channel elements
-Sticky text displays as the very first item of a feed
-New and updated plug-ins
-Various bug fixes
-Development sponsored by Stefanos Karagos <http://www.karagos.com/> and IIS-Resources <http://www.iis-resources.com/>
+<h5>1.1         [Mar 23, 2005]</h5>
+<hr>
+- Individual sub-feeds based on activated plug-ins
+- Editable channel elements
+- Sticky text displays as the very first item of a feed
+- New and updated plug-ins
+- Various bug fixes
+- Development sponsored by Stefanos Karagos <http://www.karagos.com/> and IIS-Resources <http://www.iis-resources.com/>
 
 Notes for upgrading from version 1.0x: There is no upgrade patch since over 90 percent of the files are modified. You have to replace the entire directory contents with the new version. Don't forget to update the module after uploading new files. If you have the rss feed smarty template customized you should take a look at the file templates/rssfit_rss.html for corresponding changes.
 
-----------------------
-Dec 26, 2004: Version 1.03
+
+<h5>1.03            [Dec 26, 2004]</h5>
+<hr>
 Fixed incompatibility with PHP 5
 Fixed rss template not validated by rss-validators
 Fixed a typo in the mylinks plug-in
@@ -57,14 +105,17 @@ Dutch language pack added.
 Italian language pack added.
 Portuguese language pack added.
 
-----------------------
-Jun 6, 2004: Version 1.02
+
+<h5>1.02            [Jun 6, 2004]</h5>
+<hr>
 French language pack added.
 
-----------------------
-MAY 9, 2004: Version 1.01
+
+<h5>MAY 9, 2004: Version 1.01]</h5>
+<hr>
 Spanish language pack added.
 
-----------------------
-MAY 5, 2004: Version 1.0
+
+<h5>1.0         [MAY 5, 2004]</h5>
+<hr>
 First public release.

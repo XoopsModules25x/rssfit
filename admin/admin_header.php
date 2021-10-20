@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -10,35 +12,33 @@
  */
 
 /**
- * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
- * @author     XOOPS Development Team
+ * @copyright    XOOPS Project (https://xoops.org)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @author       XOOPS Development Team
  */
 
-$path = dirname(dirname(dirname(__DIR__)));
-require_once $path . '/mainfile.php';
-require_once $path . '/include/cp_functions.php';
-require_once $path . '/include/cp_header.php';
+use Xmf\Module\Admin;
+use XoopsModules\Rssfit\{
+    Helper
+};
 
-class_exists('\Xmf\Module\Admin') or die('XMF is required.');
+/** @var Helper $helper */
+/** @var Admin $adminObject */
 
-global $xoopsModule;
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__) . '/include/common.php';
+
+$helper      = Helper::getInstance();
+$adminObject = Admin::getInstance();
+
+$moduleDirName      = $helper->getDirname();
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 // Load language files
-\Xmf\Language::load('main', $thisModuleDir);
-//\Xmf\Language::load('modinfo', $thisModuleDir);
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('common');
 
 xoops_cp_header();
-
-
-//if functions.php file exist
-require_once dirname(dirname(__FILE__)) . '/include/common.php';
-//require '../include/common.php';
-
-global $xoopsModule;
-
-$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');

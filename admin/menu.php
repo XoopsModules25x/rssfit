@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -10,51 +12,87 @@
  */
 
 /**
- * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package     RSSFit
+ * @copyright    XOOPS Project (https://xoops.org)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @package      RSSFit
  * @since
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+
+use Xmf\Module\Admin;
+use XoopsModules\Rssfit\{
+    Helper
+};
+
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+$helper = Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
 
 // get path to icons
-$pathIcon32='';
-if (class_exists('Xmf\Module\Admin', true)) {
-    $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathIcon32    = Admin::menuIconPath('');
+$pathModIcon32 = XOOPS_URL . '/modules/' . $moduleDirName . '/assets/images/icons/32/';
+if (is_object($helper->getModule()) && false !== $helper->getModule()->getInfo('modicons32')) {
+    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
-$adminmenu = array();
-$i=0;
-$adminmenu[$i]["title"] = _MI_RSSFIT_INDEX;
-$adminmenu[$i]['link'] = "admin/index.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
+$adminmenu = [];
 
-++$i;
-$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU1;
-$adminmenu[$i]['link'] = "admin/?do=intro";
-//$adminmenu[$i]['link'] = "admin/do_intro.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/folder_txt.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU2;
-$adminmenu[$i]['link'] = "admin/?do=plugins";
-//$adminmenu[$i]['link'] = "admin/do_plugins.php";
-$adminmenu[$i]["icon"]  =  'images/icons/32/plugin.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU3;
-$adminmenu[$i]['link'] = "admin/?do=channel";
-//$adminmenu[$i]['link'] = "admin/do_channel.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/compfile.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU4;
-$adminmenu[$i]['link'] = "admin/?do=subfeeds";
-//$adminmenu[$i]['link'] = "admin/do_subfeeds.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/groupmod.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_RSSFIT_ADMENU5;
-$adminmenu[$i]['link'] = "admin/?do=sticky";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/attach.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_RSSFIT_ABOUT;
-$adminmenu[$i]["link"]  = "admin/about.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
+$adminmenu[] = [
+    'title' => _MI_RSSFIT_INDEX,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_RSSFIT_ADMENU1,
+    'link'  => 'admin/?do=intro',
+    //'link' =>  "admin/do_intro.php",
+    'icon'  => $pathIcon32 . '/folder_txt.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_RSSFIT_ADMENU2,
+    'link'  => 'admin/?do=plugins',
+    //'link' =>  "admin/do_plugins.php",
+    'icon'  => 'assets/images/icons/32/plugin.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_RSSFIT_ADMENU3,
+    'link'  => 'admin/?do=channel',
+    //'link' =>  "admin/do_channel.php",
+    'icon'  => $pathIcon32 . '/compfile.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_RSSFIT_ADMENU4,
+    'link'  => 'admin/?do=subfeeds',
+    //'link' =>  "admin/do_subfeeds.php",
+    'icon'  => $pathIcon32 . '/groupmod.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_RSSFIT_ADMENU5,
+    'link'  => 'admin/?do=sticky',
+    'icon'  => $pathIcon32 . '/attach.png',
+];
+
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link'  => 'admin/?do=migrate',
+        'icon'  => $pathIcon32 . '/database_go.png',
+    ];
+}
+
+$adminmenu[] = [
+    'title' => _MI_RSSFIT_ABOUT,
+    'link'  => 'admin/?do=about',
+    'icon'  => $pathIcon32 . '/about.png',
+];

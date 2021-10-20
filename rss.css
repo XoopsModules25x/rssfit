@@ -1,79 +1,79 @@
 rss {
-	display: block;
-	margin: 10px auto 10px auto;
-	width: 80%;
-	background: #FFF;
-	font-family: Verdana, arial, sans-serif;
-	font-size: small;
-	}
+    display: block;
+    margin: 10px auto 10px auto;
+    width: 80%;
+    background: #FFF;
+    font-family: Verdana, arial, sans-serif;
+    font-size: small;
+}
 
 channel {
-	display: block;
-	margin-bottom: 10px;
-	border: 1px solid #CCC;
-	padding: 10px;
-	}
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #CCC;
+    padding: 10px;
+}
 
-channel>title {
-	display: block;
-	font-size: large;
-	font-weight: bold;
-	}
+channel > title {
+    display: block;
+    font-size: large;
+    font-weight: bold;
+}
 
-channel>description {
-	display: block;
-	}
+channel > description {
+    display: block;
+}
 
-channel>copyright {
-	display: block;
-	font-size: x-small;
-	color: #666;
-	}
+channel > copyright {
+    display: block;
+    font-size: x-small;
+    color: #666;
+}
 
-channel>lastBuildDate {
-	display: block;
-	text-align: right;
-	}
+channel > lastBuildDate {
+    display: block;
+    text-align: right;
+}
 
-channel>language,
-channel>image,
-channel>managingEditor,
-channel>webMaster,
-channel>generator,
-channel>docs,
-channel>ttl {
-	display: none;
-	}
+channel > language,
+channel > image,
+channel > managingEditor,
+channel > webMaster,
+channel > generator,
+channel > docs,
+channel > ttl {
+    display: none;
+}
 
 item {
-	display: block;
-	padding: 5px;
-	margin-top: 10px;
-	border: 1px solid #CCC;
-	background: #EEE;
-	}
+    display: block;
+    padding: 5px;
+    margin-top: 10px;
+    border: 1px solid #CCC;
+    background: #EEE;
+}
 
-item>title {
-	display: block;
-	float: left;
-	margin-right: 5px;
-	font-weight: bold;
-	}
+item > title {
+    display: block;
+    float: left;
+    margin-right: 5px;
+    font-weight: bold;
+}
 
-item>pubDate {
-	margin-right: 5px;
-	font-size: x-small;
-	color: #666;
-	white-space: nowrap;
-	}
+item > pubDate {
+    margin-right: 5px;
+    font-size: x-small;
+    color: #666;
+    white-space: nowrap;
+}
 
-item>guid {
-	display: block;
-	margin-right: 5px;
-	font-size: x-small;
-	color: #666;
-	}
-	
-item>category, item>link {
-	display: none;
-	}
+item > guid {
+    display: block;
+    margin-right: 5px;
+    font-size: x-small;
+    color: #666;
+}
+
+item > category, item > link {
+    display: none;
+}

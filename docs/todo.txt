@@ -1,0 +1,9 @@
+TODO: Planned features in the future
+=====================================
+
+
+Features that are being considered/planned/needed for the future releases, or current WIP (Work In Progress)
+
+- test with MySQL strict mode (STRICT_TRANS_TABLES)
+- finalize OnUpdate and OnUninstall files
+
