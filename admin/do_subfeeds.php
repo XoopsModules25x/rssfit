@@ -30,7 +30,7 @@ use XoopsModules\Rssfit\{
 /** @var PluginHandler $pluginHandler */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
-    header('Location: index.php');
+    redirect_header('index.php');
 }
 
 switch ($op) {
@@ -68,7 +68,7 @@ switch ($op) {
                     $config  = '&nbsp;';
                     $urlLink = $feedHandler->subFeedUrl($p->getVar('rssf_filename'));
                 }
-                $activate->addOption(1, ' ');
+                $activate->addOption('1', ' ');
                 $ret .= "<tr>\n"
                         . "<td class='even'>"
                         . $p->getVar('rssf_filename')
@@ -124,7 +124,7 @@ switch ($op) {
         $id = Request::getInt('feed', 0, 'GET');
         if (!empty($id)) {
             $sub = $pluginHandler->get($id);
-            if (!$handler = $pluginHandler->checkPlugin($sub)) {
+            if (null !== $sub && !$handler = $pluginHandler->checkPlugin($sub)) {
                 $pluginHandler->forceDeactivate($sub);
             }
         }
@@ -145,7 +145,7 @@ switch ($op) {
         $form->addElement(new \XoopsFormText('link', 'img_link', 50, 255, $sub->getVar('img_link', 'e')));
         $form->addElement(new \XoopsFormText('title', 'img_title', 50, 255, $sub->getVar('img_title', 'e')));
 
-        $form->addElement(new \XoopsFormHidden('feed', $id));
+        $form->addElement(new \XoopsFormHidden('feed', (string)$id));
         $form->addElement(new \XoopsFormHidden('op', 'savefeed'));
         $form->addElement($hiddenDo);
         $form->addElement($saveCancelTray);
@@ -155,7 +155,7 @@ switch ($op) {
         $id = Request::getInt('feed', 0, 'POST');
         if (!empty($id)) {
             $sub = $pluginHandler->get($id);
-            if (!$handler = $pluginHandler->checkPlugin($sub)) {
+            if (null !== $sub && !$handler = $pluginHandler->checkPlugin($sub)) {
                 $pluginHandler->forceDeactivate($sub);
             }
         }

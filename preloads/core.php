@@ -23,10 +23,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class RssfitCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
-    /**
-     * @param $args
-     */
-    public static function eventCoreIncludeCommonEnd($args): void
+    public static function eventCoreIncludeCommonEnd(?array $args): void
     {
         require_once __DIR__ . '/autoloader.php';
     }

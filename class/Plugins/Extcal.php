@@ -65,26 +65,13 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 final class Extcal extends AbstractPlugin
 {
     public function __construct() {
-        $this->dirname = 'extcal';
-    }
-
-    public function loadModule(): ?\XoopsModule
-    {
-        $mod = null;
         if (\class_exists(PluginHelper::class)) {
-            $this->helper  = PluginHelper::getInstance();
-            $this->module  = $this->helper->getModule();
-            $this->modname = $this->module->getVar('name');
-            $mod           = $this->module;
-            //        $this->dirname = $this->helper->getDirname();
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
         }
-
-        return $mod;
     }
 
-    /**
-     * @return array
-     */
+
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret  = null;
@@ -116,13 +103,13 @@ final class Extcal extends AbstractPlugin
                 $address     = $event->getVar('event_address');
 
                 $eventUrl = $event->getVar('event_url');
-                if ('' == $eventUrl) {
+                if ('' === $eventUrl) {
                     $eventUrl = $link;
                 }
                 $desc = "<a href=\"$eventUrl\"><b>$title</b></a><br>";
                 $desc .= '<table>';
                 $desc .= "<tr><td valign='top'>When:</td><td>$eventStart</td></tr>";
-                if ('' != $address) {
+                if ('' !== $address) {
                     $desc .= "<tr><td valign='top'>Where:</td><td>$address</td></tr>";
                 }
                 $desc .= "<tr><td valign='top'>What:</td><td>$description</td></tr>";

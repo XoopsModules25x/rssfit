@@ -22,16 +22,6 @@ namespace XoopsModules\Rssfit;
  * @author       XOOPS Development Team
  */
 
-/*
-* About this RSSFit plug-in
-* Author: tuff <http://www.brandycoke.com>
-* Requirements (Tested with):
-*  Module: SmartSection <http://www.smartfactory.ca>
-*  Version: 1.0.4 Beta 2 / 1.1 Beta 1 / 1.05 Beta 1
-*  RSSFit verision: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3
-*/
-
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
 }
@@ -44,27 +34,24 @@ abstract class AbstractPlugin implements PluginInterface
 {
     public $modname;
     public $grab;
-    public $module;    // optional, see line 67
+    public $module;
     public $helper;
     public $dirname = '';
 
+
     public function loadModule(): ?\XoopsModule
     {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return null;
+        $mod = null;
+        if (null !== $this->helper) {
+            $this->module  = $this->helper->getModule();
+            $this->modname = $this->module->getVar('name');
+            $mod           = $this->module;
         }
-
-        if (!$mod->getVar('isactive')) {
-            return null;
-        }
-        $this->modname = $mod->getVar('name');
-        $this->module  = $mod;   // optional, remove this line if there is nothing to do with module info when grabbing entries
-
         return $mod;
     }
 
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
+        return null;
     }
 }

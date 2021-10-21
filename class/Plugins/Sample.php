@@ -53,7 +53,7 @@ use XoopsModules\Rssfit\{
     AbstractPlugin
 };
 
-//use XoopsModules\Sample\Helper as PluginHelper;
+use XoopsModules\Sample\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -66,12 +66,12 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 final class Sample extends AbstractPlugin
 {
     public function __construct() {
-        $this->dirname = 'sample';
+        if (\class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
+        }
     }
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts = \MyTextSanitizer::getInstance();

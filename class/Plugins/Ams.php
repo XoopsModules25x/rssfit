@@ -37,7 +37,7 @@ use XoopsModules\Rssfit\{
     AbstractPlugin
 };
 
-//use XoopsModules\Ams\Helper as PluginHelper;
+use XoopsModules\Ams\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -50,12 +50,12 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
 final class Ams extends AbstractPlugin
 {
     public function __construct() {
-        $this->dirname = 'ams';
+        if (\class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
+        }
     }
 
-    /**
-     * @return array
-     */
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret = null;

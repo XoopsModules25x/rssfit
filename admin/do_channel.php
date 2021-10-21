@@ -28,7 +28,7 @@ use XoopsModules\Rssfit\{
 /** @var FeedHandler $feedHandler */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
-    header('Location: index.php');
+    redirect_header('index.php');
 }
 
 switch ($op) {

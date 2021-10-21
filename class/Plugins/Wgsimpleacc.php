@@ -20,32 +20,11 @@ namespace XoopsModules\Rssfit\Plugins;
  * @author       XOOPS Development Team
  */
 
-/*
-* This file is a dummy for making a RSSFit plug-in, follow the following steps
-* if you really want to do so.
-* Step 0:   Stop here if you are not sure what you are doing, it's no fun at all
-* Step 1:   Clone this file and rename as something like rssfit.[mod_dir].php
-* Step 2:   Replace the text "RssfitSample" with "Rssfit[mod_dir]" at line 59 and
-*           line 65, i.e. "RssfitNews" for the module "News"
-* Step 3:   Modify the word in line 60 from 'sample' to [mod_dir]
-* Step 4:   Modify the function "grabEntries" to satisfy your needs
-* Step 5:   Move your new plug-in file to the RSSFit plugins folder,
-*           i.e. your-xoops-root/modules/rssfit/plugins
-* Step 6:   Install your plug-in by pointing your browser to
-*           your-xoops-url/modules/rssfit/admin/?do=plugins
-* Step 7:   Finally, tell us about yourself and this file by modifying the
-*           "About this RSSFit plug-in" section which is located... somewhere.
-*
-* [mod_dir]: Name of the driectory of your module, i.e. 'news'
-*
-* About this RSSFit plug-in
-* Author: John Doe <http://www.your.site>
-* Requirements (or Tested with):
-*  Module: Blah <http://www.where.to.find.it>
-*  Version: 1.0
-*  RSSFit verision: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3
-*/
+
+use XoopsModules\Rssfit\{
+    AbstractPlugin
+};
+use XoopsModules\Wgsimpleacc\Helper as PluginHelper;
 
 if (!\defined('RSSFIT_ROOT_PATH')) {
     exit();
@@ -55,37 +34,18 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Sample
  * @package XoopsModules\Rssfit\Plugins
  */
-class Wgsimpleacc
+final class Wgsimpleacc extends AbstractPlugin
 {
-    public $dirname = 'wgsimpleacc';
-    public $modname;
-    public $grab;
-    public $module;    // optional, see line 71
-
-    /**
-     * @return false|string
-     */
-    public function loadModule()
-    {
-        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
-        if (!$mod || !$mod->getVar('isactive')) {
-            return false;
+    public function __construct() {
+        if (\class_exists(PluginHelper::class)) {
+            $this->helper = PluginHelper::getInstance();
+            $this->dirname = $this->helper->dirname();
         }
-        $this->modname = $mod->getVar('name');
-        $this->module  = $mod;    // optional, remove this line if there is nothing
-        // to do with module info when grabbing entries
-        return $mod;
     }
 
-    /**
-     * @param \XoopsObject $obj
-     * @return bool|array
-     */
-    public function grabEntries(&$obj)
+    public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
-        global $xoopsDB;
-        $myts = \MyTextSanitizer::getInstance();
-        $ret  = false;
+        $ret  = null;
         $i    = 0;
         //  The following example code grabs the latest entries from the module
         $sql  = 'SELECT t.tra_id, t.tra_datecreated, t.tra_year, t.tra_nb, t.tra_desc, a1.acc_key, a1.acc_name, a2.all_name, a3.as_name, c.cli_name ';
@@ -124,7 +84,7 @@ class Wgsimpleacc
                 //  7a. without attribute
                 $ret[$i]['extras']['account'] = ['content' => $row['acc_name']];
                 $ret[$i]['extras']['allocation'] = ['content' => $row['all_name']];
-                if (\strlen(\strip_tags($row['cli_name'])) > 0) {
+                if ('' !== \strip_tags($row['cli_name'])) {
                     $ret[$i]['extras']['client'] = ['content' => \strip_tags($row['cli_name'])];
                 }
                 //  7b. with attributes

@@ -51,9 +51,22 @@ final class Pical extends AbstractPlugin
         $this->dirname = 'pical';
     }
 
-    /**
-     * @return array
-     */
+    public function loadModule(): ?\XoopsModule
+    {
+        $mod = $GLOBALS['module_handler']->getByDirname($this->dirname);
+        if (!$mod || !$mod->getVar('isactive')) {
+            return null;
+        }
+
+        if (!$mod->getVar('isactive')) {
+            return null;
+        }
+        $this->modname = $mod->getVar('name');
+        $this->module  = $mod;   // optional, remove this line if there is nothing to do with module info when grabbing entries
+
+        return $mod;
+    }
+
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $myts   = \MyTextSanitizer::getInstance();

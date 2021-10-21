@@ -32,6 +32,10 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 class PluginHandler extends \XoopsPersistableObjectHandler
 {
+    /**
+     * @var \XoopsMySQLDatabase
+     */
+    public $db;
     public $dbTable;
     public $objClass = Plugin::class;
     public $objKey   = 'rssf_conf_id';
@@ -128,7 +132,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
         if (\count($object->getErrors()) > 0) {
             return false;
         }
-        if ($object->isNew() || empty($cleanvars[$this->objKey])) {
+        if (empty($cleanvars[$this->objKey]) || $object->isNew()) {
             $cleanvars[$this->objKey] = $this->db->genId($this->dbTable . '_' . $this->objKey . '_seq');
             $sql                      = 'INSERT INTO ' . $this->dbTable . ' (' . \implode(',', \array_keys($cleanvars)) . ') VALUES (' . \implode(',', $cleanvars) . ')';
         } else {
@@ -234,7 +238,7 @@ class PluginHandler extends \XoopsPersistableObjectHandler
      */
     public function modifyObjects($criteria = null, array $fields = [], bool $force = false): ?string
     {
-        if (count($fields) > 0) {
+        if (\count($fields) > 0) {
             $object = new $this->objClass();
             $sql    = '';
             foreach ($fields as $k => $v) {

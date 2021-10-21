@@ -81,8 +81,8 @@ switch ($helper->getConfig('mime')) {
 #   require_once XOOPS_ROOT_PATH.'/footer.php';
 # }
 
-$tempString = $xoopsTpl->fetch($template, $feedHandler->cached, null);
-if (function_exists('mb_convert_encoding') && $helper->getConfig('utf8') && null !== $tempString) {
+$tempString = (string)$xoopsTpl->fetch($template, $feedHandler->cached, null);
+if (null !== $tempString && $helper->getConfig('utf8') && function_exists('mb_convert_encoding')) {
     echo mb_convert_encoding($tempString, 'UTF-8', _CHARSET);
 } else {
     $xoopsTpl->display($template, $feedHandler->cached);

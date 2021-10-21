@@ -27,7 +27,7 @@ use XoopsModules\Rssfit\{
 /** @var MiscHandler $miscHandler */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
-    header('Location: index.php');
+    redirect_header('index.php');
 }
 
 $intr = $miscHandler->getObjects2(new \Criteria('misc_category', 'intro'));
@@ -47,10 +47,10 @@ switch ($op) {
         $contentTray->setDescription(_AM_RSSFIT_EDIT_INTRO_TEXT_DESC . _AM_RSSFIT_EDIT_INTRO_TEXT_DESC_SUB);
         $contentTray->addElement(new \XoopsFormDhtmlTextArea('', 'content', $intro->getVar('misc_content', 'e'), 15, 60));
         $dohtml = new \XoopsFormCheckBox('', 'dohtml', $setting['dohtml'] ?? '');
-        $dohtml->addOption(1, _AM_RSSFIT_DO_HTML);
+        $dohtml->addOption('1', _AM_RSSFIT_DO_HTML);
         $contentTray->addElement($dohtml);
         $dobr = new \XoopsFormCheckBox('', 'dobr', $setting['dobr'] ?? '');
-        $dobr->addOption(1, _AM_RSSFIT_DO_BR);
+        $dobr->addOption('1', _AM_RSSFIT_DO_BR);
         $contentTray->addElement($dobr);
 
         $sub = new \XoopsFormTextArea(_AM_RSSFIT_EDIT_INTRO_SUB, 'sub', htmlspecialchars($setting['sub'] ?? '', ENT_QUOTES | ENT_HTML5));

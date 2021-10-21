@@ -19,7 +19,6 @@ declare(strict_types=1);
 
 use Xmf\Request;
 use XoopsModules\Rssfit\{
-    Common,
     FeedHandler,
     Helper,
     PluginHandler,

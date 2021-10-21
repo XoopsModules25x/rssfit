@@ -44,7 +44,7 @@ class TestdataButtons
         $displaySampleButton = $config['displaySampleButton'];
         $helper              = Helper::getInstance();
 
-        if (1 == $displaySampleButton) {
+        if (1 === $displaySampleButton) {
             \xoops_loadLanguage('admin/modulesadmin', 'system');
             $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA'), $helper->url('testdata/index.php?op=load'), 'add');
             $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), $helper->url('testdata/index.php?op=save'), 'add');

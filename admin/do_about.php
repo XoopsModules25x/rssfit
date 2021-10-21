@@ -12,28 +12,24 @@ declare(strict_types=1);
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use Xmf\Module\Admin;
-
 /**
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team
  */
 
-use Xmf\Request;
-use XoopsModules\Rssfit;
+use Xmf\Module\Admin;
+/** @var Admin $adminObject */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
-    header('Location: index.php');
+    redirect_header('index.php');
 }
 
 require_once __DIR__ . '/admin_header.php';
 
 $adminObject = Admin::getInstance();
-//xoops_cp_header();
-
 $adminObject->displayNavigation(basename(__FILE__));
-Admin::setPaypal('xoopsfoundation@gmail.com');
+$adminObject::setPaypal('xoopsfoundation@gmail.com');
 $adminObject->displayAbout(false);
 
 require_once __DIR__ . '/admin_footer.php';

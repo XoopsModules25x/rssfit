@@ -29,8 +29,8 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 // ------------------- Information ------------------- /
 $modversion = [
     'version'             => '1.32',
-    'module_status'       => 'Beta 3 Not Released',
-    'release_date'        => '2021/10/20',
+    'module_status'       => 'RC-1',
+    'release_date'        => '2021/10/21',
     'name'                => _MI_RSSFIT_NAME,
     'description'         => _MI_RSSFIT_DESC,
     'official'            => 0,

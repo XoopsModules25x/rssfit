@@ -28,6 +28,14 @@ build:
           - git clone --depth=1 https://github.com/mambax7/wfdownloads
           - git clone --depth=1 https://github.com/mambax7/wflinks
           - git clone --depth=1 https://github.com/mambax7/xoopstube
+          - git clone --depth=1 https://github.com/mambax7/wgdiaries
+          - git clone --depth=1 https://github.com/mambax7/wggallery
+          - git clone --depth=1 https://github.com/mambax7/wggithub
+          - git clone --depth=1 https://github.com/mambax7/wglinks
+          - git clone --depth=1 https://github.com/mambax7/wgsimpleacc
+          - git clone --depth=1 https://github.com/mambax7/wgteams
+          - git clone --depth=1 https://github.com/mambax7/wgtimelines
+          - git clone --depth=1 https://github.com/mambax7/wgtransifex
       project_setup:
         override: true
       tests:
@@ -54,4 +62,12 @@ filter:
     - wfdownloads/*
     - wflinks/*
     - xoopstube/*
+    - wgdiaries/*
+    - wggallery/*
+    - wggithub/*
+    - wglinks/*
+    - wgsimpleacc/*
+    - wgteams/*
+    - wgtimelines/*
+    - wgtransifex/*
 

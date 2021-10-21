@@ -32,6 +32,10 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  */
 class MiscHandler extends \XoopsPersistableObjectHandler
 {
+    /**
+     * @var \XoopsMySQLDatabase
+     */
+    public $db;
     public $dbTable;
     public $objClass = Misc::class;
     public $objKey   = 'misc_id';
@@ -87,10 +91,10 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function get($id = null, $fields = null): ?\XoopsObject
     {
-        $criteria = new \Criteria($this->objKey, (int)$id);
+        $criteria = new \Criteria($this->objKey, (string)$id);
         $objs     = $this->getObjects2($criteria);
         if (\is_array($objs) && !empty($objs)) {
-            return 1 != \count($objs) ? null : $objs[0];
+            return 1 !== \count($objs) ? null : $objs[0];
         }
 
         return null;
@@ -102,16 +106,16 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function getCount($criteria = null): ?int
     {
+        $ret = null;
         $sql = 'SELECT COUNT(*) FROM ' . $this->dbTable;
         if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
-        if (!$result = $this->db->query($sql)) {
-            return null;
-        }
-        [$count] = $this->db->fetchRow($result);
-
-        return $count;
+        $result = $this->db->query($sql);
+         if ($result instanceof \mysqli_result) {
+             [$ret] = $this->db->fetchRow($result);
+         }
+        return $ret;
     }
 
     /**
@@ -126,7 +130,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
         $sql = 'SELECT ' . $fields . ' FROM ' . $this->dbTable;
         if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ('' != $criteria->getSort()) {
+            if ('' !== $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -219,7 +223,7 @@ class MiscHandler extends \XoopsPersistableObjectHandler
      */
     public function modifyObjects(?\Criteria $criteria = null, array $fields = [], bool $force = false): ?string
     {
-        if (count($fields) > 0) {
+        if (\count($fields) > 0) {
             $obj = new $this->objClass();
             $sql = '';
             foreach ($fields as $k => $v) {

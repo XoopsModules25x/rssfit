@@ -35,6 +35,9 @@ namespace XoopsModules\Rssfit\Common;
  */
 class Breadcrumb
 {
+    /**
+     * @var string
+     */
     public  $dirname;
     private $bread = [];
 
