@@ -34,7 +34,7 @@ abstract class AbstractPlugin implements PluginInterface
 {
     public $modname;
     public $grab;
-    public $module;    // optional, see line 62
+    public $module;
     public $helper;
     public $dirname = '';
 
@@ -45,12 +45,13 @@ abstract class AbstractPlugin implements PluginInterface
         if (null !== $this->helper) {
             $this->module  = $this->helper->getModule();
             $this->modname = $this->module->getVar('name');
-            $mod           = $this->module; // optional, remove this line if there is nothing to do with module info when grabbing entries
+            $mod           = $this->module;
         }
         return $mod;
     }
 
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
+        return null;
     }
 }

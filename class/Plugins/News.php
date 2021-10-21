@@ -32,9 +32,11 @@ namespace XoopsModules\Rssfit\Plugins;
 *  XOOPS version: 2.0.13.2 / 2.2.3
 */
 
-use XoopsModules\News\Helper as PluginHelper;
-use XoopsModules\News\NewsStory;
-use XoopsModules\News\Utility;
+use XoopsModules\News\{
+    Helper as PluginHelper,
+    NewsStory,
+    Utility as PluginUtility
+};
 use XoopsModules\Rssfit\{
     AbstractPlugin
 };
@@ -55,6 +57,7 @@ final class News extends AbstractPlugin
             $this->dirname = $this->helper->dirname();
         }
     }
+
     public function grabEntries(\XoopsMySQLDatabase $xoopsDB): ?array
     {
         $ret = null;
@@ -62,7 +65,7 @@ final class News extends AbstractPlugin
         $myts = \MyTextSanitizer::getInstance();
         if ($this->module->getVar('version') >= 130) {
             //            @require_once XOOPS_ROOT_PATH . '/modules/news/include/functions.php';
-            $news = NewsStory::getAllPublished($this->grab, 0, Utility::getModuleOption('restrictindex'));
+            $news = NewsStory::getAllPublished($this->grab, 0, PluginUtility::getModuleOption('restrictindex'));
         } else {
             $news = NewsStory::getAllPublished($this->grab, 0);
         }

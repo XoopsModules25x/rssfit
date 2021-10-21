@@ -56,7 +56,6 @@ trait VersionChecks
     /**
      * Verifies PHP version meets minimum requirements for this module
      * @static
-     * @param \XoopsModule|bool|null $module
      *
      * @return bool true if meets requirements, false if not
      */
@@ -91,7 +90,6 @@ trait VersionChecks
      * compares current module version with the latest GitHub release
      * @static
      *
-     * @return string|array info about the latest module version, if newer
      */
 
     public static function checkVerModule(Helper $helper, ?string $source = 'github', ?string $default = 'master'): ?array
@@ -112,9 +110,9 @@ trait VersionChecks
                 $curlReturn = \curl_exec($curlHandle);
                 if (false === $curlReturn) {
                     \trigger_error(\curl_error($curlHandle));
-                } elseif (false !== \strpos($curlReturn, 'Not Found')) {
+                } elseif (is_string($curlReturn) && false !== \strpos($curlReturn, 'Not Found')) {
                     \trigger_error('Repository Not Found: ' . $infoReleasesUrl);
-                } else {
+                } elseif (is_string($curlReturn)) {
                     $file              = json_decode($curlReturn, false);
                     $latestVersionLink = \sprintf("https://github.com/$repository/archive/%s.zip", $file ? \reset($file)->tag_name : $default);
                     $latestVersion     = $file[0]->tag_name;

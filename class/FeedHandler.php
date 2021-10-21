@@ -248,7 +248,7 @@ class FeedHandler
             $ret = $this->substrDetect($ret, 0, $maxChars - 1);
             if (false === $this->strrposDetect($ret, ' ')) {
                 if (false !== $this->strrposDetect($text, ' ')) {
-                    $ret = $this->substrDetect($text, 0, mb_strpos($text, ' '));
+                    $ret = $this->substrDetect($text, 0, (int)mb_strpos($text, ' '));
                 }
             }
             if (\in_array($this->substrDetect($text, $maxChars - 1, 1), $this->substrAdd)) {
@@ -352,7 +352,7 @@ class FeedHandler
     {
         $select = new \XoopsFormSelect($caption, $name, $selected, $size, $multi);
         if ($none) {
-            $select->addOption(0, '-------');
+            $select->addOption('0', '-------');
         }
         if ($main) {
             $select->addOption('-1', \_AM_RSSFIT_MAINFEED);

@@ -28,7 +28,7 @@ use XoopsModules\Rssfit\{
 /** @var PluginHandler $pluginHandler */
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
-    header('Location: index.php');
+    redirect_header('index.php');
 }
 
 /** @varHelper $helper */
@@ -168,21 +168,25 @@ switch ($op) {
                 $action->addOption('i', ' ');
                 $ret .= "<tr>\n" . "<td class='odd' align='center'>" . $i . "</td>\n" . "<td class='even' align='center'>";
                 $p   = $pluginHandler->create();
-                $p->setVar('rssf_filename', $i);
-                $handler = $pluginHandler->checkPlugin($p);
-                if ($handler) {
-                    $ret .= $handler->modname;
-                } else {
-                    if (count($p->getErrors()) > 0) {
-                        $ret .= '<b>' . _ERRORS . "</b>\n";
-                        foreach ($p->getErrors() as $e) {
-                            $ret .= '<br>' . $e;
-                        }
+
+                if (null !== $p) {
+                    $p->setVar('rssf_filename', $i);
+                    $handler = $pluginHandler->checkPlugin($p);
+                    if ($handler) {
+                        $ret .= $handler->modname;
                     } else {
-                        $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
+                        if (count($p->getErrors()) > 0) {
+                            $ret .= '<b>' . _ERRORS . "</b>\n";
+                            foreach ($p->getErrors() as $e) {
+                                $ret .= '<br>' . $e;
+                            }
+                        } else {
+                            $ret .= '<b>' . _AM_RSSFIT_PLUGIN_UNKNOWNERROR . '</b>';
+                        }
+                        $action->setExtra('disabled="disabled"');
                     }
-                    $action->setExtra('disabled="disabled"');
                 }
+
                 $ret .= "</td>\n";
                 $ret .= "<td class='odd' align='center'>" . $action->render() . "</td>\n";
             }
@@ -206,7 +210,7 @@ switch ($op) {
         }
         break;
     case 'save':
-        $rssfGrab  = Request::getArray('rssf_grab', [], 'POST');
+        $rssfGrab   = Request::getArray('rssf_grab', [], 'POST');
         $rssf_order = Request::getArray('rssf_order', [], 'POST');
         $action     = Request::getArray('action', null, 'POST');
         $install    = Request::getArray('install', [], 'POST');
@@ -246,17 +250,19 @@ switch ($op) {
             $files = array_keys($install);
             foreach ($files as $f) {
                 $p = $pluginHandler->create();
-                $p->setVar('rssf_filename', $f);
-                $handler = $pluginHandler->checkPlugin($p);
-                if ($handler) {
-                    $p->setVar('rssf_activated', 1);
-                    $p->setVar('rssf_grab', $helper->getConfig('plugin_entries'));
-                    $p->setVar('sub_entries', $helper->getConfig('plugin_entries'));
-                    $p->setVar('sub_link', XOOPS_URL . '/modules/' . $handler->dirname);
-                    $p->setVar('sub_title', $xoopsConfig['sitename'] . ' - ' . $handler->modname);
-                    $p->setVar('sub_desc', $xoopsConfig['slogan']);
-                    if (!$result = $pluginHandler->insert($p)) {
-                        $err .= $p->getHtmlErrors();
+                if (null !== $p) {
+                    $p->setVar('rssf_filename', $f);
+                    $handler = $pluginHandler->checkPlugin($p);
+                    if ($handler) {
+                        $p->setVar('rssf_activated', 1);
+                        $p->setVar('rssf_grab', $helper->getConfig('plugin_entries'));
+                        $p->setVar('sub_entries', $helper->getConfig('plugin_entries'));
+                        $p->setVar('sub_link', XOOPS_URL . '/modules/' . $handler->dirname);
+                        $p->setVar('sub_title', $xoopsConfig['sitename'] . ' - ' . $handler->modname);
+                        $p->setVar('sub_desc', $xoopsConfig['slogan']);
+                        if (!$result = $pluginHandler->insert($p)) {
+                            $err .= $p->getHtmlErrors();
+                        }
                     }
                 }
             }

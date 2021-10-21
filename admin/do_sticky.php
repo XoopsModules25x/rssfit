@@ -23,7 +23,7 @@ use Xmf\Request;
 use XoopsModules\Rssfit;
 
 if (!preg_match('#/rssfit/admin/#', $_SERVER['SCRIPT_NAME'])) {
-    header('Location: index.php');
+    redirect_header('index.php');
 }
 
 $intr = $miscHandler->getObjects2(new \Criteria('misc_category', 'sticky'));
@@ -44,10 +44,10 @@ switch ($op) {
         $content = new \XoopsFormTextArea('', 'content', $sticky->getVar('misc_content', 'e'), 10);
         $contentTray->addElement($content);
         $dohtml = new \XoopsFormCheckBox('', 'dohtml', $setting['dohtml']);
-        $dohtml->addOption(1, _AM_RSSFIT_DO_HTML);
+        $dohtml->addOption('1', _AM_RSSFIT_DO_HTML);
         $contentTray->addElement($dohtml);
         $dobr = new \XoopsFormCheckBox('', 'dobr', $setting['dobr']);
-        $dobr->addOption(1, _AM_RSSFIT_DO_BR);
+        $dobr->addOption('1', _AM_RSSFIT_DO_BR);
         $contentTray->addElement($dobr);
 
         $link = new \XoopsFormText(_AM_RSSFIT_STICKY_LINK, 'link', 50, 255, htmlspecialchars($setting['link'] ?? '', ENT_QUOTES | ENT_HTML5));
