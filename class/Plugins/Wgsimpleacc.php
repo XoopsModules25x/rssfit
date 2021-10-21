@@ -20,32 +20,6 @@ namespace XoopsModules\Rssfit\Plugins;
  * @author       XOOPS Development Team
  */
 
-/*
-* This file is a dummy for making a RSSFit plug-in, follow the following steps
-* if you really want to do so.
-* Step 0:   Stop here if you are not sure what you are doing, it's no fun at all
-* Step 1:   Clone this file and rename as something like rssfit.[mod_dir].php
-* Step 2:   Replace the text "RssfitSample" with "Rssfit[mod_dir]" at line 59 and
-*           line 65, i.e. "RssfitNews" for the module "News"
-* Step 3:   Modify the word in line 60 from 'sample' to [mod_dir]
-* Step 4:   Modify the function "grabEntries" to satisfy your needs
-* Step 5:   Move your new plug-in file to the RSSFit plugins folder,
-*           i.e. your-xoops-root/modules/rssfit/plugins
-* Step 6:   Install your plug-in by pointing your browser to
-*           your-xoops-url/modules/rssfit/admin/?do=plugins
-* Step 7:   Finally, tell us about yourself and this file by modifying the
-*           "About this RSSFit plug-in" section which is located... somewhere.
-*
-* [mod_dir]: Name of the driectory of your module, i.e. 'news'
-*
-* About this RSSFit plug-in
-* Author: John Doe <http://www.your.site>
-* Requirements (or Tested with):
-*  Module: Blah <http://www.where.to.find.it>
-*  Version: 1.0
-*  RSSFit verision: 1.2 / 1.5
-*  XOOPS version: 2.0.13.2 / 2.2.3
-*/
 
 use XoopsModules\Rssfit\{
     AbstractPlugin
@@ -60,7 +34,7 @@ if (!\defined('RSSFIT_ROOT_PATH')) {
  * Class Sample
  * @package XoopsModules\Rssfit\Plugins
  */
-class Wgsimpleacc extends AbstractPlugin
+final class Wgsimpleacc extends AbstractPlugin
 {
     public function __construct() {
         if (\class_exists(PluginHelper::class)) {
@@ -110,7 +84,7 @@ class Wgsimpleacc extends AbstractPlugin
                 //  7a. without attribute
                 $ret[$i]['extras']['account'] = ['content' => $row['acc_name']];
                 $ret[$i]['extras']['allocation'] = ['content' => $row['all_name']];
-                if (\strlen(\strip_tags($row['cli_name'])) > 0) {
+                if ('' !== \strip_tags($row['cli_name'])) {
                     $ret[$i]['extras']['client'] = ['content' => \strip_tags($row['cli_name'])];
                 }
                 //  7b. with attributes

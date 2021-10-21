@@ -103,13 +103,13 @@ final class Extcal extends AbstractPlugin
                 $address     = $event->getVar('event_address');
 
                 $eventUrl = $event->getVar('event_url');
-                if ('' == $eventUrl) {
+                if ('' === $eventUrl) {
                     $eventUrl = $link;
                 }
                 $desc = "<a href=\"$eventUrl\"><b>$title</b></a><br>";
                 $desc .= '<table>';
                 $desc .= "<tr><td valign='top'>When:</td><td>$eventStart</td></tr>";
-                if ('' != $address) {
+                if ('' !== $address) {
                     $desc .= "<tr><td valign='top'>Where:</td><td>$address</td></tr>";
                 }
                 $desc .= "<tr><td valign='top'>What:</td><td>$description</td></tr>";

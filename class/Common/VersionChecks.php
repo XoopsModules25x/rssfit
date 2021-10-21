@@ -110,9 +110,9 @@ trait VersionChecks
                 $curlReturn = \curl_exec($curlHandle);
                 if (false === $curlReturn) {
                     \trigger_error(\curl_error($curlHandle));
-                } elseif (is_string($curlReturn) && false !== \strpos($curlReturn, 'Not Found')) {
+                } elseif (\is_string($curlReturn) && false !== \strpos($curlReturn, 'Not Found')) {
                     \trigger_error('Repository Not Found: ' . $infoReleasesUrl);
-                } elseif (is_string($curlReturn)) {
+                } elseif (\is_string($curlReturn)) {
                     $file              = json_decode($curlReturn, false);
                     $latestVersionLink = \sprintf("https://github.com/$repository/archive/%s.zip", $file ? \reset($file)->tag_name : $default);
                     $latestVersion     = $file[0]->tag_name;

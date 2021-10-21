@@ -84,7 +84,7 @@ final class Surnames extends AbstractPlugin
             $thisUser      = $memberHandler->getUser($uid);
         }
         $name = \htmlspecialchars($thisUser->getVar('name'), \ENT_QUOTES | \ENT_HTML5);
-        if ('' == $name) {
+        if ('' === $name) {
             $name = \htmlspecialchars($thisUser->getVar('uname'), \ENT_QUOTES | \ENT_HTML5);
         }
         $lastUid  = $uid;

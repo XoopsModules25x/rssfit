@@ -82,7 +82,7 @@ switch ($helper->getConfig('mime')) {
 # }
 
 $tempString = (string)$xoopsTpl->fetch($template, $feedHandler->cached, null);
-if (function_exists('mb_convert_encoding') && $helper->getConfig('utf8') && null !== $tempString) {
+if (null !== $tempString && $helper->getConfig('utf8') && function_exists('mb_convert_encoding')) {
     echo mb_convert_encoding($tempString, 'UTF-8', _CHARSET);
 } else {
     $xoopsTpl->display($template, $feedHandler->cached);

@@ -144,7 +144,7 @@ switch ($op) {
         $list        = \XoopsLists::getFileListAsArray($helper->path('class/Plugins'));
         $installable = [];
         foreach ($list as $f) {
-            if (preg_match('/[a-zA-Z0-9_]+\.php$/', $f) && !in_array($f, $filelist)) {
+            if (preg_match('/\w+\.php$/', $f) && !in_array($f, $filelist)) {
                 $installable[] = $f;
             }
         }

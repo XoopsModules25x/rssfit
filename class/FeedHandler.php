@@ -314,7 +314,7 @@ class FeedHandler
             $text = \htmlspecialchars($text, \ENT_QUOTES, $this->charset);
             $text = \preg_replace('/&amp;(#\d+);/i', '&$1;', $text);
         }
-        if (XOOPS_USE_MULTIBYTES !== 1 || !\preg_match('/utf-8/i', $this->charset)) {
+        if (XOOPS_USE_MULTIBYTES !== 1 || false === stripos($this->charset, "utf-8")) {
             $text = \str_replace(\array_map('\chr', \array_keys($this->escaped)), $this->escaped, $text);
         }
     }
